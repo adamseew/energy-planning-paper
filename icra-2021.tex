@@ -1,0 +1,631 @@
+
+%%
+%% Conference Paper for ICRA'21, May 16-22, Xi'an, China
+%% 
+%%
+
+\documentclass[letterpaper,10pt,conference]{ieeeconf}
+
+\IEEEoverridecommandlockouts 
+
+\newcommand{\stt}[1]{{\small\tt #1}} %\small\tt too small here
+\newcommand{\powprof}{\stt{powprofiler}}
+\newcommand{\figpath}{./figures}
+\newcommand{\iu}{{i\mkern1mu}}
+\let\labelindent\relax
+
+\usepackage[inline]{enumitem}
+\usepackage{booktabs}
+\usepackage{flushend}
+\usepackage{tikz}
+
+%% citation packege
+\usepackage{cite}
+
+%% figures package
+%\usepackage[pdftex]{graphicx}
+%\graphicspath{{figures/}}
+%\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+
+%% math package
+\usepackage[cmex10]{amsmath}
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+%% pseudocode package
+%\usepackage{algorithmic}
+
+%% packages for alignment
+%\usepackage{array}
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+%\usepackage{eqparbox}
+
+%% packages for subfigures (eventually)
+\usepackage[tight,footnotesize]{subfigure}
+%\usepackage[caption=false]{caption}
+%\usepackage[font=footnotesize]{subfig}
+%\usepackage[caption=false,font=footnotesize]{subfig}
+
+%% package for urls
+\usepackage{url}
+
+\usepackage{textpos}
+
+%% correct bad hyphenation here
+\hyphenation{}
+
+%% references (generates a bib file for bibtex)
+\begin{filecontents}{\jobname.bib}
+  @inproceedings{seewald2020mechanical,
+    title={Mechanical and Computational Energy Estimation of a Fixed-Wing Drone}, 
+    author={Seewald, Adam and Garcia de Marina, Hector and Midtiby, Henrik Skov and Schultz, Ulrik Pagh},
+    booktitle={Proceedings of the 2020 Fourth IEEE International Conference on Robotic Computing (IRC)},
+    pages={to appear},
+    year={2020},
+    organization={IEEE},
+    url={https://adamseew.bitbucket.io/short/mechanical2020}
+  }
+  @inproceedings{seewald2020towards,
+    title={Towards Mission-Aware Energy Assessment for Autonomous Drones}, 
+    author={Seewald, Adam and Garcia de Marina, Hector and Hasan, Agus and Midtiby, Henrik Skov and Schultz, Ulrik Pagh},
+    pages={submitted},
+    year={2020}
+  }
+  @article{seewald2019coarse,
+    title={Coarse-Grained Computation-Oriented Energy Modeling for Heterogeneous Parallel Embedded Systems},
+    author={Seewald, Adam and Schultz, Ulrik Pagh and Ebeid, Emad and Midtiby, Henrik Skov},
+    journal={International Journal of Parallel Programming},
+    pages={1--22},
+    year={2019},
+    publisher={Springer}
+  }
+  @inproceedings{seewald2019component,
+    title={Component-based computation-energy modeling for embedded systems},
+    author={Seewald, Adam and Schultz, Ulrik Pagh and Roeder, Julius and Rouxel, Benjamin and Grelck, Clemens},
+    booktitle={Proceedings Companion of the 2019 ACM SIGPLAN International Conference on Systems, Programming, Languages, and Applications: Software for Humanity},
+    pages={5--6},
+    year={2019},
+    organization={ACM}
+  }
+  @inproceedings{boroujerdian2018compute,
+    title={Why Compute Matters for UAV Energy Efficiency?},
+    author={Boroujerdian, Behzad and Genc, Hasan and Krishnan, Srivatsan and Faust, Aleksandra and Reddi, Vijay Janapa},
+    booktitle={2nd International Symposium on Aerial Robotics},
+    year={2018}
+  }
+  @inproceedings{hajjaj2014review,
+    title={Review of research in the area of agriculture mobile robots},
+    author={Hajjaj, Sami Salama Hussen and Sahari, Khairul Salleh Mohamed},
+    booktitle={The 8th International Conference on Robotic, Vision, Signal Processing \& Power Applications},
+    pages={107--117},
+    year={2014},
+    organization={Springer}
+  }
+  @inproceedings{qingchun2012study,
+    title={Study on strawberry robotic harvesting system},
+    author={Qingchun, Feng and Wengang, Zheng and Quan, Qiu and Kai, Jiang and Rui, Guo},
+    booktitle={2012 IEEE International Conference on Computer Science and Automation Engineering (CSAE)},
+    volume={1},
+    pages={320--324},
+    year={2012},
+    organization={IEEE}
+  }
+  @article{edan2000robotic,
+    title={Robotic melon harvesting},
+    author={Edan, Yael and Rogozin, Dima and Flash, Tamar and Miles, Gaines E},
+    journal={IEEE Transactions on Robotics and Automation},
+    volume={16},
+    number={6},
+    pages={831--835},
+    year={2000},
+    publisher={IEEE}
+  }
+  @inproceedings{aljanobi2010setup,
+    title={A setup of mobile robotic unit for fruit harvesting},
+    author={Aljanobi, AA and Al-Hamed, SA and Al-Suhaibani, SA},
+    booktitle={19th International Workshop on Robotics in Alpe-Adria-Danube Region (RAAD 2010)},
+    pages={105--108},
+    year={2010},
+    organization={IEEE}
+  }
+  @article{de2011design,
+    title={Design and control of an apple harvesting robot},
+    author={De-An, Zhao and Jidong, Lv and Wei, Ji and Ying, Zhang and Yu, Chen},
+    journal={Biosystems engineering},
+    volume={110},
+    number={2},
+    pages={112--122},
+    year={2011},
+    publisher={Elsevier}
+  }
+  @article{dong2011development,
+    title={Development of a row guidance system for an autonomous robot for white asparagus harvesting},
+    author={Dong, Fuhong and Heinemann, Wolfgang and Kasper, Roland},
+    journal={Computers and Electronics in Agriculture},
+    volume={79},
+    number={2},
+    pages={216--225},
+    year={2011},
+    publisher={Elsevier}
+  }
+  @inproceedings{li2008analysis,
+    title={Analysis of workspace and kinematics for a tomato harvesting robot},
+    author={Li, Zhiguo and Liu, Jizhan and Li, Pingping and Li, Wei},
+    booktitle={2008 International Conference on Intelligent Computation Technology and Automation (ICICTA)},
+    volume={1},
+    pages={823--827},
+    year={2008},
+    organization={IEEE}
+  }
+  @article{puri2017agriculture,
+    title={Agriculture drones: A modern breakthrough in precision agriculture},
+    author={Puri, Vikram and Nayyar, Anand and Raja, Linesh},
+    journal={Journal of Statistics and Management Systems},
+    volume={20},
+    number={4},
+    pages={507--518},
+    year={2017},
+    publisher={Taylor \& Francis}
+  }
+  @inproceedings{mei2005case,
+    title={A case study of mobile robot's energy consumption and conservation techniques},
+    author={Mei, Yongguo and Lu, Yung-Hsiang and Hu, Y Charlie and Lee, CS George},
+    booktitle={ICAR'05. Proceedings., 12th International Conference on Advanced Robotics, 2005.},
+    pages={492--497},
+    year={2005},
+    organization={IEEE}
+  }
+  @inproceedings{mei2004energy,
+    title={Energy-efficient motion planning for mobile robots},
+    author={Mei, Yongguo and Lu, Yung-Hsiang and Hu, Y Charlie and Lee, CS George},
+    booktitle={IEEE International Conference on Robotics and Automation, 2004. Proceedings. ICRA'04. 2004},
+    volume={5},
+    pages={4344--4349},
+    year={2004},
+    organization={IEEE}
+  }
+  @article{mei2006deployment,
+    title={Deployment of mobile robots with energy and timing constraints},
+    author={Mei, Yongguo and Lu, Yung-Hsiang and Hu, Yu Charlie and Lee, CS George},
+    journal={IEEE Transactions on robotics},
+    volume={22},
+    number={3},
+    pages={507--522},
+    year={2006},
+    publisher={IEEE}
+  }
+  @inproceedings{uragun2011energy,
+    title={Energy efficiency for unmanned aerial vehicles},
+    author={Uragun, Balemir},
+    booktitle={2011 10th International Conference on Machine Learning and Applications and Workshops},
+    volume={2},
+    pages={316--320},
+    year={2011},
+    organization={IEEE}
+  }
+  @inproceedings{kreciglowa2017energy,
+    title={Energy efficiency of trajectory generation methods for stop-and-go aerial robot navigation},
+    author={Kreciglowa, Nadia and Karydis, Konstantinos and Kumar, Vijay},
+    booktitle={2017 International Conference on Unmanned Aircraft Systems (ICUAS)},
+    pages={656--662},
+    year={2017},
+    organization={IEEE}
+  }
+  @article{kanellakis2017survey,
+    title={Survey on computer vision for UAVs: Current developments and trends},
+    author={Kanellakis, Christoforos and Nikolakopoulos, George},
+    journal={Journal of Intelligent \& Robotic Systems},
+    volume={87},
+    number={1},
+    pages={141--168},
+    year={2017},
+    publisher={Springer}
+  }
+  @article{sadrpour2013mission,
+    title={Mission Energy Prediction for Unmanned Ground Vehicles Using Real-time Measurements and Prior Knowledge},
+    author={Sadrpour, Amir and Jin, Jionghua and Ulsoy, A Galip},
+    journal={Journal of Field Robotics},
+    volume={30},
+    number={3},
+    pages={399--414},
+    year={2013},
+    publisher={Wiley Online Library}
+  }
+  @inproceedings{sadrpour2013experimental,
+    title={Experimental validation of mission energy prediction model for unmanned ground vehicles},
+    author={Sadrpour, Amir and Jin, Judy and Ulsoy, A Galip},
+    booktitle={2013 American Control Conference},
+    pages={5960--5965},
+    year={2013},
+    organization={IEEE}
+  }
+  @article{berenz2012autonomous,
+    title={Autonomous battery management for mobile robots based on risk and gain assessment},
+    author={Berenz, Vincent and Tanaka, Fumihide and Suzuki, Kenji},
+    journal={Artificial Intelligence Review},
+    volume={37},
+    number={3},
+    pages={217--237},
+    year={2012},
+    publisher={Springer}
+  }
+  @inproceedings{kim2005energy,
+    title={Energy-saving 3-step velocity control algorithm for battery-powered wheeled mobile robots},
+    author={Kim, Chong Hui and Kim, Byung Kook},
+    booktitle={Proceedings of the 2005 IEEE international conference on robotics and automation},
+    pages={2375--2380},
+    year={2005},
+    organization={IEEE}
+  }
+  @inproceedings{kim2008minimum,
+    title={Minimum-energy translational trajectory planning for battery-powered three-wheeled omni-directional mobile robots},
+    author={Kim, Hongjun and Kim, Byung-Kook},
+    booktitle={2008 10th International Conference on Control, Automation, Robotics and Vision},
+    pages={1730--1735},
+    year={2008},
+    organization={IEEE}
+  }
+  @article{morales2009power,
+    title={Power consumption modeling of skid-steer tracked mobile robots on rigid terrain},
+    author={Morales, Jesus and Martinez, Jorge L and Mandow, Anthony and Garc{\'\i}a-Cerezo, Alfonso J and Pedraza, Salvador},
+    journal={IEEE Transactions on Robotics},
+    volume={25},
+    number={5},
+    pages={1098--1108},
+    year={2009},
+    publisher={IEEE}
+  }
+  @book{wahab2015energy,
+    title={Energy modeling of differential drive robots},
+    author={Wahab, Mudasser and Rios-Gutierrez, Fernando and El Shahat, Adel},
+    year={2015},
+    publisher={IEEE}
+  }
+  @article{rao2003battery,
+    title={Battery modeling for energy aware system design},
+    author={Rao, Ravishankar and Vrudhula, Sarma and Rakhmatov, Daler},
+    journal={Computer},
+    volume={36},
+    number={12},
+    pages={77--87},
+    year={2003},
+    publisher={IEEE}
+  }
+  @inproceedings{chiasson2003estimating,
+    title={Estimating the state of charge of a battery},
+    author={Chiasson, John and Vairamohan, Baskar},
+    booktitle={Proceedings of the 2003 American Control Conference, 2003.},
+    volume={4},
+    pages={2863--2868},
+    year={2003},
+    organization={IEEE}
+  }
+  @inproceedings{pang2001battery,
+    title={Battery state-of-charge estimation},
+    author={Pang, Shuo and Farrell, Jay and Du, Jie and Barth, Matthew},
+    booktitle={Proceedings of the 2001 American control conference.(Cat. No. 01CH37148)},
+    volume={2},
+    pages={1644--1649},
+    year={2001},
+    organization={IEEE}
+  }
+  @article{partovibakhsh2014adaptive,
+    title={An adaptive unscented Kalman filtering approach for online estimation of model parameters and state-of-charge of lithium-ion batteries for autonomous mobile robots},
+    author={Partovibakhsh, Maral and Liu, Guangjun},
+    journal={IEEE Transactions on Control Systems Technology},
+    volume={23},
+    number={1},
+    pages={357--363},
+    year={2014},
+    publisher={IEEE}
+  }
+  @inproceedings{zhang2009battery,
+    title={Battery state estimation using unscented kalman filter},
+    author={Zhang, Fei and Liu, Guangjun and Fang, Lijin},
+    booktitle={2009 IEEE International Conference on Robotics and Automation},
+    pages={1863--1868},
+    year={2009},
+    organization={IEEE}
+  }
+  @inproceedings{hasan2018exogenous,
+    title={Exogenous kalman filter for state-of-charge estimation in lithium-ion batteries},
+    author={Hasan, Agus and Skriver, Martin and Johansen, Tor Arne},
+    booktitle={2018 IEEE Conference on Control Technology and Applications (CCTA)},
+    pages={1403--1408},
+    year={2018},
+    organization={IEEE}
+  }
+  @inproceedings{nardi2015introducing,
+    title={Introducing SLAMBench, a performance and accuracy benchmarking methodology for SLAM},
+    author={Nardi, Luigi and Bodin, Bruno and Zia, M Zeeshan and Mawer, John and Nisbet, Andy and Kelly, Paul HJ and Davison, Andrew J and Luj{\'a}n, Mikel and O'Boyle, Michael FP and Riley, Graham and others},
+    booktitle={2015 IEEE International Conference on Robotics and Automation (ICRA)},
+    pages={5783--5790},
+    year={2015},
+    organization={IEEE}
+  }
+  @online{px4,
+    author={PX4},
+    title={{PX4} open-source autopilot},
+    url={https://px4.io/},
+    urldate={2016-09-01}
+  }
+  @online{papa,
+    author={Paparazzi},
+    title={{UAV} open-source project},
+    url={http://wiki.paparazziuav.org/},
+    urldate={2016-09-01}
+  }
+  @online{nano,
+    author={NVIDIA},
+    title={{NVIDIA Jetson Nano} developer kit},
+    url={https://developer.nvidia.com/embedded/jetson-nano-developer-kit},
+    urldate={2020-02-02}
+  }
+  @online{opterra,
+    author={Horizon Hobby},
+    title={{Opterra} 2m Wing BNF Basic},
+    url={https://www.horizonhobby.com/opterra-2m-wing-bnf-basic-p-efl11150},
+    urldate={2020-02-02}
+  }
+  @online{meier2013mavlink,
+    title={Mavlink: Micro air vehicle communication protocol},
+    author={Meier, Lorenz and Camacho, J and Godbolt, B and Goppert, J and Heng, L and Lizarraga, M and others},
+    url={https://mavlink.io/},
+    urldate={2020-02-02}
+  }
+  https://mavlink.io/
+  @article{ullah2018pednet,
+    title={Pednet: A spatio-temporal deep convolutional neural network for pedestrian segmentation},
+    author={Ullah, Mohib and Mohammed, Ahmed and Alaya Cheikh, Faouzi},
+    journal={Journal of Imaging},
+    volume={4},
+    number={9},
+    pages={107},
+    year={2018},
+    publisher={Multidisciplinary Digital Publishing Institute}
+  }
+  @inproceedings{sandler2018mobilenetv2,
+    title={Mobilenetv2: Inverted residuals and linear bottlenecks},
+    author={Sandler, Mark and Howard, Andrew and Zhu, Menglong and Zhmoginov, Andrey and Chen, Liang-Chieh},
+    booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
+    pages={4510--4520},
+    year={2018}
+  }
+  @inproceedings{quigley2009ros,
+    title={ROS: an open-source Robot Operating System},
+    author={Quigley, Morgan and Conley, Ken and Gerkey, Brian and Faust, Josh and Foote, Tully and Leibs, Jeremy and Wheeler, Rob and Ng, Andrew Y},
+    booktitle={ICRA workshop on open source software},
+    volume={3},
+    number={3.2},
+    pages={5},
+    year={2009}
+  }
+  @book{stengel1994optimal,
+    title={Optimal control and estimation},
+    author={Stengel, Robert F},
+    year={1994},
+    publisher={Courier Corporation}
+  }
+  @book{simon2006optimal,
+    title={Optimal state estimation: Kalman, H infinity, and nonlinear approaches},
+    author={Simon, Dan},
+    year={2006},
+    publisher={John Wiley \& Sons}
+  }
+  @inproceedings{de2017guidance,
+    title={Guidance algorithm for smooth trajectory tracking of a fixed wing UAV flying in wind flows},
+    author={De Marina, Hector Garcia and Kapitanyuk, Yuri A and Bronz, Murat and Hattenberger, Gautier and Cao, Ming},
+    booktitle={2017 IEEE international conference on robotics and automation (ICRA)},
+    pages={5740--5745},
+    year={2017},
+    organization={IEEE}
+  }
+
+\end{filecontents}
+
+\title{\LARGE \bf
+***
+}
+
+%% author names and affiliations
+\author{
+  Adam Seewald$^{1}$, Hector Garcia de Marina, and Ulrik Pagh Schultz
+  \thanks{$^{1}$Corresponding author; email: {\tt\small ads@mmmi.sdu.dk}}
+  \thanks{Adam Seewald, Ulrik Pagh Schultz are with the SDU UAS Center, M{\ae}rsk Mc-Kinney M{\o}ller Institute, University of Southern Denmark, Odense, Denmark.}
+  \thanks{Hector Garcia de Marina is with the Faculty of Physics, Department of Computer Architecture and Automatic Control, Universidad Computense de Madrid, Spain.}
+}
+
+\begin{document}
+
+%% make the title area
+\maketitle
+
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\begin{abstract}
+
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract\\
+  abstract
+\end{abstract}
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+*
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{State of the Art}
+\label{sec:related}
+
+*
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Model}
+\label{sec:estimation}
+
+To evaluate the energy consumption of different flight phases, we use a third-order Fourier series, as the energy evolution in a flying scenario often presents periodic patterns~\cite{seewald2020towards}. More specifically, in a survey application, the fixed-wing drone performs ellipsoidal flying trajectories at a fixed height while steering over one of the unconstricted axes. The trajectory is periodic in the sense that the system uncertainty factors, which might impact the predicted energy, such as wind conditions, temperature, and other atmospheric interferences, are alike to those observed performing a similar trajectory under the same conditions.
+
+The third-order Fourier series represents the power in function of time and can be expressed in the following form:
+\begin{equation}\label{eq:1}
+  f(t)=\sum_{n=0}^{3}{a_n\cos{\frac{nt}{\xi}}+b_n\sin{\frac{nt}{\xi}}},
+\end{equation}
+with $\xi$ the characteristic time, $a_n, b_n$ for $n\in\{0,\dotsc,3\}$ the Fourier series coefficient, and:
+\begin{equation}
+  \xi,a_n,b_n,t,f(t)\in\mathbb{R}.
+\end{equation}
+
+\subsection{Problem Definition}
+
+For the purpose of optimal analysis, the non-linear model expressed by Equation~(\ref{eq:1}) can be expressed using an equivalent linear time-varying state-space model, expressed in the following form:
+\begin{equation}\begin{split}\label{eq:3}
+  \dot{\mathbf{q}}(t)&=A\mathbf{q}(t)+B\mathbf{u}(t)+w(t),\\
+  y(t)&=C\mathbf{q}(t)+v(t),
+\end{split}\end{equation}
+where $y$ is the energy evolution of the controlled system, $w$ the process noise (i.e., atmospheric interferences), $v$ the measurement noise, and the control $\mathbf{u}$ along with the input matrix $B$ are defined subsequently. Moreover:
+\begin{equation}\begin{split}
+  \mathbf{q}(t)&=\begin{bmatrix}
+    a_0(t) & b_0(t) & \hspace{1.1ex}\cdots\hspace{1.1ex} & a_3(t) & b_3(t) & \hspace{.6ex}\vline & \xi
+  \end{bmatrix}^T,\\
+  A_i&=\begin{bmatrix}0 & i \\ -i^2 & 0\end{bmatrix}\hspace{-.5ex},\,
+  A=\left[\begin{array}{cccccc}
+    \mathbf{0} & \mathbf{0} & \mathbf{0} & \mathbf{0} & \vline & \mathbf{0} \\
+    \mathbf{0} & A_1 & \mathbf{0} & \mathbf{0} & \vline & \mathbf{0} \\
+    \mathbf{0} & \mathbf{0} & A_2 & \mathbf{0} & \vline & \mathbf{0} \\
+    \mathbf{0} & \mathbf{0} & \mathbf{0} & A_3 & \vline & \mathbf{0} \\ \hline
+    \mathbf{0} & \mathbf{0} & \mathbf{0} & \mathbf{0} & \vline & 0
+  \end{array}\right]\hspace{-.6ex},
+  \\
+  {}&\hspace{14.6ex}C=\begin{bmatrix}
+    1 & 0 & \cdots & 1 & 0 & \vline & 0
+  \end{bmatrix},\\
+\end{split}\end{equation}
+with the state $\mathbf{q}$ being the evolution of the Fourier series coefficient in time, $A, C$ the state transition matrix, and the output matrix respectively. Furthermore, the last row and column of the matrix $A$ contain zero row vectors and columns vectors respectively, and:
+\begin{equation}\begin{split}
+  A&\in\mathbb{R}^{9\times 9},\\
+  \mathbf{q}(t), C&\in\mathbb{R}^9.
+\end{split}\end{equation}
+Motivated by the fact that the system of interest is sampled at discrete times and for the sake of simplicity, we consider the discretized version of the Equation~(\ref{eq:3}) by employing the following expression:
+\begin{equation}\label{eq:6}\begin{split}
+  \mathbf{q}_{k+1}&=A\mathbf{q}_{k}+B\mathbf{u}_{k}+w_k,\\
+  y_k&=C\mathbf{q}_k+v_k.
+\end{split}\end{equation}
+
+As the system was observed to behave stochastically, with the process and measurement noise evolving in a normal distribution, a Kalman filter~\cite{stengel1994optimal, simon2006optimal} is employed to predict the state $\hat{\mathbf{q}}$. Such a state, along with the predicted output $\hat{y}$, differs from the model state $\mathbf{q}$ and measured output $y$ in Equation~(\ref{eq:6}) due to the presence of uncertainty.
+
+The prediction is done using the following expression:
+\begin{subequations}\label{eq:7}\begin{align}
+  \hat{\mathbf{q}}_{k+1}^-&=A\hat{\mathbf{q}}_{k}+B\mathbf{u}_k,\label{eq:7a}\\
+  P_{k+1}^-&=AP_kA^T+Q,\label{eq:7b}
+\end{align}\end{subequations}
+where $\hat{\mathbf{q}}_k^-, \hat{\mathbf{q}}_k$ depicts the estimate of the state before and after measurement (or simply estimate), and $P_k$ the error covariance matrix (i.e., the variance of the estimate before measurement). 
+
+The estimation of the state and the update of the predicted output is done using the following expression:
+\begin{subequations}\label{eq:8}\begin{align}
+  K_k&=(CP_{k+1}^-C^T+R)^{-1}(P_{k+1}^-C^T),\\
+  \hat{\mathbf{q}}_{k+1}&=\hat{\mathbf{q}}_{k+1}^-+K_k(y_k-C\hat{\mathbf{q}}_{k+1}^-),\label{eq:8b}\\
+  P_{k+1}&=(I-G_{k+1}C)P_{k+1}^-,\\
+  \hat{y}_k&=C\hat{\mathbf{q}}_{k+1},\label{eq:8d}
+\end{align}
+\end{subequations}
+where $K_k$ is the gain of the Kalman filter, and $I$ the identity matrix. The noise covariance matrixes $Q,R$ indicates the process noise and sensor noise covariance respectively, and:
+\begin{equation}\label{eq:9}\begin{split}
+  k&\in\mathbb{Z}^{\geq 0},\\
+  Q,P_k^-,P_k&\in\mathbb{R}^{9\times 9},\\
+  K_k,\hat{\mathbf{q}}_k^-,\hat{\mathbf{q}}_k&\in\mathbb{R}^9,\\
+  w_k,v_k,R,\hat{y}_k&\in\mathbb{R}.\\
+\end{split}\end{equation}
+
+Equations~(\ref{eq:7}--\ref{eq:9}) converges to the predicted energy evolution as follows. An initial guess of the values $\hat{\mathbf{q}}_0,P_0$ is derived empirically from collected data. It is worth considering that an appropriate guess of these parameters allows the system to converge to the desired energy evolution in a shorter amount of time. The tuning parameters $Q,R$ are also derived from the collected data and may differ due to i.e., different sensors used to measure the instantaneous energy consumption, or different atmospheric conditions accounting for the process noise.
+
+At time $k=0$, the initial estimate before measurement of the state and of the error covariance matrix is updated in Equation~(\ref{eq:7a})~and~(\ref{eq:7b}) respectively. The value of $\hat{\mathbf{q}}_1$ is then used in Equation~(\ref{eq:8b}) to estimate the current state along with the measurment from the sensor $y_0$, where the sensor noise covariance matrix $R$ accounts for the amount of uncertainity in the measurement. The estimated ouput $\hat{y}_0$ is then obtained from Equation~(\ref{eq:8d}). The algorithm is iterative. At time $k=1$ the values $\hat{\mathbf{q}}=1,P_1$ computed at previous step are used to estimate the values $\hat{\mathbf{q}}_2,P_2,$ and $y_1$.
+
+Two different components of the overall energy consumption are being modeled in our analysis, an approach that has been extensively reviewed in our previous work~\cite{seewald2019coarse, seewald2019component, seewald2020mechanical, seewald2020towards}. A mechanical energy model accounts for the energy by reason of the physical system being moved in space, whereas a computational energy model accounts for the computations. The main goal is to derive a control action $\mathbf{u}$ for the current state $\hat{\mathbf{q}}$ from the optimal control law $\kappa(\hat{\mathbf{q}})$. This is achieved by solving online a finite horizon optimal control problem by the hand of a model predictive control (MPC) derived later in this chapter.
+
+\noindent---
+
+\subsection{Equations of Motion}
+
+For ease of reference, given a point in a 2D Euclidean coordinate system $\mathbf{p}=\begin{bmatrix}x&y\end{bmatrix}^T$, with respect to some inertial frame $\mathcal{O}_N$, we consider a simple elliptical explicit trajectory expression $\varphi$ defined by the equation:
+\begin{equation}\label{eq:10}
+  \varphi(\mathbf{p})=\frac{x-x_e}{r_m^2}+\frac{y-y_e}{r_M^2}-1,
+\end{equation}
+where $x_e, y_e$ are the coordinates of the center of the ellipse with respect to $\mathcal{O}_N$, and $r_m, r_M$ are the minor and major radius respectively. The equation of motion is expressed using a non-holonomic model presented in~\cite{de2017guidance}:
+\begin{equation}\label{eq:11}\begin{split}
+  \dot{\mathbf{p}}(t)&=sm\left( \psi(t) \right)+h,\\
+  \dot{\psi}(t)&=u_m(t),
+\end{split}
+\end{equation}
+where $s$ depicts the airspeed, $m(\psi(t))=\begin{bmatrix}\cos{\psi}&\sin{\psi}\end{bmatrix}^T$ the attitude yaw angle, $h$ a constant which represents the wind, and:
+\begin{equation}\begin{split}
+  \psi(t)&\in(-\pi,\pi],\\
+  r_m,r_M,x_e,y_e,\mathbf{p}(t),m(\psi(t))&\in\mathbb{R}^2,\\
+  u_m(t),h&\in\mathbb{R}.
+\end{split}
+\end{equation}
+
+Given a desired trajectory expressed in~(\ref{eq:10}), an arbitrary point in space $\mathbf{p}$, and it's ground velocity $\dot{\mathbf{p}}$, considering the equation of motion in~(\ref{eq:11}), the control action is likewise derived in~\cite{de2017guidance}:
+\begin{equation}\begin{split}
+  u_m(t)&=u(\mathbf{p},\dot{\mathbf{p}},\psi)\\
+        &=\frac{\lVert \dot{\mathbf{p}}\rVert}{s\cos{\beta}}\left(\dot{\chi}_d(\dot{\mathbf{p}},\mathbf{p})+k_d\hat{\dot{\mathbf{p}}}^TR\hat{\dot{\mathbf{p}}}\right),
+\end{split}
+\end{equation}
+where $\hat{\dot{\mathbf{p}}}=\dot{\mathbf{p}}/\lVert\dot{\mathbf{p}}\rVert$,  
+
+\subsection{Computational Energy Model}
+
+The energy due to the computational units of the system is obtained with \powprof{}, an open-source modeling tool that measures empirically a number of software configuration and build an energy model accordingly~\cite{seewald2019coarse}. A multivariate linear interpolation is derived automatically by \powprof{}, while being accessed online at the hand of a lookup table in the optimal control algorithm presented later. The robotics system in such an analysis composes a number of computationally expensive ROS nodes, allowing to vary the amount of computations changing node-specific quality of service (QoS) values. For the sake of simplicity and to allow an easy integration in an existing ROS system, the QoS values are utilizing ROS middleware, meaning that defined ROS parameters are intended specifically as QoS ranges.   
+
+Let us define $\mathrm{QoS}_i\in\mathbb{Z}^{\geq 0},\,\forall i\in\{0,\dots,r\}$ the $i$-th QoS range, $g_c(\mathrm{QoS}_i)\in\mathbb{R}^{\geq 0}$ the instantaneous energy value obtained interogating \powprof{} online, and $\mathbf{u}_c$ the set of $r$ QoS values the system is composed of. The computational energy component can be hence described using the following expression:
+\begin{equation}
+  E_c(\mathbf{u}_c)=\sum_{i=0}^{r}{g_c(\mathrm{QoS}_i)},
+\end{equation}
+TODO
+
+
+
+%%%%%%%%%%%%%%%%%%%%
+\section{Evaluation}
+\label{sec:experimental}
+
+*
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion and Future Work}
+\label{sec:conclusion}
+
+*
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Acknowledgment}
+
+This work is supported and partly funded by the European Union's Horizon2020 research and innovation program under grant agreement No. 779882 (TeamPlay).
+
+\bibliographystyle{IEEEtran}
+\bibliography{\jobname} 
+\vspace{0.1ex}
+
+\end{document}
