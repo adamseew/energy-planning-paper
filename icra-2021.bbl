@@ -21,10 +21,12 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{seewald2020towards}
-A.~Seewald, H.~Garcia~de Marina, A.~Hasan, H.~S. Midtiby, and U.~P. Schultz,
-  ``Towards mission-aware energy assessment for autonomous drones,'' 2020, p.
-  submitted.
+\bibitem{de2017guidance}
+H.~G. De~Marina, Y.~A. Kapitanyuk, M.~Bronz, G.~Hattenberger, and M.~Cao,
+  ``Guidance algorithm for smooth trajectory tracking of a fixed wing uav
+  flying in wind flows,'' in \emph{2017 IEEE international conference on
+  robotics and automation (ICRA)}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE,
+  2017, pp. 5740--5745.
 
 \bibitem{stengel1994optimal}
 R.~F. Stengel, \emph{Optimal control and estimation}.\hskip 1em plus 0.5em
@@ -57,11 +59,9 @@ A.~Seewald, H.~Garcia~de Marina, H.~S. Midtiby, and U.~P. Schultz, ``Mechanical
   \url{https://adamseew.bitbucket.io/short/mechanical2020}
 \BIBentrySTDinterwordspacing
 
-\bibitem{de2017guidance}
-H.~G. De~Marina, Y.~A. Kapitanyuk, M.~Bronz, G.~Hattenberger, and M.~Cao,
-  ``Guidance algorithm for smooth trajectory tracking of a fixed wing uav
-  flying in wind flows,'' in \emph{2017 IEEE international conference on
-  robotics and automation (ICRA)}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE,
-  2017, pp. 5740--5745.
+\bibitem{seewald2020towards}
+A.~Seewald, H.~Garcia~de Marina, A.~Hasan, H.~S. Midtiby, and U.~P. Schultz,
+  ``Towards mission-aware energy assessment for autonomous drones,'' 2020, p.
+  submitted.
 
 \end{thebibliography}
