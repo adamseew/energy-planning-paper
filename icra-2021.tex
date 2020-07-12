@@ -670,7 +670,7 @@ The mechanical and computational control actions, $\mathcal{C}$ and $\mathcal{M}
   \end{array}\right],
 \end{split}
 \end{equation}
-where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=\sigma+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equation~(\ref{eqq:9b}). The first $\sigma$ columns in the first row of the input matrix are $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which hovewever will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
+where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=\sigma+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equations~(\ref{eqq:7})~and~(\ref{eqq:9b}). Moreover, the first $\sigma$ columns in the first row of the input matrix are $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which hovewever will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Evaluation}
