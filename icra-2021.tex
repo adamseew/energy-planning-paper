@@ -68,12 +68,6 @@
     organization={IEEE},
     url={https://adamseew.bitbucket.io/short/mechanical2020}
   }
-  @inproceedings{seewald2020towards,
-    title={Towards Mission-Aware Energy Assessment for Autonomous Drones}, 
-    author={Seewald, Adam and Garcia de Marina, Hector and Hasan, Agus and Midtiby, Henrik Skov and Schultz, Ulrik Pagh},
-    pages={submitted},
-    year={2020}
-  }
   @article{seewald2019coarse,
     title={Coarse-Grained Computation-Oriented Energy Modeling for Heterogeneous Parallel Embedded Systems},
     author={Seewald, Adam and Schultz, Ulrik Pagh and Ebeid, Emad and Midtiby, Henrik Skov},
@@ -423,7 +417,13 @@
     year={2017},
     organization={IEEE}
   }
-
+  @book{rawlings2017model,
+    title={Model predictive control: theory, computation, and design},
+    author={Rawlings, James Blake and Mayne, David Q and Diehl, Moritz},
+    volume={2},
+    year={2017},
+    publisher={Nob Hill Publishing Madison, WI}
+  }
 \end{filecontents}
 
 \title{\LARGE \bf
@@ -432,8 +432,8 @@
 
 %% author names and affiliations
 \author{
-  Adam Seewald$^{1}$, Hector Garcia de Marina, and Ulrik Pagh Schultz
-  \thanks{$^{1}$Corresponding author; email: {\tt\small ads@mmmi.sdu.dk}}
+  Adam Seewald$^{*}$, Hector Garcia de Marina, and Ulrik Pagh Schultz
+  \thanks{$^{*}$Corresponding author; email: {\tt\small ads@mmmi.sdu.dk}}
   \thanks{Adam Seewald, Ulrik Pagh Schultz are with the SDU UAS Center, M{\ae}rsk Mc-Kinney M{\o}ller Institute, University of Southern Denmark, Odense, Denmark.}
   \thanks{Hector Garcia de Marina is with the Faculty of Physics, Department of Computer Architecture and Automatic Control, Universidad Computense de Madrid, Spain.}
 }
@@ -500,40 +500,40 @@
 \section{Model}
 \label{sec:estimation}
 
-The model presented in this section deals with the motion and the energy using two distinct systems, subject to the same process noise $w$ (i.e., the atmospheric interferences such as wind). 
+The model presented in this section deals with the motion and the energy using two different systems, subject to the same process noise $w$ (i.e., the atmospheric interference such as wind). 
 
 The motion defines a trajectory and a position $\mathbf{p}$; the trajectory is expressed through explicit trajectory equation $\varphi$, while the position determines a vehicle frame $\mathcal{O}_V$ in the 2D Euler space relative to an inertial frame $\mathcal{O}_W$. For the sake of simplicity, it is assumed that the $z$-axis is constrained to a specific altitude $h$, with the system being free to evolve in the $x,y$-axes (i.e., the drone is flying, performing a mission, at a given height). A motion guidance action is derived using vector field design, enabling the convergence to the desired trajectory anywhere in $\mathcal{O}_W$. 
 
-The energy $\mathbf{q}$ spent to perform such guidance action is later derived using Fourier analysis and its state-space representation. This component is decomposed in the energy needed for the actuation (i.e., the mechanical energy), and the computations (i.e., the computational energy). A control action, which varies quality of service (QoS) levels of the software being executed, is derived for this purpose. The main goal is to tune the explicit energy equation allowing to maximize the computational and mechanical outcome of the mission while trying to minimize the eventuality of battery discharge.
+The energy $\mathbf{q}$ spent to perform such guidance action is later derived using Fourier analysis in its state-space representation. This component is decomposed in the energy needed for the actuation (i.e., the mechanical energy), and the computations (i.e., the computational energy), an approach that has been extensively reviewed in our previous work~\cite{seewald2019coarse, seewald2019component, seewald2020mechanical}. A control action, which varies quality of service (QoS) levels of the software being executed, is derived for this purpose. The main goal is to tune the explicit energy equation allowing to maximize the computational and mechanical outcome of the mission while trying to minimize the eventuality of battery discharge.
 
 \subsection{Motion and Guidance Model}
-The position $\mathbf{p}$, derived from~\cite{de2017guidance}, is described by the following non-holonomic model:
+The position $\mathbf{p}$, derived from~\cite{de2017guidance}, is described by the following non-holonomic model
 \begin{equation}\label{eqq:1}\begin{cases}
-  \dot{\mathbf{p}}(t)&=s\Psi(\psi(t))+w(t),\\
-  \dot{\psi}(t)&=u(t),
-\end{cases}
+  \dot{\mathbf{p}}(t)&=s\Psi(\psi(t))+w(t)\\
+  \dot{\psi}(t)&=u(t)
+\end{cases},
 \end{equation}
-where $\mathbf{p}(t)\in\mathbb{R}^2$ is a point in $\mathcal{O}_W$, $s\in\mathbb{R}$ describes the airspeed assumed constant, $\psi\in(-\pi,\pi]$ the attitude yaw angle and $\Psi(\psi(t))=\begin{bmatrix}\cos{\psi(t)} & \sin{\psi(t)}\end{bmatrix}^T$, and $u\in\mathbb{R}$ the guidance action which express the angular velocity $\dot{\psi}$ of $\mathcal{O}_V$.
+where $\mathbf{p}(t)\in\mathbb{R}^2$ is a point in $\mathcal{O}_W$, $s\in\mathbb{R}$ describes the airspeed assumed constant, $\psi\in(-\pi,\pi]$ the attitude yaw angle and $\Psi(\psi(t))=\begin{bmatrix}\cos{\psi(t)} & \sin{\psi(t)}\end{bmatrix}^T$, and $u\in\mathbb{R}$ the guidance action which indicates the angular velocity $\dot{\psi}$ of $\mathcal{O}_V$.
 
-Let us define a generic continuously differentiable function $\varphi:\mathbb{R}^2\rightarrow\mathbb{R}$. The desired trajectory $\mathcal{P}$ can be hence defined:
+Let us define a generic continuously differentiable function $\varphi:\mathbb{R}^2\rightarrow\mathbb{R}$. The desired trajectory $\mathcal{P}$ can be hence defined
 \begin{equation}\label{eqq:2}
   \mathcal{P}:=\{\mathbf{p}:\|\varphi(\mathbf{p})\|<c+\varepsilon\},
 \end{equation}
-as the set of points that follows the trajectory $\varphi(\mathbf{p})=c$ within a given $\varepsilon\in\mathbb{R}_{\geq 0}$. 
+as the set of points that follows the explicit trajectory equation $\varphi(\mathbf{p})=c$ within a given $\varepsilon\in\mathbb{R}_{\geq 0}$. 
 
 Given a set of discrete values $c$, the space relative to $\mathcal{O}_W$ can be covered by all the trajectories $\mathcal{P}$ within specific boundaries $\underline{c}\leq c\leq \overline{c}$, where $\underline{a},\overline{a}$ returns the upper bound and lower bound limit of $a$ from the mission specification, which is a lookup table.
 
 The concept of a trajectory is used later to design a controller that selects $c$ with the highest energy value under the energy budget constraints defined in the next subsection. Here we design a guidance action $u$ that allows following such trajectory. The guidance is derived using the vector field approach presented in~\cite{de2017guidance}. The algorithm heads to $\mathcal{P}$ using a vector field based on the minimization of the norm in Equation~(\ref{eqq:2}).
 
-Let us define $\varPhi:=\varphi(\mathbf{p})$. The vector field is hence defined as a desired velocity vector
+Let us define $\varPhi:=\varphi(\mathbf{p})$. The vector field is hence defined as the desired velocity vector
 \begin{equation}\label{eqq:3}
   \dot{\mathbf{p}}_d(\mathbf{p}):=E\nabla\varPhi-k_e\varPhi\nabla\varPhi,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
   \end{bmatrix},
 \end{equation}
-where $\nabla\varPhi\in\mathbb{R}^2$ is defined as the gradient of $\varphi$ at the point $\mathbf{p}$ (i.e., it's vector field), $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain which adjusts the speed of convergence of the vector field to the desired trajectory.
+where $\nabla\varPhi\in\mathbb{R}^2$ is defined as the gradient of $\varphi$ at the point $\mathbf{p}$ (i.e., its vector field), $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain which adjusts the speed of convergence of the vector field to the desired trajectory.
 
-The direction the velocity vector $\dot{\mathbf{p}}$ is pointing at is generally different from the course heading $\chi\in(-\pi,\pi]$ due to the atmospheric interferences.
+The direction the velocity vector $\dot{\mathbf{p}}$ is pointing at is generally different from the course heading $\chi\in(-\pi,\pi]$ due to the atmospheric interference.
 
 Let us further define $\hat{\mathbf{p}}:=\mathbf{p}/\|\mathbf{p}\|$, the desired course heading rate $\dot{\chi_d}$ is computed by sensing the position $\mathbf{p}$, the ground velocity $\dot{\mathbf{p}}$, and is expressed
 \begin{equation}\label{eqq:4}\begin{split}
@@ -541,30 +541,30 @@ Let us further define $\hat{\mathbf{p}}:=\mathbf{p}/\|\mathbf{p}\|$, the desired
   &\hspace{2ex}\left( E\hat{\dot{\mathbf{p}}}_d\hat{\dot{\mathbf{p}}}_d^T\left( (E-k_e\varPhi)H(\varPhi)\dot{\mathbf{p}}-k_e\nabla\varPhi^T\dot{\mathbf{p}}\nabla\varPhi \right) \right)^T,
 \end{split}
 \end{equation} 
-where $H(\cdot)$ is defined as the Hessian operator, with the physical meaning being that the curvature of the desired trajectory has to be known in order to be tracked.
+where $H(\cdot)$ is defined as the Hessian operator; the physical meaning is that the curvature of the desired trajectory has to be known in order to be tracked.
 
-Under the assumption of the airspeed $s=\|w(t)\|$ for $t>0$ (i.e., the constant airspeed being greater than the norm of the wind), the guidance action defines how fast the drone converges to the desired trajectory and can be expressed
+Under the assumption of the airspeed $s>\|w(t)\|$ for $t>0$ (i.e., the constant airspeed is greater than the norm of the wind), the guidance action defines how fast the drone converges to the desired trajectory and can be expressed
 \begin{equation}\label{eqq:5}
   u(\dot{\mathbf{p}},\mathbf{p},\psi)=\frac{\|\mathbf{p}\|}{s\cos{\beta}}\left( \dot{\mathbf{\chi}}_d(\dot{\mathbf{p}},\mathbf{p})+k_d\hat{\dot{\mathbf{p}}}^TE\hat{\dot{\mathbf{p}}}_d \right),
 \end{equation} 
-where $k_d\in\mathbb{R}_{\geq 0}$ is the gain which adjusts the speed of convergence of the drone to the vector field $\dot{\mathbf{p}}_d$ to the desired trajectory, $\beta=\cos^{-1}{\left( \hat{\dot{\mathbf{p}}}^T\Psi(\psi) \right)}$ is the slideslip angle, and $\dot{\chi}_d$ is given in Equation~(\ref{eqq:4}).
+where $k_d\in\mathbb{R}_{\geq 0}$ is the gain which adjusts the speed of the convergence of the vector field $\dot{\mathbf{p}}_d$ to the desired trajectory, $\beta=\cos^{-1}{\left( \hat{\dot{\mathbf{p}}}^T\Psi(\psi) \right)}$ is the sideslip angle, and $\dot{\chi}_d$ is given in Equation~(\ref{eqq:4}).
 
 ---
 
 \subsection{Energy Model}
 
-We consider a Fourier series $f:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ of an arbitrary order $r$ to evaluate the energy spent performing a given motion and software configuration
+To evaluate the energy spent performing a given motion and software configuration we consider a Fourier series $f:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ of an arbitrary order $r$
 \begin{equation}\label{eqq:6}
   f(t)=\sum_{n=0}^{r}{a_n\cos{\frac{nt}{\xi}}+b_n\sin{\frac{nt}{\xi}}},
 \end{equation}
-where $\xi\in\mathbb{R}$ is the characteristic time, and $a_n, b_n\in\mathbb{R}$ for $n\in\{0,\dotsc,r\}$ the Fourier series coefficients. The Fourier analysis allows to account for the periodicity of the mission, with a trajectory $\mathcal{P}$ being reitared over time. 
+where $\xi\in\mathbb{R}$ is the characteristic time, and $a_n, b_n\in\mathbb{R}$ for $n\in\{0,\dotsc,r\}$ the Fourier series coefficients. The Fourier analysis allows accounting for the periodicity of the mission, with a trajectory $\mathcal{P}$ being reiterated over time. 
 
-The non-linear model in Equation~(\ref{eqq:6}) can be expressed using an equivalent linear time-varying state-space model, expressed in the following form:
+The non-linear model in Equation~(\ref{eqq:6}) can be expressed using an equivalent time-varying state-space model in the following form
 \begin{equation}\label{eqq:7}\begin{cases}
-  \dot{\mathbf{q}}(t)&=A\mathbf{q}(t)+B\mathbf{u}(t)+w(t),\\
-  y(t)&=C\mathbf{q}(t)+v(t),
-\end{cases}\end{equation}
-where $y(t)\in\mathbb{R}_{\geq 0}$ is the energy evolution of the controlled system, $w(t)$ the same process noise from the system in Equation~(\ref{eqq:1}), $v(t)\in\mathbb{R}_{\geq 0}$ the measurement noise, and the control $\mathbf{u}$ along with the input matrix $B$ are defined subsequently. The state $\mathbf{q}$ respresents the evolution of the Fourier series coefficients in time, which can be expressed along the state transition matrix, and the output matrix as follows
+  \dot{\mathbf{q}}(t)&=A\mathbf{q}(t)+B\mathbf{u}(t)+w(t)\\
+  y(t)&=C\mathbf{q}(t)+v(t)
+\end{cases},\end{equation}
+where $y(t)\in\mathbb{R}_{\geq 0}$ is the energy evolution of the controlled system, $w(t)$ the same process noise of the system in Equation~(\ref{eqq:1}), and $v(t)\in\mathbb{R}_{\geq 0}$ the measurement noise. The control $\mathbf{u}$ along with the input matrix $B$ are defined subsequently. The state $\mathbf{q}$ represents the evolution of the Fourier series coefficients in time, which can be expressed along with the state transition matrix, and the output matrix as follows
 \begin{equation}\begin{split}
   \mathbf{q}(t)&=\left[\begin{array}{ccccccc}
     a_0 & \vline & a_1 & b_1 & \cdots & a_r & b_r
@@ -579,30 +579,30 @@ where $y(t)\in\mathbb{R}_{\geq 0}$ is the energy evolution of the controlled sys
     1 & \vline & 1 & 0 & \cdots & 1 & 0
   \end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{q}(t)\in\mathbb{R}^j$ given $j:=2r+1$, $A\in\mathbb{R}^{j\times j}$ is the state transmission matrix, $C\in\mathbb{R}^j$ is the output matrix respectively. Furthermore, the first row and column of the matrix $A$ contain a zeros row vectors and columns vectors respectively.
+where $\mathbf{q}(t)\in\mathbb{R}^j$ given $j:=2r+1$, $A\in\mathbb{R}^{j\times j}$ is the state transmission matrix, and $C\in\mathbb{R}^j$ is the output matrix. Furthermore, the first row and column of the matrix $A$ contain zeros row vectors and columns vectors respectively.
 
-Motivated by the fact that the system of interest is sampled at discrete time, and for the sake of simplicity, we consider the discretized version of Equations~(\ref{eqq:1}~and~\ref{eqq:7}) by employing the following expression
+Motivated by the fact that the system of interest is sampled discrete-time, and for the sake of simplicity, we consider the discretized version of Equations~(\ref{eqq:1})~and~(\ref{eqq:7}) by employing the following expression
 \begin{subequations}\begin{align}
-  &\begin{cases}
-  \mathbf{p}_{k+1}&=s\Psi(\psi_k)+w_k,\\
-  \psi_{k+1}&=u_k,
-  \end{cases}\tag{9b}\label{eqq:9b}\\
-  &\begin{cases}
-  \mathbf{q}_{k+1}&=A\mathbf{q}_{k}+B\mathbf{u}_{k}+w_k,\\
-  y_k&=C\mathbf{q}_k+v_k.
-  \end{cases}
+  &\begin{cases}\label{eqq:9a}
+  \mathbf{p}_{k+1}&=s\Psi(\psi_k)+w_k\\
+  \psi_{k+1}&=u_k
+  \end{cases},\\
+  &\begin{cases}\label{eqq:9b}
+  \mathbf{q}_{k+1}&=A\mathbf{q}_{k}+B\mathbf{u}_{k}+w_k\\
+  y_k&=C\mathbf{q}_k+v_k
+  \end{cases}.
 \end{align}\end{subequations}
 
-As the system was observed to behave stochastically, with the process and measurement noise evolving in a normal distribution, a Kalman filter~\cite{stengel1994optimal, simon2006optimal} is employed to predict the state $\hat{\mathbf{q}}$. Such a state, along with the predicted output $\hat{y}$, differs from the model state $\mathbf{q}$ and measured output $y$ in Equation~(\ref{eqq:9b}) due to the presence of uncertainty.
+As the system was observed to behave stochastically, with the process and measurement noise evolving in a normal distribution, a Kalman filter~\cite{stengel1994optimal, simon2006optimal} is employed to predict the state $\hat{\mathbf{q}}$. Such a state, along with the predicted output $\hat{y}$ differs from the model state $\mathbf{q}$ and measured output $y$ in Equation~(\ref{eqq:9b}) due to the presence of uncertainty.
 
-The prediction is done using the following expression:
+The prediction is done using the following expression
 \begin{subequations}\label{eqq:10}\begin{align}
   \hat{\mathbf{q}}_{k+1}^-&=A\hat{\mathbf{q}}_{k}+B\mathbf{u}_k,\label{eqq:10a}\\
   P_{k+1}^-&=AP_kA^T+Q,\label{eqq:10b}
 \end{align}\end{subequations}
 where $\hat{\mathbf{q}}_k^-,\hat{\mathbf{q}}_k\in\mathbb{R}^j$ depicts the estimate of the state before and after measurement (or simply estimate), and $P_k,P_k^-\in\mathbb{R}^{j\times j}$ the error covariance matrix (i.e., the variance of the estimate before measurement). 
 
-The estimation of the state and the update of the predicted output is done using the following expression:
+The estimation of the state and the update of the predicted output is done using the following expression
 \begin{subequations}\label{eqq:11}\begin{align}
   K_k&=(CP_{k+1}^-C^T+R)^{-1}(P_{k+1}^-C^T),\\
   \hat{\mathbf{q}}_{k+1}&=\hat{\mathbf{q}}_{k+1}^-+K_k(y_k-C\hat{\mathbf{q}}_{k+1}^-),\label{eqq:11b}\\
@@ -610,23 +610,23 @@ The estimation of the state and the update of the predicted output is done using
   \hat{y}_k&=C\hat{\mathbf{q}}_{k+1},\label{eqq:11d}
 \end{align}
 \end{subequations}
-where $K_k\in\mathbb{R}^j$ is the gain of the Kalman filter, and $I$ the identity matrix. The noise covariance matrixes $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}$ indicates the process noise and sensor noise covariance respectively, and $\hat{y}_k\in\mathbb{R}_{\geq 0}$ is the estimated energy.
+where $K_k\in\mathbb{R}^j$ is the gain of the Kalman filter, and $I$ the identity matrix. The noise covariance matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}$ indicates the process noise and sensor noise covariance respectively, and $\hat{y}_k\in\mathbb{R}_{\geq 0}$ is the estimated energy.
 
 Equation~(\ref{eqq:10}) converges to the predicted energy evolution as follows. An initial guess of the values $\hat{\mathbf{q}}_0,P_0$ is derived empirically from collected data. It is worth considering that an appropriate guess of these parameters allows the system to converge to the desired energy evolution in a shorter amount of time. The tuning parameters $Q,R$ are also derived from the collected data and may differ due to i.e., different sensors used to measure the instantaneous energy consumption, or different atmospheric conditions accounting for the process noise.
 
-At time $k=0$, the initial estimate before measurement of the state and of the error covariance matrix is updated in Equation~(\ref{eqq:10a})~and~(\ref{eqq:10b}) respectively. The value of $\hat{\mathbf{q}}_1$ is then used in Equation~(\ref{eqq:11b}) to estimate the current state along with the measurment from the sensor $y_0$, where the sensor noise covariance matrix $R$ accounts for the amount of uncertainity in the measurement. The estimated ouput $\hat{y}_0$ is then obtained from Equation~(\ref{eqq:11d}). The algorithm is iterative. At time $k=1$ the values $\hat{\mathbf{q}}=1,P_1$ computed at previous step are used to estimate the values $\hat{\mathbf{q}}_2,P_2,$ and $y_1$.
+At time $k=0$, the initial estimate before measurement of the state and of the error covariance matrix is updated in Equation~(\ref{eqq:10a})~and~(\ref{eqq:10b}) respectively. The value of $\hat{\mathbf{q}}_1^-$ is then used in Equation~(\ref{eqq:11b}) to estimate the current state along with the data from the sensor $y_0$ (the energy sensor of the flight controller is employed), where the sensor noise covariance matrix $R$ accounts for the amount of uncertainty in the measurement. The estimated output $\hat{y}_0$ is then obtained from Equation~(\ref{eqq:11d}). The algorithm is iterative. At time $k=1$ the values $\hat{\mathbf{q}}_1,P_1$ computed at previous step are used to estimate the values $\hat{\mathbf{q}}_2,P_2,$ and $y_1$.
 
-Two different components of the overall energy consumption are being modeled in our analysis, an approach that has been extensively reviewed in our previous work~\cite{seewald2019coarse, seewald2019component, seewald2020mechanical, seewald2020towards}. A mechanical energy model accounts for the energy by reason of the physical system being moved in space, whereas a computational energy model accounts for the computations. The main goal is to derive a control action $\mathbf{u}$ for the current state $\hat{\mathbf{q}}$ from the optimal control law $\kappa(\hat{\mathbf{q}})$. This is achieved by solving online a finite horizon optimal control problem by the hand of a model predictive control (MPC) derived later in this section.
+In the light of Equations~(\ref{eqq:9a})~and~(\ref{eqq:9b}), the main goal stated earlier in this section can be updated. We aim to find an optimal control action $\mathbf{u}^0$ for the current state $\hat{\mathbf{q}}$ from the optimal control law $\mathbf{u}^0=:\kappa(\hat{\mathbf{q}})$~\cite{rawlings2017model}. This is achieved by solving online a finite horizon optimal control problem by the hand of a model predictive control (MPC) algorithm derived in the next section. Before, we need to define a generic control action $\mathbf{u}$.
 
 \subsection{Computational Model}
 
-A computational energy model is built using \powprof{}\footnote{\label{cross-ref:powprof-link}\url{https://bitbucket.org/adamseew/powprofiler}}, an open-source modeling tool that measures empirically a number of software configuration and build an energy model accordingly~\cite{seewald2019coarse}. The tool builds a multivariate linear interpolation which is accessed online at the hand of a lookup table in the optimal control algorithm. An existing ROS system composes a number of computationally expensive ROS nodes, allowing to vary the amount of computations changing node-specific quality of service (QoS) values. The tool builds the energy model using a file specification which specifies per each ROS node a QoS range.
+A computational energy model is built using \powprof{}\footnote{\label{cross-ref:powprof-link}\url{https://bitbucket.org/adamseew/powprofiler}}, an open-source modeling tool that measures empirically software configurations and builds an energy model accordingly~\cite{seewald2019coarse}. Specifically, the tool builds a multivariate linear interpolation which is accessed online at the hand of a lookup table in the optimal control algorithm. The system is modeled as follows. An existing ROS system composes several computationally expensive ROS nodes, allowing to vary the number of computations changing the node-specific quality of service (QoS) values via ROS parameters. The tool builds the energy model using mission specification which, besides other mission parameters, specifies per each ROS node a QoS range.
 
 Suppose the system is composed of $\sigma$ computationally expensive ROS nodes. Let us define the computational control action as
 \begin{equation}\label{eqq:12}
   \mathcal{C}_k:=\left\{u:u\in\text{QoS}_n(k)\,\forall\,n\in\{0,\dots,\sigma\}\right\},
 \end{equation}
-where $\text{QoS}_n(t):\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time $t$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values the system is composed of at time $k$. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interogating \powprof{}. The computational energy component can be hence described
+where $\text{QoS}_n(t):\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time $t$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values the system is composed of at time $k$. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The computational energy component can be hence described
 \begin{equation}\begin{split}
   g(\mathcal{C}_{k})&:=\{g\left(0,\text{QoS}_0(k)\right),\dots,g\left(\sigma,\text{QoS}_\sigma(k)\right)\},\\
   y_c(t)&=\sum_{x\in g\left(\mathcal{C}_{\ceil{t}}\right)}{x},
@@ -637,25 +637,25 @@ The QoS parameters $\mathcal{C}_k$ can be subject to different constraints at di
 \begin{equation}\label{eqq:14}
   \underline{\text{QoS}}_n(k)\leq \text{QoS}_n(k)\leq \overline{\text{QoS}}_n(k),\,\forall n\in\{0,\cdots,\sigma\},
 \end{equation}
-where the values $\underline{\text{QoS}}_n(k),\overline{\text{QoS}}_n(k)$ are retrived from the mission specification.
+where the values $\underline{\text{QoS}}_n(k),\overline{\text{QoS}}_n(k)$ are retrieved from the mission specification.
 
 The control action is constructed in two steps. Equation~(\ref{eqq:12}) defines the control due to the computational model. The control due to the energy model, which describes the energy of the mechanical elements of the drone $\mathcal{M}$, is derived in the following subsection.
 
 \subsection{Control Action}
 
-Given a generic trajectory equation $\varphi$, the trajectory can be modeled by $\rho$ parameters $\mathbf{u}\in\mathbb{R}^\rho$, e.g., the constants of a linear function, the radius of a circonference, and semi-major and minor axis of an ellipse. The set of these parameters can be expressed
+Given a generic trajectory equation $\varphi$, the trajectory can be modeled by $\rho$ parameters $\mathbf{u}\in\mathbb{R}^\rho$, e.g., the constants of a linear function, the radius of a circle, and semi-major and minor axis of an ellipse. The set of these parameters can be expressed
 \begin{equation}\label{eqq:14}
   \mathcal{M}_k:=\{\mathbf{u}_k : \varphi_k(\mathbf{p}_k^0,\mathbf{u}_k)=c_k\},
 \end{equation}
-where $c$ is being defined in Equation~(\ref{eqq:2}), and $\mathbf{p}^0$ is the optimal point which lets the trajectory explicit function $\varphi_k$ converge to the value $c$. 
+where $c$ is defined in Equation~(\ref{eqq:2}), and $\mathbf{p}^0$ are the optimal points which let the trajectory explicit function $\varphi_k$ converge to the value $c$ (i.e., points over the trajectory). 
 
-The explicit trajectory equation $\varphi_k$ can be different for different states $k$, meaning the vector field and guidance action, from Equations~(\ref{eqq:3})~and~(\ref{eqq:5}) respectively, will account for the sudden change of trajectory during the mission. Alike Equation~(\ref{eqq:14}), the parameters $\mathbf{u}_k=\{u_{k,1},\dots,u_{k,\rho_k}\}$ at time $k$ are constrained
+The explicit trajectory equation $\varphi_k$ can be different at different states $k$, meaning the vector field and guidance action, from Equations~(\ref{eqq:3})~and~(\ref{eqq:5}) respectively, will account for the sudden change of trajectory during the mission. Alike Equation~(\ref{eqq:14}), the parameters $\mathbf{u}_k=\{u_{k,1},\dots,u_{k,\rho_k}\}$ at time $k$ are constrained
 \begin{equation}
   \underline{u}_{k,n}\leq u_{k,n}\leq \overline{u}_{k,n}\,\forall n\in\{0,\cdots,\rho_k\},
 \end{equation}
-where the values $\underline{u}_{k,n},\overline{u}_{k,n}$ are also retrived from the mission specifcation.
+where the values $\underline{u}_{k,n},\overline{u}_{k,n}$ are also retrieved from the mission specification.
 
-It is worth considering that the number of parameters at state $k$ is also a parameter of the state. This is for the sake of generality, as the mission specification might contain different explicit equations for different states. Meaning that the drone might follow in an ellipse function thorought the mission and heading a linear function while landing. 
+It is worth considering that the number of parameters at state $k$ is also a parameter of the state. This is for the sake of generality, as the mission specification might contain different explicit equations for different states. Meaning that the drone might follow an ellipse function throughout the mission and heading a linear function while landing. 
 
 The mechanical and computational control actions, $\mathcal{C}$ and $\mathcal{M}$ defined in Equation~(\ref{eqq:12})~and~(\ref{eqq:14}) respectively, are incorporated in the system in Equation~(\ref{eqq:9b}) using the input matrix
 \begin{equation}\begin{split}
@@ -670,7 +670,7 @@ The mechanical and computational control actions, $\mathcal{C}$ and $\mathcal{M}
   \end{array}\right],
 \end{split}
 \end{equation}
-where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=\sigma+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equations~(\ref{eqq:7})~and~(\ref{eqq:9b}). Moreover, the first $\sigma$ columns in the first row of the input matrix are $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which hovewever will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
+where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=\sigma+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equations~(\ref{eqq:7})~and~(\ref{eqq:9b}). Moreover, the first $\sigma$ columns in the first row of the input matrix are $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which however will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Evaluation}

@@ -21,21 +21,6 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{de2017guidance}
-H.~G. De~Marina, Y.~A. Kapitanyuk, M.~Bronz, G.~Hattenberger, and M.~Cao,
-  ``Guidance algorithm for smooth trajectory tracking of a fixed wing uav
-  flying in wind flows,'' in \emph{2017 IEEE international conference on
-  robotics and automation (ICRA)}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE,
-  2017, pp. 5740--5745.
-
-\bibitem{stengel1994optimal}
-R.~F. Stengel, \emph{Optimal control and estimation}.\hskip 1em plus 0.5em
-  minus 0.4em\relax Courier Corporation, 1994.
-
-\bibitem{simon2006optimal}
-D.~Simon, \emph{Optimal state estimation: Kalman, H infinity, and nonlinear
-  approaches}.\hskip 1em plus 0.5em minus 0.4em\relax John Wiley \& Sons, 2006.
-
 \bibitem{seewald2019coarse}
 A.~Seewald, U.~P. Schultz, E.~Ebeid, and H.~S. Midtiby, ``Coarse-grained
   computation-oriented energy modeling for heterogeneous parallel embedded
@@ -59,9 +44,24 @@ A.~Seewald, H.~Garcia~de Marina, H.~S. Midtiby, and U.~P. Schultz, ``Mechanical
   \url{https://adamseew.bitbucket.io/short/mechanical2020}
 \BIBentrySTDinterwordspacing
 
-\bibitem{seewald2020towards}
-A.~Seewald, H.~Garcia~de Marina, A.~Hasan, H.~S. Midtiby, and U.~P. Schultz,
-  ``Towards mission-aware energy assessment for autonomous drones,'' 2020, p.
-  submitted.
+\bibitem{de2017guidance}
+H.~G. De~Marina, Y.~A. Kapitanyuk, M.~Bronz, G.~Hattenberger, and M.~Cao,
+  ``Guidance algorithm for smooth trajectory tracking of a fixed wing uav
+  flying in wind flows,'' in \emph{2017 IEEE international conference on
+  robotics and automation (ICRA)}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE,
+  2017, pp. 5740--5745.
+
+\bibitem{stengel1994optimal}
+R.~F. Stengel, \emph{Optimal control and estimation}.\hskip 1em plus 0.5em
+  minus 0.4em\relax Courier Corporation, 1994.
+
+\bibitem{simon2006optimal}
+D.~Simon, \emph{Optimal state estimation: Kalman, H infinity, and nonlinear
+  approaches}.\hskip 1em plus 0.5em minus 0.4em\relax John Wiley \& Sons, 2006.
+
+\bibitem{rawlings2017model}
+J.~B. Rawlings, D.~Q. Mayne, and M.~Diehl, \emph{Model predictive control:
+  theory, computation, and design}.\hskip 1em plus 0.5em minus 0.4em\relax Nob
+  Hill Publishing Madison, WI, 2017, vol.~2.
 
 \end{thebibliography}
