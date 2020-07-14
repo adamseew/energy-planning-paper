@@ -579,7 +579,7 @@ where $y(t)\in\mathbb{R}_{\geq 0}$ is the energy evolution of the system being c
 \end{split}\end{equation}
 where $\mathbf{q}(t)\in\mathbb{R}^j$ given $j:=2r+1$, $A\in\mathbb{R}^{j\times j}$ is the state transmission matrix, and $C\in\mathbb{R}^j$ is the output matrix. Furthermore, the first row and column of the matrix $A$ contain zeros row vectors and column vectors respectively.
 
-Motivated by the fact that the system of interest is sampled discrete-time, and for the sake of simplicity, we consider the discretized version of Equations~(\ref{eqq:1})~and~(\ref{eqq:7})
+Motivated by the fact that the system of interest is sampled discrete-time, and for the sake of simplicity, we consider the discretized version of Equation~(\ref{eqq:1})~and~(\ref{eqq:7})
 \begin{subequations}\label{eqq:9}\begin{align}
   &\begin{cases}\label{eqq:9a}
   \mathbf{p}_{k+1}&=s\Psi(\psi_k)+w_k\\
@@ -612,7 +612,7 @@ where $K_k\in\mathbb{R}^j$ is the gain of the Kalman filter, and $I$ the identit
 
 Equations~(\ref{eqq:10}--\ref{eqq:11}) converge to the predicted energy evolution as follows. An initial guess of the values $\hat{\mathbf{q}}_0,P_0$ is derived empirically from collected data. It is worth considering that an appropriate guess of these parameters allows the system to converge to the desired energy evolution in a shorter amount of time. The tuning parameters $Q,R$ are also derived from the collected data, and may differ due to i.e., different sensors used to measure the instantaneous energy consumption, or different atmospheric conditions accounting for the process noise.
 
-At time $k=0$, the initial estimate before measurement of the state and of the error covariance matrix is updated in Equations~(\ref{eqq:10a})~and~(\ref{eqq:10b}) respectively. The value of $\hat{\mathbf{q}}_1^-$ is then used in Equation~(\ref{eqq:11b}) to estimate the current state along with the data from the sensor $y_0$ (we use the energy sensor of the flight controller), where the sensor noise covariance matrix $R$ accounts for the amount of uncertainty in the measurement. The estimated output $\hat{y}_0$ is then obtained from Equation~(\ref{eqq:11d}). The algorithm is iterative. At time $k=1$ the values $\hat{\mathbf{q}}_1,P_1$ computed at previous step are used to estimate the values $\hat{\mathbf{q}}_2,P_2,$ and $y_1$.
+At time $k=0$, the initial estimate before measurement of the state and of the error covariance matrix is updated in Equation~(\ref{eqq:10a})~and~(\ref{eqq:10b}) respectively. The value of $\hat{\mathbf{q}}_1^-$ is then used in Equation~(\ref{eqq:11b}) to estimate the current state along with the data from the sensor $y_0$ (we use the energy sensor of the flight controller), where the sensor noise covariance matrix $R$ accounts for the amount of uncertainty in the measurement. The estimated output $\hat{y}_0$ is then obtained from Equation~(\ref{eqq:11d}). The algorithm is iterative. At time $k=1$ the values $\hat{\mathbf{q}}_1,P_1$ computed at previous step are used to estimate the values $\hat{\mathbf{q}}_2,P_2,$ and $y_1$.
 
 In the light of Equations~(\ref{eqq:9}--\ref{eqq:11}), the main goal stated earlier in this section can be updated. We aim to find an optimal control action $\mathbf{u}^0$ for the current state $\hat{\mathbf{q}}$ from the optimal control law $\mathbf{u}^0=:\kappa(\hat{\mathbf{q}})$~\cite{rawlings2017model}. This is achieved by solving online a finite horizon optimal control problem by the hand of a model predictive control (MPC) algorithm derived in the next section. Before, we need to define a generic control action $\mathbf{u}$.
 
@@ -647,7 +647,7 @@ Given a generic trajectory equation $\varphi$, the trajectory can be modeled by 
 \end{equation}
 where $c$ is defined in Equation~(\ref{eqq:2}), and $\mathbf{p}^0$ is any optimal point which let the trajectory explicit function $\varphi_k$ converge to the value $c$ (i.e., points over the trajectory). 
 
-The explicit trajectory equation $\varphi_k$ can be different at different states $k$, meaning the vector field and guidance action, from Equations~(\ref{eqq:3})~and~(\ref{eqq:5}) respectively, will account for the sudden change of trajectory during the mission. Alike Equation~(\ref{eqq:14}), the parameters $\mathbf{u}_k=\{u_{k,1},\dots,u_{k,\rho_k}\}$ at time $k$ are constrained
+The explicit trajectory equation $\varphi_k$ can be different at different states $k$, meaning the vector field and guidance action, from Equation~(\ref{eqq:3})~and~(\ref{eqq:5}) respectively, will account for the sudden change of trajectory during the mission. Alike Equation~(\ref{eqq:14}), the parameters $\mathbf{u}_k=\{u_{k,1},\dots,u_{k,\rho_k}\}$ at time $k$ are constrained
 \begin{equation}
   \underline{u}_{k,n}\leq u_{k,n}\leq \overline{u}_{k,n}\,\forall n\in\{0,\cdots,\rho_k\},
 \end{equation}
@@ -668,7 +668,7 @@ The mechanical and computational control actions, $\mathcal{C}$ and $\mathcal{M}
   \end{array}\right],
 \end{split}
 \end{equation}
-where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=\sigma+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equations~(\ref{eqq:7})~and~(\ref{eqq:9b}). Moreover, the first $\sigma$ columns in the first row of the input matrix are $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which however will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
+where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=\sigma+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equation~(\ref{eqq:7})~and~(\ref{eqq:9b}). Moreover, the first $\sigma$ columns in the first row of the input matrix are $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which however will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Evaluation}
