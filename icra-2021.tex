@@ -566,7 +566,7 @@ where $y(t)\in\mathbb{R}_{\geq 0}$ is the energy evolution of the system being c
 \begin{equation}\begin{split}
   \mathbf{q}(t)&=\left[\begin{array}{ccccccc}
     a_0 & \vline & a_1 & b_1 & \cdots & a_r & b_r
-  \end{array}\right],\\
+  \end{array}\right]^T,\\
   A&=\left[\begin{array}{ccccc}
     1          & \vline & \mathbf{0} & \cdots & \mathbf{0} \\\hline
     \mathbf{0} & \vline & A_1        & \cdots & \mathbf{0} \\
@@ -598,13 +598,13 @@ The prediction is done using
   \hat{\mathbf{q}}_{k+1}^-&=A\hat{\mathbf{q}}_{k}+B\mathbf{u}_k,\label{eqq:10a}\\
   P_{k+1}^-&=AP_kA^T+Q,\label{eqq:10b}
 \end{align}\end{subequations}
-where $\hat{\mathbf{q}}_k^-,\hat{\mathbf{q}}_k\in\mathbb{R}^j$ depicts the estimate of the state before and after measurement (or simply estimate), and $P_k,P_k^-\in\mathbb{R}^{j\times j}$ the error covariance matrix (i.e., the variance of the estimate before measurement). 
+where $\hat{\mathbf{q}}_k^-,\hat{\mathbf{q}}_k\in\mathbb{R}^j$ depicts the estimate of the state before and after measurement (or simply estimate), and $P_k,P_k^-\in\mathbb{R}^{j\times j}$ the error covariance matrix (i.e., the variance of the estimate). 
 
 The estimation of the state and the update of the predicted output is done using
 \begin{subequations}\label{eqq:11}\begin{align}
   K_k&=(CP_{k+1}^-C^T+R)^{-1}(P_{k+1}^-C^T),\\
   \hat{\mathbf{q}}_{k+1}&=\hat{\mathbf{q}}_{k+1}^-+K_k(y_k-C\hat{\mathbf{q}}_{k+1}^-),\label{eqq:11b}\\
-  P_{k+1}&=(I-G_{k+1}C)P_{k+1}^-,\\
+  P_{k+1}&=(I-K_kC)P_{k+1}^-,\\
   \hat{y}_k&=C\hat{\mathbf{q}}_{k+1},\label{eqq:11d}
 \end{align}
 \end{subequations}

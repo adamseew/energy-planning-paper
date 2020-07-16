@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex icra-2021"] 1594653912 "icra-2021.aux" "icra-2021.bbl" "icra-2021" 1594653913
+["bibtex icra-2021"] 1594815690 "icra-2021.aux" "icra-2021.bbl" "icra-2021" 1594818396
   "./IEEEtran.bst" 1593368643 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "icra-2021.aux" 1594653913 2185 5ca75dab1e68bef844c72e5cf134dc93 ""
+  "icra-2021.aux" 1594818395 2210 c98ba5acd0f7a4caa1d239bacdcf7283 ""
   "icra-2021.bib" 1594650835 14489 d8240f6677b79e2d1f45719e6d21233c ""
   (generated)
   "icra-2021.blg"
   "icra-2021.bbl"
-["pdflatex"] 1594653912 "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.tex" "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.pdf" "icra-2021" 1594653913
+["pdflatex"] 1594818395 "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.tex" "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.pdf" "icra-2021" 1594818396
   "/etc/texmf/web2c/texmf.cnf" 1586121838 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.aux" 1594653913 2185 5ca75dab1e68bef844c72e5cf134dc93 ""
-  "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.tex" 1594653910 36536 edb3fe814c5347bf52f5504a5b24196f ""
+  "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.aux" 1594818395 2210 c98ba5acd0f7a4caa1d239bacdcf7283 ""
+  "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.tex" 1594818394 36201 86fc4cf30a1e0be5f2d3aab0c7c34bc9 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1480098688 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -182,14 +182,14 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1551493644 34566 ab5be96bde1a5acfd4f881dbe566b5fb ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1586121905 3236060 fd056e42459c13cbcb0cc6e0a7cae8d4 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1586121924 4226887 ab31a397130568c5165c5cd4df36f0f0 ""
-  "icra-2021.aux" 1594653913 2185 5ca75dab1e68bef844c72e5cf134dc93 ""
-  "icra-2021.bbl" 1594653912 2932 ef7453743cf87c0d914878ff6cbf9b71 "bibtex icra-2021"
+  "icra-2021.aux" 1594818395 2210 c98ba5acd0f7a4caa1d239bacdcf7283 ""
+  "icra-2021.bbl" 1594815690 2932 ef7453743cf87c0d914878ff6cbf9b71 "bibtex icra-2021"
   "icra-2021.bib" 1594650835 14489 d8240f6677b79e2d1f45719e6d21233c ""
-  "icra-2021.tex" 1594653910 36536 edb3fe814c5347bf52f5504a5b24196f ""
+  "icra-2021.tex" 1594818394 36201 86fc4cf30a1e0be5f2d3aab0c7c34bc9 ""
   "ieeeconf.cls" 1593368643 202166 72fb7520d2463fbe11773e8fc42848df ""
   (generated)
   "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.log"
-  "icra-2021.pdf"
   "icra-2021.log"
+  "icra-2021.pdf"
   "/home/user/Dropbox/acad/papers/icra-2021/icra-2021.pdf"
   "icra-2021.aux"
