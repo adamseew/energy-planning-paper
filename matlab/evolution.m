@@ -3,8 +3,9 @@
 
 r = input('Fourier series order r: ');
 j = 2*r + 1;
+xi = 10;
 
-An = @(n) [ 0 1 ; -1 0 ];
+An = @(n) [ 0 n/xi ; -n^2/xi^2 0 ];
 A  = zeros(j);
 A(1,1) = 1;
 C = [1];
