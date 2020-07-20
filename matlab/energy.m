@@ -1,4 +1,9 @@
 
+%
+%  Implementation Energy Model simulation in Matlab
+%
+disp('Energy Model simulation')
+
 %% system definition
 
 r = input('Fourier series order r: ');
@@ -15,8 +20,11 @@ for i = 1:r
     C = [C 1 0];
 end
 
-%% getting energy data
+clear i, An;
 
+%% getting mechanical energy data
+
+disp('Input mechanical energy data [csv]');
 file = csvread(uigetfile('.csv'));
 column = input('Which column contains energy: ');
 file = file(:, [column]);
@@ -24,6 +32,13 @@ ts = input('At what time step [ms]: ');
 tf = (1 / ts) * 1000 * size(file, 1);
 file = imresize(file, [100, 1]);
 t = transpose(linspace (0, tf, 100));
+
+clear column;
+
+%% getting computational energy data
+% disp('Input computational energy data (from powprof) [csv]');
+% file2 = csvread(uigetfile('.csv'));
+
 
 %% initial guess
 
@@ -39,7 +54,9 @@ R = 1;
 y = [];
 
 %% kalman filter estimatation
- 
+
+showed = 0;
+
 for y0_sensor = transpose(file)
     
     % prediction
@@ -56,11 +73,24 @@ for y0_sensor = transpose(file)
     q0 = q1;
     P0 = P1;
     y = [y y0_estimate];
+    
+    if (abs(y0_estimate - y0_sensor) < 0.001)
+        if (showed == 0)
+            showed = 1;
+            disp('At iteration');
+            disp(size(y,2));
+            disp('Found a state which differs from the real data less than 10^-3');
+            disp(q0);
+        end
+    end
 end
+
+clear j showed;
 
 %% plots
 
 plot(t, file);
+clear file;
 hold on;
 plot (t, y);
 
