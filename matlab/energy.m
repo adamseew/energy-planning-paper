@@ -36,9 +36,12 @@ t = transpose(linspace (0, tf, 100));
 clear column;
 
 %% getting computational energy data
-% disp('Input computational energy data (from powprof) [csv]');
-% file2 = csvread(uigetfile('.csv'));
+disp('Input computational energy data (from powprof) [csv]');
+file2 = csvread(uigetfile('.csv'));
+disp('Input mission specification [csv]');
+file3 = csvread(uigetfile('.csv'));
 
+read_spec(file3, file2, t);
 
 %% initial guess
 
