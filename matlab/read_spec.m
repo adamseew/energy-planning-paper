@@ -28,7 +28,11 @@ function [u, g] = read_spec(spec, prof, t)
             for k = 3:2:size(spec, 2)
                 % makes all the possible combinations of controls of QoS
                 
-                uu = spec(i, k):1:spec(i, k + 1);
+                uu = spec(i, k): ...
+                     prof(2, end - 1) - prof(1, end - 1):spec(i, k + 1);
+                % for the purpose of simulation the same step as in powprof
+                % is used (which can be easily adapted when using powprof)
+                
                 if (isempty(u1))
                     u1 = transpose(uu);
                 else
@@ -40,25 +44,6 @@ function [u, g] = read_spec(spec, prof, t)
             end
             
             tt = ones(size(u1, 1), 1) * j;
-            
-            % linear interpolation of the power data;
-            % for the purpose of simulation, we use an integer steps; this 
-            % can be eventually changed
-            while 1                
-                prof1 = [];
-                for k = 1:2:size(prof, 1) - 1
-                    prof1 = [prof1; prof(k, :)];
-                    prof1 = [prof1; (prof(k, :) + prof(k + 1, :)) / 2];
-                    prof1 = [prof1; prof(k + 1, :)];
-                end
-                prof1 = [prof1; prof(size(prof, 1), :)];
-                
-                if ~all(mod((prof(1, 1:end - 1) - prof1(2, 1:end - 1)) / 2, 1) > 0)
-                    break;
-                else
-                   prof = prof1; 
-                end
-            end
             
             u1 = [ u1 zeros(size(u1, 1), 1) ];
             % filling the control with the energy data
