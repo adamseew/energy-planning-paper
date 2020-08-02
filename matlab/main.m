@@ -35,6 +35,7 @@ disp('Input mission specification [csv]');
 [bn, folder] = uigetfile('.csv');
 file3 = csvread(fullfile([folder, bn]));
 
+% computational model
 ckgck = build_ck(file3, file2, t);
 
 % initial guess
@@ -46,12 +47,25 @@ P0 = eye(j);
 Q = eye(j);
 R = 1;
 
+% TODO: this selects just the highest possible control for each time
+% interval, which is not optimal; this would be part of the optimal control
+% policy once it's done
+gck = [];
+for i = 1:size(t, 1)
+    cckgck = ckgck(any(ckgck(:, 1) == t(i), 2), end);
+    
+    gck = [gck; cckgck(end)];
+end
+
+%TODO: the mechanical components of the control
+mk = zeros(size(t, 1), 1);
+
 % predicted energy evolution
-[y, qq0] = build_model(r, file,  ckgck(:, end), q0, P0, Q, R, t, 0.001);
+[y, qq0] = build_model(r, file,  gck, mk, q0, P0, Q, R, t, 0.001);
 
 %%
-plot(t, file);
-clear file;
+plot(t, file + gck);
+clear file file2 file3;
 hold on;
 plot (t, y);
 

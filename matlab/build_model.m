@@ -1,5 +1,5 @@
 
-function [y, qq0] = build_model(r, mech, u, q0, P0, Q, R, t, eps)
+function [y, qq0] = build_model(r, mech, gck, mk, q0, P0, Q, R, t, eps)
 %build_model.m Builds the energy model [Equation (9b)] using Kalman Filter 
 %   as state observer [Equations (10--11)]
 %
@@ -36,6 +36,11 @@ function [y, qq0] = build_model(r, mech, u, q0, P0, Q, R, t, eps)
         A(2 * i : 2 * i + 1, 2 * i : 2 * i + 1) = An(i); 
         C = [C 1 0];
     end
+    
+    % control action [Equation (17)]
+    u = @(k) [gck(k); transpose(mk(k))];
+    B = [ 1                 zeros(1, size(mk, 2)); ...
+          zeros(j - 1, 1)   zeros(j - 1, size(mk, 2))  ];
 
     clear i, An;
     
@@ -45,23 +50,28 @@ function [y, qq0] = build_model(r, mech, u, q0, P0, Q, R, t, eps)
     qq0 = [];
     
     % kalman filter estimatation
+    k = 1;
     for y0_sensor = transpose(mech)
-    
+        % getting the control at time k
+        u0 = u(k);
+        
         % prediction
-        q1_minus = A * q0; %+B*u0
+        q1_minus = A * q0 + B*u0;
         P1_minus = A * P0 * transpose(A) + Q;
     
         % estimation
         K1 = (P1_minus * transpose(C)) / (C * P1_minus * transpose(C) + R);
-        q1 = q1_minus + K1 * (y0_sensor - C * q1_minus);
+        q1 = q1_minus + K1 * (y0_sensor + u0(1) - C * q1_minus);
         P1 = (eye(j) + K1 * C) * P1_minus;
         y0_estimate = C * q1;
     
         % updating values for the next iteration
         q0 = q1;
         P0 = P1;
+        k = k + 1;
+        
         y = [y y0_estimate];
-    
+        
         if (and(isempty(qq0), abs(y0_estimate - y0_sensor) < 0.001))
             qq0 = q0;
         end

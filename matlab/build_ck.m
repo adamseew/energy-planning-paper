@@ -24,6 +24,15 @@ function [ckgck] = build_ck(spec, prof, t)
         % iterates for each time interval
         for j = spec(i, 1):spec(i, 2)
             
+            % just for the purpose of simulation; you generatre all the
+            % possible combinations of computational control for the
+            % simulated time (and not all the times) 
+            if (~any(floor(t) == j))
+                continue;
+            end
+            jj = t(any(floor(t) == j, 2));
+            jj = jj(1);
+            
             % makes all the possible combinations of controls of QoS
             u1 = [];
             for k = 3:2:size(spec, 2)
@@ -52,7 +61,7 @@ function [ckgck] = build_ck(spec, prof, t)
                       ), end) = prof(k, end);
             end
             
-            tt = ones(size(u1, 1), 1) * j;
+            tt = ones(size(u1, 1), 1) * jj;
             
             u = [ u; tt u1 ];
             
@@ -60,7 +69,6 @@ function [ckgck] = build_ck(spec, prof, t)
         end
     end
     
-    % TODO: normalizing over the simulation time!
     ckgck = u;
     
 end
