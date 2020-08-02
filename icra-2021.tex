@@ -603,12 +603,12 @@ where $\hat{\mathbf{q}}_k^-,\hat{\mathbf{q}}_k\in\mathbb{R}^j$ depicts the estim
 The estimation of the state and the update of the predicted output is done using
 \begin{subequations}\label{eqq:11}\begin{align}
   K_k&=(CP_{k+1}^-C^T+R)^{-1}(P_{k+1}^-C^T),\\
-  \hat{\mathbf{q}}_{k+1}&=\hat{\mathbf{q}}_{k+1}^-+K_k(y_k-C\hat{\mathbf{q}}_{k+1}^-),\label{eqq:11b}\\
+  \hat{\mathbf{q}}_{k+1}&=\hat{\mathbf{q}}_{k+1}^-+K_k(y_k^s+y_k^c-C\hat{\mathbf{q}}_{k+1}^-),\label{eqq:11b}\\
   P_{k+1}&=(I-K_kC)P_{k+1}^-,\\
   \hat{y}_k&=C\hat{\mathbf{q}}_{k+1},\label{eqq:11d}
 \end{align}
 \end{subequations}
-where $K_k\in\mathbb{R}^j$ is the gain of the Kalman filter, and $I$ the identity matrix. The noise covariance matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}$ indicates the process noise and sensor noise covariance respectively, and $\hat{y}_k\in\mathbb{R}_{\geq 0}$ is the estimated energy.
+where $K_k\in\mathbb{R}^j$ is the gain of the Kalman filter, and $I$ the identity matrix. $y_k^s,y_k^c$ are the energy readings: $y_k^s$ the flight controller sensor, i.e., the energy needed for the actuation, and $y_k^c$ the energy of a given software configuration described in Equation~(\ref{eqq:13}) later in this section. The noise covariance matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}$ indicates the process noise and sensor noise covariance respectively, and $\hat{y}_k\in\mathbb{R}_{\geq 0}$ is the estimated energy.
 
 Equations~(\ref{eqq:10}--\ref{eqq:11}) converge to the predicted energy evolution as follows. An initial guess of the values $\hat{\mathbf{q}}_0,P_0$ is derived empirically from collected data. It is worth considering that an appropriate guess of these parameters allows the system to converge to the desired energy evolution in a shorter amount of time. The tuning parameters $Q,R$ are also derived from the collected data, and may differ due to i.e., different sensors used to measure the instantaneous energy consumption, or different atmospheric conditions accounting for the process noise.
 
@@ -624,12 +624,10 @@ Suppose the system is composed of $\sigma$ computationally expensive ROS nodes. 
 \begin{equation}\label{eqq:12}
   \mathcal{C}_k:=\left\{u:u\in\text{QoS}_n(k)\,\forall\,n\in\{0,\dots,\sigma\}\right\},
 \end{equation}
-where $\text{QoS}_n(t):\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time $t$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values the system is composed of at time $k$. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The computational energy component can be described
-\begin{equation}\begin{split}
-  g(\mathcal{C}_{k})&:=\{g\left(0,\text{QoS}_0(k)\right),\dots,g\left(\sigma,\text{QoS}_\sigma(k)\right)\},\\
-  y_c(t)&=\sum_{x\in g\left(\mathcal{C}_{\ceil{t}}\right)}{x},
+where $\text{QoS}_n(t):\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time $t$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values the system is composed of at time $k$. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The computational energy component can be defined
+\begin{equation}\label{eqq:13}\begin{split}
+  y_k^c:&=g\left(\text{QoS}_0\left(k\right),\dots,\text{QoS}_\sigma\left(k\right)\right)=g\left(\mathcal{C}_{k}\right).\\
 \end{split}\end{equation}
-where $\ceil{\cdot}$ is the ceiling function that returns the least integer greater than or equal to the argument.
 
 The QoS parameters $\mathcal{C}_k$ can be subject to different constraints at different states. Physically, this means that the drone can perform the ROS nodes within different QoS ranges while flying different phases of a mission
 \begin{equation}\label{eqq:14}
@@ -661,14 +659,14 @@ The mechanical and computational control actions, $\mathcal{C}$ and $\mathcal{M}
     g\left(\mathcal{C}_k\right) & \mathcal{M}_k
   \end{array}\right]^T,\\
   B&=\left[\begin{array}{ccccccc}
-    1 & \cdots & 1 & \vline & 0 & \cdots & 0\\\hline
-    0 & \cdots & 0 & \vline & 0 & \cdots & 0\\
-    \vdots & \ddots & \vdots & \vline & \vdots & \ddots & \vdots\\
-    0 & \cdots & 0 & \vline & 0 & \cdots & 0
+    1 & \vline & 0 & \cdots & 0\\\hline
+    0 & \vline & 0 & \cdots & 0\\
+    \vdots & \vline & \vdots & \ddots & \vdots\\
+    0 & \vline & 0 & \cdots & 0
   \end{array}\right],
 \end{split}
 \end{equation}
-where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=\sigma+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equation~(\ref{eqq:7})~and~(\ref{eqq:9b}). Moreover, the first $\sigma$ columns in the first row of the input matrix are $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which however will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
+where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equation~(\ref{eqq:7})~and~(\ref{eqq:9b}). Moreover, the first column in the first row of the input matrix is $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which however will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Evaluation}

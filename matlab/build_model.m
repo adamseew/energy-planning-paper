@@ -4,13 +4,13 @@ function [y, qq0] = build_model(r, mech, gck, mk, q0, P0, Q, R, t, eps)
 %   as state observer [Equations (10--11)]
 %
 % Inputs:
-%   r      : the Fourier series order [Eqaution (6)]
+%   r      : the Fourier series order [Equation (6)]
 %   mech   : mechanical energy vector [W]. I.e., the data from flying the
 %            drone in simulation or data from real flights logging the
 %            flight controller
 %   u      : control [Equation (9b)]
 %   q0     : initial guess of the estimate of the state
-%   P0     : vatiance of the guessed estimate
+%   P0     : variance of the guessed estimate
 %   Q      : process noise covariance
 %   R      : sensor noise covariance
 %   t      : time used for the purpose of simulation
@@ -22,8 +22,7 @@ function [y, qq0] = build_model(r, mech, gck, mk, q0, P0, Q, R, t, eps)
 %            mech < eps
 %
 
-    % TODO: u!
-    % system defintion
+    % system definition
     j = 2*r + 1;
     xi = 10;
 
@@ -49,7 +48,7 @@ function [y, qq0] = build_model(r, mech, gck, mk, q0, P0, Q, R, t, eps)
 
     qq0 = [];
     
-    % kalman filter estimatation
+    % Kalman filter estimation
     k = 1;
     for y0_sensor = transpose(mech)
         % getting the control at time k

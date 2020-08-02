@@ -14,7 +14,7 @@ function [ckgck] = build_ck(spec, prof, t)
 %
 % Outputs:
 %   ckgck  : All the possible combinations of the QoS Ck, along with their
-%            istantaneous power consumption from powprof g(Ck)
+%            instantaneous power consumption from powprof g(Ck)
 %   
     u = [];
     
@@ -24,7 +24,7 @@ function [ckgck] = build_ck(spec, prof, t)
         % iterates for each time interval
         for j = spec(i, 1):spec(i, 2)
             
-            % just for the purpose of simulation; you generatre all the
+            % just for the purpose of simulation; you generate all the
             % possible combinations of computational control for the
             % simulated time (and not all the times) 
             if (~any(floor(t) == j))
