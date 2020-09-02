@@ -1,5 +1,5 @@
 
-%mainai.m
+%main.m
 % Simulation in Matlab, use data directory to pass the required data in
 % the simulation. If you use the combo c_e (computational_energy.cvs...), 
 % m_e, m_s in simulation1, then use r = 3, column = 1, and ts = 200
@@ -70,3 +70,25 @@ hold on;
 plot (t, y);
 
 legend('data', 'observer');
+
+%%
+
+syms x y;
+varphi = ((x - 200) * cosd(12) + (y - 200) * sind(12))^2 / 120^2 + ((x - 200)*sind(12) - (y - 200) * cosd(12))^2 / 170^2 - 1;
+
+min = 0;
+max = 400;
+
+% create all the points I want to use to build gdn
+[xp yp] = meshgrid(min:(abs(min) + abs(max)) / 50:max, min:(abs(min) + abs(max)) / 50:max);
+points = reshape(cat(2, xp', yp'), [], 2);
+clear xp yp;
+
+E = [0 1; -1 0];
+ke = 1.5;
+[dpd, pdangle] = build_gdn2(E, ke, varphi, points);
+plot_gdn2(E, ke, varphi, points, pdangle, 0, 400, 10000, 20, [400; 400])
+
+
+
+

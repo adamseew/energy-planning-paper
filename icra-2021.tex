@@ -537,7 +537,7 @@ The direction the velocity vector $\dot{\mathbf{p}}$ is pointing at is generally
 
 Let us further define $\hat{\mathbf{p}}:=\mathbf{p}/\|\mathbf{p}\|$, the desired course heading rate $\dot{\chi_d}$ is computed by sensing the position $\mathbf{p}$, the ground velocity $\dot{\mathbf{p}}$, and is expressed
 \begin{equation}\label{eqq:4}\begin{split}
-  &\dot{\chi}(\mathbf{p},\dot{\mathbf{p}})=-E\frac{\dot{\mathbf{p}}_d}{\|\dot{\mathbf{p}}_d\|^2}\cdot\\
+  &\dot{\chi}(\dot{\mathbf{p}},\mathbf{p})=-E\frac{\dot{\mathbf{p}}_d}{\|\dot{\mathbf{p}}_d\|^2}\cdot\\
   &\hspace{2ex}\left( E\hat{\dot{\mathbf{p}}}_d\hat{\dot{\mathbf{p}}}_d^T\left( (E-k_e\varPhi)H(\varPhi)\dot{\mathbf{p}}-k_e\nabla\varPhi^T\dot{\mathbf{p}}\nabla\varPhi \right) \right)^T,
 \end{split}
 \end{equation} 
