@@ -424,6 +424,15 @@
     year={2017},
     publisher={Nob Hill Publishing Madison, WI}
   }
+  @inproceedings{morbidi2016minimum,
+    title={Minimum-energy path generation for a quadrotor UAV},
+    author={Morbidi, Fabio and Cano, Roel and Lara, David},
+    booktitle={2016 IEEE International Conference on Robotics and Automation (ICRA)},
+    pages={1492--1498},
+    year={2016},
+    organization={IEEE}
+  }
+
 \end{filecontents}
 
 \title{\LARGE \bf
@@ -482,13 +491,27 @@
 % strory goes to the introduction
 % depends
 % big picture in the introduction to agree what specifically I am trying to do right now
-*
+
+Mobile robots are increasingly used in a broad range of applications. The growing demand for autonomy of such devices challenges traditional methodologies, soliciting the development of new and unprecedented techniques. The presented approach proposes a \emph{mission-aware energy planning algorithm} that addresses the broader problem of increasing \emph{computational demands} and their relation to the robot's energy consumption and autonomy. The energy is varied by means of mission-specific parameters, the Quality of Service (QoS) of the onboard computations, and the trajectory explicit equations (TEEs). The approach ideally accounts for a mission extension by adapting the TEEs and QoS as the robot batteries drain.
+
+Energy planning algorithms for mobile robots are not a new concept and have been extensively studied in the literature, being these correlated to such topics as trajectory generation and path planning. Generally, they account for the energy due to the trajectory, by e.g., maximizing the operation time~\cite{wahab2015energy}, but practically restrict to a specific class of mobile robots~\cite{kim2005energy}, and focus on optimizing motion control for such robots~\cite{kim2008minimum}. In a similar setting, rotorcrafts have been an obvious object of research interest, with such approaches as the energy-efficient trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. Conversely, the presented approach attempts to combine and generalize some of these technical breakthroughs and correlate the--extensively studied--energy planning to the growing computational demands through a mission-aware perspective.
+Of particular inspiration to the approach is the technique of coupling the energy due to the computations performed and trajectory traveled, although being--likewise the others--limited to the trajectory~\cite{mei2004energy,mei2005case,mei2006deployment}, or to the class of mobile robots~\cite{sadrpour2013mission,sadrpour2013experimental}. 
+
+The algorithm relies on the assumptions of the mission--a set of tasks the mobile robot is supposed to perform--being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed by e.g., the mobile robot traveling in repetitive patterns executing a set of assigned tasks, and the uncertainty accounts for the environmental interference, with e.g., a fixed-wing drone drifting due to windy weather. The algorithm proposes a Fourier series to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state observer--a Kalman filter--to address the uncertainty assumption.
+
+% Robots critically depend on battery for the completion of their mission, the duration of which is proportional to the state of the power source
+
+% Modeling mechanical and computational energy separately allows tradeoffs between the two to be expressed, such as performing additional onboard computations to reduce the amount of mechanical energy needed to complete the mission.
+
+% The increasing demand for autonomy, challenge the traditional computational model and perhaps justify the presented approach.
+
+% Preliminary data using a terrestrial fixed-wing craft indicates a potential mission extension of up to 13 minutes over 1 hour flight by switching to the lowest QoS, with the computations accounting for up to 23% of the total energy. The approach ideally accounts for the extension by adapting the trajectory and the computations as the robot batteries drain. 
 
 %%%%%%%%%%%%%%%%%%%%%%
-\section{State of the Art}
-\label{sec:related}
+%\section{State of the Art}
+%\label{sec:related}
 
-*
+%*
 % equation number just just for illustrate the reader just to introduce and support - this is an offline method
 % but we need it in real time while we are flying
 % we write number one as number 4
@@ -500,11 +523,15 @@
 \section{Model}
 \label{sec:estimation}
 
-The model presented in this section deals with the motion and the energy using two different systems, subject to the same process noise $w$ (i.e., the atmospheric interference such as wind). 
+The algorithm utilizes the model to estimate the robot's position in space and its energy evolution in time.
 
-The motion defines a trajectory and a position $\mathbf{p}$; the trajectory is expressed through explicit trajectory equation $\varphi$, while the position determines a vehicle frame $\mathcal{O}_V$ in the 2D Euler space relative to an inertial frame $\mathcal{O}_W$. For the sake of simplicity, it is assumed that the $z$-axis is constrained to a specific altitude $h$, with the system being free to evolve in the $x,y$-axes (i.e., the drone is flying, performing a mission, at a given height). A motion guidance action is derived using vector field design, enabling the convergence to the desired trajectory anywhere in $\mathcal{O}_W$. 
+Given a position $\mathbf{p}\in\mathbb{R}^3$ in the 3D Euler space, with respect to some inertial navigation frame $\mathcal{O}_W$, a guidance action--which affects the position allowing the motion along the 3-axis--is built upon the direction to follow, derived using vector field~\cite{de2017guidance}.
 
-The energy $\mathbf{q}$ spent to perform such guidance action is later derived using Fourier analysis in its state-space representation. This component is decomposed in the energy needed for the actuation (i.e., the mechanical energy), and the computations (i.e., the computational energy), an approach that has been extensively reviewed in our previous work~\cite{seewald2019coarse, seewald2019component, seewald2020mechanical}. A control action, which varies quality of service (QoS) levels of the software being executed, is derived for this purpose. The main goal is to tune the explicit energy equation allowing to maximize the computational and mechanical outcome of the mission while trying to minimize the eventuality of battery discharge.
+---
+
+%The motion defines a trajectory and a position $\mathbf{p}$; the trajectory is expressed through explicit trajectory equation $\varphi$, while the position determines a vehicle frame $\mathcal{O}_V$ in the 2D Euler space relative to an inertial frame $\mathcal{O}_W$. For the sake of simplicity, it is assumed that the $z$-axis is constrained to a specific altitude $h$, with the system being free to evolve in the $x,y$-axes (i.e., the drone is flying, performing a mission, at a given height). A motion guidance action is derived using vector field design, enabling the convergence to the desired trajectory anywhere in $\mathcal{O}_W$. 
+
+%The energy $\mathbf{q}$ spent to perform such guidance action is later derived using Fourier analysis in its state-space representation. This component is decomposed in the energy needed for the actuation (i.e., the mechanical energy), and the computations (i.e., the computational energy), an approach that has been extensively reviewed in our previous work~\cite{seewald2019coarse, seewald2019component, seewald2020mechanical}. A control action, which varies quality of service (QoS) levels of the software being executed, is derived for this purpose. The main goal is to tune the explicit energy equation allowing to maximize the computational and mechanical outcome of the mission while trying to minimize the eventuality of battery discharge.
 
 \subsection{Motion and Guidance Model}
 The position $\mathbf{p}$, derived from~\cite{de2017guidance}, is described using the following non-holonomic model
