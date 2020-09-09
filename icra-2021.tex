@@ -60,6 +60,7 @@
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}[thm]{Lemma}
 \newtheorem{prop}[thm]{Proposition}
+\newtheorem{assm}[thm]{Assumption}
 \newtheorem{cor}{Corollary}
 \newtheorem{conj}{Conjecture}[section]
 \newtheorem{defn}{Definition}[section]
@@ -495,6 +496,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+\label{sec:intro}
 
 % what I want to do with words.
 % diggested version of the technical details
@@ -585,7 +587,12 @@ where $k_d\in\mathbb{R}_{\geq 0}$ is the gain which adjusts the speed of the con
 \subsection{Energy evolution due to trajectory}
 \label{sec:energy-model}
 
-To evaluate the energy spent due to trajectory and computations, let us consider a Fourier series $f:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$
+To evaluate the energy spent due to trajectory and computations, we formalize the following realistic assumption introduced in Section~\ref{sec:intro}.
+\begin{assm}\label{assm:2.1}
+The mission the mobile robots perform is periodic, in the sense that it presents repetitive patterns.
+\end{assm}
+
+Let us consider a Fourier series $f:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$
 \begin{equation}\label{eqq:6}
   f(t)=\sum_{n=0}^{r}{a_n\cos{\frac{nt}{\xi}}+b_n\sin{\frac{nt}{\xi}}},
 \end{equation}
@@ -640,8 +647,8 @@ The instantaneous energy can be obtained from the model~(\ref{eqq:9b}) as a line
 
 \begin{thm}\label{thm:2.2}
   Consider a continuously differentiable function $\varphi_k:\mathbb{R}^3\rightarrow\mathbb{R}$ at a time instant $k\in\mathbb{Z}_{>0}$.
-  Assume a mobile robot performs a periodic mission free to move in $\mathcal{P}$ defined in~(\ref{eqq:2}), and likewise Lemma~\ref{lem:2.1}, the model behaves ideally. 
-  Then the instantaneous energy is a linear combination of the state
+  Assume Assumption~\ref{assm:2.1} holds, the robots is free to move in $\mathcal{P}$ defined in~(\ref{eqq:2}), and likewise in Lemma~\ref{lem:2.1}, the model behaves ideally. 
+  Then, the instantaneous energy consumption is a linear combination of the state
   \begin{equation}
     y_k=C\mathbf{q}_k=\sum_{n=0}^r{a_n},
   \end{equation}
@@ -690,21 +697,22 @@ where the values $\underline{u}_{k,n},\overline{u}_{k,n}$ are also retrieved fro
 It is worth considering that the number of parameters at state $k$ is a parameter of the state. This is for the sake of generality, as the mission specification might contain different explicit equations for different states. For instance, the drone might follow an ellipse function throughout the mission and heading a linear function while landing. 
 
 The mechanical and computational control actions, $\mathcal{C}$ and $\mathcal{M}$ defined in Equation~(\ref{eqq:12})~and~(\ref{eqq:14}), are incorporated in the system in Equation~(\ref{eqq:9b}) using the input matrix
-\begin{equation}\begin{split}
-  \mathbf{u}_k&=\left[\begin{array}{cc}
-    g\left(\mathcal{C}_k\right) & \mathcal{M}_k
-  \end{array}\right]^T,\\
-  B&=\left[\begin{array}{ccccccc}
+\begin{equation}
+  \mathbf{u}_k=\left[\begin{array}{c}
+    g\left(\mathcal{C}_k\right) \\\hline \mathcal{M}_k
+  \end{array}\right],\,\,\,
+  B=\left[\begin{array}{ccccccc}
     1 & \vline & 0 & \cdots & 0\\\hline
     0 & \vline & 0 & \cdots & 0\\
     \vdots & \vline & \vdots & \ddots & \vdots\\
     0 & \vline & 0 & \cdots & 0
   \end{array}\right],
-\end{split}
 \end{equation}
 where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equation~(\ref{eqq:7})~and~(\ref{eqq:9b}). Moreover, the first column in the first row of the input matrix is $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which however will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
 
 \section{Algorithm}
+
+*
 
 \subsection{State estimation}
 
