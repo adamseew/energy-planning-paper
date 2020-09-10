@@ -494,6 +494,7 @@
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
+
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{sec:intro}
@@ -506,54 +507,37 @@
 
 Mobile robots are increasingly used in a broad range of applications. The growing demand for autonomy of such devices challenges traditional methodologies, soliciting the development of new and unprecedented techniques. The presented approach proposes a \emph{mission-aware energy planning algorithm} that addresses the broader problem of increasing \emph{computational demands} and their relation to the robot's energy consumption and autonomy. The energy is varied by means of mission-specific parameters, the Quality of Service (QoS) of the onboard computations, and the trajectory explicit equations (TEEs) parameters. The approach ideally accounts for a mission extension by adapting the QoS and TEEs parameters as the robot batteries drain.
 
+The algorithm relies on the assumptions of the mission--a set of tasks the mobile robot is supposed to perform--being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed by e.g., the mobile robot traveling in repetitive patterns executing a set of assigned tasks, and the uncertainty accounts for the environmental interference, with e.g., a fixed-wing craft drifting due to windy weather. The algorithm proposes a Fourier series to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state observer--a Kalman filter--to address the uncertainty assumption.
+
 Energy planning algorithms for mobile robots are not a new concept and have been extensively studied in the literature, being these correlated to such topics as trajectory generation and path planning. Generally, they account for the energy due to the trajectory, by e.g., maximizing the operation time~\cite{wahab2015energy}, but practically restrict to a specific class of mobile robots~\cite{kim2005energy}, and focus on optimizing motion control for such robots~\cite{kim2008minimum}. In a similar setting, rotorcrafts have been an obvious object of research interest, with such approaches as the energy-efficient trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. Conversely, the presented approach attempts to combine and generalize some of these technical breakthroughs and correlate the--extensively studied--energy planning to the growing computational demands through a mission-aware perspective.
 Of particular inspiration to the approach is the technique of coupling the energy due to the computations performed and trajectory traveled, although being--likewise the others--limited to the trajectory~\cite{mei2004energy,mei2005case,mei2006deployment}, or to the class of mobile robots~\cite{sadrpour2013mission,sadrpour2013experimental}. 
 
-The algorithm relies on the assumptions of the mission--a set of tasks the mobile robot is supposed to perform--being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed by e.g., the mobile robot traveling in repetitive patterns executing a set of assigned tasks, and the uncertainty accounts for the environmental interference, with e.g., a fixed-wing drone drifting due to windy weather. The algorithm proposes a Fourier series to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state observer--a Kalman filter--to address the uncertainty assumption.
 
-% Robots critically depend on battery for the completion of their mission, the duration of which is proportional to the state of the power source
+% [Ad:] I am actually thinking whenever I should put a section with problem statement or I can just leave it nicely in the model?
 
-% Modeling mechanical and computational energy separately allows tradeoffs between the two to be expressed, such as performing additional onboard computations to reduce the amount of mechanical energy needed to complete the mission.
-
-% The increasing demand for autonomy, challenge the traditional computational model and perhaps justify the presented approach.
-
-% Preliminary data using a terrestrial fixed-wing craft indicates a potential mission extension of up to 13 minutes over 1 hour flight by switching to the lowest QoS, with the computations accounting for up to 23% of the total energy. The approach ideally accounts for the extension by adapting the trajectory and the computations as the robot batteries drain. 
-
-%%%%%%%%%%%%%%%%%%%%%%
-%\section{State of the Art}
-%\label{sec:related}
-
-%*
-% equation number just just for illustrate the reader just to introduce and support - this is an offline method
-% but we need it in real time while we are flying
-% we write number one as number 4
-% one of the things is to figure out what are the states
-% t
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% once the introduction 
+%%%%%%%%%%%%%%%
 \section{Model}
-\label{sec:estimation}
+\label{sec:model}
 
 The algorithm utilizes the model to estimate the robot's position in space and its energy evolution in time.
 
-Starting with a position in space $\mathbf{p}\in\mathbb{R}^3$ in the 3D Euler space, with respect to some inertial navigation frame $\mathcal{O}_W$, a guidance action--which allows the motion along the 3-axis--is built upon the direction to follow and derived using vector field~\cite{de2017guidance}. To define the direction to follow, we use generic continuously differentiable functions TEEs $\varphi:\mathbb{R}^3\rightarrow\mathbb{R}$, a mathematical abstraction representing the desired trajectory (being the function satisfied $\varphi(\mathbf{p})\rightarrow 0$ for all the points approaching such trajectory).
+Starting with a position $\mathbf{p}\in\mathbb{R}^3$ in the 3D Euler space, with respect to some inertial navigation frame $\mathcal{O}_W$, a guidance action--which allows the motion along the 3-axis--is built upon the direction to follow and derived using vector field~\cite{de2017guidance}. To define the direction to follow, we use generic continuously differentiable functions TEEs $\varphi:\mathbb{R}^3\rightarrow\mathbb{R}$, a mathematical abstraction representing the desired trajectory (being the function satisfied $\varphi(\mathbf{p})\rightarrow 0$ for all the points approaching such trajectory).
 
-The energy evolution $\mathbf{q}\in\mathbb{R}^j$ spent to perform such guidance action is described using Fourier analysis (the meaning of $j$ will be explained to the reader in Subsection~\ref{sec:energy-model}) and is decomposed in the energy due to the trajectory (TEEs), and the computations (QoS)--an approach that has been adapted from authors' earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing craft~\cite{seewald2020mechanical}.
+The energy evolution $\mathbf{q}\in\mathbb{R}^j$ spent to perform such guidance action is derived using Fourier analysis (the meaning of $j$ will be explained to the reader in Subsection~\ref{sec:energy-model}) and is decomposed in the energy due to the trajectory (TEEs), and the computations (QoS)--an approach that has been adapted from authors' earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing craft~\cite{seewald2020mechanical}.
 
 \subsection{Position in space and guidance action}
 \label{sec:position}
 
 For exemplification, we consider a non-holonomic 2D model of a fixed-wing craft flying at an assigned altitude $h\in\mathbb{R}_{>0}$. We will show, after the results, the requirement being eased to an arbitrary mobile robot model
-\begin{equation}\label{eqq:1}\begin{cases}
-  \dot{\mathbf{p}}(t)&=s\Psi(\psi(t))+w(t)\\
+\begin{equation}\label{eq:uav-kinem}\begin{cases}
+  \dot{\mathbf{p}}(t)&=s\Psi(\psi(t))+d(t)\\
   \dot{\psi}(t)&=u(\mathbf{p}(t))
 \end{cases},
 \end{equation}
-where $\mathbf{p}(t)\in\mathbb{R}^2$ (against a more generic $\mathbb{R}^3$ introduced earlier), $s\in\mathbb{R}$ describes the airspeed assumed constant, $\psi(t)\in(-\pi,\pi]$ the attitude yaw angle and $\Psi(\psi(t))=\begin{bmatrix}\cos{\psi(t)} & \sin{\psi(t)}\end{bmatrix}^T$, and $u\in\mathbb{R}$ the guidance action which denotes the angular velocity $\dot{\psi}$ of the craft.
+where $\mathbf{p}(t)\in\mathbb{R}^2$, $s\in\mathbb{R}$ describes the airspeed assumed constant, $\psi(t)\in(-\pi,\pi]$ the attitude yaw angle and $\Psi(\psi(t))=\begin{bmatrix}\cos{\psi(t)} & \sin{\psi(t)}\end{bmatrix}^T$, $d$ is the wind vector where we assume $\|d\|<s$, and $u\in\mathbb{R}$ the guidance action which denotes the angular velocity $\dot{\psi}$ of the craft.
 
 Let us define $\mathcal{P}$ the area which discloses all the possible paths within the boundaries $\underline{c}\in\mathbb{R}_{\leq 0},\overline{c}\in\mathbb{R}_{\geq 0}$
-\begin{equation}\label{eqq:2}
+\begin{equation}\label{eq:area}
   \mathcal{P}:=\{\mathbf{p}:\underline{c}\leq\varphi(\mathbf{p})\leq\overline{c}\},
 \end{equation}
 where $\underline{a},\overline{a}$ returns the upper bound and lower bound limit of $a$ from the mission specification, which is a lookup table.
@@ -561,7 +545,7 @@ where $\underline{a},\overline{a}$ returns the upper bound and lower bound limit
 The concept of area between the bounds is used later to design a controller that selects $c$ with the highest energy value under the energy budget constraints. Here we design a guidance action $u$ that allows following $\varphi$ in such area by the means of minimizing the norm $\|\varphi(\mathbf{p})\|$.
 
 Let us define $\varPhi:=\varphi(\mathbf{p})$. The direction to follow is expressed as the desired velocity vector
-\begin{equation}\label{eqq:3}
+\begin{equation}\label{eq:pd}
   \dot{\mathbf{p}}_d(\mathbf{p}):=E\nabla\varPhi-k_e\varPhi\nabla\varPhi,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
   \end{bmatrix},
@@ -571,42 +555,42 @@ where $\nabla\varPhi\in\mathbb{R}^2$ is defined as the gradient of $\varphi$ at 
 The direction the velocity vector $\dot{\mathbf{p}}$ is pointing at is generally different from the course heading $\chi\in(-\pi,\pi]$ due to the atmospheric interference.
 
 Let us further define $\hat{\mathbf{p}}:=\mathbf{p}/\|\mathbf{p}\|$, the desired course heading rate $\dot{\chi_d}$ is computed by sensing the position $\mathbf{p}$, the ground velocity $\dot{\mathbf{p}}$, and is expressed
-\begin{equation}\label{eqq:4}\begin{split}
-  &\dot{\chi}(\mathbf{p})=-E\frac{\dot{\mathbf{p}}_d}{\|\dot{\mathbf{p}}_d\|^2}\cdot\\
-  &\hspace{2ex}\left( E\hat{\dot{\mathbf{p}}}_d\hat{\dot{\mathbf{p}}}_d^T\left( (E-k_e\varPhi)H(\varPhi)\dot{\mathbf{p}}-k_e\nabla\varPhi^T\dot{\mathbf{p}}\nabla\varPhi \right) \right)^T,
+\begin{equation}\label{eq:chid}\begin{split}
+  &\dot{\chi}_d(\mathbf{p})=-E\frac{\dot{\mathbf{p}}_d}{\|\dot{\mathbf{p}}_d\|^2}\cdot\\
+  &\hspace{2ex}\left( E\hat{\dot{\mathbf{p}}}_d\hat{\dot{\mathbf{p}}}_d^TE\left( (E-k_e\varPhi)H(\varPhi)\dot{\mathbf{p}}-k_e\nabla\varPhi^T\dot{\mathbf{p}}\nabla\varPhi \right) \right)^T,
 \end{split}
 \end{equation} 
 where $H(\cdot)$ is defined as the Hessian operator; the physical meaning is that the curvature of the desired trajectory has to be known in order to be tracked.
 
 Under the assumption of the airspeed $s>\|w(t)\|$ for $t>0$ (i.e., the constant airspeed is greater than the norm of the wind), the guidance action can be expressed
-\begin{equation}\label{eqq:5}
-  u(\mathbf{p},\psi)=\frac{\|\mathbf{p}\|}{s\cos{\beta}}\left( \dot{\mathbf{\chi}}_d(\dot{\mathbf{p}},\mathbf{p})+k_d\hat{\dot{\mathbf{p}}}^TE\hat{\dot{\mathbf{p}}}_d \right),
+\begin{equation}\label{eq:uav-cont}
+  u(\mathbf{p},\psi)=\frac{\|\dot{\mathbf{p}}\|}{s\cos{\gamma}}\left( \dot{\mathbf{\chi}}_d(\mathbf{p})+k_d\hat{\dot{\mathbf{p}}}^TE\hat{\dot{\mathbf{p}}}_d \right),
 \end{equation} 
-where $k_d\in\mathbb{R}_{\geq 0}$ is the gain which adjusts the speed of the convergence of $\dot{\mathbf{p}}_d$, $\beta=\cos^{-1}{\left( \hat{\dot{\mathbf{p}}}^T\Psi(\psi) \right)}$ is the sideslip angle, and $\dot{\chi}_d$ is given in Equation~(\ref{eqq:4}).
+where $k_d\in\mathbb{R}_{\geq 0}$ is the gain which adjusts the speed of the convergence of $\dot{\mathbf{p}}_d$, $\gamma=\cos^{-1}{\left( \hat{\dot{\mathbf{p}}}^T\Psi(\psi) \right)}$ is the sideslip angle, and $\dot{\chi}_d$ is given in Equation~(\ref{eq:chid}).
 
 \subsection{Energy evolution due to trajectory}
 \label{sec:energy-model}
 
-To evaluate the energy spent due to trajectory and computations, we formalize the following realistic assumption introduced in Section~\ref{sec:intro}.
-\begin{assm}\label{assm:2.1}
+To evaluate the energy we formalize the following realistic assumption introduced in Section~\ref{sec:intro}.
+\begin{assm}\label{assm:periodic}
 The mission the mobile robots perform is periodic, in the sense that it presents repetitive patterns.
 \end{assm}
 
 Let us consider a Fourier series $f:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$
-\begin{equation}\label{eqq:6}
+\begin{equation}\label{eq:fourier}
   f(t)=\sum_{n=0}^{r}{a_n\cos{\frac{nt}{\xi}}+b_n\sin{\frac{nt}{\xi}}},
 \end{equation}
 where $\xi\in\mathbb{R}$ is the characteristic time, and $a_n, b_n\in\mathbb{R}$ for $n\in\{0,\dotsc,r\}$ the Fourier series coefficients.
 
-The non-linear model in Equation~(\ref{eqq:6}) can be expressed using an equivalent time-varying state-space model in the following form
-\begin{equation}\label{eqq:7}\begin{cases}
+The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using an equivalent time-varying state-space model in the following form
+\begin{equation}\label{eq:state-perf}\begin{cases}
   \dot{\mathbf{q}}(t)&=A\mathbf{q}(t)+B\mathbf{u}(t)\\%+w(t)\\
   y(t)&=C\mathbf{q}(t)%+v(t)
 \end{cases},\end{equation}
-where $y(t)\in\mathbb{R}_{\geq 0}$ is the energy evolution of the system being controlled. The control $\mathbf{u}$ along with the input matrix $B$ are defined later in Subsection~\ref{sec:control-action}, the state $\mathbf{q}$ mimics the original Fourier series coefficients, and
-\begin{equation}\label{eqq:8}\begin{split}
+where $y(t)\in\mathbb{R}_{\geq 0}$ is the instantaneous energy evolution of the system being controlled. We will see later in the Theorem~\ref{thm:state-vs-energy} that the instantaneous energy can be obtained from the model as a linear combination of the state. The control $\mathbf{u}$ along with the input matrix $B$ are defined later in Subsection~\ref{sec:control-action}, the state $\mathbf{q}$ mimics the original Fourier series coefficients, and
+\begin{equation}\label{eq:state-details}\begin{split}
   \mathbf{q}(t)&=\left[\begin{array}{ccccccc}
-    a_0 & \vline & a_1 & b_1 & \cdots & a_r & b_r
+    \alpha_0 & \vline & \alpha_1 & \beta_1 & \cdots & \alpha_r & \beta_r
   \end{array}\right]^T,\\
   A&=\left[\begin{array}{ccccc}
     1          & \vline & \mathbf{0} & \cdots & \mathbf{0} \\\hline
@@ -620,23 +604,20 @@ where $y(t)\in\mathbb{R}_{\geq 0}$ is the energy evolution of the system being c
 \end{split}\end{equation}
 where $\mathbf{q}(t)\in\mathbb{R}^j$ given $j:=2r+1$, $A\in\mathbb{R}^{j\times j}$ is the state transmission matrix, and $C\in\mathbb{R}^j$ is the output matrix. Furthermore, the first row and column of the matrix $A$ contain zeros row vectors and column vectors respectively.
 
-Motivated by the fact that the system of interest is sampled discrete-time, and for the sake of simplicity, we consider the discretized version of Equation~(\ref{eqq:7}) and add the uncertainty
-\begin{subequations}\label{eqq:9}\begin{align}
-  &\begin{cases}\label{eqq:9a}
-  \mathbf{p}_{k+1}&=s\Psi(\psi_k)+w_k\\
-  \psi_{k+1}&=u_k(p_k)
-  \end{cases},\\
-  &\begin{cases}\label{eqq:9b}
+Motivated by the fact that the system of interest is sampled discrete-time, we consider the discretized version of Equation~(\ref{eq:state-perf}) and add the uncertainty
+\begin{equation}\label{eq:state-unct}
+  \begin{cases}
   \mathbf{q}_{k+1}&=A\mathbf{q}_{k}+B\mathbf{u}_{k}+w_k\\
   y_k&=C\mathbf{q}_k+v_k
   \end{cases},
-\end{align}\end{subequations}
+\end{equation}
 where $w_k\in\mathbb{R}$ accounts for the environment uncertainty, and $v_k\in\mathbb{R}$ for the measurement error.
 
-The instantaneous energy can be obtained from the model~(\ref{eqq:9b}) as a linear combination of the state.
+The instantaneous energy can be obtained from the model~(\ref{eq:state-unct}) as a linear combination of the state.
 
-\begin{lem}\label{lem:2.1}
-  The magnitude of two arbitrary states $\mathbf{q}_{k,0},\mathbf{q}_{k,1}$ described in~(\ref{eqq:8}) along their evolution~(\ref{eqq:9b}) at time instant $k$ depends on the instantaneous energy consumption. Suppose the two behave ideally (with no environment uncertainty and measurement error)
+\begin{lem}\label{lem:state-vs-energy}
+  Suppose the system behaves ideally (with no environment uncertainty and measurement error).
+  The magnitude of two arbitrary states $\mathbf{q}_{k,0},\mathbf{q}_{k,1}$ described in~(\ref{eq:state-details}) along their evolution~(\ref{eq:state-unct}) at time instant $k$ depends on the instantaneous energy consumption
   \begin{equation}
     \|\mathbf{q}_{k,0}\|\geq\|\mathbf{q}_{k,0}\|\iff y_{k,0}\geq y_{k,1}.
   \end{equation}
@@ -645,39 +626,27 @@ The instantaneous energy can be obtained from the model~(\ref{eqq:9b}) as a line
   *\\
 \end{proof}
 
-\begin{thm}\label{thm:2.2}
-  Consider a continuously differentiable function $\varphi_k:\mathbb{R}^3\rightarrow\mathbb{R}$ at a time instant $k\in\mathbb{Z}_{>0}$.
-  Assume Assumption~\ref{assm:2.1} holds, the robots is free to move in $\mathcal{P}$ defined in~(\ref{eqq:2}), and likewise in Lemma~\ref{lem:2.1}, the model behaves ideally. 
-  Then, the instantaneous energy consumption is a linear combination of the state
-  \begin{equation}
-    y_k=C\mathbf{q}_k=\sum_{n=0}^r{a_n},
-  \end{equation}
-  where $a_n\in\mathbf{q}_k$ are the $r+1$ state's components at $k$ with $r$ being a pre-assigned arbitrary order, and $C$ is described by Equation~(\ref{eqq:8}).
-\end{thm}
-\begin{proof}
-  *\\
-\end{proof}
-
 \subsection{Energy evolution due to computations}
+\label{sec:computations-model}
 
-A computational energy model is built using \powprof{}\footnote{\label{cross-ref:powprof-link}\url{https://bitbucket.org/adamseew/powprofiler}}, an open-source modeling tool that measures empirically software configurations and builds an energy model, presented in authors' previous work~\cite{seewald2019coarse}. Specifically, the tool builds a multivariate linear interpolation which is accessed online at the hand of a lookup table in the optimal control algorithm. The system is modeled as follows. An existing ROS system composes several computationally expensive ROS nodes, allowing to vary the number of computations changing some node-specific quality of service (QoS) values via ROS parameters. The tool builds the energy model using mission specification which, besides other mission parameters, specifies per each ROS node a QoS range.
+A computational energy model is built using \powprof{}, an open-source modeling tool that measures empirically software configurations and builds an energy model, presented in authors' previous work~\cite{seewald2019coarse}. Specifically, the tool builds a multivariate linear interpolation which is accessed online at the hand of a lookup table in the optimal control algorithm. The system is modeled as follows. An existing ROS system composes several computationally expensive ROS nodes, allowing to vary the number of computations changing some node-specific quality of service (QoS) values via ROS parameters. The tool builds the energy model using mission specification which, besides other mission parameters, specifies per each ROS node a QoS range.
 
 Suppose the system is composed of $\sigma$ computationally expensive ROS nodes. Let us define the computational control action
 \begin{equation}\label{eqq:12}
   \mathcal{C}_k:=\left\{u:u\in\text{QoS}_n(k)\,\forall\,n\in\{0,\dots,\sigma\}\right\},
 \end{equation}
-where $\text{QoS}_n(t):\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time $t$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values the system is composed of at time $k$. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The computational energy component can be defined
+where $\text{QoS}_n(t):\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time $t$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values the system is composed of at time $k$. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The instantaneous computational energy component can be defined
 \begin{equation}\label{eqq:13}\begin{split}
   y_k^c:&=g\left(\text{QoS}_0\left(k\right),\dots,\text{QoS}_\sigma\left(k\right)\right)=g\left(\mathcal{C}_{k}\right).\\
 \end{split}\end{equation}
 
-The QoS parameters $\mathcal{C}_k$ can be subject to different constraints at different states. Physically, this means that the drone can perform the ROS nodes within different QoS ranges while flying different phases of a mission
+The QoS parameters $\mathcal{C}_k$ can be subject to different constraints at different states. Physically, this means that the robot can perform the ROS nodes within different QoS ranges while flying different phases of a mission
 \begin{equation}\label{eqq:14}
   \underline{\text{QoS}}_n(k)\leq \text{QoS}_n(k)\leq \overline{\text{QoS}}_n(k),\,\forall n\in\{0,\cdots,\sigma\},
 \end{equation}
 where the values $\underline{\text{QoS}}_n(k),\overline{\text{QoS}}_n(k)$ are retrieved from the mission specification.
 
-The control action is constructed in two steps. Equation~(\ref{eqq:12}) defines the control due to the computations. The control due to the actuation, which describes the energy of the mechanical elements of the drone $\mathcal{M}$, is derived in the following subsection.
+The control action is built in two steps. Equation~(\ref{eqq:12}) defines the control due to the computations. The control due to the trajectory is specific to the system being analyzed, for instance on the model of the fixed-wing craft in~(\ref{eq:uav-kinem}), along its control in Equation~(\ref{eq:chid})~and~(\ref{eq:uav-cont}). A generalization which accounts for the variations in the TEE $\varphi$ of a generic model by means of the TEEs parameters is derived in the following subsection.
 
 \subsection{Control action}
 \label{sec:control-action}
@@ -686,9 +655,9 @@ Given a generic trajectory equation $\varphi$, the trajectory can be modeled by 
 \begin{equation}\label{eqq:14}
   \mathcal{M}_k:=\{\mathbf{u}_k : \varphi_k(\mathbf{p}_k^0,\mathbf{u}_k)=c_k\},
 \end{equation}
-where $c$ is defined in Equation~(\ref{eqq:2}), and $\mathbf{p}^0$ is any optimal point which let the trajectory explicit function $\varphi_k$ converge to the value $c$ (i.e., points over the trajectory). 
+where $c$ is defined in Equation~(\ref{eq:area}), and $\mathbf{p}^0$ is any optimal point which let the trajectory explicit function $\varphi_k$ converge to the value $c$ (i.e., points over the trajectory). 
 
-The explicit trajectory equation $\varphi_k$ can be different at different states $k$, meaning the vector field and guidance action, from Equation~(\ref{eqq:3})~and~(\ref{eqq:5}) respectively, will account for the sudden change of trajectory during the mission. Alike Equation~(\ref{eqq:14}), the parameters $\mathbf{u}_k=\{u_{k,1},\dots,u_{k,\rho_k}\}$ at time $k$ are constrained
+The explicit trajectory equation $\varphi_k$ can be different at different states $k$, meaning the vector field and guidance action, from Equation~(\ref{eq:pd})~and~(\ref{eq:uav-cont}) respectively, will account for the sudden change of trajectory during the mission. Alike Equation~(\ref{eqq:14}), the parameters $\mathbf{u}_k=\{u_{k,1},\dots,u_{k,\rho_k}\}$ at time $k$ are constrained
 \begin{equation}
   \underline{u}_{k,n}\leq u_{k,n}\leq \overline{u}_{k,n}\,\forall n\in\{0,\cdots,\rho_k\},
 \end{equation}
@@ -696,7 +665,7 @@ where the values $\underline{u}_{k,n},\overline{u}_{k,n}$ are also retrieved fro
 
 It is worth considering that the number of parameters at state $k$ is a parameter of the state. This is for the sake of generality, as the mission specification might contain different explicit equations for different states. For instance, the drone might follow an ellipse function throughout the mission and heading a linear function while landing. 
 
-The mechanical and computational control actions, $\mathcal{C}$ and $\mathcal{M}$ defined in Equation~(\ref{eqq:12})~and~(\ref{eqq:14}), are incorporated in the system in Equation~(\ref{eqq:9b}) using the input matrix
+The mechanical and computational control actions, $\mathcal{C}$ and $\mathcal{M}$ defined in Equation~(\ref{eqq:12})~and~(\ref{eqq:14}), are incorporated in the system in Equation~(\ref{eq:state-unct}) using the input matrix
 \begin{equation}
   \mathbf{u}_k=\left[\begin{array}{c}
     g\left(\mathcal{C}_k\right) \\\hline \mathcal{M}_k
@@ -708,11 +677,24 @@ The mechanical and computational control actions, $\mathcal{C}$ and $\mathcal{M}
     0 & \vline & 0 & \cdots & 0
   \end{array}\right],
 \end{equation}
-where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equation~(\ref{eqq:7})~and~(\ref{eqq:9b}). Moreover, the first column in the first row of the input matrix is $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eqq:9b}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which however will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
+where $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, and $B\in\mathbb{R}^{j\times l}$ is the input matrix from Equation~(\ref{eq:state-perf})~and~(\ref{eq:state-unct}). Moreover, the first column in the first row of the input matrix is $1$, while all the other items are $0$. This adds the computational model component to the energy evolution in the system in Equation~(\ref{eq:state-unct}). The energy due to the change of explicit trajectory equation parameters is not directly added to the system, which however will update the reading from the sensors in Equation~(\ref{eqq:11b}) and thus adjust the energy evolution accordingly.
 
 \section{Algorithm}
 
 *
+
+\begin{thm}\label{thm:state-vs-energy}
+  Consider a continuously differentiable function $\varphi_k:\mathbb{R}^3\rightarrow\mathbb{R}$ at a time instant $k\in\mathbb{Z}_{>0}$.
+  Assume Assumption~\ref{assm:periodic} holds, the robots is free to move in $\mathcal{P}$ defined in~(\ref{eq:area}), and is following $\varphi$ with the direction $\hat{\mathbf{p}}_d$ defined in~\ref{eq:pd}. Likewise in Lemma~\ref{lem:state-vs-energy}, the model behaves ideally. 
+  Then, the instantaneous energy consumption is a linear combination of the state
+  \begin{equation}
+    y_k=C\mathbf{q}_k=\sum_{n=0}^r{\alpha_n},
+  \end{equation}
+  where $\alpha_n\in\mathbf{q}_k$ are the $r+1$ state's components at $k$ with $r$ being a preassigned arbitrary order from~(\ref{eq:fourier}), and $C$ is described by Equation~(\ref{eq:state-details}).
+\end{thm}
+\begin{proof}
+  *\\
+\end{proof}
 
 \subsection{State estimation}
 
