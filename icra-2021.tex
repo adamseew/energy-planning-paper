@@ -517,9 +517,9 @@
 
 Mission planning for unmanned aerial vehicles (UAVs) operating in outdoor scenarios such as precision agriculture, search and rescue, and surveillance is a challenging task. It usually requires advanced levels of autonomy along with strictly limited energy budgets--with the typical instance being a UAV used to inform its grounded counterparts of patterns detected while flying. Currently, UAVs flying outdoors are often semi-autonomous, in the sense that the mission is static and usually defined using a mission planning software~\cite{daponte2019review}. Such a state of practice has prompted us to propose an \emph{energy-aware dynamic mission planning algorithm} for UAVs that highlights the increasing \emph{computational demands} and their relation to the energy consumption, path, and autonomy.
 
-Energy planning algorithms for mobile robots broadly are not a new concept and have been extensively studied, in that they are correlated to such topics as trajectory generation and path planning. Generally, these algorithms account for the energy due to the trajectory, by e.g., maximizing the operational time~\cite{wahab2015energy}, but in practice apply to a narrow class of robots~\cite{kim2005energy}, and focus on optimizing motion control for such robots~\cite{kim2008minimum}, despite compelling evidence for these systems' energy being influenced by the computations over bare motion~\cite{mei2004energy}. And computations are only expected to increase in future scenarios. For UAVs specifically, rotorcrafts have equally gained research interest in terms of algorithms for energy-efficient trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. Further, past mission planning approaches also limit to the trajectory~\cite{mei2004energy,mei2005case,mei2006deployment}, and to the class of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. Unlike these approaches, the algorithm presented here attempts to combine and generalize some of these technical breakthroughs and correlate the extensively studied energy planning to the growing computational demands.
+Energy planning algorithms for mobile robots broadly are not a new concept and have been extensively studied, in that they are correlated to such topics as trajectory generation and path planning. Generally, these algorithms account for the energy due to the trajectory, by e.g., maximizing the operational time~\cite{wahab2015energy}, but in practice apply to a narrow class of robots~\cite{kim2005energy}, and focus on optimizing motion control for such robots~\cite{kim2008minimum}, despite compelling evidence for these systems' energy being influenced by the computations over bare motion~\cite{mei2004energy}. For UAVs specifically, rotorcrafts have equally gained research interest in terms of algorithms for energy-efficient trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. Further, past mission planning approaches also limit to the trajectory~\cite{mei2004energy,mei2005case,mei2006deployment}, and to the class of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. Yet, computations of such systems are only expected to increase in the near future. Unlike the past approaches, the algorithm presented here attempts to combine and generalize some of these technical breakthroughs and correlate the extensively studied energy planning to the growing computational demands.
 
-The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the onboard computations, and the trajectory-explicit equations (TEEs) of the path. Our goal is a mission extension by optimizing both QoS and TEEs as the UAV flyes and its batteries drain. The algorithm optimizes QoS requiring the UAV to include robot operating system (ROS) nodes. It optimizes TEEs--an abstraction of the path to follow--and moves the UAV using a vector field that converges smoothly to the path. Physically, one can use a feature detection node and a set of ellipses, with the algorithm controlling the processing rate and the length of the semi-major and -minor axis. Data using a commercial fixed-wing UAV indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest QoS.
+The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the onboard computations, and the trajectory-explicit equations (TEEs) of the path. Our goal is a mission extension by optimizing both QoS and TEEs as the UAV flies and its batteries drain. The algorithm optimizes QoS requiring the UAV to include robot operating system (ROS) nodes. It optimizes TEEs--an abstraction of the path to follow--and moves the UAV using a vector field that converges smoothly to the path. Physically, one can use a feature detection node and a set of ellipses, with the algorithm controlling the processing rate and the length of the semi-major and -minor axis. Data using a commercial fixed-wing UAV indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest QoS.
 
 The algorithm relies on the assumptions of the mission--a time-varying path and a set of tasks the UAV is supposed to perform along the TEEs and QoS parameters constraints--being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. We propose the Fourier analysis to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state estimator to cope with the uncertainty assumption. The algorithm selects the controls (the QoS and TEEs) using a modified tube-based output model predictive control (MPC), ensuring that state estimation error does not result in transgression of the control and state constraints.
 
@@ -530,25 +530,21 @@ The remainder of the paper is organized as follows. The dynamic mission planning
 \section{Problem Statement}
 \label{sec:prob}
 
-\begin{center}\vspace{.2cm}---\emph{this section is not good (needs work)}---\vspace{.6cm}\end{center}
+We consider the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Precision agriculture is rising in demand for reducing waste, costs, and resources while increasing outputs and utilization~\cite{hajjaj2014review}, with mobile robots being increasingly used for e.g., harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}. In practice, complex monitoring strategies are often implemented utilizing UAVs and are usually required for preventing damage and ensuring better crop quality~\cite{puri2017agriculture}. 
 
-Precision agriculture is rising in demand for reducing waste, costs, and resources while increasing outputs and utilization~\cite{hajjaj2014review}, with researchers fulfilling some of the demands applying mobile robots in agricultural scenarios such as harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}. In these scenarios, complex monitoring strategies, often implemented utilizing unmanned aerial vehicles (UAVs), are usually required for preventing damage and ensuring better crop quality~\cite{puri2017agriculture}. 
+The UAV flies in ellipses shifted in time--a survey pattern optimized for the craft's dynamics--detects obstacles using a convolutional neural network (CNN) and informs ground mobile robots employed for future harvesting.
 
-
-%%%%%%%%%%%%%%%
-\section{Model}
+\subsection{Position and energy state}
 \label{sec:model}
 
-The algorithm uses the model to estimate the UAV's position in space and its energy evolution in time.
+We use the state to estimate the UAV's position in space and the energy evolution in time. Starting with a position $\mathbf{p}\in\mathbb{R}^3$ in the 3D Euclidean space w.r.t. some inertial navigation frame $\mathcal{O}_W$, we build a guidance action--which allows the \emph{position evolution} along the 3-axis--to the path to follow using a vector field~\cite{de2017guidance}. The path is a set of generic continuous twice differentiable TEEs $\varphi_k:\mathbb{R}^3\rightarrow\mathbb{R}$. To this end, the TEE is satisfied $\varphi(\mathbf{p})\rightarrow 0$ for all the approaching points.
 
-Starting with a position $\mathbf{p}\in\mathbb{R}^3$ in the 3D Euclidean space w.r.t. some inertial navigation frame $\mathcal{O}_W$, we build a guidance action--which allows the motion along the 3-axis--to the path to follow using a vector field~\cite{de2017guidance}. The path is a set of generic continuous twice differentiable TEEs $\varphi_k:\mathbb{R}^3\rightarrow\mathbb{R}$ (the TEE is being satisfied $\varphi(\mathbf{p})\rightarrow 0$ for all the approaching points).
-
-We build the energy evolution $\mathbf{q}\in\mathbb{R}^j$ using Fourier analysis (the meaning of $j$ is clarified to the reader in Subsection~\ref{sec:energy-model}) and decompose such evolution in the energy due to the trajectory (depending on TEEs), and the computations (on QoS)--an approach adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}.
+We build the \emph{energy evolution} $\mathbf{q}\in\mathbb{R}^j$ using Fourier analysis (the meaning of $j$ is clarified to the reader in Subsection~\ref{sec:energy-model}) and decompose such evolution in the energy due to the trajectory (depending on TEEs), and the computations (on QoS)--an approach adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}.
 
 \subsection{Position in space and guidance action}
 \label{sec:position}
 
-We consider a non-holonomic 2D model of the fixed-wing UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ (the requirement is eased in Section~\ref{sec:algo} to a set of altitudes $\mathbf{h}$)
+We consider a non-holonomic 2D model of the UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ (the requirement is eased in Section~\ref{sec:algo} to a set of altitudes $\mathbf{h}$)
 \begin{equation}\label{eq:uav-kinem}\begin{cases}
   \dot{\mathbf{p}}(t)&=s\Psi(\psi(t))+\mathbf{d}(t)\\
   \dot{\psi}(t)&=u(\mathbf{p}(t))
@@ -564,7 +560,7 @@ where $\underline{c}_k\in\mathbb{R}_{\leq 0},\overline{c}_k\in\mathbb{R}_{\geq 0
 
 The algorithm uses the concept to select $c$ with the highest energy value under the energy budget constraints. Assume at time $k$ the algorithm selects the TEE $\varphi_k$ with the highest energy value being $c_k$, we design a guidance action $u$ that follows $\varphi_k$ by minimizing the norm $\|\varphi_k(\mathbf{p})-c_k\|$.
 
-Let us define $\varPhi:=\varphi_k(\mathbf{p})$. The direction to follow can be expressed as the desired velocity vector
+Let us define $\varPhi:=\varphi_k(\mathbf{p})-c_k$. The direction to follow can be expressed as the desired velocity vector
 \begin{equation}\label{eq:pd}
   \dot{\mathbf{p}}_d(\mathbf{p}):=E\nabla\varPhi-k_e\varPhi\nabla\varPhi,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
@@ -586,7 +582,7 @@ The guidance action can be expressed
 \begin{equation}\label{eq:uav-cont}
   u(\mathbf{p},\psi)=\frac{\|\dot{\mathbf{p}}\|}{s\cos{\gamma}}\left( \dot{\mathbf{\chi}}_d+k_d\hat{\dot{\mathbf{p}}}^TE\hat{\dot{\mathbf{p}}}_d \right),
 \end{equation} 
-where $k_d\in\mathbb{R}_{\geq 0}$ is the gain to adjusts the speed of convergence of $\dot{\mathbf{p}}_d$, $\gamma=\cos^{-1}{\left( \hat{\dot{\mathbf{p}}}^T\Psi(\psi) \right)}$ is the sideslip angle, and $\dot{\chi}_d:=\dot{\chi}_d(\mathbf{p})$ is given in Equation~(\ref{eq:chid}).
+where $\gamma=\cos^{-1}{\left( \hat{\dot{\mathbf{p}}}^T\Psi(\psi) \right)}$ is the sideslip angle, $k_d\in\mathbb{R}_{\geq 0}$ adjusts the speed of convergence of $\dot{\mathbf{p}}_d$, and $\dot{\chi}_d:=\dot{\chi}_d(\mathbf{p})$ is given in Equation~(\ref{eq:chid}).
 
 \begin{center}\vspace{.2cm}---\emph{from here on work in progress}---\vspace{.6cm}\end{center}
 
