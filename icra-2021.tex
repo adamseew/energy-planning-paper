@@ -521,7 +521,7 @@ Energy planning algorithms for mobile robots broadly are not a new concept and h
 
 The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the onboard computations, and the trajectory-explicit equations (TEEs) of the path. Our goal is a mission extension by optimizing both QoS and TEEs as the UAV flies and its batteries drain. The algorithm optimizes QoS requiring the UAV to include robot operating system (ROS) nodes. It optimizes TEEs--an abstraction of the path to follow--and guides the UAV using a vector field that converges smoothly to the path. Physically, one can use a feature detection node and a set of ellipses, with the algorithm controlling the processing rate and the length of the semi-major and -minor axis. Data using a commercial fixed-wing UAV indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest QoS.
 
-The algorithm relies on the assumptions of the mission--a time-varying path and a set of tasks the UAV is supposed to perform along the TEEs and QoS parameters constraints--being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. We propose the Fourier analysis to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state estimator to cope with the uncertainty assumption. The algorithm selects the controls (the QoS and TEEs) using a modified tube-based output model predictive control (MPC), ensuring that state estimation error does not result in transgression of the control and state constraints.
+The algorithm relies on the assumptions of the mission--a time-varying path and a set of tasks the UAV is supposed to perform along the TEEs and QoS parameters constraints--being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. We propose the Fourier analysis to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state estimator to cope with the uncertainty assumption. The algorithm selects the controls (the QoS and TEEs) using a robust output feedback model predictive control (MPC), ensuring that state estimation error does not result in transgression of the control and state constraints.
 
 The remainder of the paper is organized as follows. The dynamic mission planning problem is set in Section~\ref{sec:prob}, along a suitable model for the energy and position of the UAV. The algorithm that uses the model and solves the problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents a fixed-wing UAV flying in an agricultural scenario showcasing the performance. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
 
@@ -537,7 +537,7 @@ The UAV flies in ellipses shifted in time--a survey pattern optimized for the cr
 \subsection{Position and energy state}
 \label{sec:model}
 
-We use the state to estimate the UAV's position in space and the energy in time. Starting with a position $\mathbf{p}\in\mathbb{R}^3$ in the 3D Euclidean space w.r.t. some inertial navigation frame $\mathcal{O}_W$, we build a guidance action--which allows the \emph{position evolution} along the 3-axis--to the path to follow using a vector field~\cite{de2017guidance}. The path is a set of generic continuous twice differentiable TEEs $\varphi_k:\mathbb{R}^3\rightarrow\mathbb{R}$. To this end, the TEE is satisfied $\varphi(\mathbf{p})\rightarrow 0$ for all the approaching points.
+We use the state to estimate the UAV's position in space and energy in time. Starting with a position $\mathbf{p}\in\mathbb{R}^3$ in the 3D Euclidean space w.r.t. some inertial navigation frame $\mathcal{O}_W$, we build a guidance action--which allows the \emph{position evolution} along the 3-axis--to the path to follow using a vector field~\cite{de2017guidance}. The path is a set of generic continuous twice differentiable TEEs $\varphi_k:\mathbb{R}^3\rightarrow\mathbb{R}$. To this end, the TEE is satisfied $\varphi(\mathbf{p})\rightarrow 0$ for all the approaching points.
 
 We build the \emph{energy evolution} $\mathbf{q}\in\mathbb{R}^j$ using Fourier analysis (the meaning of $j$ is clarified to the reader in Subsection~\ref{sec:energy-model}) and decompose such evolution in the energy due to the trajectory (depending on TEEs), and computations (on QoS)--an approach adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}.
 
@@ -556,7 +556,7 @@ Let us define $\mathcal{P}_k$, the area that discloses all the possible deviatio
 \begin{equation}\label{eq:area}
   \mathcal{P}_k:=\{\mathbf{p}:\underline{c}_k\leq\varphi_k(\mathbf{p})\leq\overline{c}_k\},
 \end{equation}
-where $\underline{c}_k\in\mathbb{R}_{\leq 0},\overline{c}_k\in\mathbb{R}_{\geq 0}$ are the constraints: $\underline{a},\overline{a}$ returns the upper and lower bound of $a$ from the user-defined mission specification, a lookup table.
+where $\underline{c}_k\in\mathbb{R}_{\leq 0},\overline{c}_k\in\mathbb{R}_{\geq 0}$ are the constraints: $\underline{a},\overline{a}$ returns the upper and lower bound of $a$ from the user-defined mission specification. In particular, the specification contains TEEs along the ROS nodes configuration and a lookup table for TEEs and QoS parameters (the former are the above mentioned $c$s, the latter explained in Subsection~\ref{sec:computations-model}).
 
 The algorithm uses the concept to select $c$ with the highest energy value under the energy budget constraints. Assume at time $k$ the algorithm selects the TEE $\varphi_k$ with the highest energy value being $c_k$, we design a guidance action $u$ that heads to such TEE by minimizing the norm $\|\varphi_k(\mathbf{p})-c_k\|$.
 
@@ -566,7 +566,7 @@ Let us define $\varPhi:=\varphi_k(\mathbf{p})-c_k$. The direction to the TEE to 
     0&1\\-1&0
   \end{bmatrix},
 \end{equation}
-where $\nabla\varPhi\in\mathbb{R}^2$ is defined as the gradient of $\varphi$ at the point $\mathbf{p}$ (i.e., its vector field), $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence.
+where $\nabla\varPhi\in\mathbb{R}^2$ is defined as the gradient of $\varPhi$ at the point $\mathbf{p}$ (i.e., its vector field), $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence.
 
 The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading $\chi\in(-\pi,\pi]$ due to the atmospheric interference.
 
@@ -607,7 +607,7 @@ The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using an eq
   \dot{\mathbf{q}}(t)&=A\mathbf{q}(t)+B\mathbf{u}(t)\\%+w(t)\\
   y(t)&=C\mathbf{q}(t)%+v(t)
 \end{cases},\end{equation}
-where $y(t)\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption of the system being controlled. We prove formally in the Theorem~\ref{thm:state-vs-energy} the instantaneous energy being obtained as a linear combination of the state. The control $\mathbf{u}$ along with the input matrix $B$ are defined later in Subsection~\ref{sec:control-action}, the state $\mathbf{q}$ mimics the original Fourier series coefficients, and
+where $y(t)\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. We prove formally in the Theorem~\ref{thm:state-vs-energy} the instantaneous energy being obtained as a linear combination of the state. The control $\mathbf{u}$ along with the input matrix $B$ are defined later in Subsection~\ref{sec:control-action}, the state $\mathbf{q}$ mimics the original Fourier series coefficients, and
 
 \begin{equation}\label{eq:state-details}\begin{split}
   \mathbf{q}(t)&=\left[\begin{array}{cccccc}
@@ -623,7 +623,7 @@ where $y(t)\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption of th
     1 & 1 & 0 & \cdots & 1 & 0
   \end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{q}(t)\in\mathbb{R}^j$ given $j:=2r+1$, $A\in\mathbb{R}^{j\times j}$ is the state transmission matrix, and $C\in\mathbb{R}^j$ is the output matrix. In matrix $A$, the first value is one, $A_n$ farther on the diagonal, and zero for the remaining.
+where $\mathbf{q}(t)\in\mathbb{R}^j$ given $j:=2r+1$, $A\in\mathbb{R}^{j\times j}$ is the state transmission matrix, and $C\in\mathbb{R}^j$ is the output matrix. In matrix $A$, the first value is one, $A_n$ is later on the diagonal, and zero in the remaining.
 
 We further model the system of Equation~(\ref{eq:state-perf}) plus disturbances with the following discrete time model
 \begin{equation}\label{eq:state-unct}
@@ -644,33 +644,33 @@ where $\mathbf{w}_k\in\mathbb{R}^j,v_k\in\mathbb{R}$ account for unknown state a
   \begin{center}\vspace{.2cm}``\emph{The easy proof is trivial and is left as an exercise to the reader :P}''\vspace{.6cm}\end{center}
 \end{proof}
 
-\begin{center}\vspace{.2cm}---\emph{from here on work in progress}---\vspace{.6cm}\end{center}
-
 \subsection{Energy evolution due to computations}
 \label{sec:computations-model}
 
-A computational energy model is built using \powprof{}, an open-source modeling tool that measures empirically software configurations and builds an energy model, presented in authors' previous work~\cite{seewald2019coarse}. Specifically, the tool builds a multivariate linear interpolation which is accessed online at the hand of a lookup table in the optimal control algorithm. The system is modeled as follows. An existing ROS system composes several computationally expensive ROS nodes, allowing to vary the number of computations changing some node-specific quality of service (QoS) values via ROS parameters. The tool builds the energy model using mission specification which, besides other mission parameters, specifies per each ROS node a QoS range.
+The energy cost of the computations is assessed using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}, that measures software configurations empirically and builds an energy model. Specifically, the tool builds a multivariate linear interpolation from the mission specification. It hence requires the user to implement a ROS system with one or more computationally expensive ROS nodes which change the computational load by node-specific ROS parameters (QoS).
 
 Suppose the system is composed of $\sigma$ computationally expensive ROS nodes. Let us define the computational control action
 \begin{equation}\label{eq:qos-def}
-  \mathcal{C}_k:=\left\{u:u\in\text{QoS}_n(k)\,\forall\,n\in\{0,\dots,\sigma-1\}\right\},
+  \mathcal{C}_k:=\left\{u:u\in\text{QoS}_n(k)\,\,\,\forall n\in\{0,\dots,\sigma-1\}\right\},
 \end{equation}
-where $\text{QoS}_n(t):\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time $t$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values the system is composed of at time $k$. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The instantaneous computational energy component can be defined
+where $\text{QoS}_n(k):\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time instant $k$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values the system is composed of. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The instantaneous computational energy component can be defined
 \begin{equation}\label{eq:energy-comp}\begin{split}
   y_k^c:&=g\left(\text{QoS}_0\left(k\right),\dots,\text{QoS}_{\sigma-1}\left(k\right)\right)=g\left(\mathcal{C}_{k}\right).\\
 \end{split}\end{equation}
 
-The QoS parameters $\mathcal{C}_k$ can be subject to different constraints at different states. Physically, this means that the robot can perform the ROS nodes within different QoS ranges while flying different phases of a mission
+The QoS parameters $\mathcal{C}_k$ can be subject to different constraints at different states. Physically, this means that the UAV can perform the ROS nodes within different QoS ranges in time while flying
 \begin{equation}\label{eq:qos-lims}\begin{split}
   \underline{\text{QoS}}_n(k)\leq \,&\text{QoS}_n(k)\leq \overline{\text{QoS}}_n(k),\\
   &\forall n\in\{0,\cdots,\sigma-1\},
 \end{split}\end{equation}
 where the values $\underline{\text{QoS}}_n(k),\overline{\text{QoS}}_n(k)$ are retrieved from the mission specification.
 
-The control action is built in two steps. Equation~(\ref{eq:qos-def}) defines the control due to the computations. The control due to the trajectory is specific to the system being analyzed, for instance on the model of the fixed-wing craft in~(\ref{eq:uav-kinem}), along its control in Equation~(\ref{eq:chid})~and~(\ref{eq:uav-cont}). A generalization which accounts for the variations in the TEE $\varphi$ of a generic model by means of the TEEs parameters is derived in the following subsection.
-
 \subsection{Control action}
 \label{sec:control-action}
+
+We build the control action $\mathbf{u}$ from Equation~(\ref{eq:state-perf})~and~(\ref{eq:state-unct}) in two steps. In Equation~(\ref{eq:qos-def}) we defined the control due to the computations, here we do the same for the trajectory.
+
+\begin{center}\vspace{.2cm}---\emph{from here on work in progress}---\vspace{.6cm}\end{center}
 
 Given a generic trajectory equation $\varphi$, the trajectory can be modeled by $\rho$ TEE parameters $\mathcal{M}\in\mathbb{R}^\rho$, e.g., the constants of a linear function, the radius of a circle, and semi-major and minor axis of an ellipse. Let us define $\mathbf{u}_{k,n}:=\{u_{k,0},\dots,u_{k,n-1},u_{k,n}^0,u_{k,n+1},\dots,u_{k,\rho_k-1}\}$, the set of these parameters can be expressed
 \begin{equation}\label{eq:tee-def}\begin{split}
