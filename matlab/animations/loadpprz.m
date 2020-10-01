@@ -63,7 +63,7 @@ function [p, w, segments, circles] = loadpprz(fn, ah)
     
     % TODO this thing of taking 5th element is just a temporary fix
     % it should be the items which have the same time between NAV and GPS
-    p = [(double(cell2mat(NAV(:, 1))) - double(cell2mat(NAV(1, 1)))) x y z(1:5:end)];
+    p = [double(cell2mat(NAV(:, 1))) x y z(1:5:end)];
     
     % circle center E
     crc_e = double(cell2mat(CIR(:, 2)));
@@ -72,7 +72,7 @@ function [p, w, segments, circles] = loadpprz(fn, ah)
     % circle radius
     crc_rad = double(cell2mat(CIR(:, 4)));
     
-    circles = [(double(cell2mat(CIR(:, 1))) - double(cell2mat(CIR(1, 1)))) crc_e crc_n crc_rad];
+    circles = [double(cell2mat(CIR(:, 1))) crc_e crc_n crc_rad];
         
     % segment E
     sgm_e1 = double(cell2mat(SEG(:, 2)));
@@ -83,12 +83,12 @@ function [p, w, segments, circles] = loadpprz(fn, ah)
     % segment N (second point)
     sgm_n2 = double(cell2mat(SEG(:, 5)));
     
-    segments = [(double(cell2mat(SEG(:, 1))) - double(cell2mat(SEG(1, 1)))) sgm_e1 sgm_n1 sgm_e2 sgm_n2];
+    segments = [double(cell2mat(SEG(:, 1))) sgm_e1 sgm_n1 sgm_e2 sgm_n2];
     
     % power [w]
     w = double(cell2mat(BAT(:, 3)));
     w = w * (ah / 10.0);
     
-    w = [(double(cell2mat(BAT(:, 1))) - double(cell2mat(BAT(1, 1)))) w];
+    w = [double(cell2mat(BAT(:, 1)))  w];
 end
 
