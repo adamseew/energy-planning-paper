@@ -1,4 +1,4 @@
-%MAIN.M
+%MAIN
 % Simulation of the Energy-Aware Dynamic Mission Planning Algorithm
 
 
@@ -80,6 +80,7 @@ clear bn folder;
 
 selection = 0;
 
+
 %% Selection of subroutine
  
 % Runs if one runs just MAIN instead of selectively running sections...
@@ -146,6 +147,7 @@ if or(selection == 0, indx == 2)
         pause(ts);
     end
 end
+
 
 %% Energy sim, OP3
 

@@ -1,5 +1,5 @@
 function [A, B, C, u, h] = build_model(r, xi, gck, mk)
-%BUILD_MODEL.M Builds the energy model using Kalman Filter as state 
+%BUILD_MODEL Builds the energy model using Kalman Filter as state 
 %   observer
 %
 % Inputs:
@@ -11,7 +11,7 @@ function [A, B, C, u, h] = build_model(r, xi, gck, mk)
 %
 % Outputs:
 %   A:  state matrix
-%   B:  control matrix
+%   B:  input matrix
 %   C:  output matrix
 %   u:  control vector
 %   h:  Fourier series
@@ -40,7 +40,8 @@ function [A, B, C, u, h] = build_model(r, xi, gck, mk)
     clear k;
     
     % control action
-    u = @(k) [gck(k); transpose(mk(k))];
+    u = @(k) control(k, gck, mk);
+
     B = [ 1                 zeros(1, size(mk, 2)); ...
           zeros(j - 1, 1)   zeros(j - 1, size(mk, 2))  ];
 

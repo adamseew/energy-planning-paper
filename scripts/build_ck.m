@@ -1,5 +1,5 @@
 function [ckgck] = build_ck(spec, prof, t) 
-%BUILD_CK.M Reads a mission specification file along with the output from
+%BUILD_CK Reads a mission specification file along with the output from
 %   powprof. Builds a vector of all the possible computational controls 
 %   (see eq:qos-def) and their  power consumption (see eq:energy-comp). 
 %   The control vector is normalized over the systems

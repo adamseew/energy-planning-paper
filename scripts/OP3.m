@@ -1,4 +1,4 @@
-%OP3.M
+%OP3
 % Simulation of the Energy-Aware Dynamic Mission Planning Algorithm
 %
 % Simulation of adaptive KF. KF is activated only when the difference 
@@ -50,16 +50,15 @@ disp('[   ! ] Dependencies: A, B, C, control vector u, sensor data meas, t');
 
 eps = input('[   ? ] Input epsilon: ');
 if isempty(eps)
-    eps = 0.5; % default eps, .1 W
+    eps = 1/3; % default eps [W tolerance]
 end
 
 % initial guess
-q0 = ones(size(A, 1), 1) * 35 / size(A, 1);
-P0 = eye(size(A, 1)) * .35;
+[q0, P0, Q, R] = guess_kf(meas(1), size(A, 1));
 
-% process noise and sensor noise
-Q = eye(size(A, 1)) * .35;
-R = 35;
+% why meas + gck? Including both contributions; the former conputational
+% and mechanical energy from the sensor
+meas = meas + gck;
 
 [y, q] = estimate_kf(A, B, C, u, q0, P0, Q, R, meas, t, eps);
 
