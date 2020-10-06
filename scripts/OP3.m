@@ -1,15 +1,16 @@
-%OP1.M
+%OP3.M
 % Simulation of the Energy-Aware Dynamic Mission Planning Algorithm
 %
-% Non animated simulation / fixed case: with no TEEs controls, and the 
-% highest possible QoS controls at each time step
+% Simulation of adaptative KF. KF is activated only when the difference 
+% between the output and measurement isgreater or equal to epsilon rest 
+% same as OP1
 
 
 %% Build the model 
 
-fprintf(['[ OP1 ] Non animated simulation / fixed case: with no TEEs\n' ...
-         '        controls, and the highest possible QoS controls at each\n' ... 
-         '        time step\n']);
+fprintf(['[ OP3 ] Simulation of adaptative KF. KF is activated only when\n' ...
+         '        the difference between the output and measurement\n' ...
+         '        is greater or equal to epsilon rest same as OP1\n']);
 disp( '[     ] Build the model');
 fprintf(['[   ! ] Dependecies: mission specification, the value of the\n' ...
          '        model from the modeling tool, t\n']);
@@ -44,8 +45,13 @@ clear mk;
 
 %% Estimate the state
 
-disp('[     ] Estimate the state');
+disp('[     ] Estimate the state adaptatively');
 disp('[   ! ] Dependecies: A, B, C, control vector u, sensor data meas, t');
+
+eps = input('[   ? ] Input epsilon: ');
+if isempty(eps)
+    eps = 0.5; % default eps, .1 W
+end
 
 % initial guess
 q0 = ones(size(A, 1), 1) * 35 / size(A, 1);
@@ -53,7 +59,7 @@ P0 = eye(size(A, 1)) * .35;
 
 % process noise and sensor noise
 Q = eye(size(A, 1)) * .35;
-R = 3.5;
+R = 35;
 
-[y, q] = estimate_kf(A, B, C, u, q0, P0, Q, R, meas, t, 0);
+[y, q] = estimate_kf(A, B, C, u, q0, P0, Q, R, meas, t, eps);
 
