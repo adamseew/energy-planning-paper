@@ -1,18 +1,18 @@
 %OP3.M
 % Simulation of the Energy-Aware Dynamic Mission Planning Algorithm
 %
-% Simulation of adaptative KF. KF is activated only when the difference 
-% between the output and measurement isgreater or equal to epsilon rest 
+% Simulation of adaptive KF. KF is activated only when the difference 
+% between the output and measurement is greater or equal to epsilon rest 
 % same as OP1
 
 
 %% Build the model 
 
-fprintf(['[ OP3 ] Simulation of adaptative KF. KF is activated only when\n' ...
+fprintf(['[ OP3 ] Simulation of adaptive KF. KF is activated only when\n' ...
          '        the difference between the output and measurement\n' ...
          '        is greater or equal to epsilon rest same as OP1\n']);
 disp( '[     ] Build the model');
-fprintf(['[   ! ] Dependecies: mission specification, the value of the\n' ...
+fprintf(['[   ! ] Dependencies: mission specification, the value of the\n' ...
          '        model from the modeling tool, t\n']);
 
 % The former computational model (per each time step all the
@@ -45,8 +45,8 @@ clear mk;
 
 %% Estimate the state
 
-disp('[     ] Estimate the state adaptatively');
-disp('[   ! ] Dependecies: A, B, C, control vector u, sensor data meas, t');
+disp('[     ] Estimate the state adaptively');
+disp('[   ! ] Dependencies: A, B, C, control vector u, sensor data meas, t');
 
 eps = input('[   ? ] Input epsilon: ');
 if isempty(eps)

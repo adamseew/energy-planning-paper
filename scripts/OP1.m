@@ -11,7 +11,7 @@ fprintf(['[ OP1 ] Non animated simulation / fixed case: with no TEEs\n' ...
          '        controls, and the highest possible QoS controls at each\n' ... 
          '        time step\n']);
 disp( '[     ] Build the model');
-fprintf(['[   ! ] Dependecies: mission specification, the value of the\n' ...
+fprintf(['[   ! ] Dependencies: mission specification, the value of the\n' ...
          '        model from the modeling tool, t\n']);
 
 % The former computational model (per each time step all the
@@ -45,7 +45,7 @@ clear mk;
 %% Estimate the state
 
 disp('[     ] Estimate the state');
-disp('[   ! ] Dependecies: A, B, C, control vector u, sensor data meas, t');
+disp('[   ! ] Dependencies: A, B, C, control vector u, sensor data meas, t');
 
 % initial guess
 q0 = ones(size(A, 1), 1) * 35 / size(A, 1);
