@@ -456,7 +456,7 @@
 \end{filecontents}
 
 \title{\LARGE \bf
-***
+Energy-Aware Dynamic Mission Planning Algorithm for UAVs
 }
 
 %% author names and affiliations
@@ -515,13 +515,13 @@
 % depends
 % big picture in the introduction to agree what specifically I am trying to do right now
 
-Mission planning for unmanned aerial vehicles (UAVs) operating in outdoor scenarios such as precision agriculture, search and rescue, and surveillance is a challenging task. It usually requires advanced levels of autonomy along with strictly limited energy budgets--with the typical instance being a UAV used to inform its grounded counterparts of patterns detected while flying. Currently, UAVs flying outdoors are often semi-autonomous, in the sense that the mission is static and usually defined using a mission planning software~\cite{daponte2019review}. Such a state of practice has prompted us to propose an \emph{energy-aware dynamic mission planning algorithm} for UAVs that highlights the increasing \emph{computational demands} and their relation to the energy consumption, path, and autonomy.
+Planning a mission for unmanned aerial vehicles (UAVs) operating in outdoor scenarios such as precision agriculture, search and rescue, and surveillance is a challenging task. It requires advanced levels of autonomy along with strictly limited energy budgets--with the typical instance being a UAV used to inform its grounded counterparts of patterns detected while flying. Currently, UAVs flying outdoors are often semi-autonomous, in the sense that the mission is static and usually defined using a mission planning software~\cite{daponte2019review}. Such a state of practice has prompted us to propose an \emph{energy-aware dynamic mission planning algorithm} for UAVs that highlights the increasing \emph{computational demands} and their relation to the energy consumption, path, and autonomy.
 
-Energy planning algorithms for mobile robots broadly are not a new concept and have been extensively studied, in that they are correlated to such topics as trajectory generation and path planning. Generally, these algorithms account for the energy due to the trajectory, by e.g., maximizing the operational time~\cite{wahab2015energy}, but in practice apply to a narrow class of robots~\cite{kim2005energy}, and focus on optimizing motion control for such robots~\cite{kim2008minimum}, despite compelling evidence for these systems' energy being influenced by the computations over bare motion~\cite{mei2004energy}. For UAVs specifically, rotorcrafts have equally gained research interest in terms of algorithms for energy-efficient trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. Further, past mission planning approaches also limit to the trajectory~\cite{mei2004energy,mei2005case,mei2006deployment}, and to the class of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. Yet, computations of such systems are only expected to increase in the near future. Unlike the past approaches, the algorithm presented here attempts to combine and generalize some of these technical breakthroughs and correlate the extensively studied energy planning to the growing computational demands.
+Planning algorithms for mobile robots broadly are not a new concept and have been extensively studied, in that they are correlated to such topics as trajectory generation and path planning. Generally, these algorithms output an energy-optimized trajectory~\cite{mei2004energy}, by e.g., maximizing the operational time~\cite{wahab2015energy}, but in practice apply to a narrow class of robots~\cite{kim2005energy}, and focus on optimizing motion control for such robots~\cite{kim2008minimum}, despite compelling evidence for these systems' energy being influenced by the computations over bare motion~\cite{mei2005case}. For UAVs specifically, rotorcrafts have equally gained research interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. Furthermore, past mission planning algorithms--which include a broader concept of a mission being a set of tasks along with a motion plan--also focus on the trajectory~\cite{mei2005case,mei2006deployment}, and apply to the narrow class of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. Yet, computations of such systems are only expected to increase in the near future. Unlike the past approaches, the algorithm presented here attempts to combine and generalize some of these technical breakthroughs, correlate the extensively studied energy planning to the growing computational demands, and validate its findings using several UAVs.
 
 The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the onboard computations, and the trajectory-explicit equations (TEEs) of the path. Our goal is a mission extension by optimizing both QoS and TEEs as the UAV flies and its batteries drain. The algorithm optimizes QoS requiring the UAV to include robot operating system (ROS) nodes. It optimizes TEEs--an abstraction of the path to follow--and guides the UAV using a vector field that converges smoothly to the path. Physically, one can use a feature detection node and a set of ellipses, with the algorithm controlling the processing rate and the length of the semi-major and -minor axis. Data using a commercial fixed-wing UAV indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest QoS.
 
-The algorithm relies on the assumptions of the mission--a time-varying path and a set of tasks the UAV is supposed to perform along the TEEs and QoS parameters constraints--being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. We propose the Fourier analysis to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state estimator to cope with the uncertainty assumption. The algorithm selects the controls (the QoS and TEEs) using a robust output feedback model predictive control (MPC), ensuring that state estimation error does not result in transgression of the control and state constraints.
+The algorithm relies on the assumptions of the mission--a time-varying path and a set of tasks the UAV is supposed to perform along the TEEs and QoS parameters constraints--being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. We propose the Fourier analysis to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state estimator to cope with the uncertainty assumption. The algorithm outputs the controls (the QoS and TEEs parameters) using a robust output feedback model predictive control (MPC).
 
 The remainder of the paper is organized as follows. The dynamic mission planning problem is set in Section~\ref{sec:prob}, along a suitable model for the energy and position of the UAV. The algorithm that uses the model and solves the problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents a fixed-wing UAV flying in an agricultural scenario showcasing the performance. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
 
@@ -665,6 +665,8 @@ The QoS parameters $\mathcal{C}_k$ can be subject to different constraints at di
 \end{split}\end{equation}
 where the values $\underline{\text{QoS}}_n(k),\overline{\text{QoS}}_n(k)$ are retrieved from the mission specification.
 
+\begin{center}\vspace{.2cm}---\emph{I'll move this subsec under eq 9, it doesn't make sense now and my brain stopped working for this evening}---\vspace{.6cm}\end{center}
+
 \subsection{Control action}
 \label{sec:control-action}
 
@@ -672,13 +674,11 @@ We build the control action $\mathbf{u}$ from Equation~(\ref{eq:state-perf})~and
 
 \begin{center}\vspace{.2cm}---\emph{from here on work in progress}---\vspace{.6cm}\end{center}
 
-Given a generic trajectory equation $\varphi$, the trajectory can be modeled by $\rho$ TEE parameters $\mathcal{M}\in\mathbb{R}^\rho$, e.g., the constants of a linear function, the radius of a circle, and semi-major and minor axis of an ellipse. Let us define $\mathbf{u}_{k,n}:=\{u_{k,0},\dots,u_{k,n-1},u_{k,n}^0,u_{k,n+1},\dots,u_{k,\rho_k-1}\}$, the set of these parameters can be expressed
-\begin{equation}\label{eq:tee-def}\begin{split}
-  \mathcal{M}_k:=\{u_{k,n} : \,
-  &\varphi_k(\mathbf{p}_{k,n}^0,\mathbf{u}_{k,n})\in\mathcal{P}\\
-  &\forall n\in\{0,\dots,\rho_k-1\}\},
-\end{split}\end{equation}
-where $\mathbf{p}_k^0$ is any optimal point which let the trajectory explicit function $\varphi_k$ converge under any optimal TEE parameter $u_k^0$. Physically $\mathcal{M}_k$ contains all the controls generating the points over the area $\mathcal{P}$ defined in Equation~(\ref{eq:area}). 
+Let us re-define the TEE introduced first in Subsection~\ref{sec:model} as a function $\varphi_k:\mathbb{R}^3\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of the position and $\rho$ TEE parameters $\mathcal{M}\in\mathbb{R}^\rho$, e.g., the constants of a linear function, the radius of a circle, and semi-major and minor axis of an ellipse. Given $\mathbf{u}_{k}:=\{u_{k,0},\dots,u_{k,\rho-1}\}$, the set of these parameters at time instant $k$ can be expressed
+\begin{equation}\label{eq:tee-def}
+  \mathcal{M}_k:=\{u_k\in\mathbf{u}_k : \varphi_k(\mathbf{p},\mathbf{u}_k)\in\mathcal{P}_k\},
+\end{equation}
+where $\mathbf{p}\in\mathcal{P}_k$ is any optimal point which let the trajectory explicit function $\varphi_k$ converge under any optimal TEE parameter $u_k^0$. Physically, $\mathcal{M}_k$ contains all the controls generating the points over the area $\mathcal{P}$ defined in Equation~(\ref{eq:area}). 
 
 The explicit trajectory equation $\varphi_k$ can be different at different states $k$, meaning the vector field and guidance action, from Equation~(\ref{eq:pd})~and~(\ref{eq:uav-cont}) respectively, will account for the sudden change of trajectory during the mission.
 
@@ -687,7 +687,7 @@ It is worth considering that the number of parameters at state $k$ is a paramete
 The TEE parameters and QoS, $\mathcal{M}$ and $\mathcal{C}$ defined in Equation~(\ref{eq:tee-def})~and~(\ref{eq:qos-def}), are incorporated in the system in Equation~(\ref{eq:state-unct}) using the input matrix
 \begin{equation}
   \mathbf{u}_k=\left[\begin{array}{c}
-    g\left(\mathcal{C}_k\right) \\\hline \mathcal{M}_k
+    g\left(\mathcal{C}_k\right)-g\left(\mathcal{C}_{k-1}\right) \\\hline \mathcal{M}_k
   \end{array}\right],\,\,\,
   B=\left[\begin{array}{ccccccc}
     1 & \vline & 0 & \cdots & 0\\\hline
