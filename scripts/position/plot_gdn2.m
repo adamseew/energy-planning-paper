@@ -13,7 +13,6 @@ function [] = plot_gdn2(E, ke, varphi, points, pdangle, min, max, andu, s, p)
 %   s:      cruise speed in m/s
 %   p:      starting point (for the anumation)
 %
-    figure;
     
     % Just a nice effect nothing more...
     varphi_plot2 = fimplicit(varphi);

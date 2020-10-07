@@ -53,7 +53,7 @@ disp('[     ] Plot and animate');
 fprintf(['[   ! ] Dependencies: ration matrix E, gain ke, TEE varphi,\n' ...
         '        points, the angle of the vector field pdangle, the min\n' ...
         '        and max value\n']);
-
+    
 if strcmp(questdlg('Show the animation?', 'Animate', 'Yes', 'No', 'Yes'),...
            'Yes'...
          )
@@ -79,10 +79,15 @@ if strcmp(questdlg('Show the animation?', 'Animate', 'Yes', 'No', 'Yes'),...
     if isempty(s)
         s = 20; % default cruise speed
     end
+    
+    figure;
 
     plot_gdn2(E, ke, varphi, points, pdangle, ...
         min, max, andu, s, strp);
 else
+    
+    figure;
+    
     plot_gdn2(E, ke, varphi, points, pdangle, ...
         min, max, 0, 0, [0; 0]);
 end
