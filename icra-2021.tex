@@ -536,7 +536,7 @@ The algorithm inputs the mission
 \begin{equation}\label{eq:mission}
   \mathcal{M}:=\left\{\varphi_k,\,(\underline{c}_k,\overline{c}_k),\bigcup_{n=0,\dots,\rho-1}(\underline{\text{QoS}}_{k,n},\overline{\text{QoS}}_{k,n}):\,\forall k\in\mathbb{T}\right\},
 \end{equation}
-where $\mathbb{T}:=\,[0,t_f)\subseteq\mathbb{R}_{\geq 0}$ is the mission time, $t_f$ the final instant, $\varphi_k\in\mathbb{R}$ is a generic continuous twice differentiable TEE along its upper and lower bounds $(\underline{c}_k,\overline{c}_k)\in\mathbb{R}^2$ (the motion plan), and a set of upper and lower bounds for the $\sigma$ tasks $(\underline{\text{QoS}}_{k,i},\overline{\text{QoS}}_{k,i})\in\mathbb{Z}_{\geq 0}^2$. 
+where $\mathbb{T}:=\,[0,t_f)\subseteq\mathbb{R}_{\geq 0}$ is the mission time, $t_f\in\mathbb{R}_{\geq 0}$ the final instant, $\varphi_k\in\mathbb{R}$ is a generic continuous twice differentiable TEE along its upper and lower bounds $(\underline{c}_k,\overline{c}_k)\in\mathbb{R}^2$ (the motion plan--an ordered pair), and a set of upper and lower bounds for the $\sigma$ tasks $(\underline{\text{QoS}}_{k,i},\overline{\text{QoS}}_{k,i})\in\mathbb{Z}_{\geq 0}^2$ (a set of also ordered pairs). 
 
 % Approx at this latitude I would actually either put something on the lines 'in the presented problem TEEs and QoS parameters corresponds to this and that... Thoughts? Because it sounds to me better if we put this into the experimental results section rather than here
 
@@ -567,11 +567,11 @@ Let us define $\mathcal{P}_k$, the set that delimits all the possible deviations
 \begin{equation}\label{eq:area}
   \mathcal{P}_k:=\{\mathbf{p}:\underline{c}_k\leq\varphi_k(\mathbf{p},c_{k,1},\dots,c_{k,\sigma})\leq\overline{c}_k\},
 \end{equation}
-where $\underline{c}_k,\overline{c}_k$ are the bounds from $\mathcal{M}$ that disclose the are over which the TEE $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\sigma}\rightarrow\mathbb{R}$ is free to evolve using controls $\mathbf{c}_k:=c_{k,1},...,c_{k,\sigma}$.
+where $\underline{c}_k,\overline{c}_k$ are the bounds from the mission $\mathcal{M}$, that disclose the area where TEE $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\sigma}\rightarrow\mathbb{R}$ is free to evolve using controls $\mathbf{c}_k:=c_{k,1},...,c_{k,\sigma}$.
 
-The algorithm uses the concept to select $\varphi(\mathbf{p},\mathbf{c}_k)=c_k\in\mathbb{R}$ s.t. $\mathbf{p}\in\mathcal{P}_k$ with the highest energy value under the energy budget constraints. We design a guidance action $u$ that heads to such TEE by minimizing the norm $\|\varphi_k(\mathbf{p})-c_k\|$.
+The algorithm uses the concept to select $\varphi(\mathbf{p},\mathbf{c}_k)=c_k\in\mathbb{R}$ with the highest energy value under the energy budget constraints. 
 
-Let us define $\varPhi:=\varphi_k(\mathbf{p})-c_k$. The direction to follow can be expressed as the desired velocity vector
+For the purpose, we design a guidance action $u$ that heads to such TEE by minimizing the norm $\|\varphi_k(\mathbf{p})-c_k\|$. Let us define $\varPhi:=\varphi_k(\mathbf{p})-c_k$. The direction to follow can be expressed as the desired velocity vector
 \begin{equation}\label{eq:pd}
   \dot{\mathbf{p}}_d(\mathbf{p}):=E\nabla\varPhi-k_e\varPhi\nabla\varPhi,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
@@ -607,7 +607,7 @@ Formally, given two time instants $k_1,k_2\in\mathbb{T}$ s.t. $k_1>k_2$ and a va
 \begin{equation}
   \|\mathbf{p}_{k}-\mathbf{p}_{k+n}\|= e\,\,\,\forall k\in[k_1,k_2].
 \end{equation}
-We show in Section~\ref{sec:experimental} the assumption being eased in practice to a set $\mathbb{E}\subset\mathbb{R}$ or omitted under specific conditions.
+We show in Section~\ref{sec:experimental} the assumption being eased in practice to a set $\mathbb{E}\subset\mathbb{R}$, or omitted under specific conditions.
 
 Let us consider a Fourier series $f:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of energy estimation of such a periodic trajectory
 \begin{equation}\label{eq:fourier}
@@ -620,7 +620,7 @@ Suppose no disturbances in form of $\mathbf{w}_k\in\mathbb{R}^j,v_k\in\mathbb{R}
   \mathbf{q}_{k+1}&=A\mathbf{q}_{k}+B\mathbf{u}_{k}+\mathbf{w}_k\\
   y_k&=C\mathbf{q}_k+v_k
 \end{cases},\end{equation}
-where $y_k\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. We prove formally in the Theorem~\ref{thm:state-vs-energy} the instantaneous energy being obtained as a linear combination of the state. The state $\mathbf{q}$ mimics the original Fourier series coefficients, and
+where $y_k\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. We prove formally in the Theorem~\ref{thm:state-vs-energy} the instantaneous energy being obtained as a linear combination of the state. The state $\mathbf{q}$ mimics the original Fourier series coefficients
 \begin{equation}\label{eq:state-details}\begin{split}
   \mathbf{q}_k&=\left[\begin{array}{cccccc}
     \alpha_0 & \alpha_1 & \beta_1 & \cdots & \alpha_r & \beta_r
@@ -639,20 +639,20 @@ where $\mathbf{q}_k\in\mathbb{R}^j$ given $j:=2r+1$, $A\in\mathbb{R}^{j\times j}
 
 The control $\mathbf{u}$ along with the input matrix
 \begin{equation}\label{eq:state-control}\begin{split}  
-  \mathbf{u}_k&=\begin{bmatrix}g(\text{QoS}_k)-g(\text{QoS}_{k-1}) & \mathbf{c}_k-\mathbf{c}_{k-1}\end{bmatrix}^T\\
+  \mathbf{u}_k&=\begin{bmatrix}g(\mathcal{C}_k)-g(\mathcal{C}_{k-1}) & \mathbf{c}_k-\mathbf{c}_{k-1}\end{bmatrix}^T\\
   B&=\left[\begin{array}{cccc}
-    1&         &       &  \\
-     & \omega_{k,1}&       &  \\
-     &         & \ddots&  \\
-     &         &       & \omega_{k,\sigma}
+    1& \omega_{k,1}& \cdots& \omega_{k,\sigma}  \\
+     &            0&       &  \\
+     &             & \ddots&  \\
+     &             &       & 0
   \end{array}\right]
 \end{split}\end{equation}
-where $\text{QoS}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{-1}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item on the diagonal is one, while the others are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given TEE parameter to the instantaneous energy. Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the change of explicit trajectory equation parameters is merely a linear combination of the gain factor and the value of the TEE. Nevertheless, the change updates the trajectory which will hence affect the reading from the sensors and adjust the energy evolution accordingly.
+where $\mathcal{C}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{-1}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}^T$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given TEE parameter to the instantaneous energy. Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the change of explicit trajectory equation parameters is merely a linear combination of the gain factor and the value of the TEE. Nevertheless, the change updates the trajectory which will hence affect the reading from the sensors and adjust the energy evolution accordingly. The linearity simulates how a variation affects the energy, for instance, a decrement in the radius of a circular TEE will add a negative contribution, the simulate the lowering of instantaneous energy consumption.
 
 In the case of the system behaving ideally (i.e., with zero disturbances), we expect a set of states evolving accordingly to their outputs. Such observation is summarized in the following Lemma.
 
 \begin{lem}\label{lem:state-vs-energy}
-  Suppose the system of Equation~(\ref{eq:state-unct}) evolves with no disturbances ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds, then
+  Suppose the system of Equation~(\ref{eq:state-perf}) evolves with no disturbances ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds, then
   \begin{equation}
     \|\mathbf{q}_{k,0}\|\geq\|\mathbf{q}_{k,1}\|\iff y_{k,0}\geq y_{k,1}.
   \end{equation}
@@ -664,13 +664,13 @@ In the case of the system behaving ideally (i.e., with zero disturbances), we ex
 \subsection{Energy evolution due to computations}
 \label{sec:computations-model}
 
-The energy cost of the computations is assessed using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}, that measures software configurations empirically and builds an energy model. Specifically, the tool builds a linear interpolation, one per each task. It hence requires the user to implement the mission as a ROS system with one or more ROS nodes which change the computational load by node-specific ROS parameters (QoS).
+The energy cost of the computations is assessed using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}, that measures software configurations empirically and builds an energy model. Specifically, the tool builds a linear interpolation, one per each task. It hence requires the user to implement the mission as a ROS system with one or more ROS nodes changing the computational load by node-specific ROS parameters (QoS).
 
 Suppose the system is composed of $\sigma$ ROS nodes. Let us define a computational control action
 \begin{equation}\label{eq:qos-def}
   \mathcal{C}_k:=\left\{u:u\in\text{QoS}_{k,n}\,\,\,\forall n\in\{0,\dots,\sigma-1\},\,\forall k\in\mathbb{T}\right\},
 \end{equation}
-where $\text{QoS}_n(k):\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time instant $k$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The instantaneous computational energy component can be defined
+where $\text{QoS}_{k,n}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $n$-th QoS value at time instant $k$, and $\mathcal{C}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ QoS values. Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The instantaneous computational energy component can be defined
 \begin{equation}\label{eq:energy-comp}\begin{split}
   y_k^c:&=g\left(\text{QoS}_{k,0},\dots,\text{QoS}_{k,\sigma-1}\right)=g\left(\mathcal{C}_{k}\right).\\
 \end{split}\end{equation}
@@ -693,8 +693,8 @@ Let us proof formally an important finding from Section~\ref{sec:model} extensiv
 % [Ad:] And here I had the doubt if to place the thm just straight after the lemma or here. I places it here as this is actually the main contribution -> the energy model working. Does it make any sense?
 
 \begin{thm}\label{thm:state-vs-energy}
-  Consider a continuously differentiable function $\varphi_k:\mathbb{R}^3\rightarrow\mathbb{R}$ at a time instant $k\in\mathbb{Z}_{>0}$.
-  Assume Assumption~\ref{assm:periodic} holds, the robots is free to move in $\mathcal{P}$ defined in~(\ref{eq:area}), and is following $\varphi$ with the direction $\hat{\mathbf{p}}_d$ defined in~\ref{eq:pd}. Likewise in Lemma~\ref{lem:state-vs-energy}, the model behaves ideally. 
+  Consider a continuously differentiable function $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\sigma}\rightarrow\mathbb{R}$ at a time instant $k\in\mathbb{T}$.
+  Assume Assumption~\ref{assm:periodic} holds, the robots is free to move in $\mathcal{P}$ defined in~(\ref{eq:area}), and is following $\varphi$ with the direction $\dot{\mathbf{p}}_d$ defined in~\ref{eq:pd}. Likewise in Lemma~\ref{lem:state-vs-energy}, the model behaves ideally. 
   Then, the instantaneous energy consumption is a linear combination of the state
   \begin{equation}
     y_k=C\mathbf{q}_k=\sum_{n=0}^r{\alpha_n},
@@ -707,6 +707,12 @@ Let us proof formally an important finding from Section~\ref{sec:model} extensiv
 
 
 \begin{center}\vspace{.2cm}---\emph{from here on work in progress}---\vspace{.6cm}\end{center}
+
+
+
+
+
+
 
 \subsection{State estimation}
 \label{sec:state-est}
