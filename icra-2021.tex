@@ -52,6 +52,13 @@
 %% package for urls
 \usepackage{url}
 
+%% hyperref
+% and an override to make hyperref work with ieeeconf.cls
+\makeatletter
+\let\NAT@parse\undefined
+\makeatother
+\usepackage{hyperref}
+
 \usepackage{textpos}
 
 %% correct bad hyphenation here
@@ -519,20 +526,20 @@ Planning a mission for unmanned aerial vehicles (UAVs) operating in outdoor scen
 
 Planning algorithms for mobile robots broadly are not a new concept and have been extensively studied, in that they are correlated to such topics as trajectory generation and path planning. Generally, these algorithms select an energy-optimized trajectory~\cite{mei2004energy}, by e.g., maximizing the operational time~\cite{wahab2015energy}, but in practice apply to a narrow class of robots~\cite{kim2005energy}, and focus on optimizing motion control for such robots~\cite{kim2008minimum}, despite compelling evidence for these systems' energy being influenced by the computations over bare motion~\cite{mei2005case}. For UAVs specifically, rotorcrafts have equally gained research interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. Furthermore, past mission planning algorithms--which include a broader concept of a mission being a set of tasks along with a motion plan--also focus on the trajectory~\cite{mei2005case,mei2006deployment}, and apply to the narrow class of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. Yet, computations of such systems are only expected to increase in the near future. Unlike the past approaches, the algorithm presented here attempts to combine and generalize some of these technical breakthroughs, correlate the extensively studied energy planning to the growing computational demands, and validate its findings using UAVs.
 
-The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the onboard computations, and the trajectory-explicit equations (TEEs) of the path. Our goal is a mission extension by optimizing both QoS and TEEs as the UAV flies and its batteries drain. The algorithm optimizes QoS requiring the UAV to include robot operating system (ROS) nodes. It optimizes TEEs--an abstraction of the path to follow--and guides the UAV using a vector field that converges smoothly to the path. Physically, one can use a feature detection node and a set of ellipses, with the algorithm controlling the processing rate and the length of the semi-major and -minor axis. Data using a commercial fixed-wing UAV indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest QoS.
+The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the onboard computations, and the trajectory-explicit equations (TEEs) of the path. Our goal is a mission extension by optimizing both QoS and TEEs as the UAV flies and its batteries drain. The algorithm optimizes QoS requiring the UAV to include robot operating system (ROS) nodes. It optimizes TEEs--an abstraction of the path to follow--and guides the UAV using a vector field that converges smoothly to the path. 
+%Physically, one can use a feature detection node and a set of ellipses, with the algorithm controlling the processing rate and the length of the semi-major and -minor axis. Data using a commercial fixed-wing UAV indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest QoS.
+It relies on the assumptions of the mission being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. We propose the Fourier analysis to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state estimator to cope with the uncertainty assumption. The algorithm selects the controls (QoS and TEEs parameters) using robust output feedback model predictive control (MPC).
 
-The algorithm relies on the assumptions of the mission--a time-varying motion plan and a set of tasks the UAV is supposed to perform along the TEEs and QoS parameters constraints--being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. We propose the Fourier analysis to address the periodicity assumption--being the mission periodic, we expect the energy to evolve also periodically--and a state estimator to cope with the uncertainty assumption. The algorithm selects the controls (the QoS and TEEs parameters) using a robust output feedback model predictive control (MPC).
+To show case the algorithm we consider the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Precision agriculture is rising in demand for reducing waste, costs, and resources while increasing outputs and utilization~\cite{hajjaj2014review}, with mobile robots being increasingly used for e.g., harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}. The mission consist of a UAV flying in ellipses shifted in time, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a survey mission optimized for the craft's dynamics. The algorithm plans the mission controlling the processing rate and the length of the semi-major and -minor axis. Such a scenario is frequently put into practice, with complex monitoring strategies being often implemented utilizing UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture}. Data indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest QoS.
 
-The remainder of the paper is organized as follows. The dynamic mission planning problem is set in Section~\ref{sec:prob}. A suitable model for the energy and position of the UAV in Section~\ref{sec:model}. The algorithm that uses the model and solves the problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents a fixed-wing UAV flying in an agricultural scenario showcasing the performance. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
+The remainder of the paper is organized as follows. The dynamic mission planning overview is set in Section~\ref{sec:prob}, along a suitable model for the energy and position of the UAV. The algorithm that uses the model and solves the problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents a fixed-wing UAV flying in an agricultural scenario showcasing the performance. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Problem Statement}
+\section{Mission Planning Overview}
 \label{sec:prob}
 
-We consider the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Precision agriculture is rising in demand for reducing waste, costs, and resources while increasing outputs and utilization~\cite{hajjaj2014review}, with mobile robots being increasingly used for e.g., harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}. The mission consist of a UAV flying in ellipses shifted in time, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a survey mission optimized for the craft's dynamics. Such a scenario is frequently put into practice, with complex monitoring strategies being often implemented utilizing UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture}. 
-
-The algorithm inputs the mission
+The mission is a time-varying motion plan and a set of tasks the UAV is supposed to perform along the TEEs and QoS parameters constraints
 \begin{equation}\label{eq:mission}
   \mathcal{M}:=\left\{\varphi_k,\,(\underline{c}_k,\overline{c}_k),\bigcup_{n=0,\dots,\rho-1}(\underline{\text{QoS}}_{k,n},\overline{\text{QoS}}_{k,n}):\,\forall k\in\mathbb{T}\right\},
 \end{equation}
@@ -540,10 +547,10 @@ where $\mathbb{T}:=\,[0,t_f)\subseteq\mathbb{R}_{\geq 0}$ is the mission time, $
 
 % Approx at this latitude I would actually either put something on the lines 'in the presented problem TEEs and QoS parameters corresponds to this and that... Thoughts? Because it sounds to me better if we put this into the experimental results section rather than here
 
-It outputs the correction to the position and the instantaneous energy consumption, while it adapts the control $\mathbf{u}_k$ in function of the TEE and QoS parameters.
+The algorithm inputs the mission and outputs the correction to the position and the instantaneous energy consumption, while it adapts the control $\mathbf{u}_k$ in function of the TEE and QoS parameters.
 
 %%%%%%%%%%%%%%%
-\section{Model}
+\subsection{Model}
 \label{sec:model}
 
 The state is the UAV's position in space and the energy evolution in time. Despite we show a linear relation between instantaneous energy and energy evolution, the two are different. We show after the main results how such approach indeed allowed us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity. 
