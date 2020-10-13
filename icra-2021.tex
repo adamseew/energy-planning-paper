@@ -411,28 +411,28 @@ Energy-Aware Dynamic Mission Planning Algorithm for UAVs
 \section{Introduction}
 \label{sec:intro}
 
-Planning a mission for unmanned aerial vehicles (UAVs) operating outdoors is a challenging task. Scenarios such as precision agriculture, search and rescue, and surveillance require advanced levels of autonomy along with strictly limited energy budgets--with the typical instance being a UAV used to inform its grounded counterparts of patterns detected while flying. Currently, UAVs flying outdoors are often semi-autonomous, in the sense that the mission is static and usually defined using a mission planning software~\cite{daponte2019review}. Such a state of practice has prompted us to propose an \emph{energy-aware dynamic mission planning algorithm} for UAVs. The algorithm attempts to combine and generalize some of the past body of knowledge on robot planning, and highlights the increasing \emph{computational demands} and their relation to energy consumption, path, and autonomy.
+Planning a mission for unmanned aerial vehicles (UAVs) operating outdoors is a challenging task. Scenarios such as precision agriculture, search and rescue, and surveillance require advanced levels of autonomy along with strictly limited energy budgets--with the typical instance being a UAV used to inform its grounded counterparts of patterns detected while flying. Currently, UAVs flying outdoors are often semi-autonomous, in the sense that the mission is static and usually defined using a mission planning software~\cite{daponte2019review}. Such a state of practice has prompted us to propose an \emph{energy-aware dynamic mission planning algorithm} for UAVs. The algorithm attempts to combine and generalize some of the past body of knowledge on the mobile robot planning problem, and highlights the increasing \emph{computational demands} and their relation to energy consumption, path, and autonomy.
 
 Planning algorithms for mobile robots broadly are not a new concept, in that they are correlated to such topics as trajectory generation and path planning. Generally, these algorithms select an energy-optimized trajectory~\cite{mei2004energy}, by e.g., maximizing the operational time~\cite{wahab2015energy}, but in practice apply to few robots~\cite{kim2005energy}, and focus on optimizing motion control for these robots~\cite{kim2008minimum}, despite compelling evidence for the systems' energy being influenced by the computations over bare motion~\cite{mei2005case}. For UAVs specifically, rotorcrafts have equally gained research interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. Furthermore, past mission planning algorithms--which include a broader concept of a mission being a set of tasks along with a motion plan--also focus on the trajectory~\cite{mei2005case,mei2006deployment}, and apply to few robots~\cite{sadrpour2013mission,sadrpour2013experimental}. Yet, computations of such systems are only expected to increase in the near future.
 
-The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) values of the onboard computations, and the trajectory-explicit equations (TEEs) adjustments of the motion plan. Our goal is a mission extension by optimizing both QoS and TEEs as the UAV flies and its batteries drain. The algorithm optimizes QoS requiring the UAV to include robot operating system (ROS) nodes. It optimizes TEEs--an abstraction of the trajectory--and guides the UAV using a vector field~\cite{de2017guidance} that converges smoothly to such trajectory. It relies on the assumptions of the mission being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. It addresses the periodicity modeling the energy with Fourier analysis--being the mission periodic, we expect the energy to evolve also periodically--and the uncertainty with a state estimator. It selects the controls (QoS and TEEs parameters) using robust output feedback model predictive control (MPC).
+The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) values of the onboard computations, and the trajectory-explicit equations (TEEs) adjustments of the motion plan. Our goal is a mission extension by optimizing both QoS and TEEs parameters as the UAV flies and its batteries drain. The algorithm optimizes QoS requiring the UAV to include robot operating system (ROS) nodes. It optimizes TEEs--an abstraction of the trajectory--and guides the UAV using a vector field~\cite{de2017guidance} that converges smoothly to such trajectory. It relies on the assumptions of the mission being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. It addresses the periodicity modeling the energy with Fourier analysis--being the mission periodic, we expect the energy to evolve also periodically--and the uncertainty with a state estimator. It selects the controls (QoS and TEEs parameters) using robust output feedback model predictive control (MPC).
 
 In the spirit of reducing waste, costs, and resources, we showcase the algorithm using the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Such a scenario is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The mission consist of a UAV flying in ellipses shifted in time, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a monitoring mission optimized for the craft's dynamics. The algorithm plans the mission controlling the processing rate and the length of the semi-major and -minor axis.  Data indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest QoS.
 
-The remainder of the paper is organized as follows. The overview of dynamic mission planning is set in Section~\ref{sec:prob}, along with a suitable model for the energy and position. The algorithm that uses the model and solves the dynamic mission planning problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcase the performance. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
+The remainder of the paper is organized as follows. The overview of dynamic mission planning is set in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm that uses the model and solves the dynamic mission planning problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcase the performance. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Mission Planning Overview}
 \label{sec:prob}
 
-Let the mission be defined by a generic continuous twice differentiable TEE $\varphi$ (being such function satisfied $\varphi\rightarrow 0$ for all the approaching points) and a set of $\sigma$ tasks. Moreover, let $t_f$ be the mission final time, $[\,\cdot\,]$ the set $\{1,2,\dots,\,\cdot\,\}$, and $\underline{\,\cdot\,},\overline{\,\cdot\,}$ the upper and lower bound of $\,\cdot\,$. At a time instant $k\in[0,t_f)\subseteq\mathbb{R}_{\geq 0}$, the mission is formally defined as the ordered list
+Let the mission be defined by a generic continuous twice differentiable TEE $\varphi$ and a set of $\sigma$ tasks. Moreover, let $t_f$ be the mission final time, $[\,\cdot\,]$ the set $\{1,2,\dots,\,\cdot\,\}$, and $\underline{\,\cdot\,},\overline{\,\cdot\,}$ the upper and lower bound of $\,\cdot\,$. At a time instant $k\in[0,t_f)\subseteq\mathbb{R}_{\geq 0}$, the mission is formally defined as the ordered list
 \begin{equation}\label{eq:mission}\begin{split}
   \mathcal{M}_k:=\{(\varphi,\psi_1,...,\psi_\sigma)\mid\exists&\,\,\varphi\in\mathbb{C}_k,\,\\&\psi_i\in\mathbb{S}_{k,i}\,\forall i\in[\sigma]\},
 \end{split}\end{equation}
-where $\mathbb{C}_k:=[\underline{c}_k,\overline{c}_k]\subseteq\mathbb{R}$ is a formulation for the TEE $\varphi$ adjustments constraints, and $\mathbb{S}_{k,i}:=[\underline{\text{QoS}}_{k,i},\overline{\text{QoS}}_{k,i}]\subseteq\mathbb{Z}_{\geq 0}$ for the $i$-th task QoS value constraints.
+where $\mathbb{C}_k:=[\underline{c}_k,\overline{c}_k]\subseteq\mathbb{R}$ is the TEE $\varphi$ adjustments constraints set, and $\mathbb{S}_{k,i}:=[\underline{\text{QoS}}_{k,i},\overline{\text{QoS}}_{k,i}]\subseteq\mathbb{Z}_{\geq 0}$ the $i$-th task QoS value constraints set.
 
-The overall plan is the union of all the missions: a set of TEEs, tasks, and TEEs and QoS parameters. If the system is sampled discrete-time for simplicity
+The overall plan is the union of all the missions. If for simplicity the system is sampled discrete-time
 \begin{equation}
   \mathcal{M}:=\bigcup_{i\in[tf]}{\mathcal{M}_i},
 \end{equation}
@@ -447,28 +447,28 @@ Consider the position $\mathbf{p}\in\mathbb{R}^2$ of a UAV flying at an assigned
 \begin{equation}\label{eq:area}
   \mathcal{P}_k:=\{\mathbf{p}\mid\varphi_k(\mathbf{p},c_{k,1},\dots,c_{k,\rho})\in\mathbb{C}_k\},
 \end{equation}
-delimits the area where the $k$-th TEE $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\rho}\rightarrow\mathbb{R}$ is free to evolve using $\rho$ controls $\mathbf{c}_k:=c_{k,1},...,c_{k,\rho}$.
+delimits the area where the $k$-th TEE $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\rho}\rightarrow\mathbb{R}$ is free to evolve using $\rho$ controls $\mathbf{c}_k:=c_{k,1},...,c_{k,\rho}$ (TEEs adjustments), being such function satisfied for all the approaching points.
 
-The algorithm uses the concept to select $\varphi_k(\mathbf{p},\mathbf{c}_k^0)$ with the highest energy value under the constraints, and \emph{evolves the position} using the vector field of $\varPhi:=\varphi_k(\mathbf{p},\mathbf{c}_k^0)$ and deriving the direction to follow. It can be expressed as the desired velocity vector
+The algorithm uses the concept to select $\varphi_k(\mathbf{p},\mathbf{c}_k^0)$ with the highest energy value under the constraints. It guides the UAV to the new position deriving the direction to follow using the vector field of $\varPhi:=\varphi_k(\mathbf{p},\mathbf{c}_k^0)$. Such direction can be expressed as the desired velocity vector
 \begin{equation}\label{eq:pd}
   \dot{\mathbf{p}}_d(\mathbf{p}):=E\nabla\varPhi-k_e\varPhi\nabla\varPhi,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
   \end{bmatrix},
 \end{equation}
-where $\nabla\varPhi\in\mathbb{R}^2$ is defined as the gradient at the point $\mathbf{p}$, $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading due to the atmospheric interference.
+where $\nabla\varPhi\in\mathbb{R}^2$ is the gradient, $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading due to the atmospheric interference.
 
-The algorithm \emph{evolves the energy} using a state $\mathbf{q}\in\mathbb{R}^j$ derived from Fourier analysis (the meaning of $j$ is clarified to the reader in the next subsection) and decompose such evolution in the energy due to the trajectory, and computations--an approach adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
+The algorithm models the energy using a state $\mathbf{q}\in\mathbb{R}^j$ derived from Fourier analysis (the meaning of $j$ is clarified to the reader in the next subsection) and decompose such evolution in the energy due to the trajectory, and computations--an approach adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
 
 \subsection{Energy evolution due to trajectory}
 \label{sec:energy-model}
 
-Let us consider a Fourier series $f:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of energy estimation of the mission
+Let us consider a Fourier series $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of energy modeling of the mission
 \begin{equation}\label{eq:fourier}
-  f(t)=\sum_{n=0}^{r}{a_n\cos{\frac{nt}{\xi}}+b_n\sin{\frac{nt}{\xi}}},
+  h(t)=\sum_{n=0}^{r}{a_n\cos{\frac{nt}{\xi}}+b_n\sin{\frac{nt}{\xi}}},
 \end{equation}
-where $\xi\in\mathbb{R}$ is the characteristic time, and $a_n, b_n\in\mathbb{R}$ for $n\in\{0,\dotsc,r\}$ the Fourier series coefficients.
+where $\xi\in\mathbb{R}$ is the characteristic time, and $a_n, b_n\in\mathbb{R}$ the Fourier series coefficients.
 
-Suppose no disturbances in form of $\mathbf{w}_k\in\mathbb{R}^j,v_k\in\mathbb{R}$ accounting otherwise for the unknown state and output. The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using an equivalent linear discrete time-invariant state-space model
+Suppose no uncertainty in the form of $\mathbf{w}_k\in\mathbb{R}^j,v_k\in\mathbb{R}$ accounting otherwise for the unknown state and output is present. The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using an equivalent linear discrete time-invariant state-space model
 \begin{equation}\label{eq:state-perf}\begin{cases}
   \mathbf{q}_{k+1}&=A\mathbf{q}_{k}+B\mathbf{u}_{k}+\mathbf{w}_k\\
   y_k&=C\mathbf{q}_k+v_k
@@ -488,19 +488,19 @@ where $y_k\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. We pr
     1 & 1 & 0 & \cdots & 1 & 0
   \end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{q}_k\in\mathbb{R}^j$ given $j:=2r+1$, $A\in\mathbb{R}^{j\times j}$ is the state transmission matrix, and $C\in\mathbb{R}^j$ is the output matrix. In matrix $A$, the first value is one, $A_n$ is later on the diagonal, and zero in the remaining.
+where $\mathbf{q}_k\in\mathbb{R}^j$ given $j:=2r+1$, $A\in\mathbb{R}^{j\times j}$ is the state transmission matrix, and $C\in\mathbb{R}^j$ is the output matrix. In matrix $A$, the first value is one, $A_n$ is later on the diagonal, and zero in the remainder.
 
 The control $\mathbf{u}$ along with the input matrix
 \begin{equation}\label{eq:state-control}\begin{split}  
-  \mathbf{u}_k&=\begin{bmatrix}g(\mathcal{C}_k)-g(\mathcal{C}_{k-1}) & \mathbf{c}_k-\mathbf{c}_{k-1}\end{bmatrix}^T\\
+  \mathbf{u}_k&=\begin{bmatrix}g(\mathcal{C}_k)-g(\mathcal{C}_{k-1}) & \mathbf{c}_k-\mathbf{c}_{k-1}\end{bmatrix}^T,\\
   B&=\left[\begin{array}{cccc}
     1& \omega_{k,1}& \cdots& \omega_{k,\rho}  \\
      &            0&       &  \\
      &             & \ddots&  \\
      &             &       & 0
-  \end{array}\right]
+  \end{array}\right],
 \end{split}\end{equation}
-where $\mathcal{C}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{-1}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}^T$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given TEE parameter to the instantaneous energy. 
+where $\mathcal{C}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{0}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}^T$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given TEE adjustment to the instantaneous energy. 
 
 The energy evolution analysis necessitates the following realistic assumption.
 \begin{assm}\label{assm:periodic} 
@@ -511,12 +511,12 @@ Given two time instants $k_1,k_2\in[t_f]$ s.t. $k_1>k_2$ and a constant value $n
 \end{assm}
 Physically, the time evolution of the instantaneous energy consumption is assumed periodic, in the sense that it presents repetitive patterns. We show in Section~\ref{sec:experimental} the assumption being eased in practice to a set $\mathbb{E}\subset\mathbb{R}$, or omitted under specific conditions.
 
-Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the change of explicit trajectory equation parameters is merely a linear combination of the gain factor and the value of the TEE. Nevertheless, the change updates the trajectory which will hence affect the reading from the sensors and adjust the energy evolution accordingly. The linearity simulates how a variation affects the energy, for instance, a decrement in the radius of a circular TEE will add a negative contribution, the simulate the lowering of instantaneous energy consumption.
+Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the change of TEEs parameters is merely a linear combination of the gain factor and the value of the TEE adjustment. Nevertheless, the change updates the trajectory which will hence affect the reading from the sensors and adjust the energy evolution accordingly. The linearity simulates how a variation affects the energy, for instance, a decrement in the radius of a circular TEE adds a negative contribution, thus simulates the lowering of instantaneous energy consumption.
 
-In the case of the system behaving ideally (i.e., with zero uncertainty), we expect a set of states evolving accordingly to their outputs. Such observation is summarized in the following Lemma.
+In the case of the system behaving ideally (i.e., with no uncertainty), we expect a set of states evolving accordingly to their outputs. Such observation is summarized in the following Lemma.
 
 \begin{lem}\label{lem:state-vs-energy}
-  Given two time instants $k_1,k_2\in[t_f]$, suppose the system of Equation~(\ref{eq:state-perf}) evolves with no uncertainty ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds, then
+  Suppose the system of Equation~(\ref{eq:state-perf}) evolves with no uncertainty ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds. Given two time instants $k_1,k_2\in[t_f]$
   \begin{equation}
     \|\mathbf{q}_{k_1}\|\geq\|\mathbf{q}_{k_2}\|\iff y_{k_1}\geq y_{k_2}.
   \end{equation}
