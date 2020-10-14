@@ -447,7 +447,7 @@ The overall plan is the union of all the missions. If for simplicity the system 
 \begin{equation}
   \mathcal{M}:=\bigcup_{i\in[t_f]}{\mathcal{M}_i},
 \end{equation}
-the algorithm inputs $\mathcal{M}$ and outputs the position and the instantaneous energy consumption, while it adapts the controls--an action performed evolving the mission state.
+the algorithm inputs $\mathcal{M}$ and outputs the position, the instantaneous energy consumption, and the controls sequence--an action performed evolving the mission state.
 
 \subsection{Mission state}
 \label{sec:model}
@@ -511,7 +511,7 @@ The control $\mathbf{u}$ along with the input matrix
      &             &       & 0
   \end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{s}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{0}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}^T$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given adjustment to the instantaneous energy. 
+where $\mathbf{s}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{1}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}^T$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given adjustment to the instantaneous energy. 
 
 The energy evolution analysis necessitates the following realistic assumption.
 \begin{assm}[Energy evelution periodicity]\label{assm:periodic} 
@@ -525,9 +525,9 @@ Physically, the time evolution of the instantaneous energy consumption is assume
 
 Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the adjustments is merely a linear combination of the gain factor and the adjustment. Nevertheless, the change updates the path which will hence affect the reading from the sensors and adjust the energy evolution accordingly. The linearity simulates how a variation affects the energy, for instance, a decrement in the adjustment radius of a circle when the TEE is a circle, adds a negative contribution, thus simulates the lowering of instantaneous energy consumption.
 
-In the case of the system behaving ideally (i.e., with no uncertainty), we expect a set of states evolving accordingly to their outputs. Such observation is summarized in the following Lemma.
+In the case of the system behaving ideally (i.e., with no uncertainty), we expect a state (energy evolution) evolving accordingly to its output (instantaneous energy consumption). Such observation is summarized in the following Lemma.
 
-\begin{lem}\label{lem:state-vs-energy}
+\begin{lem}[State, output proportionality]\label{lem:state-vs-energy}
   Suppose the system of Equation~(\ref{eq:state-perf}) evolves with no uncertainty ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds. Given two time instants $k_1,k_2\in[t_f]$
   \begin{equation}
     \|\mathbf{q}_{k_1}\|\geq\|\mathbf{q}_{k_2}\|\iff y_{k_1}\geq y_{k_2}.
@@ -542,11 +542,11 @@ In the case of the system behaving ideally (i.e., with no uncertainty), we expec
 
 The energy cost of the computations is assessed using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}, that measures software configurations empirically and builds an energy model. Specifically, the tool builds a linear interpolation, one per each task. It requires the user to implement the mission as a ROS system with one or more ROS nodes changing the computational load by node-specific ROS parameters. A way to simulate the change of the computations.
 
-The mission $\mathcal{M}$ contains a set of ordered lists with $\sigma$ tasks each (recall Definition~\ref{def:mission}). These tasks are in fact simulated by $\sigma$ ROS nodes $\Psi(\mathbf{s}_k):=\left(\psi_1(s_{k,1}),\dots,\psi_\sigma(s_{k,\sigma})\right)$. Let us define the computations
+The plan $\mathcal{M}$ contains a set of ordered lists with $\sigma$ tasks each (recall Definition~\ref{def:mission}). These tasks are simulated by $\sigma$ ROS nodes $\Psi(\mathbf{s}_k):=\left(\psi_1(s_{k,1}),\dots,\psi_\sigma(s_{k,\sigma})\right)$, in fact they input the desired and output the actual computations. Let us define the computations
 \begin{equation}\label{eq:qos-def}
-  \mathbf{s}_k:=\left\{s_{k,1},\dots ,s_{k,\sigma}\mid s_i\in\mathbb{S}_{k,i}\,\forall i\in[\sigma]\right\},
+  \mathbf{s}_k:=\left\{s_{k,1},\dots ,s_{k,\sigma}\mid \psi_i(s_{k,i})\in\mathbb{S}_{k}\,\forall i\in[\sigma]\right\},
 \end{equation}
-where $s_{k,i}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $i$-th computation, and $\mathbf{s}_k\in\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ computations at time $k$.
+where $s_{k,i}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $i$-th computation, $\mathbf{s}_k\in\mathbb{S}_k\subseteq\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ computations at time $k$ being $\mathbb{S}_k:=\bigcup_{i\in[\sigma]}{\mathbb{S}_{k,i}}$.
 
 Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The instantaneous computational energy component can be defined
 \begin{equation}\label{eq:energy-comp}\begin{split}
@@ -554,76 +554,63 @@ Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow
 \end{split}\end{equation}
 
 
-
-\begin{center}\vspace{.2cm}---\emph{from here on work in progress}---\vspace{.6cm}\end{center}
-
+%%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
 \label{sec:algo}
 
 %The main goal of the algorithm is to find an optimal control action $\mathbf{u}^0$ for the current state $\hat{\mathbf{q}}$--estimated from sensors' measurements--from the optimal control law $\mathbf{u}^0=:\kappa(\hat{\mathbf{q}})$. This is achieved by solving online a finite horizon optimal control problem by the hand of a modification of a model predictive control (MPC) algorithm~\cite{rawlings2017model}.
 
-Given mission starting point $\mathcal{M}_0$, the algorithm selects the $\mathbf{s}_k$ and $\mathbf{c}_k$ (computations and adjustments) and produce a valid state evolution
-\begin{equation}\begin{split}
-  \mathbf{u}:=\{(\mathbf{p}_k,\mathbf{c}_k,\mathbf{s}_k)\mid&(\varphi(\mathbf{p}_k,\mathbf{c}_k),\Psi(\mathbf{s_k}))\in\mathcal{M}_k\Longrightarrow\\
-  &(\varphi(\mathbf{p}_{k+1},\mathbf{c}_{k+1}),\Psi(\mathbf{s}_{k+1}))\in\mathcal{M}_{k+1}\\
-  {}&\forall k\in[t_f-1]\}.
-\end{split}\end{equation} 
+Given an initial mission $\mathcal{M}_1$ (TEE $\varphi_1$, tasks $\Psi$, computations $\mathbf{s}_1\in\mathbb{S}_1$, and adaptations $\mathbf{c}_1\in\mathbb{C}_1$), the algorithm produce a valid mission evolution.
 
-Let us proof formally an important finding from Section~\ref{sec:model} extensively used in the algorithm.
+\begin{defn}[Valid mission evolution]\label{def:valid}
+  At a generic time instant $k\in[t_f]$ a mission evolution $\mathcal{M}_{k}$ is valid
+  \begin{equation}\begin{split}
+    \mathbf{u}^a_{k}=\{(\mathbf{c}_{k},\mathbf{s}_{k})\mid&(\varphi(\mathbf{p}_{k-1},\mathbf{c}_{k-1}),\Psi(\mathbf{s_{k-1}}))\in\mathcal{M}_{k-1}\\
+    &\Longrightarrow(\varphi(\mathbf{p}_{k},\mathbf{c}_{k}),\Psi(\mathbf{s}_{k}))\in\mathcal{M}_{k}\}.
+  \end{split}\end{equation}
+\end{defn}
 
-% [Ad:] I am actually not entirely sure if the thm should be here (and if it makes sense). Aka proving formally that what we do is actually what we expect; so perhaps it does make sense but I would like your opinion before spending time on the demonstrations... Same for the lemma.
-% [Ad:] And here I had the doubt if to place the thm just straight after the lemma or here. I places it here as this is actually the main contribution -> the energy model working. Does it make any sense?
+Note that the position evolution can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
 
-\begin{thm}\label{thm:state-vs-energy}
-  Consider a continuously differentiable function $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\sigma}\rightarrow\mathbb{R}$ at a time instant $k\in\mathbb{T}$.
-  Assume Assumption~\ref{assm:periodic} holds, the robots is free to move in $\mathcal{P}$ defined in~(\ref{eq:area}), and is following $\varphi$ with the direction $\dot{\mathbf{p}}_d$ defined in~\ref{eq:pd}. Likewise in Lemma~\ref{lem:state-vs-energy}, the model behaves ideally. 
-  Then, the instantaneous energy consumption is a linear combination of the state
-  \begin{equation}
-    y_k=C\mathbf{q}_k=\sum_{n=0}^r{\alpha_n},
-  \end{equation}
-  where $\alpha_n\in\mathbf{q}_k$ are the $r+1$ state's components at $k$ with $r$ being a preassigned arbitrary order from~(\ref{eq:fourier}), and $C$ is described in Equation~(\ref{eq:state-details}).
+Let us proof that if the mission evolution is valid, the instantaneous energy consumption is a linear combination of the state from the Equation~(\ref{eq:state-perf}).
+
+\begin{thm}[State output linearity]\label{thm:state-vs-energy}
+  Consider the mission from Definition~\ref{def:mission}, the valid mission evolution from~\ref{def:valid}, and assume Assumption~\ref{assm:periodic} holds. Likewise in Lemma~\ref{lem:state-vs-energy}, the model behaves ideally. 
+  Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$ and $\mathcal{M}_k$ produce a valid mission evolution $\mathcal{M}_{k+1}\,\forall k\in[t_f-1]$.
 \end{thm}
 \begin{proof}
   *\\
 \end{proof}
 
+%\subsection{State estimation}
+%\label{sec:state-est}
 
+%As the environment uncertainty and measurement error evolve in a normal distribution, we use a Kalman filter~\cite{stengel1994optimal, simon2006optimal} for the purpose of state estimation. 
 
+%The prediction is done using
+%\begin{subequations}\label{eq:kalman-pred}\begin{align}
+%  \hat{\mathbf{q}}_{k+1}^-&=A\hat{\mathbf{q}}_{k}+B\mathbf{u}_k,\label{eq:kalman-pred1}\\
+%  P_{k+1}^-&=AP_kA^T+Q,\label{eq:kalman-pred2}
+%\end{align}\end{subequations}
+%where $\hat{\mathbf{q}}_k^-,\hat{\mathbf{q}}_k\in\mathbb{R}^j$ depicts the estimate of the state before and after measurement (or simply estimate), and $P_k,P_k^-\in\mathbb{R}^{j\times j}$ the error covariance matrix (i.e., the variance of the estimate). 
 
+%The estimation of the state and the update of the predicted output is done using
+%\begin{subequations}\label{eq:kalman-est}\begin{align}
+%  K_k&=(CP_{k+1}^-C^T+R)^{-1}(P_{k+1}^-C^T),\\
+%  \hat{\mathbf{q}}_{k+1}&=\hat{\mathbf{q}}_{k+1}^-+K_k(y_k^s+y_k^c-C\hat{\mathbf{q}}_{k+1}^-),\label{eq:kalman-est2}\\
+%  P_{k+1}&=(I-K_kC)P_{k+1}^-,\\
+%  \hat{y}_k&=C\hat{\mathbf{q}}_{k+1},\label{eq:kalman-est4}
+%\end{align}
+%\end{subequations}
+%where $K_k\in\mathbb{R}^j$ is the gain of the Kalman filter, and $I$ the identity matrix. $y_k^s,y_k^c$ are the instantaneous energy readings: $y_k^s\in\mathbb{R}_{\geq 0}$ the robot sensor, i.e., the energy due to the trajectory, and $y_k^c$ the energy of a given software configuration described in Equation~(\ref{eq:energy-comp}). The noise covariance matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}$ indicates the uncertainty and measurement error covariance respectively, and $\hat{y}_k\in\mathbb{R}_{\geq 0}$ is the estimated energy.
 
+%Equations~(\ref{eq:kalman-pred}--\ref{eq:kalman-est}) converge to the predicted energy evolution as follows. An initial guess of the values $\hat{\mathbf{q}}_0,P_0$ is derived empirically from collected data. It is worth considering that an appropriate guess of these parameters allows the algorithm to converge to the desired energy evolution in a shorter amount of time. The tuning parameters $Q,R$ are also derived from the collected data, and may differ due to i.e., different sensors used to measure the instantaneous energy consumption, or different atmospheric conditions accounting for the process noise.
 
+%At time $k=0$, the initial estimate before measurement of the state and of the error covariance matrix is updated in Equation~(\ref{eq:kalman-pred1})~and~(\ref{eq:kalman-pred2}) respectively. The value of $\hat{\mathbf{q}}_1^-$ is then used in Equation~(\ref{eq:kalman-est2}) to estimate the current state along with the data from the sensor $y_0$ (e.g., the energy sensor of the flight controller of the fixed-wing craft), where the sensor noise covariance matrix $R$ accounts for the amount of uncertainty in the measurement. The estimated output $\hat{y}_0$ is then obtained from Equation~(\ref{eq:kalman-est4}). The algorithm is iterative. At time $k=1$ the values $\hat{\mathbf{q}}_1,P_1$ computed at previous step are used to estimate the values $\hat{\mathbf{q}}_2,P_2,$ and $y_1$.
 
+%\subsection{Optimal control action}
 
-
-\subsection{State estimation}
-\label{sec:state-est}
-
-As the environment uncertainty and measurement error evolve in a normal distribution, we use a Kalman filter~\cite{stengel1994optimal, simon2006optimal} for the purpose of state estimation. 
-
-The prediction is done using
-\begin{subequations}\label{eq:kalman-pred}\begin{align}
-  \hat{\mathbf{q}}_{k+1}^-&=A\hat{\mathbf{q}}_{k}+B\mathbf{u}_k,\label{eq:kalman-pred1}\\
-  P_{k+1}^-&=AP_kA^T+Q,\label{eq:kalman-pred2}
-\end{align}\end{subequations}
-where $\hat{\mathbf{q}}_k^-,\hat{\mathbf{q}}_k\in\mathbb{R}^j$ depicts the estimate of the state before and after measurement (or simply estimate), and $P_k,P_k^-\in\mathbb{R}^{j\times j}$ the error covariance matrix (i.e., the variance of the estimate). 
-
-The estimation of the state and the update of the predicted output is done using
-\begin{subequations}\label{eq:kalman-est}\begin{align}
-  K_k&=(CP_{k+1}^-C^T+R)^{-1}(P_{k+1}^-C^T),\\
-  \hat{\mathbf{q}}_{k+1}&=\hat{\mathbf{q}}_{k+1}^-+K_k(y_k^s+y_k^c-C\hat{\mathbf{q}}_{k+1}^-),\label{eq:kalman-est2}\\
-  P_{k+1}&=(I-K_kC)P_{k+1}^-,\\
-  \hat{y}_k&=C\hat{\mathbf{q}}_{k+1},\label{eq:kalman-est4}
-\end{align}
-\end{subequations}
-where $K_k\in\mathbb{R}^j$ is the gain of the Kalman filter, and $I$ the identity matrix. $y_k^s,y_k^c$ are the instantaneous energy readings: $y_k^s\in\mathbb{R}_{\geq 0}$ the robot sensor, i.e., the energy due to the trajectory, and $y_k^c$ the energy of a given software configuration described in Equation~(\ref{eq:energy-comp}). The noise covariance matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}$ indicates the uncertainty and measurement error covariance respectively, and $\hat{y}_k\in\mathbb{R}_{\geq 0}$ is the estimated energy.
-
-Equations~(\ref{eq:kalman-pred}--\ref{eq:kalman-est}) converge to the predicted energy evolution as follows. An initial guess of the values $\hat{\mathbf{q}}_0,P_0$ is derived empirically from collected data. It is worth considering that an appropriate guess of these parameters allows the algorithm to converge to the desired energy evolution in a shorter amount of time. The tuning parameters $Q,R$ are also derived from the collected data, and may differ due to i.e., different sensors used to measure the instantaneous energy consumption, or different atmospheric conditions accounting for the process noise.
-
-At time $k=0$, the initial estimate before measurement of the state and of the error covariance matrix is updated in Equation~(\ref{eq:kalman-pred1})~and~(\ref{eq:kalman-pred2}) respectively. The value of $\hat{\mathbf{q}}_1^-$ is then used in Equation~(\ref{eq:kalman-est2}) to estimate the current state along with the data from the sensor $y_0$ (e.g., the energy sensor of the flight controller of the fixed-wing craft), where the sensor noise covariance matrix $R$ accounts for the amount of uncertainty in the measurement. The estimated output $\hat{y}_0$ is then obtained from Equation~(\ref{eq:kalman-est4}). The algorithm is iterative. At time $k=1$ the values $\hat{\mathbf{q}}_1,P_1$ computed at previous step are used to estimate the values $\hat{\mathbf{q}}_2,P_2,$ and $y_1$.
-
-\subsection{Optimal control action}
-
-*
+%*
 
 \subsection{Deployment algorithm}
 
