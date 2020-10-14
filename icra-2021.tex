@@ -422,11 +422,11 @@ Planning a mission for unmanned aerial vehicles (UAVs) operating outdoors is a c
 
 Planning algorithms for mobile robots broadly are not a new concept, in that they are correlated to such topics as trajectory generation and path planning. Generally, these algorithms select an energy-optimized trajectory~\cite{mei2004energy}, by e.g., maximizing the operational time~\cite{wahab2015energy}, but in practice apply to few robots~\cite{kim2005energy}, and focus on optimizing motion control for these robots~\cite{kim2008minimum}, despite compelling evidence for the systems' energy being influenced by the computations over bare motion~\cite{mei2005case}. For UAVs specifically, rotorcrafts have equally gained research interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. Furthermore, past mission planning algorithms--which include a broader concept of a mission being a set of tasks along with a motion plan--also focus on the trajectory~\cite{mei2005case,mei2006deployment}, and apply to few robots~\cite{sadrpour2013mission,sadrpour2013experimental}. Yet, computations of such systems are only expected to increase in the near future.
 
-The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the computations, and the trajectory-explicit equations (TEEs) adjustments. In the remainder of the paper, we strictly adopt the following notation.  We refer to the values of mission-specific QoS and TEEs parameters as computations and adjustments, to the constraints sets that delimit such computations and adjustments as QoS and TEEs sets, and to the current trajectory as TEE. Our goal is a mission extension by optimizing both computations and adjustments as the UAV flies and its batteries drain. First, the algorithm optimizes computations requiring the UAV to include robot operating system (ROS) nodes. Then, it optimizes adjustments--a way to alter the trajectory--and guides the UAV using a vector field~\cite{de2017guidance} that converges smoothly to such trajectory. It relies on the assumptions of the mission being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. It addresses the periodicity modeling the energy with Fourier analysis--being the mission periodic, we expect the energy to evolve also periodically--and the uncertainty with a state estimator. It selects the controls (computations and adjustments) using robust output feedback model predictive control (MPC).
+The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the computations, and the trajectory-explicit equations (TEEs) adjustments. In the remainder of the paper, we strictly adopt the following notation.  We refer to the values of mission-specific QoS and TEEs parameters as computations and adjustments, to the constraints sets that delimit such computations and adjustments as QoS and TEEs sets, and to the current trajectory as TEE. Our goal is a mission extension by optimizing both computations and adjustments as the UAV flies and its batteries drain. First, the algorithm optimizes computations requiring the UAV to include robot operating system (ROS) nodes. Then, it optimizes adjustments--a way to alter the trajectory--and guides the UAV using a vector field~\cite{de2017guidance} that converges smoothly to such trajectory. It relies on the assumptions of the mission being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. It addresses the periodicity modeling the energy with Fourier analysis--being the mission periodic, we expect the energy to evolve also periodically--and the uncertainty with a state estimator. It output the controls sequence (computations and adjustments) using robust output feedback model predictive control (MPC).
 
 In the spirit of reducing waste, costs, and resources, we showcase the algorithm using the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Such a scenario is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The mission consist of a UAV flying in ellipses shifted in time, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a monitoring mission optimized for the craft's dynamics. The algorithm plans the mission controlling the processing rate and the length of the semi-major and -minor axis. Data indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest computations.
 
-The remainder of the paper is organized as follows. The overview of dynamic mission planning is set in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm that uses the model and solves the mobile robot dynamic mission planning problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcase the performance. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
+The remainder of the paper is organized as follows. The overview of dynamic mission planning is set in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm that uses the model and solves the mobile robot dynamic mission planning problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcase the performances. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -436,7 +436,7 @@ The remainder of the paper is organized as follows. The overview of dynamic miss
 Let the mission be a generic continuous twice differentiable TEE $\varphi$ and a set of $\sigma$ tasks $\psi_1,\dots,\psi_{\sigma}$. Moreover, let $t_f$ be the mission final time, $[\,\cdot\,]$ the set $\{1,2,\dots,\,\cdot\,\}$, and $\underline{\,\cdot\,},\overline{\,\cdot\,}$ the upper and lower bound of $\,\cdot\,$.
 
 \begin{defn}[Mission]\label{def:mission}
-  At a time instant $k\in[0,t_f)\subseteq\mathbb{R}_{\geq 0}$, the mission is defined as the ordered list
+  At a time instant $k\in[1,t_f)\subseteq\mathbb{R}_{\geq 1}$, the mission is defined as the ordered list
   \begin{equation}\label{eq:mission}\begin{split}
     \mathcal{M}_k:=\{(\varphi,\psi_1,...,\psi_\sigma)\mid\exists&\,\,\varphi\in\mathbb{C}_k,\,\\&\psi_i\in\mathbb{S}_{k,i}\,\forall i\in[\sigma]\},
   \end{split}\end{equation}
@@ -447,18 +447,18 @@ The overall plan is the union of all the missions. If for simplicity the system 
 \begin{equation}
   \mathcal{M}:=\bigcup_{i\in[t_f]}{\mathcal{M}_i},
 \end{equation}
-the algorithm inputs $\mathcal{M}$ and outputs the position, the instantaneous energy consumption, and the controls sequence--an action performed evolving the mission state.
+the algorithm inputs $\mathcal{M}_k$ and outputs the position, the instantaneous energy consumption, and the controls sequence--an action performed evolving the mission state.
 
 \subsection{Mission state}
 \label{sec:model}
 
-The mission state is the UAV's position in space and the energy evolution in time. Despite we show a linear relation between the instantaneous energy and the energy evolution, the two are different. We show after the main results how such approach indeed allowed us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
+The mission state is the UAV's position in space and the energy evolution in time. Despite we show a linear relation between the instantaneous energy and the energy evolution (Theorem~\ref{thm:state-vs-energy}), the two are different. We show after the main results how such approach indeed allowed us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
 
 Consider the position $\mathbf{p}\in\mathbb{R}^2$ of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$, the set
 \begin{equation}\label{eq:area}
   \mathcal{P}_k:=\{\mathbf{p}_k\mid\varphi_k(\mathbf{p}_k,c_{k,1},\dots,c_{k,\rho})\in\mathbb{C}_k\},
 \end{equation}
-delimits the area where the $k$-th TEE $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\rho}\rightarrow\mathbb{R}$ is free to evolve using $\rho$ adjustments $\mathbf{c}_k:=c_{k,1},...,c_{k,\rho}$, being the TEE satisfied for all the approaching points $\varphi_k\rightarrow\mathbb{C}_k$.
+delimits the area where the $k$-th TEE $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\rho}\rightarrow\mathbb{R}$ is free to evolve using $\rho$ adjustments $\mathbf{c}_k:=c_{k,1},...,c_{k,\rho}$ (being the TEE satisfied for all the approaching points $\varphi_k\rightarrow\mathbb{C}_k$).
 
 The algorithm uses the concept to select the adjustments s.t. $\varphi_k(\mathbf{p}_k,\mathbf{c}_k^0)$ has the highest energy value. It guides the UAV to the new position $\mathbf{p}_{k+1}$ using the vector field of $\varPhi:=\varphi_k(\mathbf{p}_k,\mathbf{c}_k^0)$, deriving the direction to follow--the desired velocity vector
 \begin{equation}\label{eq:pd}
@@ -479,12 +479,12 @@ Let us consider a Fourier series $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ of
 \end{equation}
 where $\xi\in\mathbb{R}$ is the characteristic time, and $a_n, b_n\in\mathbb{R}$ the Fourier series coefficients.
 
-Suppose uncertainty in the form of $\mathbf{w}_k\in\mathbb{R}^j,v_k\in\mathbb{R}$ accounting for the unknown state and output is not present. The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using an equivalent linear discrete time-invariant state-space model
+Suppose uncertainty in the form of $\mathbf{w}_k\in\mathbb{R}^j,v_k\in\mathbb{R}$ accounting for the unknown state and output is absent. The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using an equivalent linear discrete time-invariant state-space model
 \begin{equation}\label{eq:state-perf}\begin{cases}
   \mathbf{q}_{k+1}&=A\mathbf{q}_{k}+B\mathbf{u}_{k}+\mathbf{w}_k\\
   y_k&=C\mathbf{q}_k+v_k
 \end{cases},\end{equation}
-where $y_k\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. We prove formally in the Theorem~\ref{thm:state-vs-energy} the instantaneous energy being obtained as a linear combination of the state. The state $\mathbf{q}$ mimics the original Fourier series coefficients
+where $y_k\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. The state $\mathbf{q}$ mimics the original Fourier series coefficients
 \begin{equation}\label{eq:state-details}\begin{split}
   \mathbf{q}_k&=\left[\begin{array}{cccccc}
     \alpha_0 & \alpha_1 & \beta_1 & \cdots & \alpha_r & \beta_r
@@ -534,7 +534,7 @@ In the case of the system behaving ideally (i.e., with no uncertainty), we expec
   \end{equation}
 \end{lem}
 \begin{proof}
-  \begin{center}\vspace{.2cm}``\emph{The easy proof is trivial and is left as an exercise to the reader :P}''\vspace{.6cm}\end{center}
+  *
 \end{proof}
 
 \subsection{Energy evolution due to computations}
@@ -546,7 +546,7 @@ The plan $\mathcal{M}$ contains a set of ordered lists with $\sigma$ tasks each 
 \begin{equation}\label{eq:qos-def}
   \mathbf{s}_k:=\left\{s_{k,1},\dots ,s_{k,\sigma}\mid \psi_i(s_{k,i})\in\mathbb{S}_{k}\,\forall i\in[\sigma]\right\},
 \end{equation}
-where $s_{k,i}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $i$-th computation, $\mathbf{s}_k\in\mathbb{S}_k\subseteq\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ computations at time $k$ being $\mathbb{S}_k:=\bigcup_{i\in[\sigma]}{\mathbb{S}_{k,i}}$.
+where $s_{k,i}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $i$-th computation, $\mathbf{s}_k\in\mathbb{S}_k\subseteq\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ computations at time $k$ given $\mathbb{S}_k:=\bigcup_{i\in[\sigma]}{\mathbb{S}_{k,i}}$.
 
 Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The instantaneous computational energy component can be defined
 \begin{equation}\label{eq:energy-comp}\begin{split}
@@ -570,7 +570,7 @@ Given an initial mission $\mathcal{M}_1$ (TEE $\varphi_1$, tasks $\Psi$, computa
   \end{split}\end{equation}
 \end{defn}
 
-Note that the position evolution can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
+Note that the controls sequence $\mathbf{u}_k^a$ differs from the control in Equation~(\ref{eq:state-perf}) $\mathbf{u}_k(\mathbf{u}_k^a,\mathbf{u}_{k-1}^a)$. Moreover, the position evolution can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
 
 Let us proof that if the mission evolution is valid, the instantaneous energy consumption is a linear combination of the state from the Equation~(\ref{eq:state-perf}).
 
