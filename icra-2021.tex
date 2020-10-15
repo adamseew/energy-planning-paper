@@ -40,6 +40,7 @@
 
 %% pseudocode package
 %\usepackage{algorithmic}
+\usepackage{algpseudocode}
 
 %% packages for alignment
 %\usepackage{array}
@@ -83,6 +84,11 @@
 \newtheorem{defn}{Definition}[section]
 \newtheorem{exmp}{Example}[section]
 \newtheorem{rem}{Remark}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
 
 %% references (generates a bib file for bibtex)
 \begin{filecontents}{\jobname.bib}
@@ -475,7 +481,7 @@ The algorithm models the energy using a state $\mathbf{q}\in\mathbb{R}^j$ derive
 
 Let us consider a Fourier series $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of energy modeling of the mission
 \begin{equation}\label{eq:fourier}
-  h(t)=\sum_{n=0}^{r}{a_n\cos{\frac{nt}{\xi}}+b_n\sin{\frac{nt}{\xi}}},
+  h(t)=\sum_{n=0}^{r}{a_n\cos\left({nt/\xi}\right)+b_n\sin{\left({nt/\xi}\right)}},
 \end{equation}
 where $\xi\in\mathbb{R}$ is the characteristic time, and $a_n, b_n\in\mathbb{R}$ the Fourier series coefficients.
 
@@ -552,7 +558,7 @@ where $s_{k,i}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $i
 
 Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The instantaneous computational energy component can be defined
 \begin{equation}\label{eq:energy-comp}\begin{split}
-  y_k^c:&=g\left(\text{QoS}_{k,0},\dots,\text{QoS}_{k,\sigma-1}\right)=g\left(\mathbf{s}_{k}\right).\\
+  y_k^s:=g\left(\text{QoS}_{k,0},\dots,\text{QoS}_{k,\sigma-1}\right)=g\left(\mathbf{s}_{k}\right).\\
 \end{split}\end{equation}
 
 
@@ -614,8 +620,68 @@ Let us proof that if the mission evolution is valid, the instantaneous energy co
 
 %*
 
+\subsection{Output constraints set}
+
+Recall the model in Equation~(\ref{eq:state-perf}). We stated the output $y_k$--the instantaneous energy consumption--evolves in $\mathbb{R}_{\geq 0}$. This is generally untrue. Physical UAVs are bounded by strict battery limitations.
+
+Let us hence consider the state of charge (SoC) of such battery with a simplistic difference equation~\cite{seewald2020mechanical}
+\begin{equation}\begin{split}
+  \mathrm{SoC}_k=-\left(V-
+  \sqrt{
+    V^2-
+    4R\tilde{V}y_kV^{-1}}
+  \right)/2RQ_c,\\ 
+\end{split}\end{equation}
+where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the stabilized voltage, $R\in\mathbb{R}$ the resistance, and $Q_c\in\mathbb{R}$ the constant nominal capacity. We define the output constraints set
+\begin{equation}
+  \mathbb{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
+\end{equation}
+where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy.
 \subsection{Deployment algorithm}
 
+\begin{center}\textit{Ok, so I need to fix this algorithm properly. But the sketch is there (the position is missing but I'll make a wrapper tomorrow morning)!}\end{center}
+
+\begin{algorithmic}[1]
+  \Procedure{}{$\mathcal{M}_1$, $\mathbf{p}_1$, $\mathbf{q}_1$, $K$, $v$, $\varepsilon$}
+  \State $k\gets 2$
+  \State $\mathbf{z}_{k-1},\hat{\mathbf{q}}_{k-1}\gets \mathbf{q}_1$
+  \State $\mathbf{v}_{k-1},\mathbf{u}_{k-1}\gets {\mathbf{u}_{k-1}(\overline{\mathbf{u}}_{k-1}^a,\mathbf{u}_{k-2}^a)}$
+  \While{$k \leq t_f$}
+    \Do
+      \State $\mathbf{v}\gets\argmax_{\mathbf{v}}{\sum_{i=k-1}^{k+N-2}}{l(\mathbf{z}_i,\mathbf{v}_i)+V_f(\mathbf{z}_{N+1})}$
+      \State $\mathbf{u}_{k-1}\gets \mathbf{v}+K(\hat{\mathbf{q}}_{k-1}-\mathbf{z}_{k-1})$
+      \State $\hat{\mathbf{q}}_k^-\gets A\hat{\mathbf{q}}_{k-1} + B\mathbf{u}_{k-1}$
+      \If{$C\hat{\mathbf{q}}_k^-\notin\mathbb{Y}_k$}
+        \State $\mathbf{u}^a_{k-1}\gets\mathbf{u}^a_{k-1}/\overline{\mathbf{u}}^a_{k-1}$
+        \State $\mathbf{v}_{k-1},\mathbf{u}_{k-1}\gets {\mathbf{u}_{k-1}(\overline{\mathbf{u}}_{k-1}^a,\mathbf{u}_{k-2}^a)}$
+
+      \EndIf
+    \doWhile{$C\hat{\mathbf{q}}_k^-\notin\mathbb{Y}_k$}
+
+    \If{$\abs{y_k^m-C\hat{\mathbf{q}}_k^-}\leq \varepsilon$}
+      \State $\hat{\mathbf{q}}_k\gets\hat{\mathbf{q}}_k^-$
+    \Else 
+      \State $P_k^-\gets AP_{k-1}A^T+Q$
+      \State $L\gets P_k^-C^T/(CP_k^-C^T+R)$
+      \State $\hat{\mathbf{q}}_k\gets \hat{\mathbf{q}}_k^-+L(y_k^m-C\hat{\mathbf{q}}_k^-)$
+      $\mathbf{z}_{k-1}$
+      \State $P_k\gets(I+LC)P_k^-$
+    \EndIf
+    \State $\mathbf{z}_k\gets A\mathbf{z}_{k-1}+B\mathbf{u}_{k-1}$
+    \State $\mathbf{y}\gets\mathbf{y}\cup C\hat{\mathbf{q}}_k$
+    \State $k\gets k + 1$
+  \EndWhile % <---
+  %\State $r\gets a\bmod b$
+  %\State $\mathcal{M}_1\gets a\bmod b$
+  %\While{$r\not=0$}\Comment{We have the answer if r is 0}
+  %State $a\gets b$
+  %\State $b\gets r$
+  %\State $r\gets a\bmod b$
+  %\EndWhile\label{euclidendwhile}
+  %\State \textbf{return} $b$\Comment{The gcd is b}
+  \EndProcedure
+\end{algorithmic}
+  
 *
 
 %%%%%%%%%%%%%%%%%%%%
