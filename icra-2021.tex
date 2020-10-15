@@ -433,7 +433,7 @@ The remainder of the paper is organized as follows. The overview of dynamic miss
 \section{Mission Planning Overview}
 \label{sec:prob}
 
-Let the mission be a generic continuous twice differentiable TEE $\varphi$ and a set of $\sigma$ tasks $\psi_1,\dots,\psi_{\sigma}$. Moreover, let $t_f$ be the mission final time, $[\,\cdot\,]$ the set $\{1,2,\dots,\,\cdot\,\}$, and $\underline{\,\cdot\,},\overline{\,\cdot\,}$ the upper and lower bound of $\,\cdot\,$.
+Let the mission be a generic continuous twice differentiable TEE $\varphi$ and a set of $\sigma$ tasks $\psi_1,\dots,\psi_{\sigma}$. Moreover, let $t_f$ be the final time, $[\,\cdot\,]$ the set $\{1,2,\dots,\,\cdot\,\}$, and $\underline{\,\cdot\,},\overline{\,\cdot\,}$ the upper and lower bound of $\,\cdot\,$.
 
 \begin{defn}[Mission]\label{def:mission}
   At a time instant $k\in[1,t_f)\subseteq\mathbb{R}_{\geq 1}$, the mission is defined as the ordered list
@@ -513,6 +513,8 @@ The control $\mathbf{u}$ along with the input matrix
 \end{split}\end{equation}
 where $\mathbf{s}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{1}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}^T$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given adjustment to the instantaneous energy. 
 
+Note that the controls sequence $\mathbf{u}_k^a:=(\mathbf{c}_{k},\mathbf{s}_{k})$--an output of the algorithm--differs from the nominal control in Equation~(\ref{eq:state-perf}) $\mathbf{u}_k(\mathbf{u}_k^a,\mathbf{u}_{k-1}^a)$. 
+
 The energy evolution analysis necessitates the following realistic assumption.
 \begin{assm}[Energy evelution periodicity]\label{assm:periodic} 
 Given two time instants $k_1,k_2\in[t_f]$ s.t. $k_1>k_2$ and a constant value $n\in\mathbb{R}_{> 0}$, there exist an arbitrary constant displacement $e\in\mathbb{R}$
@@ -523,9 +525,9 @@ Given two time instants $k_1,k_2\in[t_f]$ s.t. $k_1>k_2$ and a constant value $n
 
 Physically, the time evolution of the instantaneous energy consumption is assumed periodic, in the sense that it presents repetitive patterns. We show in Section~\ref{sec:experimental} the assumption being eased in practice to a set $\mathbb{E}\subset\mathbb{R}$, or omitted under specific conditions.
 
-Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the adjustments is merely a linear combination of the gain factor and the adjustment. Nevertheless, the change updates the path which will hence affect the reading from the sensors and adjust the energy evolution accordingly. The linearity simulates how a variation affects the energy, for instance, a decrement in the adjustment radius of a circle when the TEE is a circle, adds a negative contribution, thus simulates the lowering of instantaneous energy consumption.
+Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the adjustments is merely a linear combination of the gain factor and the adjustment. Nevertheless, the change updates the path which will hence affect the reading from the sensors and adjust the energy evolution. For instance, a decrement in the adjustment radius of a circle when the TEE is a circle, adds a negative contribution, thus simulates the lowering of instantaneous energy consumption.
 
-In the case of the system behaving ideally (i.e., with no uncertainty), we expect a state (energy evolution) evolving accordingly to its output (instantaneous energy consumption). Such observation is summarized in the following Lemma.
+In the case of the system behaving ideally (i.e., with no uncertainty), we expect a state (energy evolution) evolving accordingly to its output (instantaneous energy consumption). An observation summarized in the following Lemma.
 
 \begin{lem}[State, output proportionality]\label{lem:state-vs-energy}
   Suppose the system of Equation~(\ref{eq:state-perf}) evolves with no uncertainty ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds. Given two time instants $k_1,k_2\in[t_f]$
@@ -542,7 +544,7 @@ In the case of the system behaving ideally (i.e., with no uncertainty), we expec
 
 The energy cost of the computations is assessed using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}, that measures software configurations empirically and builds an energy model. Specifically, the tool builds a linear interpolation, one per each task. It requires the user to implement the mission as a ROS system with one or more ROS nodes changing the computational load by node-specific ROS parameters. A way to simulate the change of the computations.
 
-The plan $\mathcal{M}$ contains a set of ordered lists with $\sigma$ tasks each (recall Definition~\ref{def:mission}). These tasks are simulated by $\sigma$ ROS nodes $\Psi(\mathbf{s}_k):=\left(\psi_1(s_{k,1}),\dots,\psi_\sigma(s_{k,\sigma})\right)$, in fact they input the desired and output the actual computations. Let us define the computations
+The plan $\mathcal{M}$ contains a set of ordered lists with $\sigma$ tasks each (recall Definition~\ref{def:mission}). These tasks are simulated by $\sigma$ ROS nodes $\Psi(\mathbf{s}_k):=\left(\psi_1(s_{k,1}),\dots,\psi_\sigma(s_{k,\sigma})\right)$, in fact they input the desired and output the actual computations
 \begin{equation}\label{eq:qos-def}
   \mathbf{s}_k:=\left\{s_{k,1},\dots ,s_{k,\sigma}\mid \psi_i(s_{k,i})\in\mathbb{S}_{k}\,\forall i\in[\sigma]\right\},
 \end{equation}
@@ -563,14 +565,14 @@ Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow
 Given an initial mission $\mathcal{M}_1$ (TEE $\varphi_1$, tasks $\Psi$, computations $\mathbf{s}_1\in\mathbb{S}_1$, and adaptations $\mathbf{c}_1\in\mathbb{C}_1$), the algorithm produce a valid mission evolution.
 
 \begin{defn}[Valid mission evolution]\label{def:valid}
-  At a generic time instant $k\in[t_f]$ a mission evolution $\mathcal{M}_{k}$ is valid
+  At a generic time instant $k\in[t_f]$ a mission evolution $\mathcal{M}_{k}$ is valid if its control sequence is valid
   \begin{equation}\begin{split}
     \mathbf{u}^a_{k}=\{(\mathbf{c}_{k},\mathbf{s}_{k})\mid&(\varphi(\mathbf{p}_{k-1},\mathbf{c}_{k-1}),\Psi(\mathbf{s_{k-1}}))\in\mathcal{M}_{k-1}\\
     &\Longrightarrow(\varphi(\mathbf{p}_{k},\mathbf{c}_{k}),\Psi(\mathbf{s}_{k}))\in\mathcal{M}_{k}\}.
   \end{split}\end{equation}
 \end{defn}
 
-Note that the controls sequence $\mathbf{u}_k^a$ differs from the control in Equation~(\ref{eq:state-perf}) $\mathbf{u}_k(\mathbf{u}_k^a,\mathbf{u}_{k-1}^a)$. Moreover, the position evolution can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
+Note the position evolution can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
 
 Let us proof that if the mission evolution is valid, the instantaneous energy consumption is a linear combination of the state from the Equation~(\ref{eq:state-perf}).
 
