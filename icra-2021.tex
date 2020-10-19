@@ -430,7 +430,7 @@ Planning algorithms for mobile robots broadly are not a new concept, in that the
 
 The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the computations, and the trajectory-explicit equations (TEEs) adjustments. In the remainder of the paper, we strictly adopt the following notation.  We refer to the values of mission-specific QoS and TEEs parameters as computations and adjustments, to the constraints sets that delimit such computations and adjustments as QoS and TEEs sets, and to the current trajectory as TEE. Our goal is a mission extension by optimizing both computations and adjustments as the UAV flies and its batteries drain. First, the algorithm optimizes computations requiring the UAV to include robot operating system (ROS) nodes. Then, it optimizes adjustments--a way to alter the trajectory--and guides the UAV using a vector field~\cite{de2017guidance} that converges smoothly to such trajectory. It relies on the assumptions of the mission being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. It addresses the periodicity modeling the energy with Fourier analysis--being the mission periodic, we expect the energy to evolve also periodically--and the uncertainty with a state estimator. It output the controls sequence (computations and adjustments) using robust output feedback model predictive control (MPC).
 
-In the spirit of reducing waste, costs, and resources, we showcase the algorithm using the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Such a scenario is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The mission consist of a UAV flying in ellipses shifted in time, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a monitoring mission optimized for the craft's dynamics. The algorithm plans the mission controlling the processing rate and the length of the semi-major and -minor axis. Data indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest computations.
+In the spirit of reducing costs, and resources, we showcase the algorithm using the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Such a scenario is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The mission consists of a UAV flying in circles and lines covering a polygon, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a survey mission optimized for the craft's dynamics. The algorithm plans the mission controlling the processing rate, the radius of the circles, and the distance between the lines. Data indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest computations.
 
 The remainder of the paper is organized as follows. The overview of dynamic mission planning is set in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm that uses the model and solves the mobile robot dynamic mission planning problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcase the performances. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
 
@@ -439,28 +439,35 @@ The remainder of the paper is organized as follows. The overview of dynamic miss
 \section{Mission Planning Overview}
 \label{sec:prob}
 
-Let the mission be a generic continuous twice differentiable TEE $\varphi$ and a set of $\sigma$ tasks $\psi_1,\dots,\psi_{\sigma}$. Moreover, let $t_f$ be the final time, $[\,\cdot\,]$ the set $\{1,2,\dots,\,\cdot\,\}$, and $\underline{\,\cdot\,},\overline{\,\cdot\,}$ the upper and lower bound of $\,\cdot\,$.
+Let a mission's stage be a generic continuous twice differentiable TEE $\varphi$ and a set of tasks $\psi_1,\dots,\psi_{\sigma}$. Moreover, let $t_f$ be the final time, $[\,\cdot\,]$ the set $\{0,1,\dots,\,\cdot\,\}$, $[\,\cdot\,]^+$ the set $\{0\}/[\,\cdot\,]$, and $\underline{\,\cdot\,},\overline{\,\cdot\,}$ the lower and upper bound of $\,\cdot\,$. If $\,\cdot\,$ is a value, the bounds are user defined and retrieved from a lookup table; if a set, they correspond to minimum and maximum of the set.
 
-\begin{defn}[Mission]\label{def:mission}
-  At a time instant $k\in[1,t_f)\subseteq\mathbb{R}_{\geq 1}$, the mission is defined as the ordered list
+\begin{defn}[Stage and mission]\label{def:mission}
+  At a time instant $k\in[0,t_f)$, the \emph{stage} is defined as the ordered list
   \begin{equation}\label{eq:mission}\begin{split}
-    \mathcal{M}_k:=\{(\varphi,\psi_1,...,\psi_\sigma)\mid\exists&\,\,\varphi\in\mathbb{C}_k,\,\\&\psi_i\in\mathbb{S}_{k,i}\,\forall i\in[\sigma]\},
+    \mathcal{M}_k:=\{(\varphi_k&(\,\cdot\,),\psi_1(\,\cdot\,),...,\psi_\sigma(\,\cdot\,))\mid\\\exists\,\,&\varphi_k(\,\cdot\,)\in\mathbb{C}_k,\,\\&\,\psi_i(\,\cdot\,)\in\mathbb{S}_{k,i}\,\forall i\in[\sigma]\},
   \end{split}\end{equation}
-  where $\mathbb{C}_k:=[\underline{c}_k,\overline{c}_k]\subseteq\mathbb{R}$ is the TEEs set, and $\mathbb{S}_{k,i}:=[\underline{s}_{k,i},\overline{s}_{k,i}]\subseteq\mathbb{Z}_{\geq 0}$ the $i$-th task QoS set.
+  where $\mathbb{C}_k:=[\underline{c}_k,\overline{c}_k]\subseteq\mathbb{R}$ is the TEEs set, and $\mathbb{S}_{k,i}:=[\underline{s}_{k,i},\overline{s}_{k,i}]\subseteq\mathbb{Z}_{\geq 0}$ the $i$-th task QoS set. The parameters of the TEE $\varphi_k$ are defined in Subsection~\ref{sec:model}, of the tasks $\psi_1,\dots,\psi_\sigma$ in~\ref{sec:computations-model}.
+
+  The \emph{mission} is the union of all the stages, along with a function $\lambda:\mathbb{R}^2\rightarrow\mathcal{M}_k$ which maps a point $\mathbf{p}\in\mathbb{R}^2$ of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$ to a specific stage. If for simplicity the system is sampled discrete-time
+  \begin{equation}
+    \mathcal{M}:=(\lambda(\mathbf{p}),\bigcup_{i\in[t_f]}{\mathcal{M}_i}),
+  \end{equation}
+  the algorithm inputs $\mathcal{M}_k$ and outputs the position, the instantaneous energy consumption, and the controls sequence--an action performed evolving the mission state.
 \end{defn}
 
-The overall plan is the union of all the missions. If for simplicity the system is sampled discrete-time
-\begin{equation}
-  \mathcal{M}:=\bigcup_{i\in[t_f]}{\mathcal{M}_i},
-\end{equation}
-the algorithm inputs $\mathcal{M}_k$ and outputs the position, the instantaneous energy consumption, and the controls sequence--an action performed evolving the mission state.
+\begin{figure}[t]
+  \centering
+  \input{\figpath/icra-2021_overview.tikz}
+  \caption{Overview}
+  \label{fig:overview}
+\end{figure}
 
-\subsection{Mission state}
+\subsection{State: position and energy}
 \label{sec:model}
 
-The mission state is the UAV's position in space and the energy evolution in time. Despite we show a linear relation between the instantaneous energy and the energy evolution (Theorem~\ref{thm:state-vs-energy}), the two are different. We show after the main results how such approach indeed allowed us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
+The state is the UAV's position in space and the energy evolution in time. Despite we show a linear relation between the instantaneous energy consumption and the energy evolution (Theorem~\ref{thm:state-vs-energy}), the two are different. We show after the main results how such approach indeed allowed us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
 
-Consider the position $\mathbf{p}\in\mathbb{R}^2$ of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$, the set
+Consider the position $\mathbf{p}$, the set
 \begin{equation}\label{eq:area}
   \mathcal{P}_k:=\{\mathbf{p}_k\mid\varphi_k(\mathbf{p}_k,c_{k,1},\dots,c_{k,\rho})\in\mathbb{C}_k\},
 \end{equation}
@@ -517,7 +524,7 @@ The control $\mathbf{u}$ along with the input matrix
      &             &       & 0
   \end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{s}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{1}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}^T$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given adjustment to the instantaneous energy. 
+where $\mathbf{s}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{1}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}^T$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given adjustment to the instantaneous energy consumption. 
 
 Note that the controls sequence $\mathbf{u}_k^a:=(\mathbf{c}_{k},\mathbf{s}_{k})$--an output of the algorithm--differs from the nominal control in Equation~(\ref{eq:state-perf}) $\mathbf{u}_k(\mathbf{u}_k^a,\mathbf{u}_{k-1}^a)$. 
 
@@ -556,7 +563,7 @@ The plan $\mathcal{M}$ contains a set of ordered lists with $\sigma$ tasks each 
 \end{equation}
 where $s_{k,i}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $i$-th computation, $\mathbf{s}_k\in\mathbb{S}_k\subseteq\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ computations at time $k$ given $\mathbb{S}_k:=\bigcup_{i\in[\sigma]}{\mathbb{S}_{k,i}}$.
 
-Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous energy value obtained interrogating \powprof{}. The instantaneous computational energy component can be defined
+Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained interrogating \powprof{}
 \begin{equation}\label{eq:energy-comp}\begin{split}
   y_k^s:=g\left(\text{QoS}_{k,0},\dots,\text{QoS}_{k,\sigma-1}\right)=g\left(\mathbf{s}_{k}\right).\\
 \end{split}\end{equation}
@@ -636,7 +643,7 @@ where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the 
 \begin{equation}
   \mathbb{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation}
-where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy.
+where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption.
 \subsection{Deployment algorithm}
 
 \begin{center}\textit{Ok, so I need to fix this algorithm properly. But the sketch is there (the position is missing but I'll make a wrapper tomorrow morning)!}\end{center}
