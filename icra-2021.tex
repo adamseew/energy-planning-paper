@@ -479,14 +479,14 @@ The algorithm uses the concept to select the adjustments s.t. $\varphi_k(\mathbf
     0&1\\-1&0
   \end{bmatrix},
 \end{equation}
-where $\nabla\varPhi\in\mathbb{R}^2$ is the gradient, $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading due to the atmospheric interference.
+where $\nabla\varPhi\in\mathbb{R}^2$ is the gradient, $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading due to the atmospheric interference, such as wind $w\in\mathbb{R}$.
 
 The algorithm models the energy using a state $\mathbf{q}\in\mathbb{R}^j$ derived from Fourier analysis (the meaning of $j$ is clarified to the reader shortly) and decompose such evolution in the energy due to the trajectory, and computations--an approach adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
 
 \subsection{Energy evolution due to trajectory}
 \label{sec:energy-model}
 
-Let us consider a Fourier series $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of energy modeling of the mission
+Let us consider a Fourier series $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of energy consumption modeling of the mission
 \begin{equation}\label{eq:fourier}
   h(t)=\sum_{n=0}^{r}{a_n\cos\left({nt/\xi}\right)+b_n\sin{\left({nt/\xi}\right)}},
 \end{equation}
@@ -555,7 +555,7 @@ In the case of the system behaving ideally (i.e., with no uncertainty), we expec
 \subsection{Energy evolution due to computations}
 \label{sec:computations-model}
 
-The energy cost of the computations is assessed using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}, that measures software configurations empirically and builds an energy model. Specifically, the tool builds a linear interpolation, one per each task. It requires the user to implement the mission as a ROS system with one or more ROS nodes changing the computational load by node-specific ROS parameters. A way to simulate the change of the computations.
+The energy cost of the computations is assessed using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}, that measures software configurations empirically and builds a computational energy consumption model. Specifically, the tool builds a linear interpolation, one per each task. It requires the user to implement the mission as a ROS system with one or more ROS nodes changing the computational load by node-specific ROS parameters. A way to simulate the change of the computations.
 
 The plan $\mathcal{M}$ contains a set of ordered lists with $\sigma$ tasks each (recall Definition~\ref{def:mission}). These tasks are simulated by $\sigma$ ROS nodes $\Psi(\mathbf{s}_k):=\left(\psi_1(s_{k,1}),\dots,\psi_\sigma(s_{k,\sigma})\right)$, in fact they input the desired and output the actual computations
 \begin{equation}\label{eq:qos-def}
@@ -573,25 +573,21 @@ Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow
 \section{Algorithm}
 \label{sec:algo}
 
-%The main goal of the algorithm is to find an optimal control action $\mathbf{u}^0$ for the current state $\hat{\mathbf{q}}$--estimated from sensors' measurements--from the optimal control law $\mathbf{u}^0=:\kappa(\hat{\mathbf{q}})$. This is achieved by solving online a finite horizon optimal control problem by the hand of a modification of a model predictive control (MPC) algorithm~\cite{rawlings2017model}.
+Given an initial stage $\mathcal{M}_0$ (TEE $\varphi_0$, tasks $\Psi$, computations $\mathbf{s}_0\in\mathbb{S}_0$, and adaptations $\mathbf{c}_0\in\mathbb{C}_0$), the algorithm produce a valid mission.
 
-Given an initial mission $\mathcal{M}_1$ (TEE $\varphi_1$, tasks $\Psi$, computations $\mathbf{s}_1\in\mathbb{S}_1$, and adaptations $\mathbf{c}_1\in\mathbb{C}_1$), the algorithm produce a valid mission evolution.
-
-\begin{defn}[Valid mission evolution]\label{def:valid}
-  At a generic time instant $k\in[t_f]$ a mission evolution $\mathcal{M}_{k}$ is valid if its control sequence is valid
+\begin{defn}[Valid mission]\label{def:valid}
+  A mission is valid if for every stage $\mathcal{M}_{k-1}$ in $k\in[t_f]^+$ there exist a control sequence $\mathbf{u}_k^{a}$ which produce the stage $\mathcal{M}_k$
   \begin{equation}\begin{split}
     \mathbf{u}^a_{k}=\{(\mathbf{c}_{k},\mathbf{s}_{k})\mid&(\varphi(\mathbf{p}_{k-1},\mathbf{c}_{k-1}),\Psi(\mathbf{s_{k-1}}))\in\mathcal{M}_{k-1}\\
     &\Longrightarrow(\varphi(\mathbf{p}_{k},\mathbf{c}_{k}),\Psi(\mathbf{s}_{k}))\in\mathcal{M}_{k}\}.
   \end{split}\end{equation}
 \end{defn}
 
-Note the position evolution can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
-
-Let us proof that if the mission evolution is valid, the instantaneous energy consumption is a linear combination of the state from the Equation~(\ref{eq:state-perf}).
+Let us proof that if the mission is valid, the instantaneous energy consumption is a linear combination of the state from the Equation~(\ref{eq:state-perf}).
 
 \begin{thm}[State output linearity]\label{thm:state-vs-energy}
-  Consider the mission from Definition~\ref{def:mission}, the valid mission evolution from~\ref{def:valid}, and assume Assumption~\ref{assm:periodic} holds. Likewise in Lemma~\ref{lem:state-vs-energy}, the model behaves ideally. 
-  Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$ and $\mathcal{M}_k$ produce a valid mission evolution $\mathcal{M}_{k+1}\,\forall k\in[t_f-1]$.
+  Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}, and assume Assumption~\ref{assm:periodic} holds. Likewise in Lemma~\ref{lem:state-vs-energy}, the model behaves ideally. 
+  Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$ and $\mathcal{M}_k$ produce a valid mission $\mathcal{M}_{k+1}\,\forall k\in[t_f-1]$.
 \end{thm}
 \begin{proof}
   *\\
@@ -646,38 +642,29 @@ where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the 
 where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption.
 \subsection{Deployment algorithm}
 
-\begin{center}\textit{Ok, so I need to fix this algorithm properly. But the sketch is there (the position is missing but I'll make a wrapper tomorrow morning)!}\end{center}
-
 \begin{algorithmic}[1]
-  \Procedure{}{$\mathcal{M}_1$, $\mathbf{p}_1$, $\mathbf{q}_1$, $K$, $v$, $\varepsilon$}
-  \State $k\gets 2$
-  \State $\mathbf{z}_{k-1},\hat{\mathbf{q}}_{k-1}\gets \mathbf{q}_1$
-  \State $\mathbf{v}_{k-1},\mathbf{u}_{k-1}\gets {\mathbf{u}_{k-1}(\overline{\mathbf{u}}_{k-1}^a,\mathbf{u}_{k-2}^a)}$
-  \While{$k \leq t_f$}
-    \Do
-      \State $\mathbf{v}\gets\argmax_{\mathbf{v}}{\sum_{i=k-1}^{k+N-2}}{l(\mathbf{z}_i,\mathbf{v}_i)+V_f(\mathbf{z}_{N+1})}$
-      \State $\mathbf{u}_{k-1}\gets \mathbf{v}+K(\hat{\mathbf{q}}_{k-1}-\mathbf{z}_{k-1})$
-      \State $\hat{\mathbf{q}}_k^-\gets A\hat{\mathbf{q}}_{k-1} + B\mathbf{u}_{k-1}$
-      \If{$C\hat{\mathbf{q}}_k^-\notin\mathbb{Y}_k$}
-        \State $\mathbf{u}^a_{k-1}\gets\mathbf{u}^a_{k-1}/\overline{\mathbf{u}}^a_{k-1}$
-        \State $\mathbf{v}_{k-1},\mathbf{u}_{k-1}\gets {\mathbf{u}_{k-1}(\overline{\mathbf{u}}_{k-1}^a,\mathbf{u}_{k-2}^a)}$
+  \Procedure{Step}{$\mathcal{M}_{k-1}$, $\mathbf{q}_{k-1}$, $\mathbf{u}_{k-1}^a$, $\mathbf{u}_{k-2}^a$, $P_{k-1}$}\label{alg:step}
+  
+  \State $\mathbf{u}_{k-1}\gets {\mathbf{u}_{k-1}(\overline{\mathbf{u}}_{k-1}^a,\mathbf{u}_{k-2}^a)}$\label{alg:max_cont_sequence}
 
-      \EndIf
-    \doWhile{$C\hat{\mathbf{q}}_k^-\notin\mathbb{Y}_k$}
+  \State $\mathbf{u}^0_{k-1}\gets\argmax_{\mathbf{u}}{\sum_{i=k-1}^{k+N-2}{l(\mathbf{q}_i,\mathbf{u}_i)+V_f(\mathbf{q}_{k+N-1})}}$\label{alg:mpc}
 
+  \State $\hat{\mathbf{q}}_k^-\gets A\hat{\mathbf{q}}_{k-1} + B\mathbf{u}^0_{k-1}$
+  \If{$C\hat{\mathbf{q}}_k^-\notin\mathbb{Y}_k$}\label{alg:output_constraints}
+    \State $\mathbf{u}^a_{k-1}\gets\mathbf{u}^a_{k-1}/\{\overline{\mathbf{u}}^a_{k-1}\}$
+    \State\Return{\Call{Step}{$\mathcal{M}_{k-1}$, $\mathbf{q}_{k-1}$, $\mathbf{u}^a_{k-1}$, $\mathbf{u}_{k-2}^a$,$P_{k-1}$}}
+  \Else
     \If{$\abs{y_k^m-C\hat{\mathbf{q}}_k^-}\leq \varepsilon$}
-      \State $\hat{\mathbf{q}}_k\gets\hat{\mathbf{q}}_k^-$
+      \State $\hat{\mathbf{q}}_k\gets\hat{\mathbf{q}}_k^-$\label{alg:evolution}
     \Else 
-      \State $P_k^-\gets AP_{k-1}A^T+Q$
-      \State $L\gets P_k^-C^T/(CP_k^-C^T+R)$
-      \State $\hat{\mathbf{q}}_k\gets \hat{\mathbf{q}}_k^-+L(y_k^m-C\hat{\mathbf{q}}_k^-)$
-      $\mathbf{z}_{k-1}$
-      \State $P_k\gets(I+LC)P_k^-$
+      \State $P_k^-\gets AP_{k-1}A^T+Q$\label{alg:kalman_start}
+      \State $K\gets P_k^-C^T/(CP_k^-C^T+R)$
+      \State $\hat{\mathbf{q}}_k\gets \hat{\mathbf{q}}_k^-+K(y_k^m-C\hat{\mathbf{q}}_k^-)$
+      \State $P_k\gets(I+KC)P_k^-$\label{alg:kalman_end}
     \EndIf
-    \State $\mathbf{z}_k\gets A\mathbf{z}_{k-1}+B\mathbf{u}_{k-1}$
-    \State $\mathbf{y}\gets\mathbf{y}\cup C\hat{\mathbf{q}}_k$
-    \State $k\gets k + 1$
-  \EndWhile % <---
+    \State $\mathbf{u}_{k}^a\gets \mathbf{u}_{k-1}^a$
+    \State\Return{$(\hat{\mathbf{q}}_k,\mathbf{u}_k^a)$}
+  \EndIf
   %\State $r\gets a\bmod b$
   %\State $\mathcal{M}_1\gets a\bmod b$
   %\While{$r\not=0$}\Comment{We have the answer if r is 0}
@@ -687,9 +674,40 @@ where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the interna
   %\EndWhile\label{euclidendwhile}
   %\State \textbf{return} $b$\Comment{The gcd is b}
   \EndProcedure
+  \Procedure{EADMPA}{$\mathcal{M}_0$, $\mathbf{p}_0$, $\mathbf{q}_0$}
+  \State $k\gets 0$
+%  \State $\mathbf{y}\gets \{\emptyset\}$
+  \State $\mathbf{u}_{k-1}^a\gets\{\emptyset\}$
+  \State $\mathbf{u}_{k}^a\gets \{(\mathbf{c}_0,\mathbf{s}_0)\mid(\varphi_0(\mathbf{p}_{0},\mathbf{c}_{0}),\Psi(\mathbf{s_{0}}))\in\mathcal{M}_{0}\}$
+  \State $\mathcal{M}_k\gets\mathcal{M}_0$
+  \State $\mathbf{p}_k\gets\mathbf{p}_0$
+  \State $\mathbf{q}_k\gets\mathbf{q}_0$
+  \While{$k \leq t_f$}
+    
+    \State $(\mathbf{q}_k,\mathbf{u}_k^a)\gets$\Call{Step}{$\mathbf{q}_{k}$, $\mathbf{u}^a_{k}$, $\mathbf{u}_{k-1}^a$}
+    \State $\mathbf{p}_{k}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$
+    \State $\mathbf{u}_{k-1}^a\gets\mathbf{u}_{k}^a$
+
+%    \State $\mathbf{y}\gets\mathbf{y}\cup C\hat{\mathbf{q}}_k$
+    \State $k\gets k + 1$
+  \EndWhile 
+  \EndProcedure
 \end{algorithmic}
+
+%The algorithm per each time step updates the state. The position at line
   
-*
+Line~\ref{alg:max_cont_sequence} selects the maximum possible control from the control sequence at the time step $k-1$. Line~\ref{alg:mpc} uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the optimal control $\mathbf{u}^0$ for a given horizon $N$ from the cost function
+\begin{equation}\begin{split}
+  l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k^TQ\mathbf{q}_k+\mathbf{u}_k^TR\mathbf{u}_k),\\
+  V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^TP_f\mathbf{q}_k)
+\end{split}\end{equation}
+where matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}^{l\times l}$ are all positive definite.
+
+Follows a check if the mission can finish without the eventuality of the battery discharge (output constraints satisfaction) at line~\ref{alg:output_constraints}. The control sequence is then eventually updated.
+
+Before the algorithm returns the energy evolution and the control sequence, a state estimator--the discrete-time Kalman filter~\cite{simon2006optimal} (lines~\ref{alg:kalman_start}--\ref{alg:kalman_end})--predicts the state $\mathbf{q}$ if the modeled instantaneous energy consumption diverging from the sensor's value $y_k^m\in\mathbb{R}$ more than a given $\varepsilon\in\mathbb{R}_{\geq  0}$.
+
+Note the position evolution can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Evaluation}
