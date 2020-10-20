@@ -643,7 +643,7 @@ where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the interna
 \subsection{Deployment algorithm}
 
 \begin{algorithmic}[1]
-  \Procedure{Step}{$\mathcal{M}_{k-1}$, $\mathbf{q}_{k-1}$, $\mathbf{u}_{k-1}^a$, $\mathbf{u}_{k-2}^a$, $P_{k-1}$}\label{alg:step}
+  \Procedure{Step}{$\mathbf{q}_{k-1}$, $\mathbf{u}_{k-1}^a$, $\mathbf{u}_{k-2}^a$, $P_{k-1}$}\label{alg:step}
   
   \State $\mathbf{u}_{k-1}\gets {\mathbf{u}_{k-1}(\overline{\mathbf{u}}_{k-1}^a,\mathbf{u}_{k-2}^a)}$\label{alg:max_cont_sequence}
 
@@ -652,10 +652,11 @@ where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the interna
   \State $\hat{\mathbf{q}}_k^-\gets A\hat{\mathbf{q}}_{k-1} + B\mathbf{u}^0_{k-1}$
   \If{$C\hat{\mathbf{q}}_k^-\notin\mathbb{Y}_k$}\label{alg:output_constraints}
     \State $\mathbf{u}^a_{k-1}\gets\mathbf{u}^a_{k-1}/\{\overline{\mathbf{u}}^a_{k-1}\}$
-    \State\Return{\Call{Step}{$\mathcal{M}_{k-1}$, $\mathbf{q}_{k-1}$, $\mathbf{u}^a_{k-1}$, $\mathbf{u}_{k-2}^a$,$P_{k-1}$}}
+    \State\Return{\Call{Step}{$\mathbf{q}_{k-1}$, $\mathbf{u}^a_{k-1}$, $\mathbf{u}_{k-2}^a$,$P_{k-1}$}}\label{alg:recursion}
   \Else
     \If{$\abs{y_k^m-C\hat{\mathbf{q}}_k^-}\leq \varepsilon$}
       \State $\hat{\mathbf{q}}_k\gets\hat{\mathbf{q}}_k^-$\label{alg:evolution}
+      \State $P_k\gets P_k^-$
     \Else 
       \State $P_k^-\gets AP_{k-1}A^T+Q$\label{alg:kalman_start}
       \State $K\gets P_k^-C^T/(CP_k^-C^T+R)$
@@ -663,29 +664,21 @@ where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the interna
       \State $P_k\gets(I+KC)P_k^-$\label{alg:kalman_end}
     \EndIf
     \State $\mathbf{u}_{k}^a\gets \mathbf{u}_{k-1}^a$
-    \State\Return{$(\hat{\mathbf{q}}_k,\mathbf{u}_k^a)$}
+    \State\Return{$(\hat{\mathbf{q}}_k,P_k,\mathbf{u}_k^a)$}
   \EndIf
-  %\State $r\gets a\bmod b$
-  %\State $\mathcal{M}_1\gets a\bmod b$
-  %\While{$r\not=0$}\Comment{We have the answer if r is 0}
-  %State $a\gets b$
-  %\State $b\gets r$
-  %\State $r\gets a\bmod b$
-  %\EndWhile\label{euclidendwhile}
-  %\State \textbf{return} $b$\Comment{The gcd is b}
   \EndProcedure
-  \Procedure{EADMPA}{$\mathcal{M}_0$, $\mathbf{p}_0$, $\mathbf{q}_0$}
+\vspace*{1ex}
+  \Procedure{EADMPA}{$\mathcal{M}$, $\mathbf{p}_0$, $\mathbf{q}_0$}
   \State $k\gets 0$
 %  \State $\mathbf{y}\gets \{\emptyset\}$
   \State $\mathbf{u}_{k-1}^a\gets\{\emptyset\}$
-  \State $\mathbf{u}_{k}^a\gets \{(\mathbf{c}_0,\mathbf{s}_0)\mid(\varphi_0(\mathbf{p}_{0},\mathbf{c}_{0}),\Psi(\mathbf{s_{0}}))\in\mathcal{M}_{0}\}$
-  \State $\mathcal{M}_k\gets\mathcal{M}_0$
   \State $\mathbf{p}_k\gets\mathbf{p}_0$
   \State $\mathbf{q}_k\gets\mathbf{q}_0$
   \While{$k \leq t_f$}
     
-    \State $(\mathbf{q}_k,\mathbf{u}_k^a)\gets$\Call{Step}{$\mathbf{q}_{k}$, $\mathbf{u}^a_{k}$, $\mathbf{u}_{k-1}^a$}
-    \State $\mathbf{p}_{k}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$
+    \State $\mathbf{u}_{k}^a\gets \{\mathbf{u}_{k}^a\mid(\varphi_k(\mathbf{p}_{k},\mathbf{c}_{k}),\Psi(\mathbf{s_{k}}))\in\mathcal{M}_{k}\subseteq\mathcal{M}\}$
+    \State $(\mathbf{q}_k,P_k,\mathbf{u}_k^a)\gets$\Call{Step}{$\mathbf{q}_{k}$, $\mathbf{u}^a_{k}$, $\mathbf{u}_{k-1}^a$, $P_k$}\label{alg:en}
+    \State $\mathbf{p}_{k}\gets\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$\label{alg:pos}
     \State $\mathbf{u}_{k-1}^a\gets\mathbf{u}_{k}^a$
 
 %    \State $\mathbf{y}\gets\mathbf{y}\cup C\hat{\mathbf{q}}_k$
@@ -694,20 +687,20 @@ where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the interna
   \EndProcedure
 \end{algorithmic}
 
-%The algorithm per each time step updates the state. The position at line
+The algorithm per each time step updates the state. The position at line~\ref{alg:pos} and the energy coefficients at line~\ref{alg:en}. Note the position can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
   
-Line~\ref{alg:max_cont_sequence} selects the maximum possible control from the control sequence at the time step $k-1$. Line~\ref{alg:mpc} uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the optimal control $\mathbf{u}^0$ for a given horizon $N$ from the cost function
+In detail, initial guesses for $\mathbf{q}_0$ and $P_0\in\mathbb{R}^{j\times j}$ are derived empirically. Line~\ref{alg:max_cont_sequence} selects the maximum possible control from the current control sequence. Line~\ref{alg:mpc} uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the optimal control $\mathbf{u}^0$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
 \begin{equation}\begin{split}
   l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k^TQ\mathbf{q}_k+\mathbf{u}_k^TR\mathbf{u}_k),\\
-  V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^TP_f\mathbf{q}_k)
+  V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^TP_f\mathbf{q}_k),
 \end{split}\end{equation}
 where matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}^{l\times l}$ are all positive definite.
 
-Follows a check if the mission can finish without the eventuality of the battery discharge (output constraints satisfaction) at line~\ref{alg:output_constraints}. The control sequence is then eventually updated.
+Follows a check if the mission can finish without the eventuality of the battery discharge (output constraints satisfaction) at line~\ref{alg:output_constraints}, with the control sequence being eventually updated and the process reiterated at line~\ref{alg:recursion}.
 
-Before the algorithm returns the energy evolution and the control sequence, a state estimator--the discrete-time Kalman filter~\cite{simon2006optimal} (lines~\ref{alg:kalman_start}--\ref{alg:kalman_end})--predicts the state $\mathbf{q}$ if the modeled instantaneous energy consumption diverging from the sensor's value $y_k^m\in\mathbb{R}$ more than a given $\varepsilon\in\mathbb{R}_{\geq  0}$.
+Before the next step a state estimator--the discrete-time Kalman filter~\cite{simon2006optimal} at lines~\ref{alg:kalman_start}--\ref{alg:kalman_end}--predicts the state $\mathbf{q}$ if the modeled instantaneous energy consumption diverges from the sensor's value $y_k^m\in\mathbb{R}$ more than a given $\varepsilon\in\mathbb{R}_{\geq  0}$.
 
-Note the position evolution can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
+
 
 %%%%%%%%%%%%%%%%%%%%
 \section{Evaluation}
