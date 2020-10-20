@@ -430,7 +430,7 @@ Planning algorithms for mobile robots broadly are not a new concept, in that the
 
 The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the computations, and the trajectory-explicit equations (TEEs) adjustments. In the remainder of the paper, we strictly adopt the following notation.  We refer to the values of mission-specific QoS and TEEs parameters as computations and adjustments, to the constraints sets that delimit such computations and adjustments as QoS and TEEs sets, and to the current trajectory as TEE. Our goal is a mission extension by optimizing both computations and adjustments as the UAV flies and its batteries drain. First, the algorithm optimizes computations requiring the UAV to include robot operating system (ROS) nodes. Then, it optimizes adjustments--a way to alter the trajectory--and guides the UAV using a vector field~\cite{de2017guidance} that converges smoothly to such trajectory. It relies on the assumptions of the mission being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. It addresses the periodicity modeling the energy with Fourier analysis--being the mission periodic, we expect the energy to evolve also periodically--and the uncertainty with a state estimator. It output the controls sequence (computations and adjustments) using robust output feedback model predictive control (MPC).
 
-In the spirit of reducing costs, and resources, we showcase the algorithm using the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Such a scenario is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The mission consists of a UAV flying in circles and lines covering a polygon, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a survey mission optimized for the craft's dynamics. The algorithm plans the mission controlling the processing rate, the radius of the circles, and the distance between the lines. Data indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest computations.
+In the spirit of reducing costs, and resources, we showcase the algorithm using the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Such a scenario is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The mission consists of a UAV flying in circles and lines covering a polygon, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a survey mission optimized for the craft's dynamics. The algorithm plans the mission controlling the processing rate, and the radius of the circles which affects the distance between the lines. Data indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest computations. Figure~\ref{fig:overview} shows an initial slice of such a mission. The UAV first converges to the circular TEE $\varphi_0$, and later shifts to TEE $\varphi_0^+$, as e.g., windy weather required the adjustment of the control sequence to avoid battery depletion.
 
 The remainder of the paper is organized as follows. The overview of dynamic mission planning is set in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm that uses the model and solves the mobile robot dynamic mission planning problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcase the performances. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
 
@@ -458,20 +458,20 @@ Let a mission's stage be a generic continuous twice differentiable TEE $\varphi$
 \begin{figure}[t]
   \centering
   \input{\figpath/icra-2021_overview.tikz}
-  \caption{Overview}
+  \caption{The mission consists of circles and lines that forms a survey pattern. The UAV heads to $\varphi_0$ initially using the desired velocity vector $\dot{\mathbf{p}}_d$, but it later heads to $\varphi_0^+$ reducing the radius $c_{0,0}$ to satisfy the battery constraints (indeed the energy coefficients $\mathbf{q}_0$ evolution is higher then $\mathbf{q}_0^+$). The UAV then converges to $\varphi_1$, to $\varphi_3$, and so on until it covers the polygon (the circle $\varphi_2$ is not visible in the figure; it connects $\varphi_1$ and $\varphi_3$).}
   \label{fig:overview}
 \end{figure}
 
 \subsection{State: position and energy}
 \label{sec:model}
 
-The state is the UAV's position in space and the energy evolution in time. Despite we show a linear relation between the instantaneous energy consumption and the energy evolution (Theorem~\ref{thm:state-vs-energy}), the two are different. We show after the main results how such approach indeed allowed us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
+The state is the UAV's position in space and the energy coefficients in time. Despite we show a linear relation between the instantaneous energy consumption and the energy coefficients (Theorem~\ref{thm:state-vs-energy}), the two are different. We show after the main results how such approach indeed allowed us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
 
-Consider the position $\mathbf{p}$, the set
+The set
 \begin{equation}\label{eq:area}
   \mathcal{P}_k:=\{\mathbf{p}_k\mid\varphi_k(\mathbf{p}_k,c_{k,1},\dots,c_{k,\rho})\in\mathbb{C}_k\},
 \end{equation}
-delimits the area where the $k$-th TEE $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\rho}\rightarrow\mathbb{R}$ is free to evolve using $\rho$ adjustments $\mathbf{c}_k:=c_{k,1},...,c_{k,\rho}$ (being the TEE satisfied for all the approaching points $\varphi_k\rightarrow\mathbb{C}_k$).
+delimits the area where the $k$-th TEE $\varphi_k:\mathbb{R}^2\times\mathbb{R}^{\rho}\rightarrow\mathbb{R}$ is free to evolve using $\rho$ adjustments $\mathbf{c}_k:=c_{k,1},...,c_{k,\rho}$ (gray area in Figure~\ref{fig:overview}), being the TEE satisfied for all the approaching points $\varphi_k\rightarrow\mathbb{C}_k$.
 
 The algorithm uses the concept to select the adjustments s.t. $\varphi_k(\mathbf{p}_k,\mathbf{c}_k^0)$ has the highest energy value. It guides the UAV to the new position $\mathbf{p}_{k+1}$ using the vector field of $\varPhi:=\varphi_k(\mathbf{p}_k,\mathbf{c}_k^0)$, deriving the direction to follow--the desired velocity vector
 \begin{equation}\label{eq:pd}
@@ -524,9 +524,9 @@ The control $\mathbf{u}$ along with the input matrix
      &             &       & 0
   \end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{s}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, $\mathbf{u}_{1}=\begin{bmatrix}0 & \cdots & 0\end{bmatrix}^T$ and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given adjustment to the instantaneous energy consumption. 
+where $\mathbf{s}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given adjustment to the instantaneous energy consumption. 
 
-Note that the controls sequence $\mathbf{u}_k^a:=(\mathbf{c}_{k},\mathbf{s}_{k})$--an output of the algorithm--differs from the nominal control in Equation~(\ref{eq:state-perf}) $\mathbf{u}_k(\mathbf{u}_k^a,\mathbf{u}_{k-1}^a)$. 
+Note that the controls sequence $\mathbf{u}_k^a:=(\mathbf{c}_{k},\mathbf{s}_{k})$--an output of the algorithm--differs from the nominal control in Equation~(\ref{eq:state-perf}) $\mathbf{u}_k(\mathbf{u}_k^a,\mathbf{u}_{k-1}^a)$.
 
 The energy evolution analysis necessitates the following realistic assumption.
 \begin{assm}[Energy evelution periodicity]\label{assm:periodic} 
@@ -538,9 +538,9 @@ Given two time instants $k_1,k_2\in[t_f]$ s.t. $k_1>k_2$ and a constant value $n
 
 Physically, the time evolution of the instantaneous energy consumption is assumed periodic, in the sense that it presents repetitive patterns. We show in Section~\ref{sec:experimental} the assumption being eased in practice to a set $\mathbb{E}\subset\mathbb{R}$, or omitted under specific conditions.
 
-Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the adjustments is merely a linear combination of the gain factor and the adjustment. Nevertheless, the change updates the path which will hence affect the reading from the sensors and adjust the energy evolution. For instance, a decrement in the adjustment radius of a circle when the TEE is a circle, adds a negative contribution, thus simulates the lowering of instantaneous energy consumption.
+Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the adjustments is merely a linear combination of the gain factor and the adjustment. Nevertheless, the change updates the path which will hence affect the reading from the sensors and adjust the energy coefficients. For instance, a decrement in the adjustment radius of a circle when the TEE is a circle, adds a negative contribution, thus simulates the lowering of instantaneous energy consumption.
 
-In the case of the system behaving ideally (i.e., with no uncertainty), we expect a state (energy evolution) evolving accordingly to its output (instantaneous energy consumption). An observation summarized in the following Lemma.
+In the case of the system behaving ideally (i.e., with no uncertainty), we expect a state (energy coefficients) evolving accordingly to its output (instantaneous energy consumption). An observation summarized in the following Lemma.
 
 \begin{lem}[State, output proportionality]\label{lem:state-vs-energy}
   Suppose the system of Equation~(\ref{eq:state-perf}) evolves with no uncertainty ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds. Given two time instants $k_1,k_2\in[t_f]$
@@ -567,7 +567,7 @@ Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow
 \begin{equation}\label{eq:energy-comp}\begin{split}
   y_k^s:=g\left(\text{QoS}_{k,0},\dots,\text{QoS}_{k,\sigma-1}\right)=g\left(\mathbf{s}_{k}\right).\\
 \end{split}\end{equation}
-
+Moreover, $g(\{\emptyset\})=0$.
 
 %%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
@@ -592,36 +592,6 @@ Let us proof that if the mission is valid, the instantaneous energy consumption 
 \begin{proof}
   *\\
 \end{proof}
-
-%\subsection{State estimation}
-%\label{sec:state-est}
-
-%As the environment uncertainty and measurement error evolve in a normal distribution, we use a Kalman filter~\cite{stengel1994optimal, simon2006optimal} for the purpose of state estimation. 
-
-%The prediction is done using
-%\begin{subequations}\label{eq:kalman-pred}\begin{align}
-%  \hat{\mathbf{q}}_{k+1}^-&=A\hat{\mathbf{q}}_{k}+B\mathbf{u}_k,\label{eq:kalman-pred1}\\
-%  P_{k+1}^-&=AP_kA^T+Q,\label{eq:kalman-pred2}
-%\end{align}\end{subequations}
-%where $\hat{\mathbf{q}}_k^-,\hat{\mathbf{q}}_k\in\mathbb{R}^j$ depicts the estimate of the state before and after measurement (or simply estimate), and $P_k,P_k^-\in\mathbb{R}^{j\times j}$ the error covariance matrix (i.e., the variance of the estimate). 
-
-%The estimation of the state and the update of the predicted output is done using
-%\begin{subequations}\label{eq:kalman-est}\begin{align}
-%  K_k&=(CP_{k+1}^-C^T+R)^{-1}(P_{k+1}^-C^T),\\
-%  \hat{\mathbf{q}}_{k+1}&=\hat{\mathbf{q}}_{k+1}^-+K_k(y_k^s+y_k^c-C\hat{\mathbf{q}}_{k+1}^-),\label{eq:kalman-est2}\\
-%  P_{k+1}&=(I-K_kC)P_{k+1}^-,\\
-%  \hat{y}_k&=C\hat{\mathbf{q}}_{k+1},\label{eq:kalman-est4}
-%\end{align}
-%\end{subequations}
-%where $K_k\in\mathbb{R}^j$ is the gain of the Kalman filter, and $I$ the identity matrix. $y_k^s,y_k^c$ are the instantaneous energy readings: $y_k^s\in\mathbb{R}_{\geq 0}$ the robot sensor, i.e., the energy due to the trajectory, and $y_k^c$ the energy of a given software configuration described in Equation~(\ref{eq:energy-comp}). The noise covariance matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}$ indicates the uncertainty and measurement error covariance respectively, and $\hat{y}_k\in\mathbb{R}_{\geq 0}$ is the estimated energy.
-
-%Equations~(\ref{eq:kalman-pred}--\ref{eq:kalman-est}) converge to the predicted energy evolution as follows. An initial guess of the values $\hat{\mathbf{q}}_0,P_0$ is derived empirically from collected data. It is worth considering that an appropriate guess of these parameters allows the algorithm to converge to the desired energy evolution in a shorter amount of time. The tuning parameters $Q,R$ are also derived from the collected data, and may differ due to i.e., different sensors used to measure the instantaneous energy consumption, or different atmospheric conditions accounting for the process noise.
-
-%At time $k=0$, the initial estimate before measurement of the state and of the error covariance matrix is updated in Equation~(\ref{eq:kalman-pred1})~and~(\ref{eq:kalman-pred2}) respectively. The value of $\hat{\mathbf{q}}_1^-$ is then used in Equation~(\ref{eq:kalman-est2}) to estimate the current state along with the data from the sensor $y_0$ (e.g., the energy sensor of the flight controller of the fixed-wing craft), where the sensor noise covariance matrix $R$ accounts for the amount of uncertainty in the measurement. The estimated output $\hat{y}_0$ is then obtained from Equation~(\ref{eq:kalman-est4}). The algorithm is iterative. At time $k=1$ the values $\hat{\mathbf{q}}_1,P_1$ computed at previous step are used to estimate the values $\hat{\mathbf{q}}_2,P_2,$ and $y_1$.
-
-%\subsection{Optimal control action}
-
-%*
 
 \subsection{Output constraints set}
 
@@ -687,19 +657,18 @@ where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the interna
   \EndProcedure
 \end{algorithmic}
 
-The algorithm per each time step updates the state. The position at line~\ref{alg:pos} and the energy coefficients at line~\ref{alg:en}. Note the position can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
+Per each time step, the algorithm updates the state--the position at line~\ref{alg:pos} and the energy coefficients at line~\ref{alg:en}--and the control sequence s.t. the mission is still valid. Note that the position can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
   
 In detail, initial guesses for $\mathbf{q}_0$ and $P_0\in\mathbb{R}^{j\times j}$ are derived empirically. Line~\ref{alg:max_cont_sequence} selects the maximum possible control from the current control sequence. Line~\ref{alg:mpc} uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the optimal control $\mathbf{u}^0$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
 \begin{equation}\begin{split}
   l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k^TQ\mathbf{q}_k+\mathbf{u}_k^TR\mathbf{u}_k),\\
   V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^TP_f\mathbf{q}_k),
 \end{split}\end{equation}
-where matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}^{l\times l}$ are all positive definite.
+where matrices $P_f,Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}^{l\times l}$ are all positive definite.
 
-Follows a check if the mission can finish without the eventuality of the battery discharge (output constraints satisfaction) at line~\ref{alg:output_constraints}, with the control sequence being eventually updated and the process reiterated at line~\ref{alg:recursion}.
+Follows a check if the mission can finish without the eventuality of battery discharge (output constraints satisfaction) at line~\ref{alg:output_constraints}, with the control sequence being eventually updated and the process reiterated at line~\ref{alg:recursion}.
 
-Before the next step a state estimator--the discrete-time Kalman filter~\cite{simon2006optimal} at lines~\ref{alg:kalman_start}--\ref{alg:kalman_end}--predicts the state $\mathbf{q}$ if the modeled instantaneous energy consumption diverges from the sensor's value $y_k^m\in\mathbb{R}$ more than a given $\varepsilon\in\mathbb{R}_{\geq  0}$.
-
+Before the next step, state estimator--the discrete-time Kalman filter~\cite{simon2006optimal} at lines~\ref{alg:kalman_start}--\ref{alg:kalman_end}--predicts the state $\mathbf{q}$ if the modeled instantaneous energy consumption diverges from the sensor's value $y_k^m\in\mathbb{R}$ more than a given $\varepsilon\in\mathbb{R}_{\geq  0}$. 
 
 
 %%%%%%%%%%%%%%%%%%%%
