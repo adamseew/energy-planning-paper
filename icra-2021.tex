@@ -594,8 +594,8 @@ Given an initial stage $\mathcal{M}_0$ (TEE $\varphi_0$, tasks $\Psi$, computati
 
 Let us proof that if the mission is valid, the instantaneous energy consumption is a linear combination of the state from the Equation~(\ref{eq:state-perf}).
 
-\begin{thm}[State output linearity]\label{thm:state-vs-energy}
-  Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}, assume Assumption~\ref{assm:periodic} holds, the model behaves ideally ($\mathbf{w}=\mathbf{0},v=0$), the initial energy coefficients state is $\mathbf{q}_0=\begin{bmatrix}
+\begin{thm}[State, output linearity]\label{thm:state-vs-energy}
+  Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}. Assume Assumption~\ref{assm:periodic} holds, the model behaves ideally ($\mathbf{w}=\mathbf{0},v=0$), the initial energy coefficients state is $\mathbf{q}_0=\begin{bmatrix}
     y_0^m/j & (1/2)y_0^m/j & \cdots & (1/2)y_0^m/j
   \end{bmatrix}^T$ where $y_0^m\in\mathbb{R}_{>0}$ is an initial measurement\footnote{$y_0^m$ can be the initial measurement or the measurement from a previous instance of the algorithm}, and the mission is valid.
   Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$.
@@ -604,16 +604,16 @@ Let us proof that if the mission is valid, the instantaneous energy consumption 
   The proof is based on mathematical induction. 
   \emph{(Base case)}. We proof that $y_0=y_0^m$. Recall the definition of the state in Equation~(\ref{eq:state-details}). The output is $y_{0}=\alpha_{0,0}+\alpha_{0,1}+\dots+\alpha_{0,r}=y_0^m/j+(1/2)y_0^m/j+\cdots+(1/2)y_0^m/j=y_0^m$.
   
-  \emph{(Induction step)}. By inspection of Equation~(\ref{eq:state-perf}), the output at instant $k$ can be expressed $y_{k}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)\alpha_{0,1}+\dots+p_r(n)\alpha_{0,r}$, where 
+  \emph{(Induction step)}. By inspection of Equation~(\ref{eq:state-perf}), the output at instant $k$ can be expressed $y_{k}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)\alpha_{0,1}+\dots+p_r(k)\alpha_{0,r}$, where by omitting the sign
   \begin{equation}
     p_r(k):=\begin{cases}
       \prod_{i=1}^{k/2}{r^3/\xi^3}&\text{ for even }k\\
       (r/\xi)\prod_{i=1}^{k/2}{r^3/\xi^3}&\text{ for odd }k
-    \end{cases},
+    \end{cases}.
   \end{equation}
   Using $\mathbf{q}_0$ leads to $y_{k}=(y_0^m/j+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)(1/2)y_0^m/j+\dots+p_r(k)(1/2)y_0^m/j=y_{k}^m$. 
   
-  We prove now that the instantaneous energy consumption at $k+1$ is still a linear combination of the state $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)\beta_{k,1}+\dots+(r/\xi)\beta_{k,r}$. Notice that the coefficients $\alpha,\beta$ have an equivalent evolution (indeed this allows to simulate the periodicity) and $\beta_{k,r}=p_r(k)\beta_{0,r}$. The output can be expressed $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)p_1(k)\beta_{0,1}+\dots+(r/\xi)p_r(k)\beta_{0,r}$. The expression is equivalent to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)\beta_{0,r}+\dots+p_r(k+1)\beta_{0,r}$. Using $\mathbf{q}_0$ leads to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)(1/2)y_0^m+\dots+p_r(k+1)(1/2)y_0^m=y_{k+1}^m$, alike the previous statement ($y_k^m=y_{k+1}^m$), but at instant $k+1$.
+  We prove now that the instantaneous energy consumption at $k+1$ is still a linear combination of the state. We express the output in function of the previous state $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)\beta_{k,1}+\dots+(r/\xi)\beta_{k,r}$. Notice that the coefficients $\alpha,\beta$ have an equivalent evolution (indeed this allows to simulate the periodicity) and $\beta_{k,r}=p_r(k)\beta_{0,r}$. Thus, the output can be expressed $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)p_1(k)\beta_{0,1}+\dots+(r/\xi)p_r(k)\beta_{0,r}$. The expression is equivalent to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)\beta_{0,r}+\dots+p_r(k+1)\beta_{0,r}$. Using $\mathbf{q}_0$ leads to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)(1/2)y_0^m+\dots+p_r(k+1)(1/2)y_0^m=y_{k+1}^m$, alike the previous statement ($y_k^m=y_{k+1}^m$), but at instant $k+1$.
 \end{proof}
 
 \subsection{Output constraints set}
