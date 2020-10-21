@@ -540,18 +540,26 @@ Physically, the time evolution of the instantaneous energy consumption is assume
 
 Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the adjustments is merely a linear combination of the gain factor and the adjustment. Nevertheless, the change updates the path which will hence affect the reading from the sensors and adjust the energy coefficients. For instance, a decrement in the adjustment radius of a circle when the TEE is a circle, adds a negative contribution, thus simulates the lowering of instantaneous energy consumption.
 
-In the case of the system behaving ideally (i.e., with no uncertainty), we expect a state (energy coefficients) evolving accordingly to its output (instantaneous energy consumption). An observation summarized in the following Lemma, where we use norm to compare two energy coefficients vectors.
+%In the case of the system behaving ideally (i.e., with no uncertainty), we expect a state (energy coefficients) evolving accordingly to its output (instantaneous energy consumption). An observation summarized in the following Lemma, where we use norm to compare two energy coefficients vectors.
 
-\begin{lem}[State, output proportionality]\label{lem:state-vs-energy}
-  Suppose the system of Equation~(\ref{eq:state-perf}) evolves with no uncertainty ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds. Given two time instants $k_1,k_2\in[t_f]$
-  \begin{equation}
-    \|\mathbf{q}_{k_1}\|\geq\|\mathbf{q}_{k_2}\|\iff y_{k_1}\geq y_{k_2}.
-  \end{equation}
-\end{lem}
-\begin{proof}
-  *
-\end{proof}
-
+%\begin{lem}[State, output proportionality]\label{lem:state-vs-energy}
+%  Suppose the system of Equation~(\ref{eq:state-perf}) evolves with no uncertainty ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds. Then
+%  \begin{equation}
+%    \|\mathbf{q}_{k_1}\|\geq\|\mathbf{q}_{k_2}\|\iff y_{k_1}\geq y_{k_2}.
+%  \end{equation}
+%\end{lem}
+%\begin{proof}
+%  Suppose $y_{k_1}\geq y_{k_2}$ is true. Given $k=k_1, k+n=k_2$, $y_{k}=\alpha_{k,0}+\alpha_{k,1}+\dots+\alpha_{k,r}$. Moreover, the time evolution of the model in Equation~(\ref{eq:state-perf}) can be expressed $y_{k+n}=(\alpha_{k,0}+B\mathbf{u}_k+\dots+B\mathbf{u}_{k+n-1})+p_1(n)\alpha_{k,1}+\dots+p_r(n)\alpha_{k,r}$, where $p_r(n):=\prod_{i=1}^{n/2}{r^3/\xi^3}$ depends on the order of a given coefficient and $n$. 
+%  Hence, $\alpha_{k,0}+\alpha_{k,1}+\dots+\alpha_{k,r}\geq (\alpha_{k,0}+B\mathbf{u}_k+\dots+B\mathbf{u}_{k+n-1})+p_1\alpha_{k,1}+\dots+p_r\alpha_{k,r}$.
+%
+%  The magnitudes are $\|\mathbf{q}_{k}\|=(\alpha_{k,0}^2+\alpha_{k,1}^2+\beta_{k,1}^2+\dots+\alpha_{k,r}^2+\beta_{k,r}^2)^{1/2}$ and $\|\mathbf{q}_{k+n}\|=((\alpha_{k,0}+B\mathbf{u}_k+\dots+B\mathbf{u}_{k+n-1})^2+p_1^2(n)\alpha_{k,1}^2+p_1^2(n)\beta_{k,1}^2+\dots+p_r^2(n)\alpha_{k,r}^2+p_r^2(n)\beta_{k,r}^2)^{1/2}$.
+%  By still inspecting the Equation~(\ref{eq:state-perf}), the coefficient $p_r^2(n)\beta_{k,r}^2$ can be expressed as a function of coefficients $\alpha$, $p_r^2(n)\beta_{k,r}^2=$
+%  
+%  Hence $\alpha_{k,0}^2+\alpha_{k,1}^2+\beta_{k,1}^2+\dots+\alpha_{k,r}^2+\beta_{k,r}^2\geq (\alpha_{k,0}+B\mathbf{u}_k+\dots+B\mathbf{u}_{k+n-1})^2+p_1^2\alpha_{k,1}^2+p_1^2\beta_{k,1}^2+\dots+p_r^2\alpha_{k,r}^2+p_r^2\beta_{k,r}^2$ and $()$.
+%
+%\end{proof}
+% Lol wrong... Doesn't make sense this lemma at all...
+%
 \subsection{Energy evolution due to computations}
 \label{sec:computations-model}
 
@@ -587,11 +595,25 @@ Given an initial stage $\mathcal{M}_0$ (TEE $\varphi_0$, tasks $\Psi$, computati
 Let us proof that if the mission is valid, the instantaneous energy consumption is a linear combination of the state from the Equation~(\ref{eq:state-perf}).
 
 \begin{thm}[State output linearity]\label{thm:state-vs-energy}
-  Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}, and assume Assumption~\ref{assm:periodic} holds. Likewise in Lemma~\ref{lem:state-vs-energy}, the model behaves ideally. 
-  Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$ and $\mathbf{u}_k^a$ allows to produce stage $\mathcal{M}_{k+1}$ from $\mathcal{M}_k\,\forall k\in[t_f-1]$.
+  Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}, assume Assumption~\ref{assm:periodic} holds, the model behaves ideally ($\mathbf{w}=\mathbf{0},v=0$), the initial energy coefficients state is $\mathbf{q}_0=\begin{bmatrix}
+    y_0^m/j & (1/2)y_0^m/j & \cdots & (1/2)y_0^m/j
+  \end{bmatrix}^T$ where $y_0^m\in\mathbb{R}_{>0}$ is an initial measurement\footnote{$y_0^m$ can be the initial measurement or the measurement from a previous instance of the algorithm}, and the mission is valid.
+  Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$.
 \end{thm}
 \begin{proof}
-  *\\
+  The proof is based on mathematical induction. 
+  \emph{(Base case)}. We proof that $y_0=y_0^m$. Recall the definition of the state in Equation~(\ref{eq:state-details}). The output is $y_{0}=\alpha_{0,0}+\alpha_{0,1}+\dots+\alpha_{0,r}=y_0^m/j+(1/2)y_0^m/j+\cdots+(1/2)y_0^m/j=y_0^m$.
+  
+  \emph{(Induction step)}. By inspection of Equation~(\ref{eq:state-perf}), the output at instant $k$ can be expressed $y_{k}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)\alpha_{0,1}+\dots+p_r(n)\alpha_{0,r}$, where 
+  \begin{equation}
+    p_r(k):=\begin{cases}
+      \prod_{i=1}^{k/2}{r^3/\xi^3}&\text{ for even }k\\
+      (r/\xi)\prod_{i=1}^{k/2}{r^3/\xi^3}&\text{ for odd }k
+    \end{cases},
+  \end{equation}
+  Using $\mathbf{q}_0$ leads to $y_{k}=(y_0^m/j+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)(1/2)y_0^m/j+\dots+p_r(k)(1/2)y_0^m/j=y_{k}^m$. 
+  
+  We prove now that the instantaneous energy consumption at $k+1$ is still a linear combination of the state $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)\beta_{k,1}+\dots+(r/\xi)\beta_{k,r}$. Notice that the coefficients $\alpha,\beta$ have an equivalent evolution (indeed this allows to simulate the periodicity) and $\beta_{k,r}=p_r(k)\beta_{0,r}$. The output can be expressed $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)p_1(k)\beta_{0,1}+\dots+(r/\xi)p_r(k)\beta_{0,r}$. The expression is equivalent to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)\beta_{0,r}+\dots+p_r(k+1)\beta_{0,r}$. Using $\mathbf{q}_0$ leads to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)(1/2)y_0^m+\dots+p_r(k+1)(1/2)y_0^m=y_{k+1}^m$, alike the previous statement ($y_k^m=y_{k+1}^m$), but at instant $k+1$.
 \end{proof}
 
 \subsection{Output constraints set}
