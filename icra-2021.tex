@@ -430,9 +430,9 @@ Planning algorithms for mobile robots broadly are not a new concept, in that the
 
 The proposed algorithm alters the energy consumption dynamically by means of mission-specific parameters: the Quality of Service (QoS) of the computations, and the trajectory-explicit equations (TEEs) adjustments. In the remainder of the paper, we strictly adopt the following notation.  We refer to the values of mission-specific QoS and TEEs parameters as computations and adjustments, to the constraints sets that delimit such computations and adjustments as QoS and TEEs sets, and to the current trajectory as TEE. Our goal is a mission extension by optimizing both computations and adjustments as the UAV flies and its batteries drain. First, the algorithm optimizes computations requiring the UAV to include robot operating system (ROS) nodes. Then, it optimizes adjustments--a way to alter the trajectory--and guides the UAV using a vector field~\cite{de2017guidance} that converges smoothly to such trajectory. It relies on the assumptions of the mission being \emph{periodic} and \emph{uncertain}. The periodicity is directly observed, by e.g., the UAV flying in repetitive patterns, and the uncertainty accounts for the environmental interference with e.g., a fixed-wing UAV drifting due to windy weather. It addresses the periodicity modeling the energy with Fourier analysis--being the mission periodic, we expect the energy to evolve also periodically--and the uncertainty with a state estimator. It output the controls sequence (computations and adjustments) using robust output feedback model predictive control (MPC).
 
-In the spirit of reducing costs, and resources, we showcase the algorithm using the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Such a scenario is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The mission consists of a UAV flying in circles and lines covering a polygon, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a survey mission optimized for the craft's dynamics. The algorithm plans the mission controlling the processing rate, and the radius of the circles which affects the distance between the lines. Data indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest computations. Figure~\ref{fig:overview} shows an initial slice of such a mission. The UAV first converges to the circular TEE $\varphi_0$, and later shifts to TEE $\varphi_0^+$, as e.g., windy weather required the adjustment of the control sequence to avoid battery depletion.
+In the spirit of reducing costs, and resources, we showcase the algorithm using the problem of dynamic mission planning for a precision agriculture fixed-wing UAV. Such a scenario is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The mission consists of a UAV flying in circles and lines covering a polygon, detecting obstacles using a convolutional neural network (CNN), and informing grounded mobile robots employed for future harvesting--a survey mission optimized for the craft's dynamics. The algorithm plans the mission controlling the processing rate and the radius of the circles, affecting the distance between the lines. Data indicates a potential extension of up to 13 minutes over an hour by merely switching to the lowest computations. Figure~\ref{fig:overview} shows an initial slice of such a mission. The UAV first heads to the circular TEE $\varphi_0$, and later shifts to TEE $\varphi_0^+$, as e.g., windy weather required the adjustment of the control sequence to avoid battery depletion.
 
-The remainder of the paper is organized as follows. The overview of dynamic mission planning is set in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm that uses the model and solves the mobile robot dynamic mission planning problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcase the performances. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
+The remainder of the paper is organized as follows. The overview of dynamic mission planning is set in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm that uses the model and solves the UAV dynamic mission planning problem is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcase the performances. The paper finishes with some conclusions in Section~\ref{sec:conclusion}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -444,7 +444,7 @@ Let a mission's stage be a generic continuous twice differentiable TEE $\varphi$
 \begin{defn}[Stage and mission]\label{def:mission}
   At a time instant $k\in[0,t_f)$, the \emph{stage} is defined as the ordered list
   \begin{equation}\label{eq:mission}\begin{split}
-    \mathcal{M}_k:=\{(\varphi_k&(\,\cdot\,),\psi_1(\,\cdot\,),...,\psi_\sigma(\,\cdot\,))\mid\\\exists\,\,&\varphi_k(\,\cdot\,)\in\mathbb{C}_k,\,\\&\,\psi_i(\,\cdot\,)\in\mathbb{S}_{k,i}\,\forall i\in[\sigma]\},
+    \mathcal{M}_k:=\{(\varphi_k&(\,\cdot\,),\psi_1(\,\cdot\,),...,\psi_\sigma(\,\cdot\,))\mid\\\exists\,\,&\varphi_k(\,\cdot\,)\in\mathbb{C}_k,\,\\&\,\psi_i(\,\cdot\,)\in\mathbb{S}_{k,i}\,\forall i\in[\sigma]^+\},
   \end{split}\end{equation}
   where $\mathbb{C}_k:=[\underline{c}_k,\overline{c}_k]\subseteq\mathbb{R}$ is the TEEs set, and $\mathbb{S}_{k,i}:=[\underline{s}_{k,i},\overline{s}_{k,i}]\subseteq\mathbb{Z}_{\geq 0}$ the $i$-th task QoS set. The parameters of the TEE $\varphi_k$ are defined in Subsection~\ref{sec:model}, of the tasks $\psi_1,\dots,\psi_\sigma$ in~\ref{sec:computations-model}.
 
@@ -452,13 +452,13 @@ Let a mission's stage be a generic continuous twice differentiable TEE $\varphi$
   \begin{equation}
     \mathcal{M}:=(\lambda(\mathbf{p}),\bigcup_{i\in[t_f]}{\mathcal{M}_i}),
   \end{equation}
-  the algorithm inputs $\mathcal{M}_k$ and outputs the position, the instantaneous energy consumption, and the controls sequence--an action performed evolving the mission state.
+  the algorithm inputs $\mathcal{M}$, initial position, and energy coefficients guess, and outputs the position, the instantaneous energy consumption, and the controls sequence--an action performed evolving the mission state.
 \end{defn}
 
 \begin{figure}[t]
   \centering
   \input{\figpath/icra-2021_overview.tikz}
-  \caption{The mission consists of circles and lines that forms a survey pattern. The UAV heads to $\varphi_0$ initially using the desired velocity vector $\dot{\mathbf{p}}_d$, but it later heads to $\varphi_0^+$ reducing the radius $c_{0,0}$ to satisfy the battery constraints (indeed the energy coefficients $\mathbf{q}_0$ evolution is higher then $\mathbf{q}_0^+$). The UAV then converges to $\varphi_1$, to $\varphi_3$, and so on until it covers the polygon (the circle $\varphi_2$ is not visible in the figure; it connects $\varphi_1$ and $\varphi_3$).}
+  \caption{The mission consists of circles and lines that forms a survey pattern. The UAV heads to $\varphi_0$ initially using the desired velocity vector $\dot{\mathbf{p}}_d$, but it later heads to $\varphi_0^+$ reducing the radius $c_{0,0}$ to satisfy the battery constraints (indeed the energy coefficients $\mathbf{q}_0$ evolution is higher then $\mathbf{q}_0^+$). The UAV then converges to $\varphi_1$, $\varphi_2$, $\varphi_3$, and so on until it covers the polygon (the circle $\varphi_2$ is not visible in the figure; it connects $\varphi_1$ and $\varphi_3$).}
   \label{fig:overview}
 \end{figure}
 
@@ -481,7 +481,7 @@ The algorithm uses the concept to select the adjustments s.t. $\varphi_k(\mathbf
 \end{equation}
 where $\nabla\varPhi\in\mathbb{R}^2$ is the gradient, $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading due to the atmospheric interference, such as wind $w\in\mathbb{R}$.
 
-The algorithm models the energy using a state $\mathbf{q}\in\mathbb{R}^j$ derived from Fourier analysis (the meaning of $j$ is clarified to the reader shortly) and decompose such evolution in the energy due to the trajectory, and computations--an approach adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
+The algorithm models the energy using as state energy coefficients $\mathbf{q}\in\mathbb{R}^j$ derived from Fourier analysis (the meaning of $j$ is clarified to the reader shortly) and decompose such evolution in the energy due to the trajectory, and computations--an approach adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
 
 \subsection{Energy evolution due to trajectory}
 \label{sec:energy-model}
@@ -524,7 +524,7 @@ The control $\mathbf{u}$ along with the input matrix
      &             &       & 0
   \end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{s}_k$ is defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given adjustment to the instantaneous energy consumption. 
+where $\mathbf{s}_k,g(\,\cdot\,)$ are defined in Subsection~\ref{sec:computations-model}, $\mathbf{u}_k\in\mathbb{R}^l$ is the control given $l:=1+\rho$, and $B\in\mathbb{R}^{j\times l}$. Moreover, the first item is one, while the others on the first row are gain factors $\omega_{k}\in\mathbb{R}$, quantifying the contribution of a given adjustment to the instantaneous energy consumption. 
 
 Note that the controls sequence $\mathbf{u}_k^a:=(\mathbf{c}_{k},\mathbf{s}_{k})$--an output of the algorithm--differs from the nominal control in Equation~(\ref{eq:state-perf}) $\mathbf{u}_k(\mathbf{u}_k^a,\mathbf{u}_{k-1}^a)$.
 
@@ -540,7 +540,7 @@ Physically, the time evolution of the instantaneous energy consumption is assume
 
 Equation~(\ref{eq:state-control}) accounts for the energy due to the computations. The energy due to the adjustments is merely a linear combination of the gain factor and the adjustment. Nevertheless, the change updates the path which will hence affect the reading from the sensors and adjust the energy coefficients. For instance, a decrement in the adjustment radius of a circle when the TEE is a circle, adds a negative contribution, thus simulates the lowering of instantaneous energy consumption.
 
-In the case of the system behaving ideally (i.e., with no uncertainty), we expect a state (energy coefficients) evolving accordingly to its output (instantaneous energy consumption). An observation summarized in the following Lemma.
+In the case of the system behaving ideally (i.e., with no uncertainty), we expect a state (energy coefficients) evolving accordingly to its output (instantaneous energy consumption). An observation summarized in the following Lemma, where we use norm to compare two energy coefficients vectors.
 
 \begin{lem}[State, output proportionality]\label{lem:state-vs-energy}
   Suppose the system of Equation~(\ref{eq:state-perf}) evolves with no uncertainty ($\mathbf{w}=\mathbf{0},v=0$) and Assumption~\ref{assm:periodic} holds. Given two time instants $k_1,k_2\in[t_f]$
@@ -555,17 +555,17 @@ In the case of the system behaving ideally (i.e., with no uncertainty), we expec
 \subsection{Energy evolution due to computations}
 \label{sec:computations-model}
 
-The energy cost of the computations is assessed using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}, that measures software configurations empirically and builds a computational energy consumption model. Specifically, the tool builds a linear interpolation, one per each task. It requires the user to implement the mission as a ROS system with one or more ROS nodes changing the computational load by node-specific ROS parameters. A way to simulate the change of the computations.
+The energy cost of the computations (set of tasks being executed on an embedded board on the UAV) is assessed using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}, that measures software configurations empirically and builds a computational energy consumption model. Specifically, the tool builds a linear interpolation, one per each task. It requires the user to implement the mission as a ROS system with one or more ROS nodes changing the computational load by node-specific ROS parameters. A way to simulate the change of the computations.
 
 The plan $\mathcal{M}$ contains a set of ordered lists with $\sigma$ tasks each (recall Definition~\ref{def:mission}). These tasks are simulated by $\sigma$ ROS nodes $\Psi(\mathbf{s}_k):=\left(\psi_1(s_{k,1}),\dots,\psi_\sigma(s_{k,\sigma})\right)$, in fact they input the desired and output the actual computations
 \begin{equation}\label{eq:qos-def}
-  \mathbf{s}_k:=\left\{s_{k,1},\dots ,s_{k,\sigma}\mid \psi_i(s_{k,i})\in\mathbb{S}_{k}\,\forall i\in[\sigma]\right\},
+  \mathbf{s}_k:=\left\{s_{k,1},\dots ,s_{k,\sigma}\mid \psi_i(s_{k,i})\in\mathbb{S}_{k}\,\forall i\in[\sigma]^+\right\},
 \end{equation}
-where $s_{k,i}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $i$-th computation, $\mathbf{s}_k\in\mathbb{S}_k\subseteq\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ computations at time $k$ given $\mathbb{S}_k:=\bigcup_{i\in[\sigma]}{\mathbb{S}_{k,i}}$.
+where $s_{k,i}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$ returns the $i$-th computation, $\mathbf{s}_k\in\mathbb{S}_k\subseteq\mathbb{Z}_{\geq 0}^\sigma$ the set of $\sigma$ computations at time $k$ given $\mathbb{S}_k:=\bigcup_{i\in[\sigma]^+}{\mathbb{S}_{k,i}}$.
 
 Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained interrogating \powprof{}
 \begin{equation}\label{eq:energy-comp}\begin{split}
-  y_k^s:=g\left(\text{QoS}_{k,0},\dots,\text{QoS}_{k,\sigma-1}\right)=g\left(\mathbf{s}_{k}\right).\\
+  y_k^s:=g\left(\text{QoS}_{k,1},\dots,\text{QoS}_{k,\sigma}\right)=g\left(\mathbf{s}_{k}\right).\\
 \end{split}\end{equation}
 Moreover, $g(\{\emptyset\})=0$.
 
@@ -573,12 +573,13 @@ Moreover, $g(\{\emptyset\})=0$.
 \section{Algorithm}
 \label{sec:algo}
 
-Given an initial stage $\mathcal{M}_0$ (TEE $\varphi_0$, tasks $\Psi$, computations $\mathbf{s}_0\in\mathbb{S}_0$, and adaptations $\mathbf{c}_0\in\mathbb{C}_0$), the algorithm produce a valid mission.
+Given an initial stage $\mathcal{M}_0$ (TEE $\varphi_0$, tasks $\Psi$, computations $\mathbf{s}_0\in\mathbb{S}_0$, and adaptations $\mathbf{c}_0\in\mathbb{C}_0$), the algorithm produce a set of control sequences $\mathbf{u}^a:=\{\mathbf{u}_0^a,\mathbf{u}_1^a,\dots\}$ in a valid mission.
 
 \begin{defn}[Valid mission]\label{def:valid}
-  A mission is valid if for every stage $\mathcal{M}_{k-1}$ in $k\in[t_f]^+$ there exist a control sequence $\mathbf{u}_k^{a}$ which produce the stage $\mathcal{M}_k$
+  A mission is valid if for every stage $\mathcal{M}_{k-1}$ in $k\in[t_f]^+$ there exist a control sequence $\mathbf{u}_k^{a}$ that produce the next stage $\mathcal{M}_k$
   \begin{equation}\begin{split}
-    \mathbf{u}^a_{k}=\{(\mathbf{c}_{k},\mathbf{s}_{k})\mid&(\varphi(\mathbf{p}_{k-1},\mathbf{c}_{k-1}),\Psi(\mathbf{s_{k-1}}))\in\mathcal{M}_{k-1}\\
+    \mathbf{u}^a_{k}=\{(\mathbf{c}_{k},\mathbf{s}_{k})\mid& \,\exists\,\mathbf{c}_{k-1}\in\mathbb{C}_{k-1}, \mathbf{s}_{k-1}\in\mathbb{S}_{k-1}\text{ and}\\
+    &(\varphi(\mathbf{p}_{k-1},\mathbf{c}_{k-1}),\Psi(\mathbf{s_{k-1}}))\in\mathcal{M}_{k-1}\\
     &\Longrightarrow(\varphi(\mathbf{p}_{k},\mathbf{c}_{k}),\Psi(\mathbf{s}_{k}))\in\mathcal{M}_{k}\}.
   \end{split}\end{equation}
 \end{defn}
@@ -587,7 +588,7 @@ Let us proof that if the mission is valid, the instantaneous energy consumption 
 
 \begin{thm}[State output linearity]\label{thm:state-vs-energy}
   Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}, and assume Assumption~\ref{assm:periodic} holds. Likewise in Lemma~\ref{lem:state-vs-energy}, the model behaves ideally. 
-  Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$ and $\mathcal{M}_k$ produce a valid mission $\mathcal{M}_{k+1}\,\forall k\in[t_f-1]$.
+  Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$ and $\mathbf{u}_k^a$ allows to produce stage $\mathcal{M}_{k+1}$ from $\mathcal{M}_k\,\forall k\in[t_f-1]$.
 \end{thm}
 \begin{proof}
   *\\
@@ -602,10 +603,10 @@ Let us hence consider the state of charge (SoC) of such battery with a simplisti
   \mathrm{SoC}_k=-\left(V-
   \sqrt{
     V^2-
-    4R\tilde{V}y_kV^{-1}}
-  \right)/2RQ_c,\\ 
+    4R_r\tilde{V}y_kV^{-1}}
+  \right)/2R_rQ_c,\\ 
 \end{split}\end{equation}
-where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the stabilized voltage, $R\in\mathbb{R}$ the resistance, and $Q_c\in\mathbb{R}$ the constant nominal capacity. We define the output constraints set
+where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the stabilized voltage, $R_r\in\mathbb{R}$ the resistance, and $Q_c\in\mathbb{R}$ the constant nominal capacity. We define the output constraints set
 \begin{equation}
   \mathbb{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation}
