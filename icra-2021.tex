@@ -577,11 +577,12 @@ Let us further define $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}_{\geq 0}\rightarrow
 \end{split}\end{equation}
 Moreover, $g(\{\emptyset\})=0$.
 
+
 %%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
 \label{sec:algo}
 
-Given an initial stage $\mathcal{M}_0$ (TEE $\varphi_0$, tasks $\Psi$, computations $\mathbf{s}_0\in\mathbb{S}_0$, and adaptations $\mathbf{c}_0\in\mathbb{C}_0$), the algorithm produce a set of control sequences $\mathbf{u}^a:=\{\mathbf{u}_0^a,\mathbf{u}_1^a,\dots\}$ in a valid mission.
+Given an initial stage $\mathcal{M}_0$ (TEE $\varphi_0$, tasks $\Psi$, computations $\mathbf{s}_0\in\mathbb{S}_0$, and adaptations $\mathbf{c}_0\in\mathbb{C}_0$), the main purpose of the algorithm is to output a set of control sequences $\mathbf{u}^a:=\{\mathbf{u}_0^a,\mathbf{u}_1^a,\dots\}$ in a valid mission.
 
 \begin{defn}[Valid mission]\label{def:valid}
   A mission is valid if for every stage $\mathcal{M}_{k-1}$ in $k\in[t_f]^+$ there exist a control sequence $\mathbf{u}_k^{a}$ that produce the next stage $\mathcal{M}_k$
@@ -592,33 +593,32 @@ Given an initial stage $\mathcal{M}_0$ (TEE $\varphi_0$, tasks $\Psi$, computati
   \end{split}\end{equation}
 \end{defn}
 
-Let us proof that if the mission is valid, the instantaneous energy consumption is a linear combination of the state from the Equation~(\ref{eq:state-perf}).
+Let us proof that if the mission is valid, the instantaneous energy consumption can be modeled as linear combination of the state from the Equation~(\ref{eq:state-perf}) for all $k\in[t_f]$.
 
-\begin{thm}[State, output linearity]\label{thm:state-vs-energy}
-  Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}. Assume Assumption~\ref{assm:periodic} holds, the model behaves ideally ($\mathbf{w}=\mathbf{0},v=0$), the initial energy coefficients state is $\mathbf{q}_0=\begin{bmatrix}
-    y_0^m/j & (1/2)y_0^m/j & \cdots & (1/2)y_0^m/j
-  \end{bmatrix}^T$ where $y_0^m\in\mathbb{R}_{>0}$ is an initial measurement\footnote{$y_0^m$ can be the initial measurement or the measurement from a previous instance of the algorithm}, and the mission is valid.
+\begin{thm}[Periodic energy model]\label{thm:state-vs-energy}
+  Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}. Assume Assumption~\ref{assm:periodic} holds, the model of Equation~(\ref{eq:state-perf}) behaves ideally ($\mathbf{w}=\mathbf{0},v=0$), the initial energy coefficients state $\mathbf{q}_0$ is $y_0^m/j$ for the first coefficient where $y_0^m\in\mathbb{R}_{>0}$ is an initial measurement\footnote{$y_0^m$ can be the initial measurement or the measurement from a previous instance of the algorithm}, $(1/2)y_0^m/j$ for all the others, and the mission is valid.
   Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$.
 \end{thm}
 \begin{proof}
   The proof is based on mathematical induction. 
-  \emph{(Base case)}. We proof that $y_0=y_0^m$. Recall the definition of the state in Equation~(\ref{eq:state-details}). The output is $y_{0}=\alpha_{0,0}+\alpha_{0,1}+\dots+\alpha_{0,r}=y_0^m/j+(1/2)y_0^m/j+\cdots+(1/2)y_0^m/j=y_0^m$.
+  Base case: we proof that $y_0=y_0^m$. Recall the definition of the state in Equation~(\ref{eq:state-details}). The output is $y_{0}=\alpha_{0,0}+\alpha_{0,1}+\dots+\alpha_{0,r}=y_0^m/j+(1/2)y_0^m/j+\cdots+(1/2)y_0^m/j=y_0^m$.
   
-  \emph{(Induction step)}. By inspection of Equation~(\ref{eq:state-perf}), the output at instant $k$ can be expressed $y_{k}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)\alpha_{0,1}+\dots+p_r(k)\alpha_{0,r}$, where by omitting the sign
-  \begin{equation}
-    p_r(k):=\begin{cases}
-      \prod_{i=1}^{k/2}{r^3/\xi^3}&\text{ for even }k\\
-      (r/\xi)\prod_{i=1}^{k/2}{r^3/\xi^3}&\text{ for odd }k
+  Induction step: by inspection of Equation~(\ref{eq:state-perf}), the output at instant $k$ can be expressed $y_{k}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)\alpha_{0,1}+\dots+p_r(k)\alpha_{0,r}$, where $\forall n\in\mathbb{Z}_{\geq 2}$
+  \begin{equation}\label{eq:proof-pr}
+    p_r(n):=\begin{cases}
+      \prod_{i=1}^{n/2}{r^3/\xi^3}&\text{ for even }n\\
+      (r/\xi)\prod_{i=1}^{(n-1)/2}{r^3/\xi^3}&\text{ for odd }n
     \end{cases}.
   \end{equation}
-  Using $\mathbf{q}_0$ leads to $y_{k}=(y_0^m/j+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)(1/2)y_0^m/j+\dots+p_r(k)(1/2)y_0^m/j=y_{k}^m$. 
   
-  We prove now that the instantaneous energy consumption at $k+1$ is still a linear combination of the state. We express the output in function of the previous state $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)\beta_{k,1}+\dots+(r/\xi)\beta_{k,r}$. Notice that the coefficients $\alpha,\beta$ have an equivalent evolution (indeed this allows to simulate the periodicity) and $\beta_{k,r}=p_r(k)\beta_{0,r}$. Thus, the output can be expressed $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)p_1(k)\beta_{0,1}+\dots+(r/\xi)p_r(k)\beta_{0,r}$. The expression is equivalent to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)\beta_{0,r}+\dots+p_r(k+1)\beta_{0,r}$. Using $\mathbf{q}_0$ leads to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)(1/2)y_0^m+\dots+p_r(k+1)(1/2)y_0^m=y_{k+1}^m$, alike the previous statement ($y_k^m=y_{k+1}^m$), but at instant $k+1$.
+  Suppose $k$ is even and the theorem holds up to $k$. Initial energy coefficients state $\mathbf{q}_0$ leads to $y_{k}=(y_0^m/j+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)(1/2)y_0^m/j+\dots+p_r(k)(1/2)y_0^m/j=y_{k}^m$. 
+  
+  We prove now that the instantaneous energy consumption at $k+1$ is still a linear combination of the state. We express the output in function of the previous state $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)\beta_{k,1}+\dots+(r/\xi)\beta_{k,r}$. Notice that the coefficients $\alpha,\beta$ have an equivalent evolution (indeed this allows to simulate the periodicity) and $\beta_{k,r}=p_r(k)\beta_{0,r}$. Thus, the output can be expressed $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)p_1(k)\beta_{0,1}+\dots+(r/\xi)p_r(k)\beta_{0,r}$. The expression is equivalent to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)\beta_{0,r}+\dots+p_r(k+1)\beta_{0,r}$ using the definition of $p_r$ in Equation~(\ref{eq:proof-pr}). Again, the state $\mathbf{q}_0$ leads to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)(1/2)y_0^m+\dots+p_r(k+1)(1/2)y_0^m=y_{k+1}^m$, alike the previous statement ($y_k^m=y_{k+1}^m$), but at instant $k+1$. The proof for odd $k$ is equivalent.
 \end{proof}
 
 \subsection{Output constraints set}
 
-Recall the model in Equation~(\ref{eq:state-perf}). We stated the output $y_k$--the instantaneous energy consumption--evolves in $\mathbb{R}_{\geq 0}$. This is generally untrue. Physical UAVs are bounded by strict battery limitations.
+We stated earlier the output $y_k$--the instantaneous energy consumption--evolves in $\mathbb{R}_{\geq 0}$. This is generally untrue. Physical UAVs are bounded by strict battery limitations.
 
 Let us hence consider the state of charge (SoC) of such battery with a simplistic difference equation~\cite{seewald2020mechanical}
 \begin{equation}\begin{split}
@@ -680,18 +680,18 @@ where $\overline{\mathbb{Y}}_k$ is the maximum discharge capacity by the interna
   \EndProcedure
 \end{algorithmic}
 
-Per each time step, the algorithm updates the state--the position at line~\ref{alg:pos} and the energy coefficients at line~\ref{alg:en}--and the control sequence s.t. the mission is still valid. Note that the position can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
+Per each time step, the algorithm updates the state--the position at line~\ref{alg:pos} and the energy coefficients at line~\ref{alg:en}--and the control sequence. Note that the position can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
   
-In detail, initial guesses for $\mathbf{q}_0$ and $P_0\in\mathbb{R}^{j\times j}$ are derived empirically. Line~\ref{alg:max_cont_sequence} selects the maximum possible control from the current control sequence. Line~\ref{alg:mpc} uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the optimal control $\mathbf{u}^0$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
+In detail, initial guess for $P_0\in\mathbb{R}^{j\times j}$ is positive definite and derived empirically, for $\mathbf{q}_0$ an initial measurement is distributed to the coefficients (see Theorem~\ref{thm:state-vs-energy}). Line~\ref{alg:max_cont_sequence} selects the maximum possible control from the current control sequence. Line~\ref{alg:mpc} uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the optimal control $\mathbf{u}^0$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
 \begin{equation}\begin{split}
   l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k^TQ\mathbf{q}_k+\mathbf{u}_k^TR\mathbf{u}_k),\\
   V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^TP_f\mathbf{q}_k),
 \end{split}\end{equation}
-where matrices $P_f,Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}^{l\times l}$ are all positive definite.
+where matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}^{l\times l}$ are positive definite.
 
 Follows a check if the mission can finish without the eventuality of battery discharge (output constraints satisfaction) at line~\ref{alg:output_constraints}, with the control sequence being eventually updated and the process reiterated at line~\ref{alg:recursion}.
 
-Before the next step, state estimator--the discrete-time Kalman filter~\cite{simon2006optimal} at lines~\ref{alg:kalman_start}--\ref{alg:kalman_end}--predicts the state $\mathbf{q}$ if the modeled instantaneous energy consumption diverges from the sensor's value $y_k^m\in\mathbb{R}$ more than a given $\varepsilon\in\mathbb{R}_{\geq  0}$. 
+Before the next step, state estimator--the discrete-time Kalman filter~\cite{simon2006optimal} at lines~\ref{alg:kalman_start}--\ref{alg:kalman_end}--predicts the state $\mathbf{q}$ if the modeled instantaneous energy consumption diverges from the sensor's value $y_k^m\in\mathbb{R}$ more than a given $\varepsilon\in\mathbb{R}_{\geq  0}$, or sensor measurements are unavailable ($y_k^m=0$).
 
 
 %%%%%%%%%%%%%%%%%%%%
