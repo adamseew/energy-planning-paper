@@ -1,0 +1,290 @@
+
+\definecolor{white}{RGB}{255,255,255}
+\definecolor{gray}{RGB}{128,128,128}
+\definecolor{cff0000}{RGB}{255,0,0}
+\definecolor{c00ff00}{RGB}{0,255,0}
+
+
+\def \globalscale {1.000000}
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
+  \path[rounded corners=0.0000cm] (0.0000,0.0000) rectangle (200.0000,200.0000);
+
+
+
+  \begin{scope}[color=white,draw=black,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.400pt]
+  \end{scope}
+  \begin{scope}[color=gray,draw,line join=miter,line cap=butt,line width=0.400pt]
+    \path[draw=gray,dash pattern=on 1.60pt off 3.20pt] (71.9000,151.3000) -- (175.0000,151.3000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=gray,draw=gray,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (71.9000,151.3000) -- (80.9000,151.3000)(175.0000,151.3000) -- (166.0000,151.3000);
+
+
+
+    \begin{scope}[shift={(50.4,155.2)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {-60};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.400pt]
+  \end{scope}
+  \begin{scope}[color=gray,draw,line join=miter,line cap=butt,line width=0.400pt]
+    \path[draw=gray,dash pattern=on 1.60pt off 3.20pt] (71.9000,123.8000) -- (175.0000,123.8000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=gray,draw=gray,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (71.9000,123.8000) -- (80.9000,123.8000)(175.0000,123.8000) -- (166.0000,123.8000);
+
+
+
+    \begin{scope}[shift={(50.4,127.7)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {0};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.400pt]
+  \end{scope}
+  \begin{scope}[color=gray,draw,line join=miter,line cap=butt,line width=0.400pt]
+    \path[draw=gray,dash pattern=on 1.60pt off 3.20pt] (71.9000,96.4000) -- (175.0000,96.4000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=gray,draw=gray,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (71.9000,96.4000) -- (80.9000,96.4000)(175.0000,96.4000) -- (166.0000,96.4000);
+
+
+
+    \begin{scope}[shift={(50.4,100.3)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {60};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.400pt]
+  \end{scope}
+  \begin{scope}[color=gray,draw,line join=miter,line cap=butt,line width=0.400pt]
+    \path[draw=gray,dash pattern=on 1.60pt off 3.20pt] (71.9000,68.9000) -- (175.0000,68.9000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=gray,draw=gray,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (71.9000,68.9000) -- (80.9000,68.9000)(175.0000,68.9000) -- (166.0000,68.9000);
+
+
+
+    \begin{scope}[shift={(50.4,72.8)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {120};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.400pt]
+  \end{scope}
+  \begin{scope}[color=gray,draw,line join=miter,line cap=butt,line width=0.400pt]
+    \path[draw=gray,dash pattern=on 1.60pt off 3.20pt] (71.9000,41.4000) -- (175.0000,41.4000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=gray,draw=gray,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (71.9000,41.4000) -- (80.9000,41.4000)(175.0000,41.4000) -- (166.0000,41.4000);
+
+
+
+    \begin{scope}[shift={(50.4,45.3)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {180};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.400pt]
+  \end{scope}
+  \begin{scope}[color=gray,draw,line join=miter,line cap=butt,line width=0.400pt]
+    \path[draw=gray,dash pattern=on 1.60pt off 3.20pt] (77.8000,158.6000) -- (77.8000,18.1000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=gray,draw=gray,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (77.8000,158.6000) -- (77.8000,149.6000)(77.8000,18.1000) -- (77.8000,27.1000);
+
+
+
+    \begin{scope}[shift={(74.5,171.5)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {-120};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.400pt]
+  \end{scope}
+  \begin{scope}[color=gray,draw,line join=miter,line cap=butt,line width=0.400pt]
+    \path[draw=gray,dash pattern=on 1.60pt off 3.20pt] (104.9000,158.6000) -- (104.9000,18.1000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=gray,draw=gray,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (104.9000,158.6000) -- (104.9000,149.6000)(104.9000,18.1000) -- (104.9000,27.1000);
+
+
+
+    \begin{scope}[shift={(101.6,171.5)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {-60};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.400pt]
+  \end{scope}
+  \begin{scope}[color=gray,draw,line join=miter,line cap=butt,line width=0.400pt]
+    \path[draw=gray,dash pattern=on 1.60pt off 3.20pt] (132.0000,158.6000) -- (132.0000,27.1000) -- (132.0000,18.1000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=gray,draw=gray,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (132.0000,158.6000) -- (132.0000,149.6000)(132.0000,18.1000) -- (132.0000,27.1000);
+
+
+
+    \begin{scope}[shift={(128.7,171.5)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {0};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.400pt]
+  \end{scope}
+  \begin{scope}[color=gray,draw,line join=miter,line cap=butt,line width=0.400pt]
+    \path[draw=gray,dash pattern=on 1.60pt off 3.20pt] (159.2000,158.6000) -- (159.2000,27.1000) -- (159.2000,18.1000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=gray,draw=gray,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (159.2000,158.6000) -- (159.2000,149.6000)(159.2000,18.1000) -- (159.2000,27.1000);
+
+
+
+    \begin{scope}[shift={(155.9,171.5)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {60};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (71.9000,18.1000) -- (71.9000,158.6000) -- (175.0000,158.6000) -- (175.0000,18.1000) -- (71.9000,18.1000) -- cycle;
+
+
+
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \begin{scope}[shift={(31.2,108.2)},rotate=270.0,fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {\rotatebox{90}{y (m)}};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \begin{scope}[shift={(111.8,191.3)},fill=black]
+      \path[fill] (0.0000,0.0000) node[above right] () {x (m)};
+
+
+
+    \end{scope}
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+    \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+      \path[draw=cff0000] (87.7000,31.4000) -- (81.4000,39.2000);
+
+
+
+    \end{scope}
+  \begin{scope}[color=white,draw=cff0000,line join=miter,line cap=butt,line width=1.600pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=1.600pt]
+  \end{scope}
+  \begin{scope}[color=black,draw=black,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=black] (71.9000,18.1000) -- (71.9000,158.6000) -- (175.0000,158.6000) -- (175.0000,18.1000) -- (71.9000,18.1000) -- cycle;
+
+
+
+  \end{scope}
+  \begin{scope}[color=white,draw,line join=miter,line cap=butt,line width=0.800pt]
+    \path[draw=white] (143.4000,57.0000) -- (143.2000,54.2000) -- (142.9000,51.4000) -- (142.3000,48.7000) -- (141.4000,46.0000) -- (140.4000,43.5000) -- (139.1000,41.0000) -- (137.6000,38.6000) -- (135.9000,36.4000) -- (134.1000,34.3000) -- (132.0000,32.5000) -- (129.9000,30.8000) -- (127.5000,29.3000) -- (125.1000,28.0000) -- (122.5000,26.9000) -- (119.9000,26.1000) -- (117.2000,25.5000) -- (114.5000,25.1000) -- (111.7000,25.0000) -- (108.9000,25.1000) -- (106.2000,25.5000) -- (103.5000,26.1000) -- (100.9000,26.9000) -- (98.3000,28.0000) -- (95.9000,29.3000) -- (93.5000,30.8000) -- (91.4000,32.5000) -- (89.3000,34.3000) -- (87.5000,36.4000) -- (85.8000,38.6000) -- (84.3000,41.0000) -- (83.0000,43.5000) -- (82.0000,46.0000) -- (81.1000,48.7000) -- (80.5000,51.4000) -- (80.2000,54.2000) -- (80.0000,57.0000) -- (80.2000,59.8000) -- (80.5000,62.6000) -- (81.1000,65.3000) -- (82.0000,68.0000) -- (83.0000,70.5000) -- (84.3000,73.0000) -- (85.8000,75.4000) -- (87.5000,77.6000) -- (89.3000,79.7000) -- (91.4000,81.5000) -- (93.5000,83.2000) -- (95.9000,84.7000) -- (98.3000,86.0000) -- (100.9000,87.1000) -- (103.5000,87.9000) -- (106.2000,88.5000) -- (108.9000,88.9000) -- (111.7000,89.0000) -- (114.5000,88.9000) -- (117.2000,88.5000) -- (119.9000,87.9000) -- (122.5000,87.1000) -- (125.1000,86.0000) -- (127.5000,84.7000) -- (129.9000,83.2000) -- (132.0000,81.5000) -- (134.1000,79.7000) -- (135.9000,77.6000) -- (137.6000,75.4000) -- (139.1000,73.0000) -- (140.4000,70.5000) -- (141.4000,68.0000) -- (142.3000,65.3000) -- (142.9000,62.6000) -- (143.2000,59.8000) -- (143.4000,57.0000);
+
+
+
+    \path[draw=c00ff00] (143.4000,57.0000) -- (143.2000,54.2000) -- (142.9000,51.4000) -- (142.3000,48.7000) -- (141.4000,46.0000) -- (140.4000,43.5000) -- (139.1000,41.0000) -- (137.6000,38.6000) -- (135.9000,36.4000) -- (134.1000,34.3000) -- (132.0000,32.5000) -- (129.9000,30.8000) -- (127.5000,29.3000) -- (125.1000,28.0000) -- (122.5000,26.9000) -- (119.9000,26.1000) -- (117.2000,25.5000) -- (114.5000,25.1000) -- (111.7000,25.0000) -- (108.9000,25.1000) -- (106.2000,25.5000) -- (103.5000,26.1000) -- (100.9000,26.9000) -- (98.3000,28.0000) -- (95.9000,29.3000) -- (93.5000,30.8000) -- (91.4000,32.5000) -- (89.3000,34.3000) -- (87.5000,36.4000) -- (85.8000,38.6000) -- (84.3000,41.0000) -- (83.0000,43.5000) -- (82.0000,46.0000) -- (81.1000,48.7000) -- (80.5000,51.4000) -- (80.2000,54.2000) -- (80.0000,57.0000) -- (80.2000,59.8000) -- (80.5000,62.6000) -- (81.1000,65.3000) -- (82.0000,68.0000) -- (83.0000,70.5000) -- (84.3000,73.0000) -- (85.8000,75.4000) -- (87.5000,77.6000) -- (89.3000,79.7000) -- (91.4000,81.5000) -- (93.5000,83.2000) -- (95.9000,84.7000) -- (98.3000,86.0000) -- (100.9000,87.1000) -- (103.5000,87.9000) -- (106.2000,88.5000) -- (108.9000,88.9000) -- (111.7000,89.0000) -- (114.5000,88.9000) -- (117.2000,88.5000) -- (119.9000,87.9000) -- (122.5000,87.1000) -- (125.1000,86.0000) -- (127.5000,84.7000) -- (129.9000,83.2000) -- (132.0000,81.5000) -- (134.1000,79.7000) -- (135.9000,77.6000) -- (137.6000,75.4000) -- (139.1000,73.0000) -- (140.4000,70.5000) -- (141.4000,68.0000) -- (142.3000,65.3000) -- (142.9000,62.6000) -- (143.2000,59.8000) -- (143.4000,57.0000);
+
+
+
+  \end{scope}
+  \begin{scope}[color=black,draw,line join=miter,line cap=butt,line width=0.800pt]
+  \end{scope}
+
+\end{tikzpicture}
+

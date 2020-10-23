@@ -29,9 +29,16 @@ end
 
 % create all the points used to build the vector field
 
+items = input('[   ? ] Number of arrows to plot per axis: ');
+
+if isempty(items)
+   
+    items = 50;
+end
+
 [xp yp] = meshgrid(...
-    min:(abs(min) + abs(max)) / 50:max, min:(abs(min) + abs(max)) / 50:max...
-                  );
+    min:(abs(min) + abs(max)) / items:max,... 
+    min:(abs(min) + abs(max)) / items:max);
               
 points = reshape(cat(2, xp', yp'), [], 2);
 clear xp yp;
@@ -88,7 +95,7 @@ else
     
     figure;
     
-    plot_gdn2(E, ke, varphi, points, pdangle, ...
+    [dpdx, dpdy] = plot_gdn2(E, ke, varphi, points, pdangle, ...
         min, max, 0, 0, [0; 0]);
 end
 

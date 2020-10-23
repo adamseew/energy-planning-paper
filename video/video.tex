@@ -1,0 +1,115 @@
+\documentclass{beamer}
+
+\usepackage{tikz}
+\usepackage[absolute,overlay]{textpos}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  %\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,left]{title in head/foot}%
+  %  \hspace*{2ex}\insertauthor
+  %\end{beamercolorbox}%
+  %\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+  % \inserttitle
+  %\end{beamercolorbox}%
+  %\begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{title in head/foot}%
+  %  \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  %\end{beamercolorbox}
+  }%
+  %\vskip0pt%
+}
+
+\title{}
+\author{A. Seewald, H. G. de Marina, U. P. Schultz}
+\date{10/02/2020}
+
+\begin{document}
+
+%\begin{frame}
+%\maketitle
+
+%\end{frame}
+
+\begin{frame}
+  \footnotesize
+    \begin{columns}
+      \begin{column}{0.3\textwidth}
+        \begin{textblock}{5}(-.9,2.4)
+            \only<1>{\begin{figure}\input{../figures/video/generated/path1.svg.tikz}\end{figure}}
+            \only<2>{\begin{figure}\input{../figures/video/generated/path2.svg.tikz}\end{figure}}
+            \only<3>{\begin{figure}\input{../figures/video/generated/path3.svg.tikz}\end{figure}}
+            \only<4>{\begin{figure}\input{../figures/video/generated/path4.svg.tikz}\end{figure}}
+            \vspace*{-5ex}
+          \end{textblock}
+      \end{column}
+      \begin{column}{0.7\textwidth}  
+        \begin{equation*}\begin{split}
+          \only<1>{\tilde{k}&=0,k=0}
+          \only<2>{\tilde{k}&=1,k=0}
+          \only<3>{\tilde{k}&=2,k=0}
+          \only<4>{\tilde{k}&=3,k=0},$(x,y)=\mathbf{p}_{\tilde{k}}\\
+          \mathcal{M}_0&:=\{\varphi_0((x,y),c_{0,1}),\psi_1(s_{0,1}),\psi_2(s_{0,2})\}\\
+          \varphi_0((x,y),c_{0,1})&:=\color{green}(x+45)^2+(y-146)^2-4900+c_{0,1}\\
+          \mathbb{C}_0&:=[-3\cdot 10^3,0]\\
+          \mathbb{S}_{0,1}&:=[2,10],\,\mathbb{S}_{0,2}:=[2,10] \\
+          \mathbf{u}_0^a&:=(0,\{10,10\})
+      \end{split}\end{equation*}
+      \begin{equation*}\begin{split}
+        \lambda(x,y)&=\begin{cases}
+          \mathcal{M}_0   &\text{if } (x,y) \leq (-115,146)\\
+          \cdots
+        \end{cases}\\
+        \mathcal{M}&=\left(\lambda((x,y)),{\color{red}\mathcal{M}_0},\dots\right)\\
+        \mathbf{u}^a&=\{{\color{red}\mathbf{u}_0^a}\}
+      \end{split}\end{equation*}
+      \end{column}
+    \end{columns}
+\end{frame}
+
+
+\begin{frame}
+  \footnotesize
+    \begin{columns}
+      \begin{column}{0.3\textwidth}     
+        \begin{textblock}{5}(-.9,2.4)
+            \only<1>{\begin{figure}\input{../figures/video/generated/path5.svg.tikz}\end{figure}}
+            \only<2>{\begin{figure}\input{../figures/video/generated/path6.svg.tikz}\end{figure}}
+            \only<3>{\begin{figure}\input{../figures/video/generated/path7.svg.tikz}\end{figure}}
+            \only<4>{\begin{figure}\input{../figures/video/generated/path8.svg.tikz}\end{figure}}
+            \only<5>{\begin{figure}\input{../figures/video/generated/path9.svg.tikz}\end{figure}}
+            \only<6>{\begin{figure}\input{../figures/video/generated/path10.svg.tikz}\end{figure}}
+            \only<7>{\begin{figure}\input{../figures/video/generated/path11.svg.tikz}\end{figure}}                   
+            \vspace*{-5ex}
+          \end{textblock}
+      \end{column}
+      \begin{column}{0.7\textwidth}
+        \begin{equation*}\begin{split}
+          \only<1>{\tilde{k}&=5,k=1}
+          \only<2>{\tilde{k}&=6,k=1}
+          \only<3>{\tilde{k}&=7,k=1}
+          \only<4>{\tilde{k}&=8,k=1}
+          \only<5>{\tilde{k}&=9,k=1}
+          \only<6>{\tilde{k}&=10,k=1}
+          \only<7>{\tilde{k}&=11,k=1},$(x,y)=\mathbf{p}_{\tilde{k}}\\
+          \mathcal{M}_1&:=\{\varphi_1((x,y),c_{1,1}),\psi_1(s_{1,1}),\psi_2(s_{1,2})\}\\
+          \varphi_1((x,y),c_{1,1})&:=\color{green}x+115+c_{1,1}\\
+          \mathbb{C}_1&:=[-3\cdot 10^3,0]\\
+          \mathbb{S}_{1,1}&:=[2,10],\,\mathbb{S}_{1,2}:=[2,10] \\
+          \mathbf{u}_1^a&:=(0,\{10,10\})
+      \end{split}\end{equation*}
+      \begin{equation*}\begin{split}
+        \lambda(x,y)&=\begin{cases}
+          \mathcal{M}_0   &\text{if } (x,y) \leq (-115,146)\\
+          \mathcal{M}_1   &\text{if } (-115,146) < (x,y) \leq (-115,11)\\
+          \cdots
+        \end{cases}\\
+        \mathcal{M}&=\left(\lambda((x,y)),\mathcal{M}_0,{\color{red}\mathcal{M}_1},\dots\right)\\
+        \mathbf{u}^a&=\{{\color{red}\mathbf{u}_1^a},\mathbf{u}_0^a\}
+      \end{split}\end{equation*}
+      \end{column}
+      \end{columns}
+\end{frame}
+
+\end{document}

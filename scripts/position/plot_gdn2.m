@@ -1,4 +1,4 @@
-function [] = plot_gdn2(E, ke, varphi, points, pdangle, min, max, andu, s, p)
+function [dpdx, dpdy] = plot_gdn2(E, ke, varphi, points, pdangle, min, max, andu, s, p)
 % PLOT_GDN2 Plots the vector field, and eventually animates it
 %
 % Inputs:
