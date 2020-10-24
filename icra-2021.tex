@@ -460,12 +460,12 @@ Let the path at stage $i$ be characterized by a generic continuous twice differe
   the algorithm inputs $\mathcal{M}$, initial position, and energy coefficients guess, and outputs the position, the instantaneous energy consumption, and the control input--an action performed evolving the mission state.
 \end{defn}
 
-\begin{figure}[t]
+\begin{figure*}[t]
   \centering
-  \input{\figpath/icra-2021_overview.tikz}
+  \input{\figpath/icra-2021_overview2.tikz}
   \caption{The mission consists of circles and lines that forms a survey pattern. The UAV heads to $\varphi_0$ initially using the desired velocity vector $\dot{\mathbf{p}}_d$, but it later heads to $\varphi_0^+$ reducing the radius $c_{0,0}$ to satisfy the battery constraints (indeed the energy coefficients $\mathbf{q}_0$ evolution is higher then $\mathbf{q}_0^+$). The UAV then converges to $\varphi_1$, $\varphi_2$, $\varphi_3$, and so on until it covers the polygon (the circle $\varphi_2$ is not visible in the figure; it connects $\varphi_1$ and $\varphi_3$).}
   \label{fig:overview}
-\end{figure}
+\end{figure*}
 
 \subsection{State: position and energy}
 \label{sec:model}
