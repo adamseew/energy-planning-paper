@@ -423,7 +423,7 @@ Energy-Aware Dynamic Mission Planning Algorithm for UAVs
 \begin{figure*}[t]
   \centering
   \input{\figpath/icra-2021_overview2.tikz}
-  \caption{The mission consists of circles and lines that forms a survey pattern. The UAV heads to $\varphi_0$ initially using the desired velocity vector $\dot{\mathbf{p}}_d$, but it later heads to $\varphi_0^+$ reducing the radius $c_{0,0}$ to satisfy the battery constraints (indeed the energy coefficients $\mathbf{q}_0$ evolution is higher then $\mathbf{q}_0^+$). The UAV then converges to $\varphi_1$, $\varphi_2$, $\varphi_3$, and so on until it covers the polygon (the circle $\varphi_2$ is not visible in the figure; it connects $\varphi_1$ and $\varphi_3$).}
+  \caption{The mission consists of circles and lines that cover a polygon. The UAV heads to $\varphi_0$ initially, using the desired velocity vector $\dot{\mathbf{p}}_d$. It later heads to $\varphi_0^-$ reducing the radius $c_{0,1}$ to satisfy the battery constraints (indeed the energy coefficients $\mathbf{q}_{k_2}$ evolution is higher then $\mathbf{q}_{k_3}$). The UAV then converges to $\varphi_1$ in stage $\mathcal{M}_1$, $\varphi_2$ in stage $\mathcal{M}_2$, and so on (the circle $\varphi_2$ is not visible in the figure; it connects $\varphi_1$ and $\varphi_3$).}
   \label{fig:overview}
 \end{figure*}
 
