@@ -453,10 +453,10 @@ Let the path at stage $i$ be characterized by a generic continuous twice differe
 \begin{defn}[Stage and mission]\label{def:mission}
   A \emph{stage} $i$ at time instant $k$ is defined as the ordered list
   \begin{equation}\label{eq:mission}\begin{split}
-    \mathcal{M}_i:=\{(\varphi_i&(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho}),\\
+    \mathcal{M}_i:=\{(\varphi_i(&\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho}),\\
       \psi_1&(s_{i,1}),\dots,\psi_\sigma(s_{i,\sigma}))\mid\\
-      \exists\,\,\varphi&_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i,\,\\
-      \psi&_j(s_{i,j})\in\mathbb{S}_{i,j}\,\forall j\in[\sigma]^+\},
+      \exists\,\,&\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i,\,\\
+      &\psi_j(s_{i,j})\in\mathbb{S}_{i,j}\,\forall j\in[\sigma]^+\},
   \end{split}\end{equation}
   where $\mathbb{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the TEEs set, and $\mathbb{S}_{i,j}:=[\underline{s}_{i,j},\overline{s}_{i,j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th task QoS set. The parameters of the TEE $\varphi_i$ are defined in Subsection~\ref{sec:model}, of the tasks $\psi_1,\dots,\psi_\sigma$ in~\ref{sec:computations-model}.
 
@@ -681,6 +681,19 @@ Before the next step, state estimator--the discrete-time Kalman filter~\cite{sim
 %%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \label{sec:experimental}
+
+\begin{figure}[h]
+  \hspace*{-6ex}\input{\figpath/trajectory/trajectory2.tikz}
+  \caption{Trajectory.}
+  \label{fig:trajectory}
+\end{figure}
+
+\begin{figure}[h]
+  \input{\figpath/energy/max_qos_tees2.tikz}
+  \caption{Energy max.}
+  \label{fig:energy-max}
+\end{figure}
+  
 
 *
 
