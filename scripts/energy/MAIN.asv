@@ -201,6 +201,6 @@ if or(selection == 0, indx == 4)
     bar(yy(:,1), yy(:,2));
     hold off;
     
-    csvwrite([yy(:,1) yy(:,2) ones(size(yy,1),1)*sum(meas)], '../data/simulation2/est_vs_joules.csv');
+    csvwrite(yy(:
     
 end

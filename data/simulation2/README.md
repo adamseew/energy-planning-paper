@@ -16,7 +16,7 @@ Contains 3 columns:
 
 
 ### [max_qos_tees.csv](max_qos_tees.csv). 
-Data from simulation of the algorithm with epsilon = .5. The QoS is max all the time and the energy is derived from the throttle (approximated). 
+Data from simulation of the algorithm with epsilon = 1. The QoS is max all the time and the energy is derived from the throttle (approximated). 
 
 
 To generate:
@@ -29,10 +29,18 @@ To generate:
 * time step 500 ms, 
 * computational model and mission specification are default, 
 * select OP3, 
-* epsilon is .5.
+* epsilon is 1.
 
 Contains 4 columns:
 1. time (sec). The [max,min] is = [.5,320].
 2. data from sensor = [29.368,40.381].
 3. estimated data [29.65,40.381].
 4. zero column (just for gnuplot)
+
+### [est_vs_joules.csv](est_vs_joules.csv)
+Data which correlates when the estimation has stopped in seconds and how the energy evolves from that point on, against the actual measured energy.
+
+Contains 3 columns:
+1. time (sec). The [max,min] is = [.5,320].
+2. data from sensor = [19297,24635].
+3. data from sensor, constant 22334.
