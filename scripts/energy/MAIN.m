@@ -87,8 +87,8 @@ selection = 0;
             'OP1: fixed max controls, kf no animation', ...
             'OP2: fixed max controls, kf animation', ...
             'OP3: fixed max controls, akf no animation', ...
-            'OP4: fixed max controls, akf no animation, f(ts)=energy' ...
-
+            'OP4: energy in fun. of estimation stop time, same as OP4', ...
+            'OP5: variable controls (computations) same as OP4'
         }, ... 
         'ListSize', [350 150] ...
     );
@@ -203,4 +203,23 @@ if or(selection == 0, indx == 4)
     
     csvwrite([yy(:,1) yy(:,2) ones(size(yy,1),1)*sum(meas)], '../data/simulation2/est_vs_joules.csv');
     
+end
+
+%% Energy sim, OP5
+
+if or(selection == 0, indx == 5)
+
+    OP5;
+
+    disp('[  E> ] Plot of the results');
+    disp('[   ! ] Dependencies: y, meas, gck, ts');
+
+    figure;
+
+    plot(t * ts, meas); %+ gck);
+    hold on;
+    plot(t * ts, y);
+    hold off;
+
+    legend('data', 'observer');
 end

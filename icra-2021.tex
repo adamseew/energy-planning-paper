@@ -543,7 +543,7 @@ Given two time instants $k_1,k_2$ s.t. $k_1>k_2$ and a constant value $n\in\math
 \end{equation}
 \end{assm}
 
-Physically, the time evolution of the instantaneous energy consumption is assumed periodic, in the sense that it presents repetitive patterns. We show in Section~\ref{sec:experimental} the assumption being eased in practice to a set $\mathbb{E}\subset\mathbb{R}$, or omitted under specific conditions.
+Physically this means that the time evolution of the instantaneous energy consumption is assumed periodic, in the sense that it presents repetitive patterns. We show in Section~\ref{sec:experimental} the assumption being eased in practice to a set $\mathbb{E}\subset\mathbb{R}$, or omitted under specific conditions.
 
 \subsection{Energy evolution due to computations}
 \label{sec:computations-model}
@@ -567,7 +567,7 @@ Moreover, $g(\{\emptyset\})=0$.
 \section{Algorithm}
 \label{sec:algo}
 
-Given an initial stage $\mathcal{M}_0$ (TEE $\varphi_0$, tasks $\Psi$, computations $\mathbf{s}_0\in\mathbb{S}_0$, and adaptations $\mathbf{c}_0\in\mathbb{C}_0$), the main purpose of the algorithm is to output a control input sequence $\mathbf{u}^a:=\{\mathbf{u}_0^a,\mathbf{u}_1^a,\dots\}$ in a valid mission.
+Given the stages $\mathcal{M}_i$ (TEE $\varphi_i$, tasks $\Psi$, computations $\mathbf{s}_i\in\mathbb{S}_i$, and adaptations $\mathbf{c}_i\in\mathbb{C}_i$) for all $i\in[l]$, the main purpose of the algorithm is to output a control input sequence $\mathbf{u}^a:=\{\mathbf{u}_0^a,\mathbf{u}_1^a,\dots\}$ in a valid mission.
 
 \begin{defn}[Valid mission]\label{def:valid}
   A mission is valid if for every stage $\mathcal{M}_{i-1},\,i\in[l]^+$ there exist a control input $\mathbf{u}_k^{a}$ that produce the next stage $\mathcal{M}_i$
@@ -617,6 +617,22 @@ where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the 
   \mathbb{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation}
 and $\max{\mathbb{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption.
+
+\begin{figure*}[h]
+  \centering
+  \hspace{-5ex}\subfigure[.]
+  {
+    \input{\figpath/energy/est_vs_joules.tikz}
+    \label{fig:energy-max}
+  }
+  \subfigure[.]
+  {
+    \input{\figpath/energy/max_qos_tees3.tikz}
+    \label{fig:energy-max}
+  }
+  \caption{.}
+\end{figure*}
+
 \subsection{Deployment algorithm}
 
 \begin{algorithmic}[1]
@@ -682,27 +698,15 @@ Before the next step, state estimator--the discrete-time Kalman filter~\cite{sim
 \section{Results}
 \label{sec:experimental}
 
+In this section
+
 \begin{figure}[h]
   \centering
   \input{\figpath/trajectory/trajectory3.tikz}
-  \caption{Trajectory.}
   \label{fig:trajectory}
+  \caption{.}
 \end{figure}
 
-\begin{figure}[h]
-  \centering
-  \input{\figpath/energy/est_vs_joules.tikz}
-  \caption{Estimation vs energy.}
-  \label{fig:energy-max}
-\end{figure}
-  
-
-\begin{figure}[h]
-  \centering
-  \input{\figpath/energy/max_qos_tees3.tikz}
-  \caption{Energy max.}
-  \label{fig:energy-max}
-\end{figure}
   
 
 *

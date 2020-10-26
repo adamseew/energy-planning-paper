@@ -1,4 +1,4 @@
-function [y, q] = estimate_kf(A, B, C, u, q0, P0, Q, R, meas, t, eps)
+function [y, q, P1] = estimate_kf(A, B, C, u, q0, P0, Q, R, meas, t, eps)
 %ESTIMATE_KF Discrete-time linear Kalman filter state estimation
 % (see: Dan Simon, Optimal State Estimation [ISBN: 9780471708582], p.128)
 %
@@ -19,8 +19,11 @@ function [y, q] = estimate_kf(A, B, C, u, q0, P0, Q, R, meas, t, eps)
 % Outputs:
 %   y:   instantaneous energy consumption (evolution in time)
 %   q:   state (also evolution in time)
+%   P1:  variance of the guessed estimate at next step
 %
-    
+
+    P1 = [];
+
     % predicted instantaneous energy consumption evolution in time
     y = [];
     
