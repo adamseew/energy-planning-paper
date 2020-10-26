@@ -26,17 +26,16 @@ gnuplot -e "
     set datafile separator ',';
     set term qt size 320,220;
     set border linewidth 1.5;
-    set style line 11 lc rgb '#808080' lt 1;
+    set style line 11 lc rgb '#909090' lt 1;
     set border 3 back ls 11;
     set tics nomirror out scale 0.75;
-    set style line 12 lc rgb'#808080' lt 0 lw 1;
-    set grid back ls 12;
+    set style line 12 lc rgb'#909090' lt 0 lw 1;
+    
     unset title;
     set xrange [0:320];
     set xtics 60 center offset .6,.5 font 'Times,11';
     set yrange [18000:25000];
     set ytics ('18' 18000, '20' 20000, '22' 22000, '24' 24000) center offset -.3,0 font 'Times,11';
-    set grid ytics, xtics;
     set xlabel 'Time (sec)' rotate parallel center offset -1.4,.9 font 'Times,11';
     set ylabel 'Energy (kJ)' rotate parallel center offset .5,-.1 font 'Times,11';
     set key font 'Times,8';
