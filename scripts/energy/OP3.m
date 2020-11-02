@@ -53,7 +53,7 @@ if isempty(eps)
     eps = 1/3; % default eps [W tolerance]
 end
 
-% initial guess
+% initial 	
 [q0, P0, Q, R] = guess_kf(meas(1), size(A, 1));
 
 % why meas + gck? Including both contributions; the former conputational

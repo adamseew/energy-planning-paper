@@ -43,7 +43,7 @@ end
 points = reshape(cat(2, xp', yp'), [], 2);
 clear xp yp;
 
-E = [0 1; -1 0]; % default rotation matrix
+E = [0 -1; 1 0]; % default rotation matrix
 
 ke = input('[   ? ] Gain to adjust speed of convergence: ');
 if isempty(ke)
