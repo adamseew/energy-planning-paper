@@ -9,10 +9,10 @@ answer = inputdlg(...
      'max power [W]:', 'min power [W]:' ...
     }, ...
     'Initialization', [1 40], ...
-    {'15', '5', '0', '0', '-100', '240', '40' '30'}); % asking for initial data
+    {'18', '6', '270', '315', '-100', '220', '41' '29'}); % asking for initial data
 
 if isempty(answer)
-    strp = [15; 5; 0; 0; -100; 240; 40; 30]; % default initial data
+    strp = [18; 6; 270; 315; -100; 220; 41; 28]; % default initial data
 else
     strp = str2double(answer);
 end
@@ -28,8 +28,9 @@ else
     fid = fopen(fullfile([folder, bn]), 'rt');
 end
 
-    varphi = []; % TEE per each i
+varphi = []; % TEE per each i
 trigger = []; % triggering points from i to i+1
+
 while true
     thisline = fgetl(fid);
     if ~ischar(thisline) 
@@ -49,6 +50,6 @@ end
   
 fclose(fid);
 
-simulate(varphi, trigger, strp(1),  strp(2), strp(3), strp(4), strp(5), ...
+[k pos pow] = simulate(varphi, trigger, strp(1),  strp(2), strp(3), strp(4), strp(5), ...
     strp(6), strp(7), strp(8));
 
