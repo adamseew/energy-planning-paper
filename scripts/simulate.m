@@ -1,5 +1,5 @@
 function [k pos pow] = simulate(varphi, trigger, vehspeed, windspeed, ...
-    vehdir, winddir, startx, starty, maxpw, minpw, animate)
+    vehdir, winddir, startx, starty, maxpw, minpw, trigeps, animate)
 %SIMULATE Simulation wrapper function
 %   
 % Inputs:
@@ -14,6 +14,8 @@ function [k pos pow] = simulate(varphi, trigger, vehspeed, windspeed, ...
 %   end:      initial y coordinate [m]
 %   maxpw:    max power that the vehicle can reach [W]
 %   minpw:    min power [W]
+%   trigeps:  the radius of the circle surrounding the triggering point
+%             which allows to change the TEE from i to i+1
 %   animate:  show animation
 %
 % Outputs:
@@ -31,7 +33,7 @@ function [k pos pow] = simulate(varphi, trigger, vehspeed, windspeed, ...
     k = 0;
     i = 1;
     
-    triggereps = 10; % tollerance to the triggering position
+    triggereps = trigeps; % tollerance to the triggering position
     
     pos = [];
     pow = [];
@@ -40,20 +42,33 @@ function [k pos pow] = simulate(varphi, trigger, vehspeed, windspeed, ...
     
     nowpos = [startx starty];
     pdanglelist = [];
-        
+    
+    % contribution of the wind. This doesn't change as winspeed and
+    % direction is constant
+    
+    windx = .1 * windspeed * cosd(winddir);
+    windy = .1 * windspeed * sind(winddir);
+
     for varphii = transpose(varphi) % per each TEE
         
         varphii = split(varphii, ";");
         
+        fprintf('varphi_%d((%d,%d)):=%s\n', i, nowpos(1), nowpos(2), varphii(3));
+        
         E = [0 -1; 1 0];
         if contains(varphii(2), '270')
             E = [0 1; -1 0];
+            disp('rotation=270');
+        else
+            disp('rotation=90');
         end
         
         ke = str2double(varphii(1));
         
+        fprintf('ke=%f\n', ke);
+        
         while true
-
+t
             pos = [pos; nowpos];
             
             % vector field
@@ -62,8 +77,6 @@ function [k pos pow] = simulate(varphi, trigger, vehspeed, windspeed, ...
             % dpd is the ideal direction... We have wind though
             % now if the time is sampled every second, the below expression
             % actually indicates the offset from the original location
-            windx = .1 * windspeed * cosd(winddir);
-            windy = .1 * windspeed * sind(winddir);
             
             posx = .1 * vehspeed * cosd(pdangle);
             posy = .1 * vehspeed * sind(pdangle);
@@ -76,12 +89,27 @@ function [k pos pow] = simulate(varphi, trigger, vehspeed, windspeed, ...
                 break;
             end
             
-            % produce a simulated energy value; if the drone doesn't turn,
-            % no energy is needed due to turn (minus first contribution)
-            % if there is tailwind, no energy needed due to wind (minus
-            % second)
-            simpow = maxpw - (.5 * (maxpw - minpw) + ...
-                .5 * (maxpw - minpw) * cosd(winddir - pdangle)); % wind
+            % produce a simulated energy value
+            % first, let's calculate the angle between the two vectors
+            angle = acosd(...
+                          (posx * windx + posy * windy) / ...
+                          (sqrt(posx^2 + posy^2) * sqrt(windx^2 + windy^2))...
+                         );
+            % angle is nan? no windspeed then; so the contribution of the
+            % wind is null
+            if isnan(angle)
+                angle = 0;
+            end
+            
+            % if the angle is 0, lowest energy (tail wind). 180, heighest
+            % (head wind)
+            simpow = minpw + (maxpw - minpw) * .5 * abs(1 - cosd(angle)) * ... 
+                windspeed / vehspeed; % winddir and windspeed effect
+            
+            % before it was
+            %simpow = maxpw - (.5 * (maxpw - minpw) + ...
+            %    .5 * (maxpw - minpw) * cosd(winddir - pdangle)); % wind
+            
             
             pow = [pow; simpow];
             
