@@ -165,8 +165,8 @@ function [k pos pow est ua] = simulate(varphi, trigger, trajparams, mpcparams, s
                 %    Rm, Qm, Pf, k/10, eps, N);
             
                 % plotting the estimated energy
-                %subplot(2,2,4);
-                %plot(linspace(0, k/10, size(yy, 1)), yy(:, 1))
+                subplot(2,2,4);
+                plot(linspace(0, k/10, size(yy, 1)), yy(:, 1))
             end
             
             pause(.1)

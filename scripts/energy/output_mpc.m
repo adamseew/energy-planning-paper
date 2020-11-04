@@ -1,4 +1,4 @@
-function [y, q, ua, meas] = output_mpc(A, B, C, ck, q0, P0, Q, R, meas, ...
+function [y, q, ua, meas, P1, q0] = output_mpc(A, B, C, ck, q0, P0, Q, R, meas, ...
     Rm, Qm, Pf, t, eps, N)
 %OUTPUT_MPC Output MPC algorithm (see MPC Rawlings and Mayne, 2009, p. 382)
 %
@@ -25,6 +25,8 @@ function [y, q, ua, meas] = output_mpc(A, B, C, ck, q0, P0, Q, R, meas, ...
 %   q:   state (also evolution in time)
 %   ua:  control input sequence (optimal)
 %   meas:updated data from sensor with the computational energy
+%   P1:  next variance of the guessed estimate
+%   q0:  next state
 %
 
     y = []; % output
@@ -50,7 +52,7 @@ function [y, q, ua, meas] = output_mpc(A, B, C, ck, q0, P0, Q, R, meas, ...
                 end
         
                 [yk qk] = evolve_sys(A, B, C, current_gck, qk, 1);
-                qk = qk(:,end); % keep just last one, others not necessary
+                qk = qk(:, end); % keep just last one, others not necessary
             end
         
             vv = vv + .5 * (transpose(qk) * Pf * qk); % final step function
