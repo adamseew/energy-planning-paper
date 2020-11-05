@@ -1,5 +1,5 @@
-function [y, q, ua, meas, P1, q0] = output_mpc(A, B, C, ck, q0, P0, Q, R, meas, ...
-    Rm, Qm, Pf, t, eps, N)
+function [y, q, ua, meas, P1, q0] = output_mpc(A, B, C, ck, q0, P0, Q, ...
+    R, meas, Rm, Qm, Pf, t, eps, N)
 %OUTPUT_MPC Output MPC algorithm (see MPC Rawlings and Mayne, 2009, p. 382)
 %
 % Inputs:

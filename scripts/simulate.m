@@ -82,12 +82,15 @@ function [k pos pow est ua] = simulate(varphi, trigger, trajparams, mpcparams, s
     % direction is constant
     windx = .1 * windspeed * cosd(winddir);
     windy = .1 * windspeed * sind(winddir);
+    
+    y = []; % model output
+    q = []; % model state
 
     for varphii = transpose(varphi) % per each TEE
         
         varphii = split(varphii, ";");
         
-        fprintf('varphi_%d((%d,%d)):=%s\n', i, nowpos(1), nowpos(2), varphii(3));
+        fprintf('varphi%d((%d,%d)):=%s\n', i, nowpos(1), nowpos(2), varphii(3));
         
         E = [0 -1; 1 0];
         if contains(varphii(2), '270')
@@ -163,10 +166,54 @@ function [k pos pow est ua] = simulate(varphi, trigger, trajparams, mpcparams, s
                 %[~, ~, ~, yy, P1, q0] = output_mpc(A, B, C, si, q0, P0, ...
                 %    Q, R, pow, ...
                 %    Rm, Qm, Pf, k/10, eps, N);
+                
+                %y = []; % instantaneous energy consumption (evolution in 
+                        % time)
+                %q = []; % state (also evolution in time)
+                %ua = []; % control input sequence
+                
+                % iteration over all the possible controls
+                % this instruction corresponds to argmax in algorithm (line
+                % 3)
+                %v = [];
+                %for current_si = transpose(si(any(si(:, 1) == i, 2), end))
+                %    qk = q0;
+                    
+                %    vv = .5 * (trasnpose(qk) * Qm * qk + transpose(current_si) * Rm * current_si);
+                    
+                    % this instruction corresponds to the sum 
+                %    for l = 1 : N - 1
+                        
+                %    end
+                %end
+                    
+                % first we need to interate over all the ppp
             
                 % plotting the estimated energy
                 %subplot(2,2,4);
                 %plot(linspace(0, k/10, size(yy, 1)), yy(:, 1))
+                
+                % for now I do just the estimation with the model and later
+                % implement the rest of the MPC
+                yy = [];
+                P1 = [];
+                
+                [yy, qq0, P1] = estimate_kf(A, B, C, u, q0, P0, Q, R, ...
+                    pow(k), k, eps);
+                
+                y = [y; yy];
+                q0 = qq0;
+        
+                if ~isempty(P1) % if it's empty, no KF just evolutin (<= epsilon)
+                    P0 = P1;
+                    fprintf("kf at time %d\n", k/10);
+                else
+                    fprintf("model evolution at time %d\n", k/10);
+                end
+                q = [q; q0];
+                
+                subplot(2,2,4);
+                plot(linspace(0, k/10, size(y, 1)), y(:, 1))
             end
             
             pause(.1)
