@@ -100,5 +100,5 @@ si2 = build_ck(si, file2, 0:1:i);
 
 figure;
 
-[k pos pow est ua] = simulate(varphi, trigger, strp, strp2, si2, ci);
+simulate(varphi, trigger, strp, strp2, si2, ci);
 
