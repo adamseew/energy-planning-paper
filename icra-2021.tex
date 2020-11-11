@@ -99,8 +99,10 @@
     pages={135--142},
     year={2020},
     organization={IEEE},
+    DOI={10.1109/IRC.2020.00028},
     url={https://adamseew.bitbucket.io/short/mechanical2020}
   }
+
   @article{seewald2019coarse,
     title={Coarse-Grained Computation-Oriented Energy Modeling for Heterogeneous Parallel Embedded Systems},
     author={Seewald, Adam and Schultz, Ulrik Pagh and Ebeid, Emad and Midtiby, Henrik Skov},
@@ -108,6 +110,7 @@
     pages={1--22},
     year={2019},
     publisher={Springer},
+    DOI={10.1007/s10766-019-00645-y},
     url={https://adamseew.bitbucket.io/short/coarse2019}
   }
   @inproceedings{seewald2019component,
@@ -117,6 +120,7 @@
     pages={5--6},
     year={2019},
     organization={ACM},
+    DOI={10.1145/3359061.3362775},
     url={https://adamseew.bitbucket.io/short/component2019}
   }
   @inproceedings{hajjaj2014review,
@@ -376,14 +380,18 @@
     pages={294--297},
     year={2020},
     organization={IEEE},
+    DOI={10.1109/IRC.2020.00054},
     url={https://adamseew.bitbucket.io/short/energy2020}
   }
+
   @inproceedings{seewald2020beyond,
-    title={Beyond Traditional Energy Planning: the Weight of Computations in Planetary Exploration},
+    title={Beyond Traditional Energy Planning: the Weight of Computations in Planetary Exploration}, 
     author={Seewald, Adam},
     booktitle={IROS Workshop on Planetary Exploration Robots: Challenges and Opportunities (PLANROBO20)},
+    pages={3},
     year={2020},
-    organization={ETH Zurich, Department of Mechanical and Process Engineering},
+    publisher={ETH Zurich, Department of Mechanical and Process Engineering},
+    DOI={10.3929/ethz-b-000450120},
     url={https://adamseew.bitbucket.io/short/beyond2020}
   }
   @inproceedings{lindemann2005smoothly,
@@ -429,6 +437,15 @@
     pages={1372--1385},
     year={2017},
     publisher={IEEE}
+  }
+  @book{kuo1967automatic,
+    title={Automatic Control Systems},
+    author={Kuo, B.C.},
+    isbn={9780130549730},
+    lccn={67016388},
+    series={Electrical engineering series},
+    year={1967},
+    publisher={Prentice-Hall}
   }
 \end{filecontents}
 
@@ -560,7 +577,7 @@ Let us consider a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$
 \end{equation}
 where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the modeled instantaneous energy consumption, $\xi\in\mathbb{R}$ is the fundamental frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
 
-\begin{lem}[Fourier series, harmonic oscillator equivalence]Suppose there is no state and output uncertainty (the contributions $\mathbf{w}_k\in\mathbb{R}^m,v_k\in\mathbb{R}$ are zero). The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using an equivalent linear discrete time-invariant state-space model
+Consider a linear time-invariant (LTI) state-space model
 \begin{equation}\label{eq:state-perf}\begin{split}
   \mathbf{q}_{k+1}&=A\mathbf{q}_{k}+B\mathbf{u}_{k}+\mathbf{w}_k,\\
   y_k&=C\mathbf{q}_k+v_k,
@@ -581,9 +598,21 @@ where $y_k\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. The s
   \end{array}\right],
 \end{split}\end{equation}
 where $\mathbf{q}_k\in\mathbb{R}^m$ given $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transmission matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is one, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zero.
+
+\begin{lem}[Fourier series, LTI state-space equivalence]Suppose there is no state and output uncertainty (the contributions $\mathbf{w}_k\in\mathbb{R}^m,v_k\in\mathbb{R}$ are zero) and the control is zero. The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using the LTI state-space model in Equation~(\ref{eq:state-perf})
 \end{lem}
 \begin{proof}
-  *
+  We re-write the Fourier series expression in Equation~(\ref{eq:fourier}) in complex form. 
+  
+  $e^{ik}=\cos{k}+i\sin{k}$ expresses the well-known Euler's formula, therefore $e^{-ik}=\cos{k}-i\sin{k}$. We find the expression for $\cos{k}=(e^{ik}+e^{-ik})/2$ and $i\sin{k}=(e^{ik}-e^{-ik})/2i$ by substitution of $i\sin{k}$ and $\cos{k}$ respectively. This leads
+  \begin{equation}
+    h(k)=a_0+\sum_{n=1}^r{e^{ink}(a_n-ib_n)/2},
+  \end{equation}
+where $i$ is the imaginary unit, and $h(k)\in\mathbb{C}$. 
+
+Consider the continuous form of Equation~(\ref{eq:state-perf}), $\dot{\mathbf{q}}=A\mathbf{q}$, with an initial guess $\mathbf{q}_0$. The solution at time $k$ can be expressed $\mathbf{q}=e^{Ak}\mathbf{q}_0$. Both the solution and the system in Equation~(\ref{eq:state-perf}) are well established expression derived using a standard textbook~\cite{kuo1967automatic}.
+
+
 \end{proof}
 
 Suppose at time instant $k$ the mission reached stage $i$ and the control input is $\mathbf{u}_k^a:=\langle\mathbf{c}_k,\mathbf{s}_k\rangle$. The control along with the input matrix
