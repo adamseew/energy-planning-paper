@@ -39,7 +39,6 @@
 \usepackage{amsthm}
 
 %% pseudocode package
-%\usepackage{algorithmic}
 \usepackage{algpseudocode}
 
 %% packages for alignment
@@ -89,6 +88,46 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
+
+% just lines in pseudocode...
+\usepackage{etoolbox}
+
+\makeatletter
+% start with some helper code
+% This is the vertical rule that is inserted
+\newcommand*{\algrule}[1][\algorithmicindent]{%
+  \makebox[#1][l]{%
+    \hspace*{.2em}% <------------- This is where the rule starts from
+    \vrule height .75\baselineskip depth .25\baselineskip
+  }
+}
+
+\newcount\ALG@printindent@tempcnta
+\def\ALG@printindent{%
+    \ifnum \theALG@nested>0% is there anything to print
+    \ifx\ALG@text\ALG@x@notext% is this an end group without any text?
+    % do nothing
+    \else
+    \unskip
+    % draw a rule for each indent level
+    \ALG@printindent@tempcnta=1
+    \loop
+    \algrule[\csname ALG@ind@\the\ALG@printindent@tempcnta\endcsname]%
+    \advance \ALG@printindent@tempcnta 1
+    \ifnum \ALG@printindent@tempcnta<\numexpr\theALG@nested+1\relax
+    \repeat
+    \fi
+    \fi
+}
+% the following line injects our new indent handling code in place of the default spacing
+\patchcmd{\ALG@doentity}{\noindent\hskip\ALG@tlm}{\ALG@printindent}{}{\errmessage{failed to patch}}
+\patchcmd{\ALG@doentity}{\item[]\nointerlineskip}{}{}{} % no spurious vertical space
+% end vertical rule patch for algorithmicx
+\makeatother
+
+% for blank page
+
+\usepackage{afterpage}
 
 %% references (generates a bib file for bibtex)
 \begin{filecontents}{\jobname.bib}
@@ -669,7 +708,7 @@ Given $l$ stages $\mathcal{M}_i$ (TEE $\varphi_i$, tasks $\Psi$, computations $\
 
 \begin{defn}[Valid mission]\label{def:valid}
   A mission is valid if for every stage $\mathcal{M}_{i-1},\,i\in[l]^+$ there exist a control input $\mathbf{u}_k^{a}$ that produce the next stage $\mathcal{M}_i$
-  \begin{equation}\begin{split}
+  \begin{equation}\begin{split}\label{eq:mission-valid}
     \mathbf{u}^a_{k}=\{&\langle\mathbf{c}_{k},\mathbf{s}_{k}\rangle\mid\,\exists n\in\mathbb{Z}_{>0},\\&\langle\varphi_{i-1}(\mathbf{p}_{k-n},\mathbf{c}_{k-n}),\Psi(\mathbf{s}_{k-n})\rangle\in\mathcal{M}_{i-1}\\
     &\Longrightarrow\langle\varphi_i(\mathbf{p}_{k},\mathbf{c}_{k}),\Psi(\mathbf{s}_{k})\rangle\in\mathcal{M}_{i}\}.
   \end{split}\end{equation}
@@ -715,21 +754,6 @@ where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the 
   \mathbb{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation}
 and $\max{\mathbb{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption.
-
-\begin{figure*}[h]
-  \centering
-  \hspace{-5ex}\subfigure[.]
-  {
-    \input{\figpath/energy/est_vs_joules.tikz}
-    \label{fig:energy-max}
-  }
-  \subfigure[.]
-  {
-    \input{\figpath/energy/max_qos_tees3.tikz}
-    \label{fig:energy-max}
-  }
-  \caption{.}
-\end{figure*}
 
 \subsection{Deployment algorithm}
 
@@ -796,18 +820,22 @@ Before the next step, state estimator--the discrete-time Kalman filter~\cite{sim
 \section{Results}
 \label{sec:experimental}
 
-In this section
+Some preliminary results are discussed. Further analysis and re-implementation of the functionality of the algorithm is needed.
 
 \begin{figure}[h]
   \centering
   \input{\figpath/trajectory/trajectory3.tikz}
+  \caption{The true trajectory. The trajectory is retrieved from the flight log.}
   \label{fig:trajectory}
-  \caption{.}
 \end{figure}
 
-  
+\begin{figure}[h]
+  \centering
+  \input{\figpath/energy/max_qos_tees3.tikz}
+  \caption{Derived energy consumption from the sensors (throttle). Red line is the estimated value. We use KF for state estimation when the difference between the sensor and model value is $>\varepsilon$. Otherwise we evolve the state without noise.}
+  \label{fig:energy-max}
+\end{figure}
 
-*
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Future Work}
@@ -815,10 +843,100 @@ In this section
 
 *
 
+\leavevmode\thispagestyle{empty}\newpage % just for now
+
 \bibliographystyle{IEEEtran}
 \bibliography{\jobname} 
-\vspace{0.1ex}
 
-\newpage
+\leavevmode\thispagestyle{empty}\newpage
+
+\appendices
+\section{Mission Plan Format}
+
+In this appendix we discuss how to specify an initial mission plan with an example of a survey mission. The reader can later execute the initial mission plan using the simulator in Appendix~\ref{app:simulator}. The initial mission plan is user-defined. It specifies the trajectory and tasks of a mission along the QoS and TEEs sets. 
+
+Recall that the mission is composed of a set of stages (Subsection~\ref{sec:prob}). The plan has a variable number of entries per each stage. Suppose we want to plan the mission in Figures~\ref{fig:overview},~\ref{fig:trajectory}. The first line
+\begin{algorithmic}[1]
+  \State\textbf{\texttt{0.0003;90;(x+45)\^{}2+(y-146)\^{}2-4900+c1}}\label{code:firstcircle}
+\end{algorithmic}
+corresponds to TEE $\varphi_0(\mathbf{p}_k,c_{0,1}):=(x+45)^2+(y-146)^2-4900+c_{0,1}$ in the initial stage $\mathcal{M}_0$. The TEE is a circle. The gain is $k_e=3\cdot 10^{-4}$, and the rotation is of ninety degrees--we use the rotation matrix $E$ from Equation~(\ref{eq:pd}). Note that line~\ref{code:firstcircle} further specifies the adjustment {\tt\textbf{c1}} of the radius of the circle. It corresponds to $c_{0,1}$ in Definition~\ref{def:mission} (zero numerates the stage, one the adjustment).
+
+The following line
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:firstcircle}
+  \State\textbf{\texttt{-sqrt(4900+c1)-45,146}}\label{code:trigger}
+\end{algorithmic}
+specifies the triggering point. {\tt\textbf{sqrt}} is the square root. The UAV reaches the triggering point within a given $\varepsilon$ (the tolerance), and the algorithm switches to the next stage $\mathcal{M}_1$. The algorithm ensures that the overall mission is still valid--Equation~(\ref{eq:mission-valid}). It ensure that the TEEs and QoS constraints sets are satisfied with the generated control input. Note that the triggering point is in function of the adjustment {\tt\textbf{c1}}. This is necessary, an adjustment in one stage affects the overall flight.
+
+Let us assume the system has two tasks. One task is the CNN object detection algorithm. Its computation $s_{0,1}$ is the fps rate. Another task is the variable key-size encryption algorithm. Its computation $s_{0,2}$ is the key-size. Then in mission plan
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:trigger}
+  \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset}
+  \State\textbf{\texttt{[2,10]}}\label{code:qos1set}
+  \State\textbf{\texttt{[32,448]}}\label{code:qos2set}
+\end{algorithmic}
+the line~\ref{code:teeset} corresponds to TEE $\varphi_0$'s set $\mathbb{C}_0=[-3\cdot10^3,0]$. The algorithm selects $c_{0,1}$ in $\mathbb{C}_0$. The line~\ref{code:qos1set} corresponds to the QoS set $\mathbb{S}_{0,1}$ for the computation $s_{0,1}$. The line~\ref{code:qos1set} corresponds to the QoS set $\mathbb{S}_{0,2}$ for the computation $s_{0,2}$. The lines~\ref{code:teeset}--\ref{code:qos2set} must follow the ascending order of adjustments and computations. The lines~\ref{code:firstcircle}--\ref{code:qos2set} all describe the stage $\mathcal{M}_0$.
+
+Once the UAV reaches the triggering point (line~\ref{code:trigger}) and there are no further lines, the algorithm terminates. If there are further lines, the stage switches to $\mathcal{M}_1$
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:qos2set}
+  \State\textbf{\texttt{0.05;270;x+sqrt(4900+c1)+45}}\label{code:tee2}
+  \State\textbf{\texttt{-sqrt(4900+c1)-45,11}}\label{code:trigger2}
+  \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset2}
+  \State\textbf{\texttt{[2,10]}}
+  \State\textbf{\texttt{[32,448]}}\label{code:qosset12}
+\end{algorithmic}
+line~\ref{code:tee2} corresponds to TEE $\varphi_1(\mathbf{p}_k,c_{0,1}):=x+\sqrt{4900+c_{0,1}}+45$, a linear equation that intersects the triggering point (line~\ref{code:trigger}). The gain is $k_e=5\cdot 10^{-2}$, and the rotation is opposite to line~\ref{code:firstcircle}. The algorithm computes $-E$ from the rotation matrix in Equation~\ref{eq:pd}. 
+
+The gain is different from the one used in $\varphi_0$ as different equations require different convergence rate. When we follow a circle it is desirable to turn the rotation direction in advance. When we follow a straight line, it is more desirable to head to the line and turn the rotation direction while closer to the line. We refer to the simulator in Appendix~\ref{app:simulator} for more details on how to tune the gain $k_e$. The reader can simulate different rates and see how they affect the flight. The rotation is likewise different. In fact, the rotation matrix $E$ points upwards in the space and heads to the counter-clockwise direction. The rotation matrix $-E$ points downwards and head to the clockwise direction.
+
+The triggering point of the stage $\mathcal{M}_1$ at line~\ref{code:trigger2} also depends on the adjustment {\tt\textbf{c1}}. The lines~\ref{code:teeset2}--\ref{code:qosset12} specifies the constraints sets. They are expressed the same way as lines~\ref{code:teeset}--\ref{code:qos2set}. They have to be specified explicitly for each stage, although they don't change. The current implementation of the algorithm has no other means to distinguish different constraints sets. 
+
+Again, if there are further lines and UAV reaches the triggering point (line~\ref{code:trigger2}), the stage switches to $\mathcal{M}_2$
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:qosset12}
+  \State\textbf{\texttt{0.0003;90;(x+sqrt(4900+c1)-30)\^{}2}}
+  \textbf{\texttt{\hspace*{14ex}+(y-11)\^{}2-5625}}\label{code:tee3}
+  \State\textbf{\texttt{-sqrt(4900+c1)+105,11}}
+  \State\textbf{\texttt{[-3*10\^{}3,0]}}
+  \State\textbf{\texttt{[2,10]}}
+  \State\textbf{\texttt{[32,448]}}\label{code:qosset32}
+\end{algorithmic}
+line~\ref{code:tee3} corresponds to TEE $\varphi_2(\mathbf{p}_k,c_{0,1}):=(x+\sqrt{4900+c_{0,1}}-30)^2+(y-11)^2-5625$, a circle of fixed size that changes the coordinates in function of the adjustment {\tt\textbf{c1}}. The rotation is counter-clockwise, alike $\varphi_0$.
+
+The lines
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:qosset32}
+  \State\textbf{\texttt{0.05;90;x+sqrt(4900+c1)-105}}\label{code:tee4}
+  \State\textbf{\texttt{-sqrt(4900+c1)+105,147}}
+  \State\textbf{\texttt{[-3*10\^{}3,0]}}
+  \State\textbf{\texttt{[2,10]}}
+  \State\textbf{\texttt{[32,448]}}\label{code:qosset42}
+  \State\textbf{\texttt{0.0003;90;(x-sqrt(4900+c1)+105)\^{}2}}
+  \textbf{\texttt{\hspace*{14ex}+(y-147)\^{}2-4900+c1}}\label{code:tee5}
+  \State\textbf{\texttt{-3*sqrt(4900+c1)+105,147}}\label{code:triggerlast}
+  \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset5}
+\end{algorithmic}
+defines the stages $\mathcal{M}_3$ and $\mathcal{M}_4$. Line~\ref{code:tee4} corresponds to TEE $\varphi_3(\mathbf{p}_k,c_{0,1}):=x+\sqrt{4900+c_{0,1}}-105$. Line~\ref{code:tee5} corresponds to TEE $\varphi_4(\mathbf{p}_k,c_{0,1}):=(x-\sqrt{4900+c_{0,1}}+105)^2+(y-147)^2-4900+c_{0,1}$.
+
+Note that the survey mission example changes the radius of the circular TEE $\varphi_0$ through the parameter $c_{0,1}$. It also changes the radius of $\varphi_4$ in the same way. The other TEEs ($\varphi_1,\varphi_2,\varphi_3$) displacement changes the displacement altering the distance between the lines in the survey. A familiar pattern from Figure~\ref{fig:overview}. For simplicity, we suppose line~\ref{code:triggerlast} describe the last point of the mission. We further suppose the user does not desire to process any task in the last stage $\mathcal{M}_4$. To inhibit the computations
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:teeset5}
+  \State\textbf{\texttt{[0,0]}}
+  \State\textbf{\texttt{[0,0]}}
+\end{algorithmic}
+
+The following stages are constructed using the same principle. Th stages $\mathcal{M}_i$ for $i:=\{0,4,8,\dots\}$ contain TEE circle with variable radius. For $i:=\{1,3,5,\dots\}$ TEE line. For $i:=\{2,6,10,\dots\}$ TEE circle with fixed radius.
+
+Once the reader is familiar with the initial mission plan format, a further abstraction is needed before we can simulate a mission in Appendix~\ref{app:simulator}. The algorithm needs to know how to model the tasks--the software components.
+
+\section{Components Specification Format}
+
+*
+
+\section{Simulator}
+\label{app:simulator}
+
+*
 
 \end{document}
