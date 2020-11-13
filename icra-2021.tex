@@ -853,9 +853,9 @@ Some preliminary results are discussed. Further analysis and re-implementation o
 \appendices
 \section{Mission Plan Format}
 
-In this appendix we discuss how to specify an initial mission plan with an example of a survey mission. The reader can later execute the initial mission plan using the simulator in Appendix~\ref{app:simulator}. The initial mission plan is user-defined. It specifies the trajectory and tasks of a mission along the QoS and TEEs sets. 
+We discuss how to specify an initial mission plan with an example of a survey mission. The reader can later execute the initial mission plan using the simulator in Appendix~\ref{app:simulator}. The plan is user-defined. It specifies the trajectory and tasks of a mission along the QoS and TEEs sets. 
 
-Recall that the mission is composed of a set of stages (Subsection~\ref{sec:prob}). The plan has a variable number of entries per each stage. Suppose we want to plan the mission in Figures~\ref{fig:overview},~\ref{fig:trajectory}. The first line
+Recall that the mission is composed of a set of stages (Section~\ref{sec:prob}). The plan has a variable number of entries per each stage. We plan the mission in Figures~\ref{fig:overview},~\ref{fig:trajectory}. The first line
 \begin{algorithmic}[1]
   \State\textbf{\texttt{0.0003;90;(x+45)\^{}2+(y-146)\^{}2-4900+c1}}\label{code:firstcircle}
 \end{algorithmic}
@@ -866,16 +866,16 @@ The following line
   \setcounterref{ALG@line}{code:firstcircle}
   \State\textbf{\texttt{-sqrt(4900+c1)-45,146}}\label{code:trigger}
 \end{algorithmic}
-specifies the triggering point. {\tt\textbf{sqrt}} is the square root. The UAV reaches the triggering point within a given $\varepsilon$ (the tolerance), and the algorithm switches to the next stage $\mathcal{M}_1$. The algorithm ensures that the overall mission is still valid--Equation~(\ref{eq:mission-valid}). It ensure that the TEEs and QoS constraints sets are satisfied with the generated control input. Note that the triggering point is in function of the adjustment {\tt\textbf{c1}}. This is necessary, an adjustment in one stage affects the overall flight.
+specifies the triggering point. {\tt\textbf{sqrt}} is the square root. The UAV reaches the triggering point within a given $\varepsilon$ (the tolerance), and the algorithm switches to the next stage $\mathcal{M}_1$. The algorithm ensures that the overall mission is still valid--Equation~(\ref{eq:mission-valid}). It ensure that the TEEs and QoS constraints sets are satisfied with the generated control input. Note that the triggering point is in function of the adjustment {\tt\textbf{c1}}. This is necessary; an adjustment in one stage affects the overall flight.
 
-Let us assume the system has two tasks. One task is the CNN object detection algorithm. Its computation $s_{0,1}$ is the fps rate. Another task is the variable key-size encryption algorithm. Its computation $s_{0,2}$ is the key-size. Then in mission plan
+Let us assume the mission has two tasks. One task is the CNN object detection algorithm. Its computation $s_{0,1}$ is the fps rate. Another task is the variable key-size encryption algorithm. Its computation $s_{0,2}$ is the key-size. Then in mission plan
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:trigger}
   \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset}
   \State\textbf{\texttt{[2,10]}}\label{code:qos1set}
   \State\textbf{\texttt{[32,448]}}\label{code:qos2set}
 \end{algorithmic}
-the line~\ref{code:teeset} corresponds to TEE $\varphi_0$'s set $\mathbb{C}_0=[-3\cdot10^3,0]$. The algorithm selects $c_{0,1}$ in $\mathbb{C}_0$. The line~\ref{code:qos1set} corresponds to the QoS set $\mathbb{S}_{0,1}$ for the computation $s_{0,1}$. The line~\ref{code:qos1set} corresponds to the QoS set $\mathbb{S}_{0,2}$ for the computation $s_{0,2}$. The lines~\ref{code:teeset}--\ref{code:qos2set} must follow the ascending order of adjustments and computations. The lines~\ref{code:firstcircle}--\ref{code:qos2set} all describe the stage $\mathcal{M}_0$.
+line~\ref{code:teeset} corresponds to TEE $\varphi_0$'s set $\mathbb{C}_0=[-3\cdot10^3,0]$. The algorithm selects $c_{0,1}\in\mathbb{C}_0$. Line~\ref{code:qos1set} corresponds to the QoS set $\mathbb{S}_{0,1}$ for the computation $s_{0,1}$. Line~\ref{code:qos1set} corresponds to the QoS set $\mathbb{S}_{0,2}$ for the computation $s_{0,2}$. Lines~\ref{code:teeset}--\ref{code:qos2set} must follow the ascending order of adjustments and computations. Lines~\ref{code:firstcircle}--\ref{code:qos2set} all describe the stage $\mathcal{M}_0$.
 
 Once the UAV reaches the triggering point (line~\ref{code:trigger}) and there are no further lines, the algorithm terminates. If there are further lines, the stage switches to $\mathcal{M}_1$
 \begin{algorithmic}[1]
@@ -888,11 +888,11 @@ Once the UAV reaches the triggering point (line~\ref{code:trigger}) and there ar
 \end{algorithmic}
 line~\ref{code:tee2} corresponds to TEE $\varphi_1(\mathbf{p}_k,c_{0,1}):=x+\sqrt{4900+c_{0,1}}+45$, a linear equation that intersects the triggering point (line~\ref{code:trigger}). The gain is $k_e=5\cdot 10^{-2}$, and the rotation is opposite to line~\ref{code:firstcircle}. The algorithm computes $-E$ from the rotation matrix in Equation~\ref{eq:pd}. 
 
-The gain is different from the one used in $\varphi_0$ as different equations require different convergence rate. When we follow a circle it is desirable to turn the rotation direction in advance. When we follow a straight line, it is more desirable to head to the line and turn the rotation direction while closer to the line. We refer to the simulator in Appendix~\ref{app:simulator} for more details on how to tune the gain $k_e$. The reader can simulate different rates and see how they affect the flight. The rotation is likewise different. In fact, the rotation matrix $E$ points upwards in the space and heads to the counter-clockwise direction. The rotation matrix $-E$ points downwards and head to the clockwise direction.
+The gain is different from the one used in $\varphi_0$ as different equations require different convergence rate. When we follow a circle it is useful to turn the rotation direction in advance. When we follow a straight line, it is preferable to turn the rotation direction closer to the line. We refer to the simulator in Appendix~\ref{app:simulator} for more details on how to tune the gain $k_e$. The reader can simulate different rates to see how they affect the flight. The rotation is likewise different. In fact, the rotation matrix $E$ points upwards in the space. It guides the UAV in the counter-clockwise direction (see Figure~\ref{fig:overview}; the UAV is traveling counter-clockwise). The rotation matrix $-E$ points downwards and guides the UAV in the clockwise direction.
 
-The triggering point of the stage $\mathcal{M}_1$ at line~\ref{code:trigger2} also depends on the adjustment {\tt\textbf{c1}}. The lines~\ref{code:teeset2}--\ref{code:qosset12} specifies the constraints sets. They are expressed the same way as lines~\ref{code:teeset}--\ref{code:qos2set}. They have to be specified explicitly for each stage, although they don't change. The current implementation of the algorithm has no other means to distinguish different constraints sets. 
+The triggering point of the stage $\mathcal{M}_1$ at line~\ref{code:trigger2} also depends on the adjustment {\tt\textbf{c1}}. Lines~\ref{code:teeset2}--\ref{code:qosset12} specifies the constraints sets. They are expressed the same way as lines~\ref{code:teeset}--\ref{code:qos2set}. They have to be specified explicitly for each stage, although they don't change. The current implementation of the algorithm has no other means to distinguish different constraints sets. 
 
-Again, if there are further lines and UAV reaches the triggering point (line~\ref{code:trigger2}), the stage switches to $\mathcal{M}_2$
+Again, if there are further lines and UAV reaches the triggering point (line~\ref{code:trigger2}), the algorithm switches the stage to $\mathcal{M}_2$
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:qosset12}
   \State\textbf{\texttt{0.0003;90;(x+sqrt(4900+c1)-30)\^{}2}}
@@ -919,16 +919,16 @@ The lines
 \end{algorithmic}
 defines the stages $\mathcal{M}_3$ and $\mathcal{M}_4$. Line~\ref{code:tee4} corresponds to TEE $\varphi_3(\mathbf{p}_k,c_{0,1}):=x+\sqrt{4900+c_{0,1}}-105$. Line~\ref{code:tee5} corresponds to TEE $\varphi_4(\mathbf{p}_k,c_{0,1}):=(x-\sqrt{4900+c_{0,1}}+105)^2+(y-147)^2-4900+c_{0,1}$.
 
-Note that the survey mission example changes the radius of the circular TEE $\varphi_0$ through the parameter $c_{0,1}$. It also changes the radius of $\varphi_4$ in the same way. The other TEEs ($\varphi_1,\varphi_2,\varphi_3$) displacement changes the displacement altering the distance between the lines in the survey. A familiar pattern from Figure~\ref{fig:overview}. For simplicity, we suppose line~\ref{code:triggerlast} describe the last point of the mission. We further suppose the user does not desire to process any task in the last stage $\mathcal{M}_4$. To inhibit the computations
+Note that the survey mission example changes the radius of the circular TEE $\varphi_0$ through the parameter $c_{0,1}$. It also changes the radius of $\varphi_4$ in the same way. The other TEEs ($\varphi_1,\varphi_2,\varphi_3$) displacement alters the distance between the lines in the survey. A familiar pattern from Figure~\ref{fig:overview}. For simplicity, we suppose line~\ref{code:triggerlast} describes the last point of the mission. We further suppose the user does not desire to process any task in the last stage $\mathcal{M}_4$. To inhibit the computations
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:teeset5}
   \State\textbf{\texttt{[0,0]}}
   \State\textbf{\texttt{[0,0]}}
 \end{algorithmic}
 
-The following stages are constructed using the same principle. Th stages $\mathcal{M}_i$ for $i:=\{0,4,8,\dots\}$ contain TEE circle with variable radius. For $i:=\{1,3,5,\dots\}$ TEE line. For $i:=\{2,6,10,\dots\}$ TEE circle with fixed radius.
+If there are any following stages in the survey, they are constructed the same way. Th stages $\mathcal{M}_i$ for $i:=\{0,4,8,\dots\}$ contain TEE circle with variable radius. For $i:=\{1,3,5,\dots\}$ TEE line with variable displacement. For $i:=\{2,6,10,\dots\}$ TEE circle with fixed radius and variable displacement.
 
-Once the reader is familiar with the initial mission plan format, a further abstraction is needed before we can simulate a mission in Appendix~\ref{app:simulator}. The algorithm needs to know how to model the tasks--the software components.
+We need a further abstraction before we can simulate a mission in Appendix~\ref{app:simulator}. The algorithm needs to know how to model the tasks--the software components.
 
 \section{Components Specification Format}
 
@@ -937,6 +937,10 @@ Once the reader is familiar with the initial mission plan format, a further abst
 \section{Simulator}
 \label{app:simulator}
 
-*
+We discuss how to execute the initial mission plan and the component specification in the simulator. The reader can use the simulator to simulate different environmental interference and their effects on the mission.
+
+The simulator is written in MATLAB and released under MIT license. It implements the algorithm (Subsection~\ref{sec:algo}) providing a position $\mathbf{p}_k$ at each time step $k$ and an energy sensor's value $y_k^a$. It is derived from empirical data. It is an abstraction of the physical observations. 
+
+The user is prompted to initialize the trajectory and the algortihm.
 
 \end{document}
