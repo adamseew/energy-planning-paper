@@ -659,23 +659,23 @@ where $\mathbf{q}_k\in\mathbb{R}^m$ given $m=2r+1$, $A\in\mathbb{R}^{m\times m}$
 \begin{lem}[Fourier series, LTI state-space equivalence]Suppose there is no state and output uncertainty (the contributions $\mathbf{w}_k\in\mathbb{R}^m,v_k\in\mathbb{R}$ are zero) and the control is zero. The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using the LTI state-space model in Equation~(\ref{eq:state-perf})
 \end{lem}
 \begin{proof}
-We re-write the Fourier series expression in Equation~(\ref{eq:fourier}) in complex form using  The well-known Euler's formula $e^{ik}=\cos{k}+i\sin{k}$, therefore $e^{-ik}=\cos{k}-i\sin{k}$~\cite{ogata2002modern}. We find the expression for $\cos{k}=(e^{ik}+e^{-ik})/2$ and $i\sin{k}=(e^{ik}-e^{-ik})/2i$ by substitution of $i\sin{k}$ and $\cos{k}$ respectively. This leads
-  \begin{equation}
+We re-write the Fourier series expression in Equation~(\ref{eq:fourier}) in complex form with the well-known Euler's formula $e^{ik}=\cos{k}+i\sin{k}$, $e^{-ik}=\cos{k}-i\sin{k}$~\cite{ogata2002modern}. We find the expression for $\cos{k}=(e^{ik}+e^{-ik})/2$ and $i\sin{k}=(e^{ik}-e^{-ik})/2i$ by substitution of $i\sin{k}$ and $\cos{k}$ respectively. This leads
+  \begin{equation}\label{eq:proof-complex}
     h(k)=a_0+\sum_{j=1}^r{e^{ijk}(a_j-ib_j)/2},
   \end{equation}
 where $i$ is the imaginary unit, and $h(k)\in\mathbb{C}$. 
 
-Let us consider the continuous form of Equation~(\ref{eq:state-perf}), $\dot{\mathbf{q}}=A\mathbf{q}$, with an initial guess $\mathbf{q}_0$. The solution at time $k$ can be expressed $\mathbf{q}=e^{Ak}\mathbf{q}_0$. Both the solution and the system in Equation~(\ref{eq:state-perf}) are well established expressions derived using a standard textbook~\cite{kuo1967automatic}. To solve the matrix exponential $e^{Ak}$ let us consider the an eigenvectors matrix decomposition method~\cite{moler2003nineteen}.
+Let us consider a simplified, continuous form of Equation~(\ref{eq:state-perf}), $\dot{\mathbf{q}}=A_c\mathbf{q}$, and an initial guess $\mathbf{q}_0$. $A_c$ is defined as the continuous version of matrix $A$ in Equation~(\ref{eq:state-details}); $A_c:=A-I$, where $I$ is a properly sized identity matrix. The solution at time $k$ can be expressed $\mathbf{q}=e^{A_ck}\mathbf{q}_0$. Both the solution and the system in Equation~(\ref{eq:state-perf}) are well established expressions derived using a standard textbook~\cite{kuo1967automatic}. To solve the matrix exponential $e^{A_ck}$, we use the an eigenvectors matrix decomposition method~\cite{moler2003nineteen}.
 
-Matrix decomposition methods works on the similarity transformation of the form $A=VDV^{-1}$. The power series definition of $e^{Ak}$ implies $e^{Ak}=Ve^{Dk}V^{-1}$~\cite{moler2003nineteen}. Let us consider the non-singular matrix $V$ whose columns are eigenvectors of $A$; $V:=\begin{bmatrix}v_1 & \dots & v_m\end{bmatrix}$. We can write $Av_j=\lambda_jv_j\,\,\,\forall j=\{1,\dots,m\}$, where $\lambda_j$ is the $j$-th eigenvalue of $A$. 
+The method works on the similarity transformation of the form $A_c=VDV^{-1}$. The power series definition of $e^{A_ck}$ implies $e^{A_ck}=Ve^{Dk}V^{-1}$~\cite{moler2003nineteen}. We consider the non-singular matrix $V$, whose columns are eigenvectors of $A_c$; $V:=\begin{bmatrix}v_1 & \dots & v_m\end{bmatrix}$. We can write $A_cv_j=\lambda_jv_j\,\,\,\forall j=\{1,\dots,m\}$, where $\lambda_j$ is the $j$-th eigenvalue of $A_c$. 
 
-We use the same approach in terms of $\dot{\mathbf{q}}=A\mathbf{q}$. Initial condition can be expressed $\mathbf{q}_0=\sum_{j=1}^m{\gamma_jv_j}$, and the generic solution $\mathbf{q}_k=\sum_{j=0}^m{\gamma_je^{\lambda_jk}v_j}$. The coefficients $\gamma_j$ are obtained solving $V\mathbf{\gamma}=\mathbf{q}_0$.
+We use the same approach in terms of $\dot{\mathbf{q}}=A_c\mathbf{q}$. Initial condition can be expressed $\mathbf{q}_0=\mathbf{\gamma}V$. The expression is used to obtain the value of the coefficients of the vector $\mathbf{\gamma}$. The generic solution is $\mathbf{q}_k=\mathbf{\gamma}e^{\mathbf{\lambda}k}V$.
 
-Let us further consider the continuous version of matrix $A$ in Equation~(\ref{eq:state-details}); $A_c=A-I$, where $I$ is a properly sized- identity matrix. Let us express the output at time instant $k$ of the model in Equation~(\ref{eq:state-perf}) as a linear combination of the state
-\begin{equation}
-  y_k=\gamma_0e^{\lambda_0k}v_0+\sum_{j=1}^r{\gamma_je^{\lambda_jk}v_j}
+Let us express the output at time instant $k$ of the model in Equation~(\ref{eq:state-perf}) as a linear combination of the state
+\begin{equation}\label{eq:proof-output}
+  y_k=\gamma_0e^{\lambda_0k}v_0+\sum_{j=1}^r{\gamma_je^{\lambda_jk}v_j},
 \end{equation}
-
+we proof that the eigenvalues $\mathbf{\lambda}$ and eigenvectors $V$ are such that Equation~(\ref{eq:proof-output}) is equivalent to Equation~(\ref{eq:proof-complex}).
 
 \end{proof}
 
@@ -869,6 +869,7 @@ Some preliminary results are discussed. Further analysis and re-implementation o
 *
 
 \leavevmode\thispagestyle{empty}\newpage % just for now
+\leavevmode\thispagestyle{empty}\newpage
 
 \bibliographystyle{IEEEtran}
 \bibliography{\jobname} 
