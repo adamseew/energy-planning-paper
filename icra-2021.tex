@@ -5,7 +5,6 @@
 %%
 
 \documentclass[letterpaper,10pt,conference]{ieeeconf}
-
 \IEEEoverridecommandlockouts 
 
 \newcommand{\stt}[1]{{\small\tt #1}} %\small\tt too small here
@@ -518,6 +517,7 @@ Energy-Aware Dynamic Mission Planning Algorithm for UAVs
   \thanks{$^{1}$Adam Seewald, Ulrik Pagh Schultz are with the SDU UAS Center, M{\ae}rsk Mc-Kinney M{\o}ller Institute, University of Southern Denmark, Odense, Denmark. Email: {\tt\small ads@mmmi.sdu.dk}.}
   \thanks{$^{2}$Hector Garcia de Marina is with the Faculty of Physics, Department of Computer Architecture and Automatic Control, Universidad Computense de Madrid, Spain.}
 }
+
 \begin{document}
 
 %% make the title area
@@ -628,11 +628,11 @@ where $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the 
 
 The algorithm models the energy using as state energy coefficients $\mathbf{q}\in\mathbb{R}^m$ derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series) and decomposes the evolution in energy due to the trajectory and computations. This approach is adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
 
-Let us consider a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of energy consumption modeling of the mission
+Let us consider a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ and period $T\in\mathbb{Z}_{> 0}$ for the purpose of energy consumption modeling of the mission
 \begin{equation}\label{eq:fourier}
-  h(k)=\sum_{i=0}^{r}{a_i\cos\left({ik/\xi}\right)+b_i\sin{\left({ik/\xi}\right)}},
+  h(k)=a_0/T+(2/T)\sum_{j=1}^{r}{\left(a_j\cos{\omega jk}+b_j\sin{\omega jk}\right)},
 \end{equation}
-where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the modeled instantaneous energy consumption, $\xi\in\mathbb{R}$ is the fundamental frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
+where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the modeled instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
 
 Consider a linear time-invariant (LTI) state-space model
 \begin{equation}\label{eq:state-perf}\begin{split}
@@ -649,7 +649,7 @@ where $y_k\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. The s
      & A_1&       &  \\
      &    & \ddots&  \\
      &    &       & A_r 
-  \end{array}\right],\,A_i=\begin{bmatrix}1 & 1 \\ -i^2/\xi^2 & 1\end{bmatrix},\\
+  \end{array}\right],\,A_j\begin{bmatrix}1 & \omega j \\ -\omega j & 1\end{bmatrix},\\
   C&=\left[\begin{array}{cccccc}
     1 & 1 & 0 & \cdots & 1 & 0
   \end{array}\right],
@@ -659,23 +659,35 @@ where $\mathbf{q}_k\in\mathbb{R}^m$ given $m=2r+1$, $A\in\mathbb{R}^{m\times m}$
 \begin{lem}[Fourier series, LTI state-space equivalence]Suppose there is no state and output uncertainty (the contributions $\mathbf{w}_k\in\mathbb{R}^m,v_k\in\mathbb{R}$ are zero) and the control is zero. The non-linear model in Equation~(\ref{eq:fourier}) can be expressed using the LTI state-space model in Equation~(\ref{eq:state-perf})
 \end{lem}
 \begin{proof}
-We re-write the Fourier series expression in Equation~(\ref{eq:fourier}) in complex form with the well-known Euler's formula $e^{ik}=\cos{k}+i\sin{k}$, $e^{-ik}=\cos{k}-i\sin{k}$~\cite{ogata2002modern}. We find the expression for $\cos{k}=(e^{ik}+e^{-ik})/2$ and $i\sin{k}=(e^{ik}-e^{-ik})/2i$ by substitution of $i\sin{k}$ and $\cos{k}$ respectively. This leads
-  \begin{equation}\label{eq:proof-complex}
-    h(k)=a_0+\sum_{j=1}^r{e^{ijk}(a_j-ib_j)/2},
-  \end{equation}
-where $i$ is the imaginary unit, and $h(k)\in\mathbb{C}$. 
+We re-write the Fourier series expression in Equation~(\ref{eq:fourier}) in its complex form with the well-known Euler's formula $e^{it}=\cos{t}+i\sin{t}$. With $t=\omega jk$, we find the expression for $\cos{\omega jk}=(e^{i\omega jk}+e^{-i\omega jk})/2$ and $\sin{\omega jk}=(e^{i\omega jk}-e^{-i\omega jk})/(2i)$ by substitution of $\sin{\omega jk}$ and $\cos{\omega jk}$ respectively. This leads~\cite{kuo1967automatic}
+\begin{equation}\begin{split}\label{eq:proof-complex}
+  h(k)=a_0/T+&(1/T)\sum_{j=1}^{r}{e^{i\omega jk}(a_j-ib_j)}+\\&(1/T)\sum_{j=1}^{r}{e^{-i\omega jk}(a_j+ib_j)},
+ \end{split}\end{equation}
+where $i$ is the imaginary unit. 
 
-Let us consider a simplified, continuous form of Equation~(\ref{eq:state-perf}), $\dot{\mathbf{q}}=A_c\mathbf{q}$, and an initial guess $\mathbf{q}_0$. $A_c$ is defined as the continuous version of matrix $A$ in Equation~(\ref{eq:state-details}); $A_c:=A-I$, where $I$ is a properly sized identity matrix. The solution at time $k$ can be expressed $\mathbf{q}=e^{A_ck}\mathbf{q}_0$. Both the solution and the system in Equation~(\ref{eq:state-perf}) are well established expressions derived using a standard textbook~\cite{kuo1967automatic}. To solve the matrix exponential $e^{A_ck}$, we use the an eigenvectors matrix decomposition method~\cite{moler2003nineteen}.
+Let us consider the continuous form of Equation~(\ref{eq:state-perf}), $\dot{\mathbf{q}}=A_c\mathbf{q}$, and an initial guess $\mathbf{q}_0$. $A_c$ is defined as the continuous version of matrix $A$ in Equation~(\ref{eq:state-details}); $A_c:=A-I$, where $I$ is a properly sized identity matrix. The solution at time $k$ can be expressed $\mathbf{q}=e^{A_ck}\mathbf{q}_0$. Both the solution and the system in Equation~(\ref{eq:state-perf}) are well established expressions derived using a standard textbooks~\cite{kuo1967automatic, ogata2002modern}. To solve the matrix exponential $e^{A_ck}$, we use the eigenvectors matrix decomposition method~\cite{moler2003nineteen}.
 
-The method works on the similarity transformation of the form $A_c=VDV^{-1}$. The power series definition of $e^{A_ck}$ implies $e^{A_ck}=Ve^{Dk}V^{-1}$~\cite{moler2003nineteen}. We consider the non-singular matrix $V$, whose columns are eigenvectors of $A_c$; $V:=\begin{bmatrix}v_1 & \dots & v_m\end{bmatrix}$. We can write $A_cv_j=\lambda_jv_j\,\,\,\forall j=\{1,\dots,m\}$, where $\lambda_j$ is the $j$-th eigenvalue of $A_c$. 
+The method works on the similarity transformation $A_c=VDV^{-1}$. The power series definition of $e^{A_ck}$ implies $e^{A_ck}=Ve^{Dk}V^{-1}$~\cite{moler2003nineteen}. We consider the non-singular matrix $V$, whose columns are eigenvectors of $A_c$; $V:=\begin{bmatrix}v_0 & v_1^0 & v_1^1 & \dots & v_r^0 & v_r^1\end{bmatrix}$. We then consider the diagonal matrix of eigenvalues $D=\mathrm{diag}{(\lambda_0,\lambda_1^0,\lambda_1^1,\dots,\lambda_r^0,\lambda_r^1)}$, where $\lambda_j$ is the $j$-th eigenvalue of $A_c$. $\lambda_j^0,\lambda_j^1$ are the two eigenvalues associated with the block $A_j-I$. We can write $A_cv_j=\lambda_jv_j\,\,\,\forall j=\{1,\dots,m\}$, and thus $AV=VD$. 
 
-We use the same approach in terms of $\dot{\mathbf{q}}=A_c\mathbf{q}$. Initial condition can be expressed $\mathbf{q}_0=\mathbf{\gamma}V$. The expression is used to obtain the value of the coefficients of the vector $\mathbf{\gamma}$. The generic solution is $\mathbf{q}_k=\mathbf{\gamma}e^{\mathbf{\lambda}k}V$.
+We apply the approach in terms of the continuous form of Euqation~(\ref{eq:state-perf}), $\dot{\mathbf{q}}=A_c\mathbf{q}$. Initial guess is expressed $\mathbf{q}_0=\mathbf{\gamma}V$ as a combination of eigenvectors. The generic solution is $\mathbf{q}_k=\mathbf{\gamma}e^{Dk}V$.
 
-Let us express the output at time instant $k$ of the model in Equation~(\ref{eq:state-perf}) as a linear combination of the state
+Let us express the output at time $k$ of the continuous equivalent of the model in Equation~(\ref{eq:state-perf}) as a linear combination of the state $y=C\mathbf{q}$
 \begin{equation}\label{eq:proof-output}
-  y_k=\gamma_0e^{\lambda_0k}v_0+\sum_{j=1}^r{\gamma_je^{\lambda_jk}v_j},
+  y=\gamma_0e^{\lambda_0k}v_0+\sum_{j=1}^r{\gamma_je^{\lambda_j^0k}v_j^0}+\sum_{j=1}^r{\gamma_je^{\lambda_j^1k}v_j^1},
 \end{equation}
 we proof that the eigenvalues $\mathbf{\lambda}$ and eigenvectors $V$ are such that Equation~(\ref{eq:proof-output}) is equivalent to Equation~(\ref{eq:proof-complex}).
+
+The matrix $A_c$ is a block diagonal matrix, and we can express its determinant as the multiplication of the determinants of its blocks $\det{(A_c)}=\det{(0)}\times\det{(A_1-I)}\times\cdots\times\det{(A_r-I)}$. We proof each block separately.
+
+First, we proof that the first term of both the Equation~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) matches. We find the eigenvalue from $\det(0-\lambda I)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily $(0-\lambda_0)v_0=0\,\,\,\forall v_0$, thus we choose $v_0=1$. We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal $a_0/T=\gamma_0$. 
+
+Then, we proof that all the terms in the sum of both the Equations~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) match. 
+
+For the first block $A_1-I$, we find the eigenvalues from $\det(A_1-(1+\lambda)I)=0$. The polynomial $\lambda^2+\omega^2$, gives two complex roots--the two eigenvalues $\lambda_1^0=i\omega$ and $\lambda_1^1=-i\omega$. The eigenvector associated with the eigenvalue $\lambda_1^0$ is $v_1^0=\begin{bmatrix}-i&1\end{bmatrix}^T$. The eigenvector associated with the eigenvalue $\lambda_1^1$ is $v_1^1=\begin{bmatrix}i&1\end{bmatrix}^T$. Again, we find the subvector $\gamma_1$ of the vector $\gamma$ such that the equivalences $(1/T)e^{i\omega k}(a_1-ib_1)=\gamma_1e^{i\omega k}\begin{bmatrix}-i&1\end{bmatrix}^T$ and $(1/T)e^{-i\omega k}(a_1+ib_1)=\gamma_1e^{i\omega k}\begin{bmatrix}i&1\end{bmatrix}^T$ hold. They hold for $\gamma_1=(1/T)\begin{bmatrix}b_1&a_1\end{bmatrix}$.
+
+The proof for the remaining $r-1$ blocks is equivalent.
+
+The discretized version $A$ of the matrix $A_c$ can be expressed $A=A_c+I$ for small enough values of time step (forward Euler approximation\footnote{One can guarantee to have the same outputs with $A=e^{A_ck}$}). We thus conclude that the lemma holds.
 
 \end{proof}
 
