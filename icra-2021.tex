@@ -650,8 +650,8 @@ where $y_k\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. The s
      &    & \ddots&  \\
      &    &       & A_r 
   \end{array}\right],\,A_j\begin{bmatrix}1 & \omega j \\ -\omega j & 1\end{bmatrix},\\
-  C&=\left[\begin{array}{cccccc}
-    1 & 1 & 0 & \cdots & 1 & 0
+  C&=(1/T)\left[\begin{array}{cccccc}
+    1 & \cdots & 1
   \end{array}\right],
 \end{split}\end{equation}
 where $\mathbf{q}_k\in\mathbb{R}^m$ given $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transmission matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is one, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zero.
@@ -667,27 +667,27 @@ where $i$ is the imaginary unit.
 
 Let us consider the continuous form of Equation~(\ref{eq:state-perf}), $\dot{\mathbf{q}}=A_c\mathbf{q}$, and an initial guess $\mathbf{q}_0$. $A_c$ is defined as the continuous version of matrix $A$ in Equation~(\ref{eq:state-details}); $A_c:=A-I$, where $I$ is a properly sized identity matrix. The solution at time $k$ can be expressed $\mathbf{q}=e^{A_ck}\mathbf{q}_0$. Both the solution and the system in Equation~(\ref{eq:state-perf}) are well established expressions derived using a standard textbooks~\cite{kuo1967automatic, ogata2002modern}. To solve the matrix exponential $e^{A_ck}$, we use the eigenvectors matrix decomposition method~\cite{moler2003nineteen}.
 
-The method works on the similarity transformation $A_c=VDV^{-1}$. The power series definition of $e^{A_ck}$ implies $e^{A_ck}=Ve^{Dk}V^{-1}$~\cite{moler2003nineteen}. We consider the non-singular matrix $V$, whose columns are eigenvectors of $A_c$; $V:=\begin{bmatrix}v_0 & v_1^0 & v_1^1 & \dots & v_r^0 & v_r^1\end{bmatrix}$. We then consider the diagonal matrix of eigenvalues $D=\mathrm{diag}{(\lambda_0,\lambda_1^0,\lambda_1^1,\dots,\lambda_r^0,\lambda_r^1)}$, where $\lambda_j$ is the $j$-th eigenvalue of $A_c$. $\lambda_j^0,\lambda_j^1$ are the two eigenvalues associated with the block $A_j-I$. We can write $A_cv_j=\lambda_jv_j\,\,\,\forall j=\{1,\dots,m\}$, and thus $AV=VD$. 
+The method works on the similarity transformation $A_c=VDV^{-1}$. The power series definition of $e^{A_ck}$ implies $e^{A_ck}=Ve^{Dk}V^{-1}$~\cite{moler2003nineteen}. We consider the non-singular matrix $V$, whose columns are eigenvectors of $A_c$; $V:=\begin{bmatrix}v_0 & v_1^0 & v_1^1 & \dots & v_r^0 & v_r^1\end{bmatrix}$. We then consider the diagonal matrix of eigenvalues $D=\mathrm{diag}{(\lambda_0,\lambda_1^0,\lambda_1^1,\dots,\lambda_r^0,\lambda_r^1)}$. $\lambda_0$ is the eigenvalue associated to the first item of $A_c$. $\lambda_j^0,\lambda_j^1$ are the two eigenvalues associated with the block $A_j-I$. We can write $A_cv_j=\lambda_jv_j\,\,\,\forall j=\{1,\dots,m\}$, and $AV=VD$. 
 
-We apply the approach in terms of the continuous form of Euqation~(\ref{eq:state-perf}), $\dot{\mathbf{q}}=A_c\mathbf{q}$. Initial guess is expressed $\mathbf{q}_0=\mathbf{\gamma}V$ as a combination of eigenvectors. The generic solution is $\mathbf{q}_k=\mathbf{\gamma}e^{Dk}V$.
+We apply the approach in terms of the continuous equivalent of the model in Equation~(\ref{eq:state-perf}), $\dot{\mathbf{q}}=A_c\mathbf{q}$. Initial guess is expressed as a combination of eigenvectors $\mathbf{q}_0=\mathbf{\gamma}V$. The generic solution is $\mathbf{q}_k=\mathbf{\gamma}e^{Dk}V$.
 
-Let us express the output at time $k$ of the continuous equivalent of the model in Equation~(\ref{eq:state-perf}) as a linear combination of the state $y=C\mathbf{q}$
-\begin{equation}\label{eq:proof-output}
-  y=\gamma_0e^{\lambda_0k}v_0+\sum_{j=1}^r{\gamma_je^{\lambda_j^0k}v_j^0}+\sum_{j=1}^r{\gamma_je^{\lambda_j^1k}v_j^1},
-\end{equation}
+Let us express the output at time $k$ as a linear combination of the state $y=C\mathbf{q}=C\gamma e^{Dk}V$
+\begin{equation}\label{eq:proof-output}\begin{split}
+  y=\gamma_0e^{\lambda_0k}v_0/T+&(1/T)\sum_{j=1}^r{\gamma_je^{\lambda_j^0k}v_j^0}+\\&(1/T)\sum_{j=1}^r{\gamma_je^{\lambda_j^1k}v_j^1},
+\end{split}\end{equation}
 we proof that the eigenvalues $\mathbf{\lambda}$ and eigenvectors $V$ are such that Equation~(\ref{eq:proof-output}) is equivalent to Equation~(\ref{eq:proof-complex}).
 
-The matrix $A_c$ is a block diagonal matrix, and we can express its determinant as the multiplication of the determinants of its blocks $\det{(A_c)}=\det{(0)}\times\det{(A_1-I)}\times\cdots\times\det{(A_r-I)}$. We proof each block separately.
+The matrix $A_c$ is a block diagonal matrix, so we can express its determinant as the multiplication of the determinants of its blocks $\det{(A_c)}=\det{(0)}\times\det{(A_1-I)}\times\cdots\times\det{(A_r-I)}$. We proof each block separately.
 
-First, we proof that the first term of both the Equation~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) matches. We find the eigenvalue from $\det(0-\lambda I)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily $(0-\lambda_0)v_0=0\,\,\,\forall v_0$, thus we choose $v_0=1$. We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal $a_0/T=\gamma_0$. 
+First, we proof that the first term of both the Equation~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) matches. We find the eigenvalue from $\det(0-\lambda I)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily $(0-\lambda_0)v_0=0\,\,\,\forall v_0$, thus we choose $v_0=1$. We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal $a_0=\gamma_0$. 
 
 Then, we proof that all the terms in the sum of both the Equations~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) match. 
 
-For the first block $A_1-I$, we find the eigenvalues from $\det(A_1-(1+\lambda)I)=0$. The polynomial $\lambda^2+\omega^2$, gives two complex roots--the two eigenvalues $\lambda_1^0=i\omega$ and $\lambda_1^1=-i\omega$. The eigenvector associated with the eigenvalue $\lambda_1^0$ is $v_1^0=\begin{bmatrix}-i&1\end{bmatrix}^T$. The eigenvector associated with the eigenvalue $\lambda_1^1$ is $v_1^1=\begin{bmatrix}i&1\end{bmatrix}^T$. Again, we find the subvector $\gamma_1$ of the vector $\gamma$ such that the equivalences $(1/T)e^{i\omega k}(a_1-ib_1)=\gamma_1e^{i\omega k}\begin{bmatrix}-i&1\end{bmatrix}^T$ and $(1/T)e^{-i\omega k}(a_1+ib_1)=\gamma_1e^{i\omega k}\begin{bmatrix}i&1\end{bmatrix}^T$ hold. They hold for $\gamma_1=(1/T)\begin{bmatrix}b_1&a_1\end{bmatrix}$.
+For the first block $A_1-I$, we find the eigenvalues from $\det(A_1-(1+\lambda)I)=0$. The polynomial $\lambda^2+\omega^2$, gives two complex roots--the two eigenvalues $\lambda_1^0=i\omega$ and $\lambda_1^1=-i\omega$. The eigenvector associated with the eigenvalue $\lambda_1^0$ is $v_1^0=\begin{bmatrix}-i&1\end{bmatrix}^T$. The eigenvector associated with the eigenvalue $\lambda_1^1$ is $v_1^1=\begin{bmatrix}i&1\end{bmatrix}^T$. Again, we find the subvector $\gamma_1$ of the vector $\gamma$ such that the equivalences $e^{i\omega k}(a_1-ib_1)=\gamma_1e^{i\omega k}\begin{bmatrix}-i&1\end{bmatrix}^T$ and $e^{-i\omega k}(a_1+ib_1)=\gamma_1e^{i\omega k}\begin{bmatrix}i&1\end{bmatrix}^T$ hold. They hold for $\gamma_1=\begin{bmatrix}b_1&a_1\end{bmatrix}$.
 
 The proof for the remaining $r-1$ blocks is equivalent.
 
-The discretized version $A$ of the matrix $A_c$ can be expressed $A=A_c+I$ for small enough values of time step (forward Euler approximation\footnote{One can guarantee to have the same outputs with $A=e^{A_ck}$}). We thus conclude that the lemma holds.
+The discretized version $A$ of the matrix $A_c$ can be expressed $A=A_c+I$ for small enough values of time step (forward Euler approximation\footnote{One can guarantee to have the same outputs rather than an approximation with $A=e^{A_ck}$}). We thus conclude that the lemma holds.
 
 \end{proof}
 

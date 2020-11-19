@@ -20,6 +20,8 @@ function [q0, P0, Q, R] = guess_kf(meas1, j)
     q0(1) = meas1 * ((j -1) / j);
     q0(2:end) = meas1 * (1 / ((j - 1) * j));
     
+    q0 = q0 * 100;
+    
     P0 = eye(j) .* q0 * 10^-1;
     
     % process noise and sensor noise

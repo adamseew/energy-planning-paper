@@ -7,6 +7,7 @@ function [y, q] = evolve_sys(A, B, C, u, q0, t)
 %   B:   control matrix
 %   C:   output matrix
 %   u:   control vector (must contain one value per each item in t)
+%   q0:  initial guess
 %   t:   time vector
 %
 % Outputs:
