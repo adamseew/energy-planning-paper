@@ -656,10 +656,11 @@ where $y\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. The sta
 \end{split}\end{equation}
 where $\mathbf{q}\in\mathbb{R}^m$ given $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transmission matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is one, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zero.
 
-\begin{lem}[Representations equivalence]\label{lem:eqv}Suppose there is no state and output uncertainty (the contributions $\mathbf{w}\in\mathbb{R}^m,v\in\mathbb{R}$ are zero) and the control is zero. Suppose further matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is $\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}$. Then Equation~(\ref{eq:fourier}) describes the same signal as Equation~(\ref{eq:state-perf}).
+\begin{lem}[Signals equality]\label{lem:eqv}Suppose there is no state and output uncertainty (the contributions $\mathbf{w}\in\mathbb{R}^m,v\in\mathbb{R}$ are zero) and the control is zero. Suppose further matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is $\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}$. Then Equation~(\ref{eq:fourier}) describes the same signal as Equation~(\ref{eq:state-perf}).
 \end{lem}
-
+\begin{proof}
 The equivalence of the models is trivial and the coefficients are chosen such that the two Equations produce the same expression. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof.
+\end{proof}
 
 Let us consider the discretized version $A_d$ of the matrix $A$ can be expressed $A_d=A+I$ for small enough values of time step (forward Euler approximation\footnote{One can guarantee to have the same outputs rather than an approximation with $A=e^{A_ck}$}). % where to place this... Maybe in the algorithm...
 % and write little more how, why you discretized...
@@ -865,39 +866,43 @@ Some preliminary results are discussed. Further analysis and re-implementation o
 \section{Proof of Lemma~\ref{lem:eqv}}
 \label{app:proof-eqv}
 
-This appendix is a formal proof of Lemma~\ref{lem:eqv}.
+We propose a formal proof of Lemma~\ref{lem:eqv}. The proof justifies the choice of the items of the matrices $A,C$ and of the initial guess $\mathbf{q}_0$ in Equation~(\ref{eq:state-details}). We write these elements such that the coefficients of the series $a_0,\dots,b_r$ are the same as the coefficients of the state $\alpha_0,\dots,\beta_r$.
 
-The proof justifies the choice of the items of the matrices $A,C$ and of the initial guess $\mathbf{q}_0$ such that the coefficients $a_0,\dots,b_r$ are the same as the coefficients $\alpha_0,\dots,\beta_r$.
-
-We re-write the Fourier series expression in Equation~(\ref{eq:fourier}) in its complex form with the well-known Euler's formula $e^{it}=\cos{t}+i\sin{t}$. With $t=\omega jt$, we find the expression for $\cos{\omega jt}=(e^{i\omega jt}+e^{-i\omega jt})/2$ and $\sin{\omega jt}=(e^{i\omega jt}-e^{-i\omega jt})/(2i)$ by substitution of $\sin{\omega jt}$ and $\cos{\omega jt}$ respectively. This leads~\cite{kuo1967automatic}
+Let us re-write the Fourier series expression in Equation~(\ref{eq:fourier}) in its complex form with the well-known Euler's formula $e^{it}=\cos{t}+i\sin{t}$. With $t=\omega jt$, we find the expression for $\cos{\omega jt}=(e^{i\omega jt}+e^{-i\omega jt})/2$ and $\sin{\omega jt}=(e^{i\omega jt}-e^{-i\omega jt})/(2i)$ by substitution of $\sin{\omega jt}$ and $\cos{\omega jt}$ respectively. This leads~\cite{kuo1967automatic}
 \begin{equation}\begin{split}\label{eq:proof-complex}
   h(t)=a_0/T+&(1/T)\sum_{j=1}^{r}{e^{i\omega jt}(a_j-ib_j)}+\\&(1/T)\sum_{j=1}^{r}{e^{-i\omega jt}(a_j+ib_j)},
  \end{split}\end{equation}
 where $i$ is the imaginary unit. 
 
-The solution at time $t$ can be expressed $\mathbf{q}=e^{At}\mathbf{q}_0$. Both the solution and the system in Equation~(\ref{eq:state-perf}) are well established expressions derived using a standard textbooks~\cite{kuo1967automatic, ogata2002modern}. To solve the matrix exponential $e^{At}$, we use the eigenvectors matrix decomposition method~\cite{moler2003nineteen}.
+The solution at time $t$ can be expressed $\mathbf{q}=e^{At}\mathbf{q}_0$. Both the solution and the system in Equation~(\ref{eq:state-perf}) are well established expressions derived using standard textbooks~\cite{kuo1967automatic, ogata2002modern}. To solve the matrix exponential $e^{At}$, we use the eigenvectors matrix decomposition method~\cite{moler2003nineteen}.
 
-The method works on the similarity transformation $A_c=VDV^{-1}$. The power series definition of $e^{At}$ implies $e^{At}=Ve^{Dt}V^{-1}$~\cite{moler2003nineteen}. We consider the non-singular matrix $V$, whose columns are eigenvectors of $A$; $V:=\begin{bmatrix}v_0 & v_1^0 & v_1^1 & \dots & v_r^0 & v_r^1\end{bmatrix}$. We then consider the diagonal matrix of eigenvalues $D=\mathrm{diag}{(\lambda_0,\lambda_1^0,\lambda_1^1,\dots,\lambda_r^0,\lambda_r^1)}$. $\lambda_0$ is the eigenvalue associated to the first item of $A$. $\lambda_j^0,\lambda_j^1$ are the two eigenvalues associated with the block $A_j$. We can write $A_cv_j=\lambda_jv_j\,\,\,\forall j=\{1,\dots,m\}$, and $AV=VD$. 
+The method works on the similarity transformation $A=VDV^{-1}$. The power series definition of $e^{At}$ implies $e^{At}=Ve^{Dt}V^{-1}$~\cite{moler2003nineteen}. We consider the non-singular matrix $V$, whose columns are eigenvectors of $A$; $V:=\begin{bmatrix}v_0 & v_1^0 & v_1^1 & \dots & v_r^0 & v_r^1\end{bmatrix}$. We then consider the diagonal matrix of eigenvalues $D=\mathrm{diag}{(\lambda_0,\lambda_1^0,\lambda_1^1,\dots,\lambda_r^0,\lambda_r^1)}$. $\lambda_0$ is the eigenvalue associated to the first item of $A$. $\lambda_j^0,\lambda_j^1$ are the two eigenvalues associated with the block $A_j$. We can write $Av_j=\lambda_jv_j\,\,\,\forall j=\{1,\dots,m\}$, and $AV=VD$. 
 
-We apply the approach in terms of Equation~(\ref{eq:state-perf}), under the assumptions; $\dot{\mathbf{q}}=A\mathbf{q}$. Initial guess is expressed as a combination of eigenvectors $\mathbf{q}_0=\mathbf{\gamma}V$. The generic solution is $\mathbf{q}=\mathbf{\gamma}e^{Dt}V$. % to rewrite this so it's exactly as in the proof
+We apply the approach in terms of Equation~(\ref{eq:state-perf}), under the assumptions; $\dot{\mathbf{q}}=A\mathbf{q}$. The linear combination of the initial guess and the generic solution
+\begin{equation*}\begin{split}
+  F\mathbf{q}(0)&=\gamma_0 v_0+\sum_{k=0}^{1}{\sum_{j=1}^{r}{\gamma_j v_j^k}}\\
+  F\mathbf{q}(t)&=\gamma_0 e^{\lambda_0 t} v_0+\sum_{k=0}^{1}{\sum_{j=1}^{r}{\gamma_j e^{\lambda_j t} v_j^k}}
+\end{split}\end{equation*}
+where $F=\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ is a properly sized vector of ones. 
 
-Let us consider the linear combination of all the coefficients of the state at time $t$. This can be expressed in the following form
+Let us consider the second expression. It represents the linear combination of all the coefficients of the state at time $t$. It can also be expressed in the following form
 \begin{equation}\label{eq:proof-output}\begin{split}
-  \gamma_0e^{\lambda_0t}v_0/T+&(1/T)\sum_{j=1}^r{\gamma_je^{\lambda_j^0t}v_j^0}+\\&(1/T)\sum_{j=1}^r{\gamma_je^{\lambda_j^1t}v_j^1},
+  \gamma_0 e^{\lambda_0t}v_0/T+&(1/T)\sum_{j=1}^r{\gamma_j e^{\lambda_j^0t}v_j^0}+\\&(1/T)\sum_{j=1}^r{\gamma_j e^{\lambda_j^1t}v_j^1}.
 \end{split}\end{equation}
-we proof that the eigenvalues $\mathbf{\lambda}$ and eigenvectors $V$ are such that Equation~(\ref{eq:proof-output}) is equivalent to Equation~(\ref{eq:proof-complex}). % the V and gamma are wrong sizes. You put zeros so you fill them (look at the sheet where you sketched it before)
+
+We proof that the eigenvalues $\mathbf{\lambda}$ and eigenvectors $V$ are such that Equation~(\ref{eq:proof-output}) is equivalent to Equation~(\ref{eq:proof-complex}).
 
 The matrix $A$ is a block diagonal matrix, so we can express its determinant as the multiplication of the determinants of its blocks $\det{(A)}=\det{(0)}\times\det{(A_1)}\times\cdots\times\det{(A_r)}$. We proof the first determinant and the others separately.
 
-We proof that the first term of both the Equation~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) matches. We find the eigenvalue from $\det(0)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily $(0-\lambda_0)v_0=0\,\,\,\forall v_0$, thus we choose $v_0=1$. We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal $a_0=\gamma_0$. 
+We proof that the first term of both the Equation~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) matches. We find the eigenvalue from $\det(0)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily $(0-\lambda_0)v_0=\begin{bmatrix} 0 & \cdots & 0 \end{bmatrix}\,\,\,\forall v_0$, thus we choose $v_0=\begin{bmatrix}1 & 0 & \cdots & 0\end{bmatrix}$. We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal $\gamma_0=\begin{bmatrix}a_0 & 0 & \cdots & 0\end{bmatrix}$. 
 
 Then, we proof that all the terms in the sum of both the Equations~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) match. 
 
-For the first block $A_1$, we find the eigenvalues from $\det(A_1-\lambda I)=0$. The polynomial $\lambda^2+\omega^2$, gives two complex roots--the two eigenvalues $\lambda_1^0=i\omega$ and $\lambda_1^1=-i\omega$. The eigenvector associated with the eigenvalue $\lambda_1^0$ is $v_1^0=\begin{bmatrix}-i&1\end{bmatrix}^T$. The eigenvector associated with the eigenvalue $\lambda_1^1$ is $v_1^1=\begin{bmatrix}i&1\end{bmatrix}^T$. Again, we find the values $\gamma_1$ of the vector $\gamma$ such that the equivalences $e^{i\omega t}(a_1-ib_1)=\gamma_1e^{i\omega t}\begin{bmatrix}-i&1\end{bmatrix}^T$ and $e^{-i\omega t}(a_1+ib_1)=\gamma_1e^{i\omega t}\begin{bmatrix}i&1\end{bmatrix}^T$ hold. They hold for $\gamma_1=\begin{bmatrix}b_1&a_1\end{bmatrix}$.
+For the first block $A_1$, we find the eigenvalues from $\det(A_1-\lambda I)=0$. The polynomial $\lambda^2+\omega^2$, gives two complex roots--the two eigenvalues $\lambda_1^0=i\omega$ and $\lambda_1^1=-i\omega$. The eigenvector associated with the eigenvalue $\lambda_1^0$ is $v_1^0=\begin{bmatrix}0 & -i&1&0&\cdots&0\end{bmatrix}^T$. The eigenvector associated with the eigenvalue $\lambda_1^1$ is $v_1^1=\begin{bmatrix}0&i&1&0&\cdots&0\end{bmatrix}^T$. Again, we find the values $\gamma_1$ of the vector $\gamma$ such that the equivalences $e^{i\omega t}(a_1-ib_1)=\gamma_1 e^{i\omega t}v_1^0$ and $e^{-i\omega t}(a_1+ib_1)=\gamma_1 e^{i\omega t}v_1^1$ hold. They hold for $\gamma_1=\begin{bmatrix}b_1&a_1\end{bmatrix}$. The proof for the remaining $r-1$ blocks is equivalent.
 
-The proof for the remaining $r-1$ blocks is equivalent.
+The initial guess is build such that the sum of the coefficients is the same in both the signals. The output matrix is built as follows. The coefficient $1/T$ accounts for the period in Equations~(\ref{eq:proof-complex}--\ref{eq:proof-output}) and~(\ref{eq:fourier}). At time instant zero, the coefficients $b_j$ are not present (and the coefficients $a_j$ are doubled for each $j=1,2,\dots,r$). Thus to match the outputs $h(t)=y(t)$ we define $C=1/T\begin{bmatrix}1 & 1 & 0 & \cdots & 1 & 0\end{bmatrix}$. We thus conclude that the lemma holds.
 
-We thus conclude that the lemma holds.
+We note that the signal would still be periodic with another linear combination of coefficients (for instance, $C=\begin{bmatrix}1 & 0 & 1 & \cdots & 0 & 1\end{bmatrix}$, or $\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$). Even if both the signals $h$ and $y$ would be still periodic, they would not be equal.
 
 \qed
 
@@ -976,7 +981,7 @@ Note that the survey mission example changes the radius of the circular TEE $\va
   \State\textbf{\texttt{[0,0]}}
 \end{algorithmic}
 
-If there are any following stages in the survey, they are constructed the same way. Th stages $\mathcal{M}_i$ for $i:=\{0,4,8,\dots\}$ contain TEE circle with variable radius. For $i:=\{1,3,5,\dots\}$ TEE line with variable displacement. For $i:=\{2,6,10,\dots\}$ TEE circle with fixed radius and variable displacement.
+If there are any following stages in the survey, they are constructed the same way. The stages $\mathcal{M}_i$ for $i:=\{0,4,8,\dots\}$ contain TEE circle with variable radius. For $i:=\{1,3,5,\dots\}$ TEE line with variable displacement. For $i:=\{2,6,10,\dots\}$ TEE circle with fixed radius and variable displacement.
 
 We need a further abstraction before we can simulate a mission in Appendix~\ref{app:simulator}. The algorithm needs to know how to model the tasks--the software components.
 
