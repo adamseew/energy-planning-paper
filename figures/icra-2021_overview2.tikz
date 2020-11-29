@@ -7,7 +7,7 @@
 \definecolor{c4D4D4D}{RGB}{77,77,77}
 
 
-\def \globalscale {.960000}
+\def \globalscale {.900000}
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
 \path[fill=cDEDEDE,line join=round,even odd rule,line width=0.512pt] (534.6180,185.9610) -- (509.8130,185.9610) .. controls (509.8130,147.1610) and (541.2670,115.7070) .. (580.0670,115.7070) -- (580.0670,140.2650) .. controls (554.9540,140.4220) and (534.6420,160.8170) .. (534.6180,185.9610) -- cycle;
 

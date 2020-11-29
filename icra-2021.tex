@@ -17,6 +17,8 @@
 \usepackage{booktabs}
 \usepackage{flushend}
 \usepackage{tikz}
+\usetikzlibrary{automata,positioning,decorations.pathreplacing}
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry} 
 
 %% citation packege
 \usepackage{cite}
@@ -607,7 +609,7 @@ Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agri
 
 Planning algorithms literature for mobile robots includes topics such as trajectory generation and path planning. Generally, the algorithms select an energy-optimized trajectory~\cite{mei2004energy}, e.g., by maximizing the operational time~\cite{wahab2015energy}. However, they apply to a small number of robots~\cite{kim2005energy}, and focus exclusively on planning the trajectory for these robots~\cite{kim2008minimum}, despite compelling evidence for the energy consumption also being significantly influenced by computations~\cite{mei2005case}. Given the availability of powerful GPU-equipped mobile hardware~\cite{rizvi2017general}, the use of computations is expected to increase in the near future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. More complex planning, which includes a broader concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. For UAVs specifically, rotorcrafts have gained interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. 
 
-Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We guide the UAV using a vector field~\cite{de2017guidance} that converges smoothly to a planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding}. We denote the trajectory with a mathematical function that we refer to as the trajectory explicit equation (TEE). The path is composed of multiple TEEs. We express the computations with a modeling tool presented in our previous work~\cite{seewald2019coarse}. The algorithm alters the TEE and computations within some parameters using output model predictive control (MPC). These parameters are the maximum, minimum, and current levels of the TEE and computations. The user specifies the parameters in an initial plan with an energy budget. The energy budget is the battery capacity and some other battery parameters. In the remainder of the paper, we adopt the following notation. We refer to the current TEE and computations parameters simply as TEE and computations parameters. We refer to both as parameters. We refer to the constraints sets that delimit the maximum and minimum levels of the parameters as TEE sets and computations sets. There can be multiple or none computations sets per each task, and the same applies to the TEE. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm.
+Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We guide the UAV using a vector field~\cite{de2017guidance} that converges smoothly to a planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding}. We denote the trajectory with a mathematical function that we refer to as the trajectory explicit equation (TEE). The path is composed of multiple TEEs. We express the computations with a modeling tool presented in our previous work~\cite{seewald2019coarse}. The algorithm alters the TEE and computations within some parameters using output model predictive control (MPC). These parameters are the maximum, minimum, and current levels of the TEE and computations. The user specifies the parameters in an initial plan with an energy budget. The energy budget is the battery capacity and some other battery parameters. In the remainder of the paper, we adopt the following notation. We refer to the current TEE and computations parameters simply as TEE and computations parameters. We refer to both as parameters. We refer to the constraints sets that delimit the maximum and minimum levels of the parameters as TEE sets and computations sets. Again, we refer to both as parameters sets. There can be multiple or none computations sets per each task, and the same applies to the TEE. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm.
 
 To achieve the energy-aware dynamic planning, we further introduce and formally proof a periodic energy model that accounts for the uncertainty (atmospheric interference). We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to the path and computations repetitive patterns~\cite{seewald2020mechanical}. Indeed UAV scenarios often iterate over a set of tasks and trajectories (e.g., monitoring or search and rescue). Given that the plan is periodic, we expect the energy to approximately evolve periodically. 
 The observation applies broadly; we show different UAV scenarios with periodic energy signals. Moreover, we briefly investigate such signals in some ground-based mobile robots.
@@ -616,30 +618,81 @@ In the spirit of reducing costs and resources, we showcase the algorithm using t
 
 The remainder of the paper is organized as follows. The overview of dynamic planning is provided in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcases the performances. We propose some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information in the Appendix~\ref{app:proof-eqv} and examples in the Appendix~\ref{app:simulator}.
 
----
-%up is ok; down fixes to the text; main idea is to simplify how the plan is defined!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Mission Planning Overview}
+\section{Planning Overview}
 \label{sec:prob}
 
-We assume that the initial plan consists of different stages. At each stage the robot must follow the TEE within TEE sets and do the computations within the computations sets.
+We assume that a user-specified initial plan consists of different stages. At each stage, the UAV must follow the TEE within TEE sets and do the computations within the computations sets.
 
-Let the path at stage $i$ be characterized by a generic continuous twice differentiable TEE $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ and the tasks by functions $\psi_1,\dots,\psi_{\sigma}:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{Z}_{\geq 0}$. Moreover, let $[a]$ be the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$, $\langle a_1,a_2,...,a_n\rangle$ an ordered list of $n$ elements, and $\underline{c},\overline{c}$ the lower and upper bound of the parameter $c$ retrieved from a lookup table.
+Let us suppose the TEE at stage $i$ can be altered with $\rho$ TEE parameters and the computations with $\sigma$ computations parameters. We then express the TEE as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the TEE parameters which returns a metric of the distance between the point and the nominal trajectory. We express and the computations as the value of the computations parameters. We discuss the concrete meaning of the value of TEE parameters in Subsection~\ref{sec:model}), and the of the computations parameters in Subsection~\ref{sec:computations-model}. 
 
-\begin{defn}[Stage and plan]\label{def:mission}
-  A \emph{stage} $\mathcal{M}_i$ at time instant $k$ of a plan $\mathcal{M}$ is defined as the ordered list
+Let us further adopt the following mathematical notation.  $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$, $\langle a_1,a_2,...,a_n\rangle$ an ordered list of $n$ elements, and $\underline{c},\overline{c}$ the lower and upper bound of the parameter $c$ retrieved from a plan specification. The plan specification is a file which specifies all the stages and triggering points along the plan. We discuss the format in Subsection~\ref{sec:plan}.
+
+\begin{defn}[Stage, plan and triggering point]\label{def:mission}
+  A \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined as the ordered list
   \begin{equation}\label{eq:mission}\begin{split}
-    \mathcal{M}_i:=\{\langle\varphi_i(\mathbf{p}_k,c&_{i,1},\dots,c_{i,\rho}),\psi_1(s_{i,1}),\dots,\psi_\sigma(s_{i,\sigma})\rangle\\\mid
-      \exists\,\,\mathbf{p}_k,\,&\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i,\,\\
-      &\psi_j(s_{i,j})\in\mathbb{S}_{i,j}\,\forall j\in[\sigma]^+\},
+    \Gamma_i:=\{\langle&\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho}),c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\rangle\\\mid
+    &\,\exists\,\,\mathbf{p}_k,\,\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i,\,\\
+      &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathbb{S}_{i,j}\,\},
   \end{split}\end{equation}
-  where $\mathbb{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the TEEs set, and $\mathbb{S}_{i,j}:=[\underline{s}_{i,j},\overline{s}_{i,j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th task QoS set. $\mathbf{p}_k:=(x,y)$ is a point of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$. The parameters of the TEE $\varphi_i$ are the point and the adjustments (Subsection~\ref{sec:model}). The parameters of the tasks $\psi_1,\dots,\psi_\sigma$ are the computations (Subsection~\ref{sec:computations-model}). Note that while the TEE can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a task varying QoS set.
+  where $\mathbb{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the TEE set, and $\mathbb{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation set. $\mathbf{p}_k$ is a point of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$. We note that while the TEE can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation set.
 
-  The \emph{plan} is then $\mathcal{M}:\mathbb{R}^2\rightarrow\mathcal{M}_i$ a function which maps the point $\mathbf{p}_k$ to a specific stage $\mathcal{M}_i$.
-  
-  For simplicity the system is sampled in discrete time. The algorithm takes as input $\mathcal{M}$, initial position, and energy coefficients guess, and outputs the new position, the instantaneous energy consumption, and the control input--an action performed evolving the plan state.
+  The \emph{plan} is then a function which maps a point to a specific stage $\Gamma_i$. The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}.
+  \begin{figure}[h]
+  \center
+  \begin{tikzpicture}[shorten >=1pt,node distance=12ex,on grid,auto] 
+    \node        (q_dots0) {$\cdots$};
+    \node[state] (q_0) [right=of q_dots0] {$\Gamma_i$};
+    \node[state] (q_1) [right=of q_0] {$\Gamma_{i+1}$};
+    \node        (q_dots1) [right=of q_1] {$\cdots$};   
+    \path[->]
+    (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}$} (q_0)
+    (q_0) edge node {$\mathbf{p}_{\Gamma_i}$} (q_1)    
+    (q_0) edge [loop above] node {$\mathbf{p}_{k}$} (q_0)
+    (q_1) edge node {$\mathbf{p}_{\Gamma_{i+1}}$} (q_dots1)
+    (q_1) edge [loop above] node {$\mathbf{p}_{k}$} (q_1)
+    ; %end path 
+    \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=10pt},yshift=0pt]
+    (q_dots0.south west) -- (q_dots1.south east) node [black,midway,yshift=-8ex]{$\Gamma:\mathbb{R}^2\rightarrow\Gamma_i$};
+  \end{tikzpicture}
+  \caption{Finite state machine of the plan}
+  \label{fig:state-machine}
+  \end{figure}
+
+  A slice of a finite state machine in Figure~\ref{fig:state-machine} shows the transition between the stages. The triggering point $\mathbf{p}_{i-1}$ allows the transition to stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_k$. It eventually enters the stage $\Gamma_{i+1}$ with the triggerint point $\mathbf{p}_i$ and so on, until it reaches the last triggering point.
+
+  The algorithm takes as input $\Gamma,\bigcup_i{\Gamma_i}$, the triggering points (using the plan specification) and some initial guesses that are necessary for the position and energy estimation. It outputs the new position, the instantaneous energy consumption, and the control input--an action performed evolving the state.
 \end{defn}
+
+\subsection{Plan specification file format}
+\label{sec:plan}
+
+We specify the stages $\bigcup_i{\Gamma_i}$, triggering points $\bigcup_i\mathbf{p}_{\Gamma_i}$, and the plan $\Gamma$ using a specific file format--the plan specification. We refer the reader to Appendix~\ref{app:plan-example} for an example.
+
+The first stage $\Gamma_1$ is specified as the first line of the file
+\begin{algorithmic}[1]
+  \State\textbf{\texttt{$k_e$;$r$;$\varphi_1(\mathbf{p}_k,c_{1,1},\dots,c_{1,\rho})$}}\label{code:stage}
+\end{algorithmic}
+where $k_e$ is a convergence value, $r$ a rotation, and $\varphi_1$ the TEE. We refer the reader to the next subsection where we discuss the physical meaning of the convergence value and rotation. The rotation is expressed in binary format with zero being the counter-clockwise rotation, one the clockwise rotation.
+
+The next line specifies the triggering point $\mathbf{p}_{\Gamma_1}$
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:stage}
+  \State\textbf{\texttt{$x$,$y$}}\label{code:trigger-pt}
+\end{algorithmic}
+where $x$ and $y$ are the two coordinates of the point. The UAV reaches the point within a given radius (a parameter of the algorithm) and enters the next stage $\Gamma_2$.
+
+The following $\rho+\sigma$ lines
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:trigger-pt}
+  \State\textbf{\texttt{[$\underline{c}_i$,$\overline{c}_i$]}}\label{code:parameter-set}
+\end{algorithmic}
+specifies the lower $\underline{c}_i$ and upper $\overline{c}_i$ bound of the $i$-th parameter set. They are in ascending order and the TEE parameters sets are specified before the computations parameters sets.
+
+Follows the entries for stage $\Gamma_2$ (equivalent to lines~\ref{code:stage}--\ref{code:parameter-set}), $\Gamma_3$ and so on, until the last stage. We assume that the last triggering point is the final UAV position.
+
+% fixed up to here!
 
 \subsection{State: position and energy}
 \label{sec:model}
@@ -696,7 +749,7 @@ where $\mathbf{q}\in\mathbb{R}^m$ given $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ i
 \begin{lem}[Signals equality]\label{lem:eqv}Suppose there is no state and output uncertainty (the contributions $\mathbf{w}\in\mathbb{R}^m,v\in\mathbb{R}$ are zero) and the control is zero. Suppose further matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is $\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}$. Then Equation~(\ref{eq:fourier}) describes the same signal as Equation~(\ref{eq:state-perf}).
 \end{lem}
 \begin{proof}
-The equivalence of the models is trivial and the equality of the two signals is achieved by a proper choice of items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof the equality.
+The equivalence of the models is trivial and the equality of the two signals is achieved by a proper choice of items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof of the equality.
 \end{proof}
 
 Let us consider the discretized version $A_d$ of the matrix $A$ can be expressed $A_d=A+I$ for small enough values of time step (forward Euler approximation\footnote{One can guarantee to have the same outputs rather than an approximation with $A=e^{A_ck}$}). % where to place this... Maybe in the algorithm...
@@ -935,16 +988,21 @@ We proof that the first term of both the Equation~(\ref{eq:proof-complex}) and~(
 
 Then, we proof that all the terms in the sum of both the Equations~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) match. 
 
-For the first block $A_1$, we find the eigenvalues from $\det(A_1-\lambda I)=0$. The polynomial $\lambda^2+\omega^2$, gives two complex roots--the two eigenvalues $\lambda_1^0=i\omega$ and $\lambda_1^1=-i\omega$. The eigenvector associated with the eigenvalue $\lambda_1^0$ is $v_1^0=\begin{bmatrix}0 & -i&1&0&\cdots&0\end{bmatrix}^T$. The eigenvector associated with the eigenvalue $\lambda_1^1$ is $v_1^1=\begin{bmatrix}0&i&1&0&\cdots&0\end{bmatrix}^T$. Again, we find the values $\gamma_1$ of the vector $\gamma$ such that the equivalences $e^{i\omega t}(a_1-ib_1)=\gamma_1 e^{i\omega t}v_1^0$ and $e^{-i\omega t}(a_1+ib_1)=\gamma_1 e^{i\omega t}v_1^1$ hold. They hold for $\gamma_1=\begin{bmatrix}b_1&a_1\end{bmatrix}$. The proof for the remaining $r-1$ blocks is equivalent.
+For the first block $A_1$, we find the eigenvalues from $\det(A_1-\lambda I)=0$. The polynomial $\lambda^2+\omega^2$, gives two complex roots--the two eigenvalues $\lambda_1^0=i\omega$ and $\lambda_1^1=-i\omega$. The eigenvector associated with the eigenvalue $\lambda_1^0$ is $v_1^0=\begin{bmatrix}0 & -i&1&0&\cdots&0\end{bmatrix}^T$. The eigenvector associated with the eigenvalue $\lambda_1^1$ is $v_1^1=\begin{bmatrix}0&i&1&0&\cdots&0\end{bmatrix}^T$. Again, we find the values $\gamma_1$ of the vector $\gamma$ such that the equivalences 
+\begin{equation*}\begin{cases}
+  e^{i\omega t}(a_1-ib_1)&=\gamma_1 e^{i\omega t}v_1^0\\
+  e^{-i\omega t}(a_1+ib_1)&=\gamma_1 e^{i\omega t}v_1^1
+\end{cases}\end{equation*}
+hold. They hold for $\gamma_1=\begin{bmatrix}b_1&a_1\end{bmatrix}$. The proof for the remaining $r-1$ blocks is equivalent.
 
 The initial guess is build such that the sum of the coefficients is the same in both the signals. The output matrix is built as follows. The coefficient $1/T$ accounts for the period in Equations~(\ref{eq:proof-complex}--\ref{eq:proof-output}) and~(\ref{eq:fourier}). At time instant zero, the coefficients $b_j$ are not present (and the coefficients $a_j$ are doubled for each $j=1,2,\dots,r$). To match the outputs $h(t)=y(t)$--or equivalently $F\mathbf{q}(t)/T=C\mathbf{q}(t)$--we define $C=1/T\begin{bmatrix}1 & 1 & 0 & \cdots & 1 & 0\end{bmatrix}$. We thus conclude that the lemma holds.
 
-We note that the signal would still be periodic with another linear combination of coefficients (for instance, $C=c\begin{bmatrix}1 & 0 & 1 & \cdots & 0 & 1\end{bmatrix}$, or $c\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ for a constant $c\in\mathbb{R}$). Even if both the signals $h$ and $y$ would be still periodic, they would not be equal.
+We note that the signal would still be periodic with another linear combination of coefficients (for instance, $C=d\begin{bmatrix}1 & 0 & 1 & \cdots & 0 & 1\end{bmatrix}$, or $d\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ for a constant value $d\in\mathbb{R}$). Even if both the signals $h$ and $y$ would be still periodic, they would not be equal.
 
 \qed
 
-\section{Mission Plan Format}
-
+\section{Plan Specification Example}
+\label{app:plan-example}
 We discuss how to specify an initial mission plan with an example of a survey mission. The reader can later execute the initial mission plan using the simulator in Appendix~\ref{app:simulator}. The plan is user-defined. It specifies the trajectory and tasks of a mission along the QoS and TEEs sets. 
 
 Recall that the mission is composed of a set of stages (Section~\ref{sec:prob}). The plan has a variable number of entries per each stage. We plan the mission in Figures~\ref{fig:overview},~\ref{fig:trajectory}. The first line
