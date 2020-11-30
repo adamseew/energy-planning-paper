@@ -627,7 +627,7 @@ We assume that a user-specified initial plan consists of different stages. At ea
 
 Let us suppose the TEE at stage $i$ can be altered with $\rho$ TEE parameters and the computations with $\sigma$ computations parameters. We then express the TEE as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the TEE parameters which returns a metric of the distance between the point and the nominal trajectory. We express and the computations as the value of the computations parameters. We discuss the concrete meaning of the value of TEE parameters in Subsection~\ref{sec:model}), and the of the computations parameters in Subsection~\ref{sec:computations-model}. 
 
-Let us further adopt the following mathematical notation.  $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$, $\langle a_1,a_2,...,a_n\rangle$ an ordered list of $n$ elements, and $\underline{c},\overline{c}$ the lower and upper bound of the parameter $c$ retrieved from a plan specification. The plan specification is a file which specifies all the stages and triggering points along the plan. We discuss the format in Subsection~\ref{sec:plan}.
+Let us further adopt the following mathematical notation.  $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$, $\langle a_1,a_2,...,a_n\rangle$ an ordered list of $n$ elements, $c^0$ the optimal value of parameter $c$,and $\underline{c},\overline{c}$ its lower and upper bound retrieved from a plan specification. The plan specification is a file which specifies all the stages and triggering points along the plan. We discuss the format in Subsection~\ref{sec:plan}. Moreover, we use the notation $c_{i,j}$ to specify the $j$-th item of the $i$-th parameters set $c_i$.
 
 \begin{defn}[Stage, plan and triggering point]\label{def:mission}
   A \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined as the ordered list
@@ -638,7 +638,8 @@ Let us further adopt the following mathematical notation.  $[a]$ is the set $\{0
   \end{split}\end{equation}
   where $\mathbb{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the TEE set, and $\mathbb{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation set. $\mathbf{p}_k$ is a point of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$. We note that while the TEE can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation set.
 
-  The \emph{plan} is then a function which maps a point to a specific stage $\Gamma_i$. The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}.
+  The \emph{plan} is a finite state machine $\Gamma$ where the state-transition function $\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage. The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}.
+
   \begin{figure}[h]
   \center
   \begin{tikzpicture}[shorten >=1pt,node distance=12ex,on grid,auto] 
@@ -654,7 +655,7 @@ Let us further adopt the following mathematical notation.  $[a]$ is the set $\{0
     (q_1) edge [loop above] node {$\mathbf{p}_{k}$} (q_1)
     ; %end path 
     \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=10pt},yshift=0pt]
-    (q_dots0.south west) -- (q_dots1.south east) node [black,midway,yshift=-8ex]{$\Gamma:\mathbb{R}^2\rightarrow\Gamma_i$};
+    (q_dots0.south west) -- (q_dots1.south east) node [black,midway,yshift=-8ex]{$\Gamma$};
   \end{tikzpicture}
   \caption{Finite state machine of the plan}
   \label{fig:state-machine}
@@ -662,7 +663,7 @@ Let us further adopt the following mathematical notation.  $[a]$ is the set $\{0
 
   A slice of a finite state machine in Figure~\ref{fig:state-machine} shows the transition between the stages. The triggering point $\mathbf{p}_{i-1}$ allows the transition to stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_k$. It eventually enters the stage $\Gamma_{i+1}$ with the triggerint point $\mathbf{p}_i$ and so on, until it reaches the last triggering point.
 
-  The algorithm takes as input $\Gamma,\bigcup_i{\Gamma_i}$, the triggering points (using the plan specification) and some initial guesses that are necessary for the position and energy estimation. It outputs the new position, the instantaneous energy consumption, and the control input--an action performed evolving the state.
+  The algorithm takes as input the plan, the triggering points (using the plan specification) and some initial guesses that are necessary for the position and energy estimation. It outputs the new position, the instantaneous energy consumption, and the control input--an action performed evolving the state.
 \end{defn}
 
 \subsection{Plan specification file format}
@@ -681,7 +682,25 @@ The next line specifies the triggering point $\mathbf{p}_{\Gamma_1}$
   \setcounterref{ALG@line}{code:stage}
   \State\textbf{\texttt{$x$,$y$}}\label{code:trigger-pt}
 \end{algorithmic}
-where $x$ and $y$ are the two coordinates of the point. The UAV reaches the point within a given radius (a parameter of the algorithm) and enters the next stage $\Gamma_2$.
+where $x$ and $y$ are the two coordinates of the point. The UAV reaches the point within a given radius (a parameter of the algorithm) and enters the next stage $\Gamma_2$. The coordinates can be expressed in function of the TEE parameters $c_1$. Generally, one can express the coordinates in function of any TEE parameters $c_i$, propagating the information therein if necessary (see Figure~\ref{fig:state-machine2}). 
+
+\begin{figure}[h]
+  \center
+  \begin{tikzpicture}[shorten >=1pt,node distance=24ex,on grid,auto] 
+    \node        (q_dots0) {$\cdots$};
+    \node[state] (q_0) [right=of q_dots0] {$\langle\varphi_i,c_i\rangle$};
+    \node        (q_dots1) [right=of q_0] {$\cdots$};   
+    \path[->]
+    (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}(c_1,\dots,c_{i-1})$} (q_0)
+    (q_0) edge node {$\mathbf{p}_{\Gamma_i}(c_1,\dots,c_{i})$} (q_dots1)    
+    (q_0) edge [loop above] node {$\mathbf{p}_{k}$} (q_0)
+    ; %end path
+  \end{tikzpicture}
+  \caption{Detail of the stage $\Gamma_i$ in the finite state machine}
+  \label{fig:state-machine2}
+  \end{figure}
+
+We refer the reader to the example in Appendix~\ref{app:plan-example} for a detailed implementation. In the example, the first TEE parameter is propagated to all the following TEEs and triggering points. 
 
 The following $\rho+\sigma$ lines
 \begin{algorithmic}[1]
@@ -697,21 +716,24 @@ Follows the entries for stage $\Gamma_2$ (equivalent to lines~\ref{code:stage}--
 \subsection{State: position and energy}
 \label{sec:model}
 
-The state is the UAV's position in space and the energy coefficients in time. We show a linear relation between the instantaneous energy consumption and the energy coefficients in Theorem~\ref{thm:state-vs-energy}, but the two are different. We show after the main results how this approach allows us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
+We describe the position with $x,y$ coordinates and the altitude $h$, and the energy with some energy coefficients which describes the energy evolution in time. Here we describe the position evolution using vector field~\cite{de2017guidance}.
 
-The set
+Let us assume the set
 \begin{equation}\label{eq:area}
   \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i\},
 \end{equation}
-delimits the area where the $i$-th TEE $\varphi_i$ is free to evolve using $\rho$ adjustments $\mathbf{c}_i:=c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:overview}).
+delimits the area where the $i$-th TEE $\varphi_i$ is free to evolve using $\rho$ adjustments $\mathbf{c}_i:=c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:overview}). Phisically, $\varphi_i$ is function of the two coordinates and is satisfied when a point $\mathbf{p}_k$ is on the TEE. The TEE parameters allows to change the TEE. They are a way to alter the nominal trajectory from the initial plan.
 
-The algorithm uses the set from Equation~(\ref{eq:area}) to select the optimal adjustments $\mathbf{c}_i^0$ s.t. $\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$ has the highest instantaneous energy consumption (while still respecting the energy budget). It guides the UAV to the new position $\mathbf{p}_{k+1}$ using the function $\varPhi:=\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$, computing its vector field $\nabla\varPhi:=(\partial\varPhi/\partial x,\partial\varPhi/\partial y)$, and deriving the direction to follow in the form of velocity vector
+In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to alter the optimal TEE parameters $\mathbf{c}_i^0$ s.t. $\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$ has the highest instantaneous energy consumption (while still respecting the energy budget). It guides the UAV to the new position $\mathbf{p}_{k+1}$ using the function $\varPhi:=\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$, computing its vector field $\nabla\varPhi:=(\partial\varPhi/\partial x,\partial\varPhi/\partial y)$, and deriving the direction to follow in the form of velocity vector
 \begin{equation}\label{eq:pd}
   \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varPhi-k_e\varPhi\nabla\varPhi,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
   \end{bmatrix},
 \end{equation}
-where $E$ specifies the tracking direction, and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading due to the atmospheric interference, such as wind ($w\in\mathbb{R}$ in Figure~\ref{fig:overview}).
+where $E$ specifies the rotation (which influence the tracking direction), and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading due to the atmospheric interference, such as wind ($w\in\mathbb{R}$ in Figure~\ref{fig:overview}).
+
+% fixed up to here!
+% idea; write control as parameters; write B as time-dependent, which multiplied TEE parameters gives energy due to trajectory (approx). By computations due to computations (from powprof).
 
 \subsection{Energy evolution due to trajectory}
 \label{sec:energy-model}
