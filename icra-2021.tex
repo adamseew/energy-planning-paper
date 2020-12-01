@@ -594,13 +594,6 @@ Energy-Aware Dynamic Planning Algorithm for Autonomous UAVs
 \IEEEpeerreviewmaketitle
 
 
-%\begin{figure*}[t]
-%  \centering
-%  \input{\figpath/icra-2021_overview2.tikz}
-%  \caption{The mission consists of circles and lines covering a polygon. The UAV heads to $\varphi_0$ initially, using the desired velocity vector $\dot{\mathbf{p}}_d$. It later heads to $\varphi_0^-$ reducing the radius $c_{0,1}$ to satisfy the battery constraints. The UAV then converges to $\varphi_1$ in stage $\mathcal{M}_1$, $\varphi_2$ in stage $\mathcal{M}_2$, and so on (the circle $\varphi_2$ is not visible in the figure; it connects $\varphi_1$ and $\varphi_3$).}
-%  \label{fig:overview}
-%\end{figure*}
-
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{sec:intro}
@@ -686,9 +679,9 @@ where $x$ and $y$ are the two coordinates of the point. The UAV reaches the poin
 
 \begin{figure}[h]
   \center
-  \begin{tikzpicture}[shorten >=1pt,node distance=24ex,on grid,auto] 
+  \begin{tikzpicture}[shorten >=1pt,node distance=23ex,on grid,auto] 
     \node        (q_dots0) {$\cdots$};
-    \node[state] (q_0) [right=of q_dots0] {$\langle\varphi_i,c_i\rangle$};
+    \node[state] (q_0) [right=of q_dots0] {$\Gamma_i$};
     \node        (q_dots1) [right=of q_0] {$\cdots$};   
     \path[->]
     (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}(c_1,\dots,c_{i-1})$} (q_0)
@@ -730,6 +723,13 @@ We derive the new position $\mathbf{p}_{k+1}$ using the function $\varPhi:=\varp
   \end{bmatrix},
 \end{equation}
 where $E$ specifies the rotation (which influence the tracking direction), and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading due to the atmospheric interference, such as wind ($w\in\mathbb{R}$ in Figure~\ref{fig:overview}).
+
+\begin{figure}[h]
+  \centering
+  \input{\figpath/path.tikz}
+  \caption{.}
+  \label{fig:overview}
+\end{figure}
 
 \subsection{State: energy $\mathbf{q}$}
 \label{sec:energy-model}
