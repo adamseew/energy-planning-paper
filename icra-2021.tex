@@ -711,20 +711,18 @@ specifies the lower $\underline{c}_i$ and upper $\overline{c}_i$ bound of the $i
 
 Follows the entries for stage $\Gamma_2$ (equivalent to lines~\ref{code:stage}--\ref{code:parameter-set}), $\Gamma_3$ and so on, until the last stage. We assume that the last triggering point is the final UAV position.
 
-% fixed up to here!
-
-\subsection{State: position and energy}
+\subsection{State: position $\mathbf{p}$}
 \label{sec:model}
 
-We describe the position with $x,y$ coordinates and the altitude $h$, and the energy with some energy coefficients which describes the energy evolution in time. Here we describe the position evolution using vector field~\cite{de2017guidance}.
+We model the position with $(x,y)\in\mathbf{p}$ coordinates and the altitude $h$, and derive its evolution using vector field~\cite{de2017guidance}.
 
 Let us assume the set
 \begin{equation}\label{eq:area}
   \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i\},
 \end{equation}
-delimits the area where the $i$-th TEE $\varphi_i$ is free to evolve using $\rho$ adjustments $\mathbf{c}_i:=c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:overview}). Phisically, $\varphi_i$ is function of the two coordinates and is satisfied when a point $\mathbf{p}_k$ is on the TEE. The TEE parameters allows to change the TEE. They are a way to alter the nominal trajectory from the initial plan.
+delimits the area where the $i$-th TEE $\varphi_i$ is free to evolve using $\rho$ adjustments $\mathbf{c}_i:=c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:overview}). Phisically, $\varphi_i$ is s function of the two coordinates and is satisfied when a point $\mathbf{p}_k$ is on the TEE. Physically, this means the UAV is flying exactly over the nominal trajectory. The TEE parameters allows to change the TEE. They are a way to alter the nominal trajectory in the initial plan.
 
-In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to alter the optimal TEE parameters $\mathbf{c}_i^0$ s.t. $\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$ has the highest instantaneous energy consumption (while still respecting the energy budget). It guides the UAV to the new position $\mathbf{p}_{k+1}$ using the function $\varPhi:=\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$, computing its vector field $\nabla\varPhi:=(\partial\varPhi/\partial x,\partial\varPhi/\partial y)$, and deriving the direction to follow in the form of velocity vector
+In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to alter the optimal TEE parameters $\mathbf{c}_i^0$, so $\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$ has the highest instantaneous energy consumption (while still respecting the energy budget). It guides the UAV to the new position $\mathbf{p}_{k+1}$ using the function $\varPhi:=\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$, computing its vector field $\nabla\varPhi:=(\partial\varPhi/\partial x,\partial\varPhi/\partial y)$, and deriving the direction to follow in the form of velocity vector
 \begin{equation}\label{eq:pd}
   \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varPhi-k_e\varPhi\nabla\varPhi,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
@@ -735,18 +733,30 @@ where $E$ specifies the rotation (which influence the tracking direction), and $
 % fixed up to here!
 % idea; write control as parameters; write B as time-dependent, which multiplied TEE parameters gives energy due to trajectory (approx). By computations due to computations (from powprof).
 
-\subsection{Energy evolution due to trajectory}
+\subsection{State: energy $\mathbf{q}$}
 \label{sec:energy-model}
 
-The algorithm models the energy using as state energy coefficients $\mathbf{q}\in\mathbb{R}^m$ derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series) and decomposes the evolution in energy due to the trajectory and computations. This approach is adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
+We model the energy using some energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize the energy signal. We refer to the instantaneous energy consumption evolution simply as energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series) and decomposes the evolution in energy due to the path and computations. This approach is adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
 
-Let us consider a periodic signal of period $T\in\mathbb{Z}_{> 0}$ representing the energy consumption, and Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ and for the purpose of energy consumption modeling of the signal
+We show a relation between the energy signal and the energy coefficients in Theorem~\ref{thm:state-vs-energy}, but the two are different. We show after the main results how this approach allows us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
+
+Let us consider a periodic signal of period $T\in\mathbb{Z}_{> 0}$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the signal
 \begin{equation}\label{eq:fourier}
   h(t)=a_0/T+(2/T)\sum_{j=1}^{r}{\left(a_j\cos{\omega jt}+b_j\sin{\omega jt}\right)},
 \end{equation}
-where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the modeled instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
+where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the signal, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
 
-Consider a linear time-invariant (LTI) state-space model
+We use extensively the following assumption for the purpose of energy signal modeling.
+\begin{assm}[Energy evelution periodicity]\label{assm:periodic} 
+Given two time instants $k_1,k_2$ s.t. $k_1>k_2$ and a constant value $n\in\mathbb{Z}_{> 0}$
+\begin{equation}
+  \abs{y_{k}-y_{k+n}}\in\mathbb{E}\subset\mathbb{R}_{\geq 0} \,\,\,\forall k\in[k_1,k_2].
+\end{equation}
+\end{assm}
+
+Physically this means that the time evolution of the instantaneous energy consumption is assumed to be approximately periodic.
+
+Let us consider a linear time-invariant (LTI) state-space model
 \begin{equation}\label{eq:state-perf}\begin{split}
   \dot{\mathbf{q}}&=A\mathbf{q}+B\mathbf{u}+\mathbf{w},\\
   y&=C\mathbf{q}+v,
@@ -766,42 +776,24 @@ where $y\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. The sta
     1 & 1 & 0 &\cdots & 1 & 0
   \end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{q}\in\mathbb{R}^m$ given $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transmission matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is one, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zero.
+where $\mathbf{q}\in\mathbb{R}^m$ with $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transmission matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is one, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zeros.
 
-\begin{lem}[Signals equality]\label{lem:eqv}Suppose there is no state and output uncertainty (the contributions $\mathbf{w}\in\mathbb{R}^m,v\in\mathbb{R}$ are zero) and the control is zero. Suppose further matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is $\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}$. Then Equation~(\ref{eq:fourier}) describes the same signal as Equation~(\ref{eq:state-perf}).
+\begin{lem}[Signals equality]\label{lem:eqv}Suppose there is no state and output uncertainty (the contributions $\mathbf{w}\in\mathbb{R}^m,v\in\mathbb{R}$ are zeros) and the control is zero. Suppose further matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is $\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}$. Then Equation~(\ref{eq:fourier}) describes the same signal as Equation~(\ref{eq:state-perf}).
 \end{lem}
 \begin{proof}
 The equivalence of the models is trivial and the equality of the two signals is achieved by a proper choice of items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof of the equality.
 \end{proof}
 
-Let us consider the discretized version $A_d$ of the matrix $A$ can be expressed $A_d=A+I$ for small enough values of time step (forward Euler approximation\footnote{One can guarantee to have the same outputs rather than an approximation with $A=e^{A_ck}$}). % where to place this... Maybe in the algorithm...
-% and write little more how, why you discretized...
+Let us consider the discretized version $A_d:=A\Delta t+I$ of the matrix $A$. We denote the continuous and discrete time with the standard notation $t,k$. We use the forward Euler approximation with a small enough value of the time step $\Delta t$. One can guarantee to have the same outputs rather than an approximation with $A=e^{At}$.
 
-Suppose at time instant $k$ the plan reached stage $i$ and the control input is $\mathbf{u}_k^a:=\langle\mathbf{c}_k,\mathbf{s}_k\rangle$. The control along with the input matrix
-\begin{equation}\label{eq:state-control}\begin{split}  
-  \mathbf{u}_k&=\begin{bmatrix}g(\mathbf{s}_k)-g(\mathbf{s}_{k-1}) & \mathbf{c}_k-\mathbf{c}_{k-1}\end{bmatrix}^T,\\
-  B&=\left[\begin{array}{cccc}
-    1& \omega_{i,1}& \cdots& \omega_{i,\rho}  \\
-     &            0&       &  \\
-     &             & \ddots&  \\
-     &             &       & 0
-  \end{array}\right],
+Let us suppose that at time instant $k$ the plan reached $i$-th stage. The control along with the input matrix
+\begin{equation}\label{eq:state-control}\begin{split}
+  \mathbf{u}&=\begin{bmatrix}c_{i,1} & \cdots & c_{i,\rho} & c_{i,\rho+1} & \cdots & c_{i,\rho+\sigma}\end{bmatrix}^T,\\
+  B\mathbf{u}&:=B_i(\mathbf{u}_k-\mathbf{u}_{k-1}),\,\,\,B_i=\left[\begin{array}{c} \nu_i\\\mathbf{0}\end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{s}_k,g(\mathbf{s}_k)$ are the computations and the instantaneous computational energy consumption (Subsection~\ref{sec:computations-model}), $\mathbf{u}_k\in\mathbb{R}^n$ is the control given $n=1+\rho$, and $B\in\mathbb{R}^{m\times n}$. Moreover, the top-left entry of $B$ is one, while the others on the first row are gain factors $\Omega_{i}:=\{\omega_{i,1},\dots, \omega_{i,\rho}\}\in\mathbb{R}^\rho$, quantifying the contribution of a given adjustment to the instantaneous energy consumption. 
+where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$, $B\in\mathbb{R}^{m\times n}$, and $\mathbf{u}_{-1}=\mathbf{0}$. Moreover, the top row of $B$ contains gain factors $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho} & \nu_{i,\rho + 1}& \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}$, quantifying the contribution of a given parameter to the instantaneous energy consumption. The other entries of $B$ are zeros. 
 
-Equation~(\ref{eq:state-control}) accounts for the energy due to the adjustments and computations. The difference $g(\mathbf{s}_k)-g(\mathbf{s}_{k-1})$ quantifies the change in the instantaneous computational energy consumption. Similarly, $\Omega_i(\mathbf{c}_k-\mathbf{c}_{k-1})$ quantifies the change in the instantaneous trajectory energy consumption. For instance, when the TEE $\varphi_0$ is a circle (see Figure~\ref{fig:overview}), a decrement in the adjustment radius of the circle $c_{0,1}$ adds a negative contribution. It thus simulates the lowering of instantaneous energy consumption $\omega_{0,1}(c_{0,1}-c_{0,1}^-)<0$.
-
-Note from Equation~(\ref{eq:state-control}) that the control input $\mathbf{u}_k^a$ differs from the nominal control $\mathbf{u}_k$ in Equation~(\ref{eq:state-perf}). The first is an output of the algorithm. The second is a function that maps two consecutive control inputs to the difference in instantaneous energy consumption $\mathbf{u}_k:\mathbb{R}^{2\rho}\times\mathbb{Z}_{\geq 0}^{2\sigma}\rightarrow\mathbb{R}^{1+\rho}$.
-
-The energy consumption modeling of the plan utilizes the following assumption.
-\begin{assm}[Energy evelution periodicity]\label{assm:periodic} 
-Given two time instants $k_1,k_2$ s.t. $k_1>k_2$ and a constant value $n\in\mathbb{Z}_{> 0}$
-\begin{equation}
-  \abs{y_{k}-y_{k+n}}\in\mathbb{E}\subset\mathbb{R}_{\geq 0} \,\,\,\forall k\in[k_1,k_2].
-\end{equation}
-\end{assm}
-
-Physically this means that the time evolution of the instantaneous energy consumption is assumed to be approximately periodic.
+Equation~(\ref{eq:state-control}) accounts for the energy due to the change of parameters $\mathbf{u}_k-\mathbf{u}_{k-1}$. For instance, when the TEE $\varphi_0$ is a circle (see Figure~\ref{fig:overview}), a decrement in the TEE parameter $c_{0,1}$--the radius of the circle--adds a negative contribution. It thus simulates the lowering of instantaneous energy consumption $\nu_{0,1}(c_{0,1}-c_{0,1}^-)<0$. The first $\rho$ gain factors quantifies the contribution of the $i$-th TEE parameters. A first guess of these parameters is derived empirically. They are later refined by the algorithm. The following $\sigma$ gain factors quantifies the contribution of the $i$-th computations parameters. They are derived using the modeling tool. We use the gain factors to select the optimal control $\mathbf{u}^0$. 
 
 \subsection{Energy evolution due to computations}
 \label{sec:computations-model}
