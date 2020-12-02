@@ -602,27 +602,27 @@ Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agri
 
 Planning algorithms literature for mobile robots includes topics such as trajectory generation and path planning. Generally, the algorithms select an energy-optimized trajectory~\cite{mei2004energy}, e.g., by maximizing the operational time~\cite{wahab2015energy}. However, they apply to a small number of robots~\cite{kim2005energy}, and focus exclusively on planning the trajectory for these robots~\cite{kim2008minimum}, despite compelling evidence for the energy consumption also being significantly influenced by computations~\cite{mei2005case}. Given the availability of powerful GPU-equipped mobile hardware~\cite{rizvi2017general}, the use of computations is expected to increase in the near future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. More complex planning, which includes a broader concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. For UAVs specifically, rotorcrafts have gained interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. 
 
-Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We guide the UAV using a vector field~\cite{de2017guidance} that converges smoothly to a planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding}. We denote the trajectory with a mathematical function that we refer to as the trajectory explicit equation (TEE). The path is composed of multiple TEEs. We express the computations with a modeling tool presented in our previous work~\cite{seewald2019coarse}. The algorithm alters the TEE and computations within some parameters using output model predictive control (MPC). These parameters are the maximum, minimum, and current levels of the TEE and computations. The user specifies the parameters in an initial plan with an energy budget. The energy budget is the battery capacity and some other battery parameters. In the remainder of the paper, we adopt the following notation. We refer to the current TEE and computations parameters simply as TEE and computations parameters. We refer to both as parameters. We refer to the constraints sets that delimit the maximum and minimum levels of the parameters as TEE sets and computations sets, and to both as parameters sets. There can be multiple or none computations sets per each task, and the same applies to the TEE. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm.
+Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We guide the UAV using a vector field~\cite{de2017guidance} that converges smoothly to a planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. We denote the trajectory with a mathematical function that we refer to as the trajectory explicit equation (TEE). The path is composed of multiple TEEs. We express the computations with a modeling tool presented in our previous work~\cite{seewald2019coarse}. The algorithm alters the TEE and computations within some parameters using output model predictive control (MPC). These parameters are the maximum, minimum, and current levels of the TEE and computations. The user specifies the parameters in an initial plan with an energy budget. The energy budget is the battery capacity and some other battery parameters. In the remainder of the paper, we adopt the following notation. We refer to the current TEE and computations parameters simply as TEE and computations parameters. We refer to both as parameters. We refer to the constraints sets that delimit the maximum and minimum levels of the parameters as TEE set and computations sets, and to both as parameters sets. There can be multiple or none computations parameters per each task, and the same applies to the TEE. There is one TEE set but multiple computations sets, one per each computation parameter. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm.
 
 To achieve the energy-aware dynamic planning, we further introduce and formally proof a periodic energy model that accounts for the uncertainty (atmospheric interference). We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to the path and computations repetitive patterns~\cite{seewald2020mechanical}. Indeed UAV scenarios often iterate over a set of tasks and trajectories (e.g., monitoring or search and rescue). Given that the plan is periodic, we expect the energy to approximately evolve periodically. 
 The observation applies broadly; we show different UAV scenarios with periodic energy signals. Moreover, we briefly investigate such signals in some ground-based mobile robots.
 
 In the spirit of reducing costs and resources, we showcase the algorithm using the problem of dynamic planning for a precision agriculture fixed-wing UAV. Precision agriculture is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The plan is structured as follows. Trajectory-wise, the UAV flies in circles and lines covering a polygon. Computationally-wise, it detects obstacles using a convolutional neural network (CNN) and informs grounded mobile robots employed for harvesting. The algorithm alters the plan; it controls the processing rate and the radius of the circles (affecting the distance between the lines). Figure~\ref{fig:overview} shows an initial slice of such a plan. The UAV first heads to a circular TEE with a given radius, which is later reduced as, e.g., windy weather requires the adjustment of the control input to avoid battery depletion. Computations significantly impact the battery, with a potential extension of up to 13 minutes over an hour by merely switching to the lowest computations (see Section~\ref{sec:experimental}).
 
-The remainder of the paper is organized as follows. The overview of dynamic planning is provided in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcases the performances. We propose some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information and examples in the Appendixes~\ref{app:proof-eqv}--\ref{app:simulator}.
+The remainder of the paper is organized as follows. The overview of dynamic planning is provided in Section~\ref{sec:prob}, along with a suitable model for the position and energy. The algorithm is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcases the performances. We propose some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information and examples in Appendixes~\ref{app:proof-eqv}--\ref{app:simulator}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Planning Overview}
 \label{sec:prob}
 
-We assume that a user-specified initial plan consists of different stages. At each stage, the UAV must follow the TEE within TEE sets and do the computations within the computations sets.
+The algorithm takes as input a user-specified initial plan that consists of different stages and some initial guesses that are necessary for the position and energy estimation. At each stage, the UAV must follow the TEE within TEE set and do the computations within the computations sets. The algorithm outputs the new position, the instantaneous energy consumption, and the control.
 
-Let us further assume the TEE at stage $i$ can be altered with $\rho$ TEE parameters and the computations with $\sigma$ computations parameters. We then express the TEE as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the TEE parameters which returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computations parameters. We discuss the concrete meaning of the value of TEE parameters in Subsection~\ref{sec:model}), and of the computations parameters in Subsection~\ref{sec:computations-model}. 
+Let us assume the TEE at stage $i$ can be altered with $\rho$ TEE parameters and the computations with $\sigma$ computations parameters. We then express the TEE as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the TEE parameters. The TEE returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computations parameters. We discuss the concrete meaning of the value of TEE parameters in Subsection~\ref{sec:model}, and of the computations parameters in Subsection~\ref{sec:computations-model}. 
 
-Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. $c_{i,j}$ specifues the $j$-th parameter of the $i$-th parameters set $c_i$. $c_{i,j}^0$ is the optimal value of the parameter $c_{i,j}$, and $\underline{c_{i,j}},\overline{c_{i,j}}$ its lower and upper bounds. We store these bounds in the plan specification, which format we discuss in Subsection~\ref{sec:plan}. The set $\langle c_{i,1},c_{i,2},...,c_{i,n}\rangle$ is an ordered list of $n$ parameters.
+Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. $c_{i,j}$ specifues the $j$-th parameter of the $i$-th parameters set $c_i$. $c_{i,j}^0$ is the optimal value of the parameter $c_{i,j}$, and $\underline{c}_{i,j},\overline{c}_{i,j}$ its lower and upper bounds. We store these bounds in the plan specification, which format we discuss in Subsection~\ref{sec:plan}. The set $\langle c_{i,1},c_{i,2},...,c_{i,n}\rangle$ is an ordered list of $n$ parameters.
 
-\begin{defn}[Stage, plan and triggering point]\label{def:mission}
+\begin{defn}[Stage, plan, and triggering point]\label{def:mission}
   A \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined as the ordered list
   \begin{equation}\label{eq:mission}\begin{split}
     \Gamma_i:=\{\langle&\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho}),c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\rangle\\\mid
@@ -651,31 +651,29 @@ Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is
     \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=10pt},yshift=0pt]
     (q_dots0.south west) -- (q_dots1.south east) node [black,midway,yshift=-8ex]{$\Gamma$};
   \end{tikzpicture}
-  \caption{Finite state machine of the plan}
+  \caption{The plan defined as a finite state machine}
   \label{fig:state-machine}
 \end{figure}
 
-A slice of a finite state machine in Figure~\ref{fig:state-machine} shows the transition between the stages. The triggering point $\mathbf{p}_{i-1}$ allows the transition to stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_k$. It eventually enters the stage $\Gamma_{i+1}$ with the triggerint point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the last triggering point.
-
-The algorithm takes as input the plan and some initial guesses that are necessary for the position and energy estimation. It outputs the new position, the instantaneous energy consumption, and the control input--an action performed evolving the state.
+A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_k$. It eventually enters the stage $\Gamma_{i+1}$ with the triggerint point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the last triggering point.
 
 \subsection{Plan specification file format}
 \label{sec:plan}
 
-The algorithm reads the plan $\Gamma$ using a specific file format--the plan specification. We refer the reader to Appendix~\ref{app:plan-example} for an example.
+The algorithm reads the plan $\Gamma$ from a file--the plan specification--with a specific file format. We refer the reader to Appendix~\ref{app:plan-example} for an example.
 
 The first stage $\Gamma_1$ is expressed in the first line of the file
 \begin{algorithmic}[1]
   \State\textbf{\texttt{$k_e$;$r$;$\varphi_1(\mathbf{p}_k,c_{1,1},\dots,c_{1,\rho})$}}\label{code:stage}
 \end{algorithmic}
-where $k_e$ is a convergence value, $r$ a rotation, and $\varphi_1$ the TEE. We refer the reader to the next subsection where we discuss the physical meaning of the convergence value and rotation. The rotation is expressed in binary format with zero being the counter-clockwise rotation, one the clockwise rotation.
+where $k_e$ is a convergence value, $r$ a rotation, and $\varphi_1$ the TEE. In the next subsection where we discuss the physical meaning of the convergence value and rotation. The rotation is expressed in binary format with zero being the counter-clockwise rotation, one the clockwise rotation.
 
 The next line specifies the triggering point $\mathbf{p}_{\Gamma_1}$
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:stage}
   \State\textbf{\texttt{$x$,$y$}}\label{code:trigger-pt}
 \end{algorithmic}
-where $x$ and $y$ are the two coordinates of the point. The UAV reaches the point within a given radius (a parameter of the algorithm) and enters the next stage $\Gamma_2$. The coordinates can be expressed in function of the TEE parameters $c_{1,1},\dots,c_{1,\rho}$. Generally, one can express the coordinates in function of the $i$-th TEE parameters $c_{i,1},\dots,c_{i,\rho}$, or any previous TEE parameters, propagating the information therein if necessary. See Figure~\ref{fig:state-machine2} where we neglected the $\sigma=0$ computations parameters for simplicity $c_i=c_{i,1},\dots,c_{i,\rho}$.
+where $x$ and $y$ are the two coordinates of the point. The UAV reaches the point within a given radius (a parameter of the algorithm) and enters the next stage $\Gamma_2$. The coordinates can be expressed in function of the TEE parameters $c_{1,1},\dots,c_{1,\rho}$. Generally, one can express the coordinates in function of the $i$-th TEE parameters $c_{i,1},\dots,c_{i,\rho}$, or any previous TEE parameters, propagating the information therein if necessary. See Figure~\ref{fig:state-machine2} where, for simplicity, we neglected the $\sigma=0$ computations parameters $c_i=c_{i,1},\dots,c_{i,\rho}$.
 
 \begin{figure}[h]
   \center
@@ -695,12 +693,21 @@ where $x$ and $y$ are the two coordinates of the point. The UAV reaches the poin
 
 We refer the reader again to the example in Appendix~\ref{app:plan-example} for a detailed implementation. In the example, the first TEE parameter is propagated to all the following TEEs and triggering points. 
 
-The following $\rho+\sigma$ lines
+The line
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:trigger-pt}
+  \State\textbf{\texttt{[$\underline{c}_1$,$\overline{c}_1$]}}\label{code:tee-set}
+\end{algorithmic}
+specifies the lower $\underline{c}_{1}$ and upper $\overline{c}_{1}$ bounds of the TEE $\varphi_1$.
+
+The following $\sigma$ lines
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:tee-set}
   \State\textbf{\texttt{[$\underline{c}_{1,j}$,$\overline{c}_{1,j}$]}}\label{code:parameter-set}
 \end{algorithmic}
-specifies the lower $\underline{c}_{1,j}$ and upper $\overline{c}_{1,j}$ bound of the $j$-th parameter set. They are in ascending order and the TEE parameters sets are specified before the computations parameters sets.
+specifies the lower $\underline{c}_{1,j}$ and upper $\overline{c}_{1,j}$ bounds of the $j$-th computation parameter set. They are in ascending order. 
+
+This means that for the first stage, the algorithm can alter the TEE satisfying $\varphi_1\in\mathbb{C}_1$, and it can alter the computations individually. In fact the $j$-th computation parameter has to be in $\mathbb{S}_{1,j}$.
 
 Follows the entries for stage $\Gamma_2$ (equivalent to lines~\ref{code:stage}--\ref{code:parameter-set}), $\Gamma_3$ and so on, until the last stage. We assume that the last triggering point is the final UAV position.
 
@@ -714,9 +721,9 @@ Let us assume that the set
   \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i\},
 \end{equation}
 delimits the area where the $i$-th TEE $\varphi_i$ is free to evolve using the TEE parameters $c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:overview}). $\varphi_i$ is a function of the two coordinates and is equal to zero when a point $\mathbf{p}_k$ is on the TEE. Physically, this means the UAV is flying exactly over the nominal trajectory. The TEE parameters allows to change the TEE. They are a way to alter the nominal trajectory in the initial plan.
-In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to alter the optimal TEE parameters $c_i^0$ (here we again neglect the $\sigma=0$ computations parameters for simplicity), such that $\varphi_i(\mathbf{p}_k,c_i^0)$ has the highest instantaneous energy consumption (while still respecting the energy budget). 
+In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to alter the optimal TEE parameters $c_i^0$ (here we again neglect for simplicity the $\sigma=0$ computations parameters), such that $\varphi_i(\mathbf{p}_k,c_i^0)$ has the highest instantaneous energy consumption (while still respecting the energy budget). 
 
-We derive the new position $\mathbf{p}_{k+1}$ using the function $\varPhi:=\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$, computing its vector field $\nabla\varPhi:=(\partial\varPhi/\partial x,\partial\varPhi/\partial y)$, and the direction to follow in the form of velocity vector
+We derive the new position $\mathbf{p}_{k+1}$ using the function $\varPhi:=\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$, computing its vector field $\nabla\varPhi:=\begin{bmatrix}\partial\varPhi/\partial x & \partial\varPhi/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector
 \begin{equation}\label{eq:pd}
   \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varPhi-k_e\varPhi\nabla\varPhi,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
@@ -726,23 +733,23 @@ where $E$ specifies the rotation (which influence the tracking direction), and $
 
 \begin{figure}[h]
   \centering
-  \input{\figpath/path.tikz}
-  \caption{.}
+  \input{\figpath/path2.tikz}
+  \caption{Example of the alteration of a TEE parameter}
   \label{fig:overview}
 \end{figure}
 
 \subsection{State: energy $\mathbf{q}$}
 \label{sec:energy-model}
 
-We model the energy using some energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize the energy signal. We refer to the instantaneous energy consumption evolution simply as energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series). Here we derive the energy model. Later we assess the energy contribution of the computations in Subsection~\ref{sec:computations-model}. This approach is adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
+We model the energy using some energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize the energy signal. We refer to the instantaneous energy consumption evolution simply as the energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series). We enhance the energy model with the energy contribution of the computations in Subsection~\ref{sec:computations-model}. 
 
-We show a relation between the energy signal and the energy coefficients in Theorem~\ref{thm:state-vs-energy}. We show after the main results how this approach allows us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
+We proof a relation between the energy signal and the energy coefficients in Theorem~\ref{thm:state-vs-energy}. We show after the main results how this approach allows us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
 
 Let us consider a periodic signal of period $T\in\mathbb{Z}_{> 0}$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the signal
 \begin{equation}\label{eq:fourier}
   h(t)=a_0/T+(2/T)\sum_{j=1}^{r}{\left(a_j\cos{\omega jt}+b_j\sin{\omega jt}\right)},
 \end{equation}
-where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the signal, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
+where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
 
 We use extensively the following assumption for the purpose of energy signal modeling.
 \begin{assm}[Energy signal periodicity]\label{assm:periodic} 
@@ -759,7 +766,9 @@ Let us consider a linear time-invariant (LTI) state-space model
   \dot{\mathbf{q}}&=A\mathbf{q}+B\mathbf{u}+\mathbf{w},\\
   y&=C\mathbf{q}+v,
 \end{split}\end{equation}
-where $y\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. The state $\mathbf{q}$ are the energy coefficients
+where $y\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption, and $\mathbf{w}\in\mathbb{R}^m,v\in\mathbb{R}$ are the contributions of the noice. 
+
+The state $\mathbf{q}$ are the energy coefficients
 \begin{equation}\label{eq:state-details}\begin{split}
   \mathbf{q}&=\left[\begin{array}{cccccc}
     \alpha_0 & \alpha_1 & \beta_1 & \cdots & \alpha_r & \beta_r
@@ -774,9 +783,9 @@ where $y\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption. The sta
     1 & 1 & 0 &\cdots & 1 & 0
   \end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{q}\in\mathbb{R}^m$ with $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transmission matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is one, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zeros.
+where $\mathbf{q}\in\mathbb{R}^m$ with $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transmission matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is zero, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zeros.
 
-\begin{lem}[Signals equality]\label{lem:eqv}Suppose there is no state and output uncertainty (the contributions $\mathbf{w}\in\mathbb{R}^m,v\in\mathbb{R}$ are zeros) and the control is zero. Suppose further matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is $\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}$. Then Equation~(\ref{eq:fourier}) describes the same signal as Equation~(\ref{eq:state-perf}).
+\begin{lem}[Signals equality]\label{lem:eqv}Suppose there is no state and output uncertainty (the contributions $\mathbf{w},v$ are zeros) and the control is zero. Suppose further matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is $\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}$. Then, the signal $h$ in Equation~(\ref{eq:fourier}) is equal to the signal $y$ in Equation~(\ref{eq:state-perf}).
 \end{lem}
 \begin{proof}
 The equivalence of the models is trivial and the equality of the two signals is achieved by a proper choice of items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof of the equality where we justify the choices of the items of the matrices and of the initial guess. 
@@ -784,25 +793,29 @@ The equivalence of the models is trivial and the equality of the two signals is 
 
 Let us consider the discretized version $A_d:=A\Delta t+I$ of the matrix $A$. We denote the continuous and discrete time with the standard notation $t,k$. We use the forward Euler approximation with a small enough value of the time step $\Delta t$. We note that one can guarantee to have the same outputs rather than an approximation with $A_d:=e^{At}$.
 
-Let us suppose that at time instant $k$ the plan reached $i$-th stage $\Gamma_i$. The control along with the input matrix
+Let us suppose that at time instant $k$ the plan reached the $i$-th stage $\Gamma_i$.
+
+The control along with the input matrix
 \begin{equation}\label{eq:state-control}\begin{split}
   \mathbf{u}&=\begin{bmatrix}c_{i,1} & \cdots & c_{i,\rho} & c_{i,\rho+1} & \cdots & c_{i,\rho+\sigma}\end{bmatrix}^T,\\
   B\mathbf{u}&:=B_i(\mathbf{u}_k-\mathbf{u}_{k-1}),\,\,\,B_i=\left[\begin{array}{c} \nu_i\\\mathbf{0}\end{array}\right],
 \end{split}\end{equation}
 where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$, $B\in\mathbb{R}^{m\times n}$, and $\mathbf{u}_{-1}=\mathbf{0}$. Moreover, the top row of $B$ contains gain factors $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho} & \nu_{i,\rho + 1}& \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}$, quantifying the contribution of a given parameter to the instantaneous energy consumption. The other entries of $B$ are zeros. 
 
-The first $\rho$ gain factors quantifies the contribution of the $i$-th TEE parameters. A first guess of these parameters is derived empirically. They are later refined by the algorithm. The following $\sigma$ gain factors quantifies the contribution of the $i$-th computations parameters. They are derived using the modeling tool. We use the gain factors to select the optimal control $\mathbf{u}^0$. 
+The first $\rho$ gain factors quantifies the contribution of the $i$-th TEE parameters. A first guess of these parameters is derived empirically. They are later refined by the algorithm. The following $\sigma$ gain factors quantifies the contribution of the computations parameters. They are derived using the modeling tool. We use the gain factors to select the optimal control $\mathbf{u}^0$. 
 
-Equation~(\ref{eq:state-control}) accounts for the energy due to the change of parameters $\mathbf{u}_k-\mathbf{u}_{k-1}$. For instance, when the TEE $\varphi_0$ is a circle (see Figure~\ref{fig:overview}), a decrement in the TEE parameter $c_{0,1}$--the radius of the circle--adds a negative contribution. It thus simulates the lowering of instantaneous energy consumption $\nu_{0,1}(c_{0,1}-c_{0,1}^-)<0$. 
+Equation~(\ref{eq:state-control}) accounts for the energy due to the change of parameters $\mathbf{u}_k-\mathbf{u}_{k-1}$. For instance, when the TEE $\varphi_1$ is a circle (see Figure~\ref{fig:overview}), a decrement in the TEE parameter $c_{1,1}$--the radius of the circle--adds a negative contribution. It thus simulates the lowering of instantaneous energy consumption $\nu_{1,1}(c_{1,1}-c_{1,1}^-)<0$. 
 
 \subsection{Computations parameters energy contribution}
 \label{sec:computations-model}
 
-Let us recall from Definition~\ref{def:mission} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computations parameters which characterize the computations. We assess the energy cost of these computations using \powprof{}, an open-source modeling tool presented in our previous work~\cite{seewald2019coarse}. We assume the UAV carries an embedded board that runs the computations. The tool measures the instantaneous energy consumption of a subset of possible computations parameters within the computations sets and builds an energy model: a linear interpolation, one per each computation. 
+Let us recall from Definition~\ref{def:mission} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computations parameters which characterize the computations. We assess the energy cost of these computations using \powprof{}, the open-source modeling tool. The tool is adapted from our earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
 
-Specifically, the computations are implemented by software components, such as ROS nodes in a ROS based system. The user implements these nodes such that they change the computational load by node-specific ROS parameters--the computations parameters. For instance, if the computation is a CNN object detector, the computation parameter $c_{i,\rho+1}$ corresponds frames-per-second (fps) rate and it changes the detection frequency. We note that while the TEE can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation set.
+We assume the UAV carries an embedded board that runs the computations. The tool measures the instantaneous energy consumption of a subset of possible computations parameters within the computations sets and builds an energy model: a linear interpolation, one per each computation. 
 
-Let us further define $g:\mathbb{Z}_{\geq 0}^{\sigma}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using \powprof{}
+Specifically, the computations are implemented by software components, such as ROS nodes in a ROS based system. The user implements these in the following fashion. They change the computational load by node-specific ROS parameters--the computations parameters. In a generic software component system, the computational load is mapped to arguments. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is a CNN object detector, the computation parameter $c_{i,\rho+1}$ corresponds frames-per-second (fps) rate and it changes the detection frequency. We note that while the TEE can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation set.
+
+Let us further define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using \powprof{}
 \begin{equation}\label{eq:energy-comp}
   \begin{bmatrix}\nu_{i,\rho+1} \\ \vdots \\ \nu_{i,\rho+\sigma}\end{bmatrix}^T=\begin{bmatrix}g(c_{i,\rho+1}) \\ \vdots \\ g(c_{i,\rho+\sigma})\end{bmatrix}/\begin{bmatrix}c_{i,\rho+1} & \cdots & c_{i,\rho+\sigma}\end{bmatrix}.
 \end{equation}
