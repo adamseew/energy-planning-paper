@@ -602,6 +602,13 @@ Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agri
 
 Planning algorithms literature for mobile robots includes topics such as trajectory generation and path planning. Generally, the algorithms select an energy-optimized trajectory~\cite{mei2004energy}, e.g., by maximizing the operational time~\cite{wahab2015energy}. However, they apply to a small number of robots~\cite{kim2005energy}, and focus exclusively on planning the trajectory for these robots~\cite{kim2008minimum}, despite compelling evidence for the energy consumption also being significantly influenced by computations~\cite{mei2005case}. Given the availability of powerful GPU-equipped mobile hardware~\cite{rizvi2017general}, the use of computations is expected to increase in the near future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. More complex planning, which includes a broader concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. For UAVs specifically, rotorcrafts have gained interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. 
 
+\begin{figure}[t]
+  \centering
+  \input{\figpath/il_abstract.tikz}
+  \caption{Illustrative abstract}
+  \label{fig:il-abs}
+\end{figure}
+
 Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We guide the UAV using a vector field~\cite{de2017guidance} that converges smoothly to a planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. We denote the trajectory with a mathematical function that we refer to as the trajectory explicit equation (TEE). The path is composed of multiple TEEs. We express the computations with a modeling tool presented in our previous work~\cite{seewald2019coarse}. The algorithm alters the TEE and computations within some parameters using output model predictive control (MPC). These parameters are the maximum, minimum, and current levels of the TEE and computations. The user specifies the parameters in an initial plan with an energy budget. The energy budget is the battery capacity and some other battery parameters. In the remainder of the paper, we adopt the following notation. We refer to the current TEE and computations parameters simply as TEE and computations parameters. We refer to both as parameters. We refer to the constraints sets that delimit the maximum and minimum levels of the parameters as TEE set and computations sets, and to both as parameters sets. There can be multiple or none computations parameters per each task, and the same applies to the TEE. There is one TEE set but multiple computations sets, one per each computation parameter. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm.
 
 To achieve the energy-aware dynamic planning, we further introduce and formally proof a periodic energy model that accounts for the uncertainty (atmospheric interference). We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to the path and computations repetitive patterns~\cite{seewald2020mechanical}. Indeed UAV scenarios often iterate over a set of tasks and trajectories (e.g., monitoring or search and rescue). Given that the plan is periodic, we expect the energy to approximately evolve periodically. 
@@ -821,7 +828,6 @@ Let us further define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as t
 \end{equation}
 Moreover, let $g(\{\emptyset\})$ be zero.
 
-\leavevmode\thispagestyle{empty}\newpage
 \leavevmode\thispagestyle{empty}\newpage
 
 %%%%%%%%%%%%%%%%%%%
