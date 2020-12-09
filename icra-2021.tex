@@ -623,11 +623,11 @@ The remainder of the paper is organized as follows. The overview of dynamic plan
 \section{Planning Overview}
 \label{sec:prob}
 
-The algorithm takes as input a user-specified initial plan that consists of different stages and some initial guesses that are necessary for the position and energy estimation. At each stage, the UAV must follow the trajectory within the trajectory constraints set and do the computations within the computations constraints sets. There is one trajectory constraints set but multiple computations constraints sets, one per each computation parameter. We refer to these omitting sets in the remainder of the paper. The algorithm outputs the new position, the instantaneous energy consumption, and the control.
+The algorithm takes as input a user-specified initial plan that consists of different stages and some initial guesses that are necessary for the position and energy estimation. At each stage, the UAV must follow the trajectory within the trajectory constraints set and do the computations within the computations constraints sets. There is one trajectory constraints set but multiple computations constraints sets, one per each computation parameter. The algorithm outputs the new position, the instantaneous energy consumption, and the control.
 
-Let us assume the TEE at stage $i$ can be altered with $\rho$ TEE parameters and the computations with $\sigma$ computations parameters. We then express the TEE as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the TEE parameters. The TEE returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computations parameters. We discuss the concrete meaning of the value of TEE parameters in Subsection~\ref{sec:model}, and of the computations parameters in Subsection~\ref{sec:computations-model}. 
+Let us assume that the trajectory at stage $i$ can be altered with $\rho$ trajectory parameters and the computations with $\sigma$ computations parameters. We then express the trajectory as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the trajectory parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computations parameters. We discuss the concrete meaning of the value of trajectory parameters in Subsection~\ref{sec:model}, and the computations parameters in Subsection~\ref{sec:computations-model}. 
 
-Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. $c_{i,j}$ specifues the $j$-th parameter of the $i$-th parameters set $c_i$. $c_{i,j}^0$ is the optimal value of the parameter $c_{i,j}$, and $\underline{c}_{i,j},\overline{c}_{i,j}$ its lower and upper bounds. We store these bounds in the plan specification, which format we discuss in Subsection~\ref{sec:plan}. The set $\langle c_{i,1},c_{i,2},...,c_{i,n}\rangle$ is an ordered list of $n$ parameters.
+Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. $c_{i,j}$ specifies the $j$-th parameter of the $i$-th parameters set $c_i$. $c_{i,j}^0$ is the optimal value of the parameter $c_{i,j}$ w.r.t. a given cost function $l$, and $\underline{c}_{i,j},\overline{c}_{i,j}$ its lower and upper bounds. We store these bounds in the plan specification, the format is described in Appendix~\ref{app:plan-spec}. The set $\langle c_{i,1},c_{i,2},...,c_{i,n}\rangle$ is an ordered list of $n$ parameters.
 
 \begin{defn}[Stage, plan, and triggering point]\label{def:mission}
   A \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined as the ordered list
@@ -636,7 +636,7 @@ Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is
     &\,\exists\,\,\mathbf{p}_k,\,\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i,\,\\
       &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathbb{S}_{i,j}\,\},
   \end{split}\end{equation}
-  where $\mathbb{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the TEE set, and $\mathbb{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation set. $\mathbf{p}_k$ is a point of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$.
+  where $\mathbb{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the trajectory constraints set, and $\mathbb{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation set. $\mathbf{p}_k$ is a point of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$.
 
   The \emph{plan} is a finite state machine $\Gamma$ where the state-transition function $\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage. The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}.
 \end{defn}
@@ -664,23 +664,7 @@ Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is
 
 A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_k$. It eventually enters the stage $\Gamma_{i+1}$ with the triggerint point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the last triggering point.
 
-\subsection{Plan specification file format}
-\label{sec:plan}
-
-The algorithm reads the plan $\Gamma$ from a file--the plan specification--with a specific file format. We refer the reader to Appendix~\ref{app:plan-example} for an example.
-
-The first stage $\Gamma_1$ is expressed in the first line of the file
-\begin{algorithmic}[1]
-  \State\textbf{\texttt{$k_e$;$r$;$\varphi_1(\mathbf{p}_k,c_{1,1},\dots,c_{1,\rho})$}}\label{code:stage}
-\end{algorithmic}
-where $k_e$ is a convergence value, $r$ a rotation, and $\varphi_1$ the TEE. In the next subsection where we discuss the physical meaning of the convergence value and rotation. The rotation is expressed in binary format with zero being the counter-clockwise rotation, one the clockwise rotation.
-
-The next line specifies the triggering point $\mathbf{p}_{\Gamma_1}$
-\begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:stage}
-  \State\textbf{\texttt{$x$,$y$}}\label{code:trigger-pt}
-\end{algorithmic}
-where $x$ and $y$ are the two coordinates of the point. The UAV reaches the point within a given radius (a parameter of the algorithm) and enters the next stage $\Gamma_2$. The coordinates can be expressed in function of the TEE parameters $c_{1,1},\dots,c_{1,\rho}$. Generally, one can express the coordinates in function of the $i$-th TEE parameters $c_{i,1},\dots,c_{i,\rho}$, or any previous TEE parameters, propagating the information therein if necessary. See Figure~\ref{fig:state-machine2} where, for simplicity, we neglected the $\sigma=0$ computations parameters $c_i=c_{i,1},\dots,c_{i,\rho}$.
+Generally, one can express the triggering points in function of the $i$-th trajectory parameters $c_{i,1},\dots,c_{i,\rho}$, or any previous trajectory parameters, propagating the information therein if necessary. See Figure~\ref{fig:state-machine2} where, for simplicity, we neglected the $\sigma=0$ computations parameters $c_i=c_{i,1},\dots,c_{i,\rho}$.
 
 \begin{figure}[h]
   \center
@@ -696,27 +680,9 @@ where $x$ and $y$ are the two coordinates of the point. The UAV reaches the poin
   \end{tikzpicture}
   \caption{Detail of the stage $\Gamma_i$ in the finite state machine}
   \label{fig:state-machine2}
-  \end{figure}
+\end{figure}
 
-We refer the reader again to the example in Appendix~\ref{app:plan-example} for a detailed implementation. In the example, the first TEE parameter is propagated to all the following TEEs and triggering points. 
-
-The line
-\begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:trigger-pt}
-  \State\textbf{\texttt{[$\underline{c}_1$,$\overline{c}_1$]}}\label{code:tee-set}
-\end{algorithmic}
-specifies the lower $\underline{c}_{1}$ and upper $\overline{c}_{1}$ bounds of the TEE $\varphi_1$.
-
-The following $\sigma$ lines
-\begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:tee-set}
-  \State\textbf{\texttt{[$\underline{c}_{1,j}$,$\overline{c}_{1,j}$]}}\label{code:parameter-set}
-\end{algorithmic}
-specifies the lower $\underline{c}_{1,j}$ and upper $\overline{c}_{1,j}$ bounds of the $j$-th computation parameter set. They are in ascending order. 
-
-This means that for the first stage, the algorithm can alter the TEE satisfying $\varphi_1\in\mathbb{C}_1$, and it can alter the computations individually. In fact the $j$-th computation parameter has to be in $\mathbb{S}_{1,j}$.
-
-Follows the entries for stage $\Gamma_2$ (equivalent to lines~\ref{code:stage}--\ref{code:parameter-set}), $\Gamma_3$ and so on, until the last stage. We assume that the last triggering point is the final UAV position.
+We refer the reader to an example in Appendix~\ref{app:plan-example} for a detailed implementation. In the example, the first trajectory parameter is propagated to all the following trajectories and triggering points. 
 
 \subsection{State: position $\mathbf{p}$}
 \label{sec:model}
@@ -724,7 +690,7 @@ Follows the entries for stage $\Gamma_2$ (equivalent to lines~\ref{code:stage}--
 \begin{figure}[h]
   \centering
   \input{\figpath/path2.tikz}
-  \caption{Example of the alteration of a TEE parameter}
+  \caption{Example of the alteration of a trajectory parameter}
   \label{fig:tee1}
 \end{figure}
 
@@ -734,8 +700,8 @@ Let us assume that the set
 \begin{equation}\label{eq:area}
   \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i\},
 \end{equation}
-delimits the area where the $i$-th TEE $\varphi_i$ is free to evolve using the TEE parameters $c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:tee1}). $\varphi_i$ is a function of the two coordinates and is equal to zero when a point $\mathbf{p}_k$ is on the TEE. Physically, this means the UAV is flying exactly over the nominal trajectory. The TEE parameters allows to change the TEE. They are a way to alter the nominal trajectory in the initial plan.
-In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to alter the optimal TEE parameters $c_i^0$ (here we again neglect for simplicity the $\sigma=0$ computations parameters), such that $\varphi_i(\mathbf{p}_k,c_i^0)$ has the highest instantaneous energy consumption (while still respecting the energy budget). 
+delimits the area where the $i$-th trajectory $\varphi_i$ is free to evolve using the trajectory parameters $c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:tee1}). $\varphi_i$ is a function of the two coordinates and is equal to zero when a point $\mathbf{p}_k$ is on the trajectory. Physically, this means the UAV is flying exactly over the nominal trajectory. The trajectory parameters allows to change the trajectory. They are a way to alter the nominal trajectory in the initial plan.
+In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to alter the optimal trajectory parameters $c_i^0$ (here we again neglect for simplicity the $\sigma=0$ computations parameters), such that $\varphi_i(\mathbf{p}_k,c_i^0)$ has the highest instantaneous energy consumption (while still respecting the energy budget). 
 
 We derive the new position $\mathbf{p}_{k+1}$ using the function $\varPhi:=\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$, computing its vector field $\nabla\varPhi:=\begin{bmatrix}\partial\varPhi/\partial x & \partial\varPhi/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector
 \begin{equation}\label{eq:pd}
@@ -809,9 +775,9 @@ The control along with the input matrix
 \end{split}\end{equation}
 where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$, $B\in\mathbb{R}^{m\times n}$, and $\mathbf{u}_{-1}=\mathbf{0}$. Moreover, the top row of $B$ contains gain factors $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho} & \nu_{i,\rho + 1}& \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}$, quantifying the contribution of a given parameter to the instantaneous energy consumption. The other entries of $B$ are zeros. 
 
-The first $\rho$ gain factors quantifies the contribution of the $i$-th TEE parameters. A first guess of these parameters is derived empirically. They are later refined by the algorithm. The following $\sigma$ gain factors quantifies the contribution of the computations parameters. They are derived using the modeling tool. We use the gain factors to select the optimal control $\mathbf{u}^0$. 
+The first $\rho$ gain factors quantifies the contribution of the $i$-th trajectory parameters. A first guess of these parameters is derived empirically. They are later refined by the algorithm. The following $\sigma$ gain factors quantifies the contribution of the computations parameters. They are derived using the modeling tool. We use the gain factors to select the optimal control $\mathbf{u}^0$. 
 
-Equation~(\ref{eq:state-control}) accounts for the energy due to the change of parameters $\mathbf{u}_k-\mathbf{u}_{k-1}$. For instance, when the TEE $\varphi_1$ is a circle (see Figure~\ref{fig:overview}), a decrement in the TEE parameter $c_{1,1}$--the radius of the circle--adds a negative contribution. It thus simulates the lowering of instantaneous energy consumption $\nu_{1,1}(c_{1,1}-c_{1,1}^-)<0$. 
+Equation~(\ref{eq:state-control}) accounts for the energy due to the change of parameters $\mathbf{u}_k-\mathbf{u}_{k-1}$. For instance, when the trajectory $\varphi_1$ is a circle (see Figure~\ref{fig:tee1}), a decrement in the trajectory parameter $c_{1,1}$--the radius of the circle--adds a negative contribution. It thus simulates the lowering of instantaneous energy consumption $\nu_{1,1}(c_{1,1}-c_{1,1}^-)<0$. 
 
 \subsection{Computations parameters energy contribution}
 \label{sec:computations-model}
@@ -820,7 +786,7 @@ Let us recall from Definition~\ref{def:mission} that the $i$-th stage $\Gamma_i$
 
 We assume the UAV carries an embedded board that runs the computations. The tool measures the instantaneous energy consumption of a subset of possible computations parameters within the computations sets and builds an energy model: a linear interpolation, one per each computation. 
 
-Specifically, the computations are implemented by software components, such as ROS nodes in a ROS based system. The user implements these in the following fashion. They change the computational load by node-specific ROS parameters--the computations parameters. In a generic software component system, the computational load is mapped to arguments. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is a CNN object detector, the computation parameter $c_{i,\rho+1}$ corresponds frames-per-second (fps) rate and it changes the detection frequency. We note that while the TEE can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation set.
+Specifically, the computations are implemented by software components, such as ROS nodes in a ROS based system. The user implements these in the following fashion. They change the computational load by node-specific ROS parameters--the computations parameters. In a generic software component system, the computational load is mapped to arguments. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is a CNN object detector, the computation parameter $c_{i,\rho+1}$ corresponds frames-per-second (fps) rate and it changes the detection frequency. We note that while the trajectory can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation set.
 
 Let us further define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using \powprof{}
 \begin{equation}\label{eq:energy-comp}
@@ -829,6 +795,9 @@ Let us further define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as t
 Moreover, let $g(\{\emptyset\})$ be zero.
 
 \leavevmode\thispagestyle{empty}\newpage
+\leavevmode\thispagestyle{empty}\newpage
+
+
 
 %%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
@@ -1029,11 +998,47 @@ We note that the signal would still be periodic with another linear combination 
 
 \qed
 
+\section{Plan Specification Format}
+\label{app:plan-spec}
+
+The algorithm reads the plan $\Gamma$ from a file--the plan specification--with a specific file format. We refer the reader to Appendix~\ref{app:plan-example} for an example.
+
+The first stage $\Gamma_1$ is expressed in the first line of the file
+\begin{algorithmic}[1]
+  \State\textbf{\texttt{$k_e$;$r$;$\varphi_1(\mathbf{p}_k,c_{1,1},\dots,c_{1,\rho})$}}\label{code:stage}
+\end{algorithmic}
+where $k_e$ is a convergence value, $r$ a rotation, and $\varphi_1$ the trajectory. In the next subsection where we discuss the physical meaning of the convergence value and rotation. The rotation is expressed in binary format with zero being the counter-clockwise rotation, one the clockwise rotation.
+
+The next line specifies the triggering point $\mathbf{p}_{\Gamma_1}$
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:stage}
+  \State\textbf{\texttt{$x$,$y$}}\label{code:trigger-pt}
+\end{algorithmic}
+where $x$ and $y$ are the two coordinates of the point. The UAV reaches the point within a given radius (a parameter of the algorithm) and enters the next stage $\Gamma_2$. The coordinates can be expressed in function of the trajectory parameters $c_{1,1},\dots,c_{1,\rho}$.
+
+The line
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:trigger-pt}
+  \State\textbf{\texttt{[$\underline{c}_1$,$\overline{c}_1$]}}\label{code:tee-set}
+\end{algorithmic}
+specifies the lower $\underline{c}_{1}$ and upper $\overline{c}_{1}$ bounds of the trajectory $\varphi_1$.
+
+The following $\sigma$ lines
+\begin{algorithmic}[1]
+  \setcounterref{ALG@line}{code:tee-set}
+  \State\textbf{\texttt{[$\underline{c}_{1,j}$,$\overline{c}_{1,j}$]}}\label{code:parameter-set}
+\end{algorithmic}
+specifies the lower $\underline{c}_{1,j}$ and upper $\overline{c}_{1,j}$ bounds of the $j$-th computation parameter set. They are in ascending order. 
+
+This means that for the first stage, the algorithm can alter the trajectory satisfying $\varphi_1\in\mathbb{C}_1$, and it can alter the computations individually. In fact the $j$-th computation parameter has to be in $\mathbb{S}_{1,j}$.
+
+Follows the entries for stage $\Gamma_2$, $\Gamma_3$ and so on, until the last stage. We assume that the last triggering point is the final UAV position.
+
 \section{Plan Specification Example}
 \label{app:plan-example}
 We discuss how to specify an initial mission plan with an example of a survey mission. The reader can later execute the initial mission plan using the simulator in Appendix~\ref{app:simulator}. The plan is user-defined. It specifies the trajectory and tasks of a mission along the QoS and TEEs sets. 
 
-Recall that the mission is composed of a set of stages (Section~\ref{sec:prob}). The plan has a variable number of entries per each stage. We plan the mission in Figures~\ref{fig:overview},~\ref{fig:trajectory}. The first line
+Recall that the mission is composed of a set of stages (Section~\ref{sec:prob}). The plan has a variable number of entries per each stage. We plan the mission in Figures~\ref{fig:il-abs},~\ref{fig:trajectory}. The first line
 \begin{algorithmic}[1]
   \State\textbf{\texttt{0.0003;90;(x+45)\^{}2+(y-146)\^{}2-4900+c1}}\label{code:firstcircle}
 \end{algorithmic}
@@ -1066,7 +1071,7 @@ Once the UAV reaches the triggering point (line~\ref{code:trigger}) and there ar
 \end{algorithmic}
 line~\ref{code:tee2} corresponds to TEE $\varphi_1(\mathbf{p}_k,c_{0,1}):=x+\sqrt{4900+c_{0,1}}+45$, a linear equation that intersects the triggering point (line~\ref{code:trigger}). The gain is $k_e=5\cdot 10^{-2}$, and the rotation is opposite to line~\ref{code:firstcircle}. The algorithm computes $-E$ from the rotation matrix in Equation~\ref{eq:pd}. 
 
-The gain is different from the one used in $\varphi_0$ as different equations require different convergence rate. When we follow a circle it is useful to turn the rotation direction in advance. When we follow a straight line, it is preferable to turn the rotation direction closer to the line. We refer to the simulator in Appendix~\ref{app:simulator} for more details on how to tune the gain $k_e$. The reader can simulate different rates to see how they affect the flight. The rotation is likewise different. In fact, the rotation matrix $E$ points upwards in the space. It guides the UAV in the counter-clockwise direction (see Figure~\ref{fig:overview}; the UAV is traveling counter-clockwise). The rotation matrix $-E$ points downwards and guides the UAV in the clockwise direction.
+The gain is different from the one used in $\varphi_0$ as different equations require different convergence rate. When we follow a circle it is useful to turn the rotation direction in advance. When we follow a straight line, it is preferable to turn the rotation direction closer to the line. We refer to the simulator in Appendix~\ref{app:simulator} for more details on how to tune the gain $k_e$. The reader can simulate different rates to see how they affect the flight. The rotation is likewise different. In fact, the rotation matrix $E$ points upwards in the space. It guides the UAV in the counter-clockwise direction (see Figure~\ref{fig:tee1}; the UAV is traveling counter-clockwise). The rotation matrix $-E$ points downwards and guides the UAV in the clockwise direction.
 
 The triggering point of the stage $\mathcal{M}_1$ at line~\ref{code:trigger2} also depends on the adjustment {\tt\textbf{c1}}. Lines~\ref{code:teeset2}--\ref{code:qosset12} specifies the constraints sets. They are expressed the same way as lines~\ref{code:teeset}--\ref{code:qos2set}. They have to be specified explicitly for each stage, although they don't change. The current implementation of the algorithm has no other means to distinguish different constraints sets. 
 
@@ -1097,7 +1102,7 @@ The lines
 \end{algorithmic}
 defines the stages $\mathcal{M}_3$ and $\mathcal{M}_4$. Line~\ref{code:tee4} corresponds to TEE $\varphi_3(\mathbf{p}_k,c_{0,1}):=x+\sqrt{4900+c_{0,1}}-105$. Line~\ref{code:tee5} corresponds to TEE $\varphi_4(\mathbf{p}_k,c_{0,1}):=(x-\sqrt{4900+c_{0,1}}+105)^2+(y-147)^2-4900+c_{0,1}$.
 
-Note that the survey mission example changes the radius of the circular TEE $\varphi_0$ through the parameter $c_{0,1}$. It also changes the radius of $\varphi_4$ in the same way. The other TEEs ($\varphi_1,\varphi_2,\varphi_3$) displacement alters the distance between the lines in the survey. A familiar pattern from Figure~\ref{fig:overview}. For simplicity, we suppose line~\ref{code:triggerlast} describes the last point of the mission. We further suppose the user does not desire to process any task in the last stage $\mathcal{M}_4$. To inhibit the computations
+Note that the survey mission example changes the radius of the circular TEE $\varphi_0$ through the parameter $c_{0,1}$. It also changes the radius of $\varphi_4$ in the same way. The other TEEs ($\varphi_1,\varphi_2,\varphi_3$) displacement alters the distance between the lines in the survey. A familiar pattern from Figure~\ref{fig:tee1}. For simplicity, we suppose line~\ref{code:triggerlast} describes the last point of the mission. We further suppose the user does not desire to process any task in the last stage $\mathcal{M}_4$. To inhibit the computations
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:teeset5}
   \State\textbf{\texttt{[0,0]}}
