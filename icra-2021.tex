@@ -798,7 +798,6 @@ Moreover, let $g(\{\emptyset\})$ be zero.
 \leavevmode\thispagestyle{empty}\newpage
 
 
-
 %%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
 \label{sec:algo}
@@ -942,10 +941,15 @@ Some preliminary results are discussed. Further analysis and re-implementation o
 
 *
 
+\leavevmode\thispagestyle{empty}\newpage
 \leavevmode\thispagestyle{empty}\newpage % just for now
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{IEEEtran}
 \bibliography{\jobname} 
+
+\leavevmode\thispagestyle{empty}\newpage
+\leavevmode\thispagestyle{empty}\newpage
 
 
 \appendices
@@ -998,7 +1002,10 @@ We note that the signal would still be periodic with another linear combination 
 
 \qed
 
-\section{Plan Specification Format}
+
+\section{Plan Specification}
+
+\subsection{Format}
 \label{app:plan-spec}
 
 The algorithm reads the plan $\Gamma$ from a file--the plan specification--with a specific file format. We refer the reader to Appendix~\ref{app:plan-example} for an example.
@@ -1030,12 +1037,13 @@ The following $\sigma$ lines
 \end{algorithmic}
 specifies the lower $\underline{c}_{1,j}$ and upper $\overline{c}_{1,j}$ bounds of the $j$-th computation parameter set. They are in ascending order. 
 
-This means that for the first stage, the algorithm can alter the trajectory satisfying $\varphi_1\in\mathbb{C}_1$, and it can alter the computations individually. In fact the $j$-th computation parameter has to be in $\mathbb{S}_{1,j}$.
+This means that for the first stage, the algorithm can alter the trajectory satisfying $\varphi_1\in\mathbb{C}_1$. It can alter the computations individually. In fact the $j$-th computation parameter has to be in $\mathbb{S}_{1,j}$.
 
-Follows the entries for stage $\Gamma_2$, $\Gamma_3$ and so on, until the last stage. We assume that the last triggering point is the final UAV position.
+Follows the entries for stage $\Gamma_2$ (equivalent to lines~\ref{code:stage}--\ref{code:parameter-set}), $\Gamma_3$ and so on, until the last stage. We assume that the last triggering point is the final UAV position.
 
-\section{Plan Specification Example}
+\subsection{Example}
 \label{app:plan-example}
+
 We discuss how to specify an initial mission plan with an example of a survey mission. The reader can later execute the initial mission plan using the simulator in Appendix~\ref{app:simulator}. The plan is user-defined. It specifies the trajectory and tasks of a mission along the QoS and TEEs sets. 
 
 Recall that the mission is composed of a set of stages (Section~\ref{sec:prob}). The plan has a variable number of entries per each stage. We plan the mission in Figures~\ref{fig:il-abs},~\ref{fig:trajectory}. The first line
@@ -1112,10 +1120,6 @@ Note that the survey mission example changes the radius of the circular TEE $\va
 If there are any following stages in the survey, they are constructed the same way. The stages $\mathcal{M}_i$ for $i:=\{0,4,8,\dots\}$ contain TEE circle with variable radius. For $i:=\{1,3,5,\dots\}$ TEE line with variable displacement. For $i:=\{2,6,10,\dots\}$ TEE circle with fixed radius and variable displacement.
 
 We need a further abstraction before we can simulate a mission in Appendix~\ref{app:simulator}. The algorithm needs to know how to model the tasks--the software components.
-
-\section{Components Specification Format}
-
-*
 
 \section{Simulator}
 \label{app:simulator}
