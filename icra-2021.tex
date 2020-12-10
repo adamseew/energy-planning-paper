@@ -560,6 +560,9 @@ Energy-Aware Dynamic Planning Algorithm for Autonomous UAVs
 
 \begin{document}
 
+\leavevmode\thispagestyle{empty}\newpage
+\leavevmode\thispagestyle{empty}\newpage
+
 %% make the title area
 \maketitle
 
@@ -610,7 +613,14 @@ Planning algorithms literature for mobile robots includes topics such as traject
   \label{fig:il-abs}
 \end{figure}
 
-Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We present here a brief summary of the algorithm. To model the path we use multiple trajectories and denote each of them with a mathematical function. In Figure~\ref{fig:il-abs}, the path contains multiple circles and lines. To model the computations we use a profiling tool presented in previous work~\cite{seewald2019coarse}. The user specifies the maximum, minimum, and current levels of some parameters relative to the path and computations in an initial plan with an energy budget. In Figure~\ref{fig:il-abs}, there are two parameters. The radius of the trajectory circle is relative to the trajectory. The quality of image detection is relative to the computations. The algorithm replans the initial plan within the constraints and the energy budget using output model predictive control (MPC). The energy budget is the battery capacity and some other battery parameters. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm. To guide the UAV we use a vector field~\cite{de2017guidance} that converges smoothly to the planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. 
+Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We present here a brief summary of the algorithm. To model the path we use multiple trajectories and denote each of them with a mathematical function. In Figure~\ref{fig:il-abs}, the path contains multiple circles and lines. To model the computations we use a profiling tool presented in previous work~\cite{seewald2019coarse}. The user specifies the maximum, minimum, and current levels of some parameters relative to the path and computations in an initial plan with an energy budget. In Figure~\ref{fig:il-abs}, there are two parameters. The radius of the trajectory circle is relative to the trajectory. 
+\begin{figure}[h!]
+  \centering\vspace*{-1ex}
+  \input{\figpath/il_abstract2.tikz}
+  \caption{Illustrative abstract.}
+  \label{fig:il-abs2}
+\end{figure}
+The quality of image detection is relative to the computations. The algorithm replans the initial plan within the constraints and the energy budget using output model predictive control (MPC). The energy budget is the battery capacity and some other battery parameters. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm. To guide the UAV we use a vector field~\cite{de2017guidance} that converges smoothly to the planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. 
 
 To achieve the energy-aware dynamic planning, we further introduce and formally proof a periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\cite{seewald2020mechanical}. Indeed, UAV scenarios often iterate over a set of tasks and trajectories (e.g., monitoring or search and rescue). Given that the plan is periodic, we expect the energy consumption to approximately evolve periodically. The observation applies broadly; we show different UAV scenarios that can produce such periodic energy consumption evolution. Moreover, we briefly investigate periodic energy consumption evolution in some ground-based mobile robots.
 
@@ -807,7 +817,6 @@ The gain factors that quantifies the contribution of the computations parameters
 \end{equation}
 Moreover, let $g(\{\emptyset\})$ be zero.
 
-\leavevmode\thispagestyle{empty}\newpage
 \leavevmode\thispagestyle{empty}\newpage
 
 
