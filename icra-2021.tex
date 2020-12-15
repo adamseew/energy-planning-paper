@@ -737,7 +737,9 @@ From Assumption~\ref{assm:periodic}, follows the next proposition.
 The lemma shows an easy way to verify that a plan is periodic.
 
 \begin{pb}[UAV planning problem]\label{pb}
-  Consider an initial plan $\Gamma$ defined in Definition~\ref{def:mission} satisfying Assumption~\ref{assm:periodic} and Proposition~\ref{prop:rank}. We are interested in the planning of the path parameters $c_{i,1},\dots,c_{i,\rho}$ and computations parameters $c_{i,\rho+1},\dots,c_{i,\rho+\sigma}$ for the UAV planning problem.
+  Consider an initial plan $\Gamma$ defined in Definition~\ref{def:mission} satisfying Assumption~\ref{assm:periodic} and Proposition~\ref{prop:rank}. 
+  
+  We are interested in the planning of the path parameters $c_{i,1},\dots,c_{i,\rho}$ and computations parameters $c_{i,\rho+1},\dots,c_{i,\rho+\sigma}$ and to derive the path resulting from such plan for the UAV planning problem.
 \end{pb}
 
 
@@ -856,21 +858,27 @@ Moreover, let $g(\{\emptyset\})$ be zero.
 \section{Algorithm}
 \label{sec:algo}
 
-The main purpose of the algorithm is to output a valid control sequence $\mathbf{u}:=\{\mathbf{u}_0,\mathbf{u}_1,\dots\}$ at each time step given an initial plan $\Gamma$, to solve Problem~\ref{pb}.
+The main purpose of the algorithm is to output a valid control sequence $\mathbf{u}:=\{\mathbf{u}_0,\mathbf{u}_1,\dots\}$ at each time step given an initial plan $\Gamma$ and to direct the UAV on a valid path: to solve Problem~\ref{pb}.
 
-----
-
-\begin{defn}[Valid control sequence]\label{def:valid}
-  A control sequence $\mathbf{u}$ is valid if for every stage $\Gamma_{i-1},\,i\in[l]^+$ if there exist a control $\mathbf{u}_k$ that produce the next stage $\Gamma_i$
+\begin{defn}[Valid control sequence and path]\label{def:valid}
+  A \emph{control sequence} $\mathbf{u}$ is \emph{valid} if for every stage $\Gamma_{i-1},\,i\in[l]^+$ there exist a control $\mathbf{u}_k$ that produce the next stage $\Gamma_i$. 
+  
+  The path $\mathcal{P}$ resulting from such control sequence is a \emph{valid path}
   \begin{equation}\begin{split}\label{eq:mission-valid}
-    \mathbf{u}^a_{k}=\{&\langle\mathbf{c}_{k},\mathbf{s}_{k}\rangle\mid\,\exists n\in\mathbb{Z}_{>0},\\&\langle\varphi_{i-1}(\mathbf{p}_{k-n},\mathbf{c}_{k-n}),\Psi(\mathbf{s}_{k-n})\rangle\in\mathcal{M}_{i-1}\\
-    &\Longrightarrow\langle\varphi_i(\mathbf{p}_{k},\mathbf{c}_{k}),\Psi(\mathbf{s}_{k})\rangle\in\mathcal{M}_{i}\}.
+   \mathcal{P}:=\{\mathbf{p}_k\mid&\,\exists \mathbf{u}_k,n\in\mathbb{Z}_{>0},\\
+    &\langle\varphi_{i-1}\left(\mathbf{p}_{k-n}\right),\mathbf{u}_{k-n}\rangle\in\Gamma_{i-1}\\
+    &\Longrightarrow\langle\varphi_i(\mathbf{p}_{k}),\mathbf{u}_k\rangle\in\Gamma_i\},
   \end{split}\end{equation}
+  where for simplicity $\langle\varphi_i(\mathbf{p}_{k}),\mathbf{u}_k\rangle:=\langle\varphi_i(\mathbf{p}_{k},c_{k,1},\dots,$ $c_{k,\rho}),c_{k,\rho+1},\dots,c_{k,\rho+\sigma}\rangle$.
 \end{defn}
 
-Let us proof that if the mission is valid, the instantaneous energy consumption can be modeled as linear combination of the state from the Equation~(\ref{eq:state-perf}).
+Let us proof that the plan is periodic and one period is valid, then the plan is valid.
 
-\begin{thm}[Periodic energy model]\label{thm:state-vs-energy}
+\begin{thm}[Valid periodic plan]\label{thm:state-vs-energy}  
+?
+
+  ----
+
   Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}. Assume Assumption~\ref{assm:periodic} holds, the model of Equation~(\ref{eq:state-perf}) behaves ideally ($\mathbf{w}=\mathbf{0},v=0$), the initial energy coefficients state $\mathbf{q}_0$ is $y_0^a/m$ for the first coefficient where $y_0^a\in\mathbb{R}_{>0}$ is an initial measurement\footnote{$y_0^a$ can be the initial measurement or the measurement from a previous instance of the algorithm}, $(1/2)y_0^a/m$ for all the others, and the mission is valid.
   Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$.
 \end{thm}
