@@ -84,6 +84,7 @@
 \newtheorem{conj}{Conjecture}[section]
 \newtheorem{defn}{Definition}[section]
 \newtheorem{exmp}{Example}[section]
+\newtheorem{pb}{Problem}[section]
 \newtheorem{rem}{Remark}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -542,7 +543,6 @@
     year={2016},
     organization={IEEE}
   }
-
 \end{filecontents}
 
 \title{\LARGE \bf
@@ -557,6 +557,8 @@ Energy-Aware Dynamic Planning Algorithm for Autonomous UAVs
   \thanks{$^{1}$Adam Seewald, Ulrik Pagh Schultz are with the SDU UAS Center, M{\ae}rsk Mc-Kinney M{\o}ller Institute, University of Southern Denmark, Odense, Denmark. Email: {\tt\small ads@mmmi.sdu.dk}.}
   \thanks{$^{2}$Hector Garcia de Marina is with the Faculty of Physics, Department of Computer Architecture and Automatic Control, Universidad Computense de Madrid, Spain.}
 }
+
+\definecolor{c00FFFF}{RGB}{0,255,255}
 
 \begin{document}
 
@@ -600,35 +602,36 @@ Energy-Aware Dynamic Planning Algorithm for Autonomous UAVs
 \section{Introduction}
 \label{sec:intro}
 
-Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agriculture, search and rescue, and surveillance, require high autonomy but have limited energy budgets. A typical example of these scenarios is a UAV flying a path and performing some on-board computational tasks. For instance, the UAV might detect ground patterns and notify other ground-based actors with little human interaction. We refer to such computational tasks that can be dynamically replanned and adapted as \emph{computations}. We are interested in the energy optimization of the path and computations under uncertainty (atmospheric interferences) and refer to it as energy-aware dynamic planning. Such planning would find optimal tradeoffs between the path, computations, and energy requirements. Current generic planning solutions for outdoor UAVs do not plan the path and computations dynamically, nor are they energy-aware. They are often semi-autonomous: the path and computations are static and usually defined using planning software~\cite{daponte2019review}. Such a state of practice has prompted us to propose an \emph{energy-aware dynamic planning algorithm} for UAVs. The algorithm combines and generalizes some of the past body of knowledge on mobile robot planning problems and addresses the increasing \emph{computational demands} and their relation to energy consumption, path, and autonomy for the UAV planning problem.
-
-Planning algorithms literature for mobile robots includes topics such as trajectory generation and path planning. Generally, the algorithms select an energy-optimized trajectory~\cite{mei2004energy}, e.g., by maximizing the operational time~\cite{wahab2015energy}. However, they apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence for the energy consumption also being significantly influenced by computations~\cite{mei2005case}. Given the availability of powerful GPU-equipped mobile hardware~\cite{rizvi2017general}, the use of computations is expected to increase in the near future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. More complex planning, which includes a broader concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. For UAVs specifically, rotorcrafts have also gained interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. 
-
-%\tikz{\fill[blue] (0,0) circle (.7ex);\fill[green] (0,0) -- (90:.7ex) arc (90:270:.7ex) -- cycle;}
+Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agriculture, search and rescue, and surveillance, require high autonomy but have limited energy budgets. A typical example of these scenarios is a UAV flying a path and performing some on-board computational tasks. For instance, the UAV might detect ground patterns and notify other ground-based actors with little human interaction. We refer to such computational tasks that can be dynamically replanned and adapted as \emph{computations}. We are interested in the energy optimization of the path and computations under uncertainty (atmospheric interferences) and refer to it as energy-aware dynamic planning. Such planning would find optimal tradeoffs between the path, computations, and energy requirements. Current generic planning solutions for outdoor UAVs do not plan the path and computations dynamically, nor are they energy-aware. They are often semi-autonomous: the path and computations are static and usually defined using planning software~\cite{daponte2019review} (for instance~\cite{papa} and~\cite{px4}). Such a state of practice has prompted us to propose an \emph{energy-aware dynamic planning algorithm} for UAVs. The algorithm combines and generalizes some of the past body of knowledge on mobile robot planning problems and addresses the increasing \emph{computational demands} and their relation to energy consumption, path, and autonomy for the UAV planning problem.
 
 \begin{figure}[t]
   \centering
-  \definecolor{c00FFFF}{RGB}{0,255,255}
   \input{\figpath/il_abs.tikz}
   \input{\figpath/il_abs_energy.tikz}
-  \caption{An initial plan of an agricultural scenario replanned in terms of both the path (\protect\tikz{\fill[white](0,0)circle(.7ex);\fill[blue](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}\, travels a more accurate survey than \protect\tikz{\fill[white](0,0)circle(.7ex);\fill[c00FFFF](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}) and computations (\protect\tikz{\fill[green](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}\, elaborates more images per second than \protect\tikz{\fill[red](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}). In bottom right, the collected energy data of the UAV flying the scenario.}
+  \caption{An initial plan of an agricultural scenario replanned dynamically in terms of both the path (\protect\tikz{\fill[white](0,0)circle(.7ex);\fill[blue](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}\, travels a more accurate survey than \protect\tikz{\fill[white](0,0)circle(.7ex);\fill[c00FFFF](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}) and computations (\protect\tikz{\fill[green](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}\, elaborates more images per second than \protect\tikz{\fill[red](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}). In bottom right, the collected energy data of the UAV flying the scenario, along the power spectrum (small rectangle) where the first frequency has been filtered.}
   \label{fig:il-abs}
 \end{figure}
 
-Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We present here a brief summary of the algorithm. To model the path we use multiple trajectories and denote each of them with a mathematical function. In Figure~\ref{fig:il-abs}, the path contains multiple circles and lines. To model the computations we use a profiling tool presented in previous work~\cite{seewald2019coarse}. The user specifies the maximum, minimum, and current levels of some parameters relative to the path and computations in an initial plan with an energy budget. In Figure~\ref{fig:il-abs}, there are two parameters. The radius of the trajectory circle is relative to the trajectory. The quality of image detection is relative to the computations. The algorithm replans the initial plan within the constraints and the energy budget using output model predictive control (MPC). The energy budget is the battery capacity and some other battery parameters. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm. To guide the UAV we use a vector field~\cite{de2017guidance} that converges smoothly to the planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. 
+Planning algorithms literature for mobile robots includes topics such as trajectory generation and path planning. Generally, the algorithms select an energy-optimized trajectory~\cite{mei2004energy}, e.g., by maximizing the operational time~\cite{wahab2015energy}. However, they apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence for the energy consumption also being significantly influenced by computations~\cite{mei2005case}. Given the availability of powerful GPU-equipped mobile hardware~\cite{rizvi2017general}, the use of computations is expected to increase in the near future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. More complex planning, which includes a broader concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. For UAVs specifically, rotorcrafts have also gained interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. 
+
+Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We present here a brief summary of the algorithm. To model the path we use multiple trajectories and denote each of them with a mathematical function. In Figure~\ref{fig:il-abs}, the path contains multiple circles and lines. To model the computations we use a profiling tool presented in previous work~\cite{seewald2019coarse}. To guide the UAV we use a vector field~\cite{de2017guidance} that converges smoothly to the planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. 
 
 To achieve the energy-aware dynamic planning, we further introduce and formally proof a periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\cite{seewald2020mechanical}. Indeed, UAV scenarios often iterate over a set of tasks and trajectories (e.g., monitoring or search and rescue). Given that the plan is periodic, we expect the energy consumption to approximately evolve periodically. The observation applies broadly; we show different UAV scenarios that can produce such periodic energy consumption evolution. Moreover, we briefly investigate periodic energy consumption evolution in some ground-based mobile robots.
 
-In the spirit of reducing costs and resources, we showcase the algorithm using the problem of dynamic planning for a precision agriculture fixed-wing UAV. Precision agriculture is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The plan is structured as follows. Trajectory-wise, the UAV flies in circles and lines covering a polygon. Computationally-wise, it detects obstacles using a convolutional neural network (CNN) and notifies grounded mobile robots employed for harvesting. The algorithm alters the plan; it controls the processing rate and the radius of the circles (affecting the distance between the lines). Figure~\ref{fig:il-abs} shows a slice of such a plan. Computations significantly impact the battery, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations (see Section~\ref{sec:experimental}).
+In the spirit of reducing costs and resources, we showcase the algorithm using the problem of dynamic planning for a precision agriculture fixed-wing UAV. Precision agriculture is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The plan is structured as follows. Trajectory-wise, the UAV flies in circles and lines covering a polygon. Computationally-wise, it detects obstacles using a convolutional neural network (CNN) and notifies grounded mobile robots employed for harvesting. The algorithm alters the plan; it controls the processing rate and the radius of the circles (affecting the distance between the lines). Figure~\ref{fig:il-abs} shows a slice of such and the small plot shows the periodicity from the collected energy data. The small rectangle shows the spectrum power with the first frequency filtered, showing thus that three frequencies are mostly necessary to model the energy. Computations significantly impact the battery, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations (see Section~\ref{sec:experimental}).
 
-The remainder of the paper is organized as follows. The overview of dynamic planning is provided in Section~\ref{sec:prob}, and a suitable model for the energy in Section~\ref{sec:energy-model}. The algorithm is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcases the performances. We propose some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information and examples in Appendixes~\ref{app:proof-eqv}--\ref{app:simulator}.
+The remainder of the paper is organized as follows. The overview of dynamic planning is provided in Section~\ref{sec:prob}, and the problem is set with some preliminaries in Section~\ref{sec:prelim}. A suitable model for the energy in Section~\ref{sec:energy-model}. The algorithm is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcases the performances. We propose some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information and examples in Appendixes~\ref{app:proof-eqv}--\ref{app:simulator}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Planning Overview}
 \label{sec:prob}
  
-The algorithm plans the path and computations from a user-specified initial plan that consists of different stages and some initial guesses that are necessary for the position and energy estimation. At each stage, the UAV must follow a trajectory within the trajectory constraints set and do the computations within the computations constraints sets. There is one trajectory constraints set but multiple computations constraints sets, one per each computation parameter. The algorithm outputs the control (the parameters), the new position, and the energy consumption. The UAV utilizes the control to alter its energy consumption to meet the energy budget. The control is data-driven. Energy sensor data refine a perfect energy model used to predict future energy consumption and derive the optimal control.
+The algorithm plans the path and computations from a user-specified initial plan that consists of different stages and some initial guesses that are necessary for the position and energy estimation. At each stage, the UAV must follow a trajectory within the trajectory constraints set and do the computations within the computations constraints sets. There is one trajectory constraints set but multiple computations constraints sets, one per each computation parameter. The user specifies the maximum, minimum, and current levels of some parameters relative to the path and computations in such plan with an energy budget. In Figure~\ref{fig:il-abs}, there are two parameters. The radius of the trajectory circle is relative to the trajectory (\protect\tikz{\fill[white](0,0)circle(.7ex);\fill[blue](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;} and \protect\tikz{\fill[white](0,0)circle(.7ex);\fill[c00FFFF](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}). The quality of image detection is relative to the computations (\protect\tikz{\fill[green](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;} and \protect\tikz{\fill[red](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}). The algorithm outputs the parameters (the control) using output model predictive control (MPC)~\cite{rawlings2017model}. The UAV utilizes the control to alter its energy consumption to meet the energy budget. The control is data-driven. Energy sensor data estimates coefficients of the energy model used to predict future energy consumption and derive the control, replanning the initial plan in presence of uncertainty. The energy budget is the battery capacity and some other battery parameters. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm. 
+
+
+\subsection{Preliminaries and Problem Definition}
+\label{sec:prelim}
 
 Let us assume that the trajectory at stage $i$ can be altered with $\rho$ trajectory parameters and the computations with $\sigma$ computations parameters. We then express the trajectory as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the trajectory parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computations parameters. We discuss the concrete meaning of the value of trajectory parameters in Subsection~\ref{sec:model}, and computations parameters in Subsection~\ref{sec:computations-model}.
 
@@ -696,6 +699,39 @@ We refer the reader to an example in Appendix~\ref{app:plan-example} for a detai
 
 We store the plan in the plan specification, the format is described in Appendix~\ref{app:plan-spec}. 
 
+In order to formulate the problem, we considerate some assumptions.
+
+\begin{assm}[Plan periodicity]\label{assm:periodic}
+  Given an initial plan $\Gamma$ consisting of $l$ stages $\Gamma_i$ s.t. $i\in[l]^+$ and a generic starting point $\mathbf{p}_k$, there exists an integer positive constant $k<l$ such that
+  \begin{equation*}
+    \varphi_i-\varphi_{k+i}=c_k,
+  \end{equation*}
+  where $c_1,\dots,c_k$ are arbitrary constant differences.
+\end{assm}
+
+Physically, this means that the plan is periodic, with periodicity $k$. From Assumption~\ref{assm:periodic}, follows the next lemma.
+
+\begin{lem}[Rank of the trajectory functions]
+  Suppose Assumption~\ref{assm:periodic} holds. Then
+  \begin{equation*}
+    \mathrm{rank}\begin{bmatrix}
+        \varphi_1 & \varphi_{k+1} & \cdots & \varphi_{(l-k)+1} \\ 
+        \varphi_2 & \varphi_{k+2} & \cdots & \varphi_{(l-k)+2} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \varphi_k & \varphi_{2k} & \cdots & \varphi_l   
+      \end{bmatrix}=2.
+  \end{equation*}
+\end{lem}
+\begin{proof} 
+  The proof follows directly from Assumption~\ref{assm:periodic}. The column rank of the matrix in the lemma is the dimension of its column space. This denotates the size of the set of all the possible linear combination of the column vectors. We note that there is a limited number (two) of linear combinations of the column vectors being these linearly dependent (the values of the constant differences $c_1,\dots,c_k$ are the same for each $i$). 
+\end{proof}
+
+The lemma shows an easy way to verify that a plan is periodic.
+
+\begin{pb}[UAV planning problem]
+  Consider an initial plan $\Gamma$ satisfying Assumption~\ref{assm:periodic}. We are interested in the planning of the path parameters $c_{i,1},\dots,c_{i,\rho}$ and computations parameters $c_{i,\rho+1},\dots,c_{i,\rho+\sigma}$ for the UAV planning problem.
+\end{pb}
+
 
 \section{Periodic Energy Model}
 \label{sec:energy-model}
@@ -711,17 +747,6 @@ Let us consider a periodic signal of period $T\in\mathbb{R}_{> 0}$, and a Fourie
   h(t)=a_0/T+(2/T)\sum_{j=1}^{r}{\left(a_j\cos{\omega jt}+b_j\sin{\omega jt}\right)},
 \end{equation}
 where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
-
-We use extensively the following assumption for the purpose of energy signal modeling.
-\begin{assm}[Energy signal periodicity]\label{assm:periodic} 
-Given two time instants $k_1,k_2$ s.t. $k_1>k_2$ and a constant value $n\in\mathbb{Z}_{> 0}$
-\begin{equation*}
-  \abs{y_{k}-y_{k+n}}\in\mathbb{E}\subset\mathbb{R}_{\geq 0} \,\,\,\forall k\in[k_1,k_2],
-\end{equation*}
-for a small enough set $\mathbb{E}$.
-\end{assm}
-
-Physically this means that the energy signal is assumed to be approximately periodic.
 
 Let us consider a linear time-invariant (LTI) state-space model
 \begin{equation}\label{eq:state-perf}\begin{split}
@@ -961,7 +986,6 @@ Some preliminary results are discussed. Further analysis and re-implementation o
 \bibliographystyle{IEEEtran}
 \bibliography{\jobname} 
 
-\leavevmode\thispagestyle{empty}\newpage
 \leavevmode\thispagestyle{empty}\newpage
 
 \appendices
