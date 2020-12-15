@@ -637,7 +637,7 @@ Let us assume that the trajectory at stage $i$ can be altered with $\rho$ trajec
 
 Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. $c_{i,j}$ specifies the $j$-th parameter of the $i$-th parameters set $c_i$. $c_{i,j}^0$ is the optimal value of the parameter $c_{i,j}$ w.r.t. a given cost function $l$, and $\underline{c}_{i,j},\overline{c}_{i,j}$ its lower and upper bounds. The set $\langle c_{i,1},c_{i,2},...,c_{i,n}\rangle$ is an ordered list of $n$ parameters.
 
-\begin{defn}[Stage, plan, and triggering point]\label{def:mission}
+\begin{defn}[Stage, plan, triggering, and final point]\label{def:mission}
   A \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined as the ordered list
   \begin{equation}\label{eq:mission}\begin{split}
     \Gamma_i:=\{\langle&\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho}),c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\rangle\\\mid
@@ -651,7 +651,7 @@ Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is
     \Gamma_{i+1} & \text{if }\mathbf{p}_k=\mathbf{p}_{\Gamma_i}\\
     \Gamma_i & \text{otherwise}
   \end{cases}.\end{equation*}
-  The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}.
+  The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to last stage $\Gamma_l$ is called \emph{final point}.
 \end{defn}
 
 \begin{figure}[h]
@@ -675,7 +675,7 @@ Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is
   \label{fig:state-machine}
 \end{figure}
 
-A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_1}$ and $\mathbf{p}_{k_2}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggerint point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the last triggering point.
+A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_1}$ and $\mathbf{p}_{k_2}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the last triggering point.
 
 Generally, one can express the triggering points in function of the $i$-th trajectory parameters $c_{i,1},\dots,c_{i,\rho}$, or any previous trajectory parameters, propagating the information therein if necessary. See Figure~\ref{fig:state-machine2} where, for simplicity, we neglected the $\sigma=0$ computations parameters, so $c_i=c_{i,1},\dots,c_{i,\rho}$.
 
@@ -702,34 +702,42 @@ We store the plan in the plan specification, the format is described in Appendix
 In order to formulate the problem, we considerate some assumptions.
 
 \begin{assm}[Plan periodicity]\label{assm:periodic}
-  Given an initial plan $\Gamma$ consisting of $l$ stages $\Gamma_i$ s.t. $i\in[l]^+$ and a generic starting point $\mathbf{p}_k$, there exists an integer positive constant $k<l$ such that
+  Given an initial plan $\Gamma$ consisting of $l$ stages, a generic starting point $\mathbf{p}$ and current levels of parameters, there exists a constant $n\in\mathbb{Z}_{>0}, n<l$ such that
   \begin{equation*}
-    \varphi_i-\varphi_{k+i}=c_k,
+    \varphi_i-\varphi_{n+i}=d_i,\,\,\,\forall i\in[l]^+
   \end{equation*}
-  where $c_1,\dots,c_k$ are arbitrary constant differences.
+  where $d_1,\dots,d_l$ are arbitrary constant differences.
 \end{assm}
 
-Physically, this means that the plan is periodic, with periodicity $k$. From Assumption~\ref{assm:periodic}, follows the next lemma.
+Physically, this means that the plan is periodic. 
 
-\begin{lem}[Rank of the trajectory functions]
+\begin{defn}[Period]\label{def:period}
+  The period $T\in\mathbb{R}_{> 0}$ is defined as the time between $\varphi_i$ and $\varphi_{n+i}$ for an arbitrary $i\in[l]^+$.
+\end{defn}
+
+The algorithm measures the time between the stages $\Gamma_i$ and $\Gamma_{n+i}$ and assumes the initial period is one.
+
+From Assumption~\ref{assm:periodic}, follows the next proposition.
+
+\begin{prop}[Rank of the trajectory functions]\label{prop:rank}
   Suppose Assumption~\ref{assm:periodic} holds. Then
   \begin{equation*}
     \mathrm{rank}\begin{bmatrix}
-        \varphi_1 & \varphi_{k+1} & \cdots & \varphi_{(l-k)+1} \\ 
-        \varphi_2 & \varphi_{k+2} & \cdots & \varphi_{(l-k)+2} \\
+        \varphi_1 & \varphi_{n+1} & \cdots & \varphi_{(l-n)+1} \\ 
+        \varphi_2 & \varphi_{n+2} & \cdots & \varphi_{(l-n)+2} \\
         \vdots & \vdots & \ddots & \vdots \\
-        \varphi_k & \varphi_{2k} & \cdots & \varphi_l   
+        \varphi_n & \varphi_{2n} & \cdots & \varphi_l   
       \end{bmatrix}=2.
   \end{equation*}
-\end{lem}
+\end{prop}
 \begin{proof} 
-  The proof follows directly from Assumption~\ref{assm:periodic}. The column rank of the matrix in the lemma is the dimension of its column space. This denotates the size of the set of all the possible linear combination of the column vectors. We note that there is a limited number (two) of linear combinations of the column vectors being these linearly dependent (the values of the constant differences $c_1,\dots,c_k$ are the same for each $i$). 
+  The proof follows directly from Assumption~\ref{assm:periodic}. The column rank of the matrix in the lemma is the dimension of its column space. It denotes the size of the set of all the possible linear combination of the column vectors. We note that there is a limited number (two) of linear combinations of the column vectors being these linearly dependent (the values of the constant differences $d_1,\dots,d_l$ are the same for each $i$). 
 \end{proof}
 
 The lemma shows an easy way to verify that a plan is periodic.
 
-\begin{pb}[UAV planning problem]
-  Consider an initial plan $\Gamma$ satisfying Assumption~\ref{assm:periodic}. We are interested in the planning of the path parameters $c_{i,1},\dots,c_{i,\rho}$ and computations parameters $c_{i,\rho+1},\dots,c_{i,\rho+\sigma}$ for the UAV planning problem.
+\begin{pb}[UAV planning problem]\label{pb}
+  Consider an initial plan $\Gamma$ defined in Definition~\ref{def:mission} satisfying Assumption~\ref{assm:periodic} and Proposition~\ref{prop:rank}. We are interested in the planning of the path parameters $c_{i,1},\dots,c_{i,\rho}$ and computations parameters $c_{i,\rho+1},\dots,c_{i,\rho+\sigma}$ for the UAV planning problem.
 \end{pb}
 
 
@@ -742,18 +750,18 @@ We proof a relation between the energy signal and the energy coefficients in The
 
 Once we illustrate the energy model, we enhance it with the energy contribution of the computations in Subsection~\ref{sec:computations-model}. 
 
-Let us consider a periodic signal of period $T\in\mathbb{R}_{> 0}$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the signal
+Let us consider a periodic signal of period $T$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the signal
 \begin{equation}\label{eq:fourier}
   h(t)=a_0/T+(2/T)\sum_{j=1}^{r}{\left(a_j\cos{\omega jt}+b_j\sin{\omega jt}\right)},
 \end{equation}
 where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
 
-Let us consider a linear time-invariant (LTI) state-space model
+The energy signal can be modeled by Equation~\ref{eq:fourier} and the output of a linear model
 \begin{equation}\label{eq:state-perf}\begin{split}
-  \dot{\mathbf{q}}&=A\mathbf{q}+B\mathbf{u}+\mathbf{w},\\
-  y&=C\mathbf{q}+v,
+  \dot{\mathbf{q}}&=A\mathbf{q}+B\mathbf{u},\\
+  y&=C\mathbf{q},
 \end{split}\end{equation}
-where $y\in\mathbb{R}_{\geq 0}$ is the instantaneous energy consumption, and $\mathbf{w}\in\mathbb{R}^m,v\in\mathbb{R}$ are the contributions of the uncertainty. 
+where $y\in\mathbb{R}$ is the instantaneous energy consumption. 
 
 The state $\mathbf{q}$ are the energy coefficients
 \begin{equation}\label{eq:state-details}\begin{split}
@@ -772,7 +780,13 @@ The state $\mathbf{q}$ are the energy coefficients
 \end{split}\end{equation}
 where $\mathbf{q}\in\mathbb{R}^m$ with $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transmission matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is zero, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zeros.
 
-\begin{lem}[Signals equality]\label{lem:eqv}Suppose there is no state and output uncertainty (the contributions $\mathbf{w},v$ are zeros) and the control is zero. Suppose further matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is $\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}$. Then, the signal $h$ in Equation~(\ref{eq:fourier}) is equal to the signal $y$ in Equation~(\ref{eq:state-perf}).
+Linear model in Equation~\ref{eq:state-perf} allows us to include the control in the model of Equation~\ref{eq:fourier}. The algorithm uses the model to find the control sequence that results in the optimal parameters configuration (using MPC). 
+
+\begin{lem}[Signals equality]\label{lem:eqv}Suppose control is zero, matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is 
+  \begin{equation*}
+  \mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}^T.
+  \end{equation*} 
+  Then, the signal $h$ in Equation~(\ref{eq:fourier}) is equal to the signal $y$ in Equation~(\ref{eq:state-perf}).
 \end{lem}
 \begin{proof}
 The equivalence of the models is trivial and the equality of the two signals is achieved by a proper choice of items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof of the equality where we justify the choices of the items of the matrices and of the initial guess. 
@@ -842,10 +856,12 @@ Moreover, let $g(\{\emptyset\})$ be zero.
 \section{Algorithm}
 \label{sec:algo}
 
-Given $l$ stages $\mathcal{M}_i$ (TEE $\varphi_i$, tasks $\Psi$, computations $\mathbf{s}_i\in\mathbb{S}_i$, and adaptations $\mathbf{c}_i\in\mathbb{C}_i$ for all $i\in[l]$), the main purpose of the algorithm is to output a control input sequence $\mathbf{u}^a:=\{\mathbf{u}_0^a,\mathbf{u}_1^a,\dots\}$ in a valid mission.
+The main purpose of the algorithm is to output a valid control sequence $\mathbf{u}:=\{\mathbf{u}_0,\mathbf{u}_1,\dots\}$ at each time step given an initial plan $\Gamma$, to solve Problem~\ref{pb}.
 
-\begin{defn}[Valid mission]\label{def:valid}
-  A mission is valid if for every stage $\mathcal{M}_{i-1},\,i\in[l]^+$ there exist a control input $\mathbf{u}_k^{a}$ that produce the next stage $\mathcal{M}_i$
+----
+
+\begin{defn}[Valid control sequence]\label{def:valid}
+  A control sequence $\mathbf{u}$ is valid if for every stage $\Gamma_{i-1},\,i\in[l]^+$ if there exist a control $\mathbf{u}_k$ that produce the next stage $\Gamma_i$
   \begin{equation}\begin{split}\label{eq:mission-valid}
     \mathbf{u}^a_{k}=\{&\langle\mathbf{c}_{k},\mathbf{s}_{k}\rangle\mid\,\exists n\in\mathbb{Z}_{>0},\\&\langle\varphi_{i-1}(\mathbf{p}_{k-n},\mathbf{c}_{k-n}),\Psi(\mathbf{s}_{k-n})\rangle\in\mathcal{M}_{i-1}\\
     &\Longrightarrow\langle\varphi_i(\mathbf{p}_{k},\mathbf{c}_{k}),\Psi(\mathbf{s}_{k})\rangle\in\mathcal{M}_{i}\}.
