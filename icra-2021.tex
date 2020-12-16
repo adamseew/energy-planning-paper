@@ -699,49 +699,50 @@ We refer the reader to an example in Appendix~\ref{app:plan-example} for a detai
 
 We store the plan in the plan specification, the format is described in Appendix~\ref{app:plan-spec}. 
 
-In order to formulate the problem, we considerate some assumptions.
+In order to formulate the problem, we considerate the assumption.
 
 \begin{assm}[Plan periodicity]\label{assm:periodic}
-  Given an initial plan $\Gamma$ consisting of $l$ stages, a generic starting point $\mathbf{p}$ and current levels of parameters, there exists a constant $n\in\mathbb{Z}_{>0}, n<l$ such that
+  Given an initial plan $\Gamma$ consisting of $l$ stages, a generic starting point $\mathbf{p}$ and the current levels of all the parameters $c_{1,1},\dots,c_{l,\rho+\sigma}$, there exists a constant $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) such that
   \begin{equation*}
-    \varphi_i-\varphi_{n+i}=d_i,\,\,\,\forall i\in[l]^+
+    \varphi_{(i-1)n+j}\approx \varphi_{in+j},\,\,\,\forall i\in[l/n-1]^+,j\in[n]^+.
   \end{equation*}
-  where $d_1,\dots,d_l$ are arbitrary constant differences.
 \end{assm}
 
-Physically, this means that the plan is periodic. 
+Physically, this means that the plan is periodic. We will see the assumption being eventually eased for non-periodic plans in Section~\ref{sec:experimental}.
 
 \begin{defn}[Period]\label{def:period}
-  The period $T\in\mathbb{R}_{> 0}$ is defined as the time between $\varphi_i$ and $\varphi_{n+i}$ for an arbitrary $i\in[l]^+$.
+  The period $T\in\mathbb{R}_{> 0}$ is defined as the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in Assumption~\ref{assm:periodic}.
 \end{defn}
 
-The algorithm measures the time between the stages $\Gamma_i$ and $\Gamma_{n+i}$ and assumes the initial period is one.
+The algorithm measures the time between the stages and assumes the initial period is one. We note that periods between stages same stages but different $j$s might be different due to atmospheric interferences. 
 
 From Assumption~\ref{assm:periodic}, follows the next proposition.
 
-\begin{prop}[Rank of the trajectory functions]\label{prop:rank}
-  Suppose Assumption~\ref{assm:periodic} holds. Then
+\begin{prop}[Necessary and sufficient condition for periodicity]\label{prop:rank}
+  Suppose Assumption~\ref{assm:periodic} holds, then the plan $\Gamma$ is periodic if
+  \begin{equation*}
+    \varphi_{(i-1)n+j}-\varphi_{in+j}=d_j,\,\,\,\forall i\in[l/n-1]^+,j\in[n]^+.
+  \end{equation*}
+  Moreover, if the plan $\Gamma$ is periodic then
   \begin{equation*}
     \mathrm{rank}\begin{bmatrix}
         \varphi_1 & \varphi_{n+1} & \cdots & \varphi_{(l-n)+1} \\ 
-        \varphi_2 & \varphi_{n+2} & \cdots & \varphi_{(l-n)+2} \\
+        %\varphi_2 & \varphi_{n+2} & \cdots & \varphi_{(l-n)+2} \\
         \vdots & \vdots & \ddots & \vdots \\
         \varphi_n & \varphi_{2n} & \cdots & \varphi_l   
       \end{bmatrix}=2.
   \end{equation*}
 \end{prop}
-\begin{proof} 
-  The proof follows directly from Assumption~\ref{assm:periodic}. The column rank of the matrix in the lemma is the dimension of its column space. It denotes the size of the set of all the possible linear combination of the column vectors. We note that there is a limited number (two) of linear combinations of the column vectors being these linearly dependent (the values of the constant differences $d_1,\dots,d_l$ are the same for each $i$). 
+\begin{proof}($\Longleftarrow$) The column rank of the matrix in the lemma is the dimension of its column space. It denotes the size of the set of all the possible linear combination of the column vectors. We note that there is a limited number (two) of linear combinations of the column vectors being these linearly dependent (the difference $d_j$ is the same for any $i$). 
+
+  ($\Longrightarrow$) The expression implies that $\varphi_{(i-1)n+j}$ is the same but shifted function in space $\varphi_{(i-1)n+j}=\varphi_{in+j}+d_j$ and $d_j$ is the $j$-th ``shift''. This is equivalent to Assumption~\ref{assm:periodic}.
 \end{proof}
 
-The lemma shows an easy way to verify that a plan is periodic.
+The proposition is a necessary ($\Longleftarrow$) and sufficient ($\Longrightarrow$) condition for the periodicity. The algorithm finds $n$ starting from one and finding the value which satisfies the proposition. 
 
 \begin{pb}[UAV planning problem]\label{pb}
-  Consider an initial plan $\Gamma$ defined in Definition~\ref{def:mission} satisfying Assumption~\ref{assm:periodic} and Proposition~\ref{prop:rank}. 
-  
-  We are interested in the planning of the path parameters $c_{i,1},\dots,c_{i,\rho}$ and computations parameters $c_{i,\rho+1},\dots,c_{i,\rho+\sigma}$ and to derive the path resulting from such plan for the UAV planning problem.
+  Consider an initial plan $\Gamma$ defined in Definition~\ref{def:mission} satisfying Assumption~\ref{assm:periodic}. We are interested in the planning of the path parameters $c_{i,1},\dots,c_{i,\rho}$ and computations parameters $c_{i,\rho+1},\dots,c_{i,\rho+\sigma}$ and to derive the path resulting from such plan for the UAV planning problem.
 \end{pb}
-
 
 \section{Periodic Energy Model}
 \label{sec:energy-model}
@@ -872,7 +873,7 @@ The main purpose of the algorithm is to output a valid control sequence $\mathbf
   where for simplicity $\langle\varphi_i(\mathbf{p}_{k}),\mathbf{u}_k\rangle:=\langle\varphi_i(\mathbf{p}_{k},c_{k,1},\dots,$ $c_{k,\rho}),c_{k,\rho+1},\dots,c_{k,\rho+\sigma}\rangle$.
 \end{defn}
 
-Let us proof that the plan is periodic and one period is valid, then the plan is valid.
+Let us proof that if the plan is periodic and one period is valid, then the plan is valid.
 
 \begin{thm}[Valid periodic plan]\label{thm:state-vs-energy}  
 ?
