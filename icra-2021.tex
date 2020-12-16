@@ -708,7 +708,7 @@ In order to formulate the problem, we considerate the assumption.
   \end{equation*}
 \end{assm}
 
-Physically, this means that the plan is periodic. We will see the assumption being eventually eased for non-periodic plans in Section~\ref{sec:experimental}.
+Physically, this means that the plan is periodic. We will see the assumption being eased for non-periodic plans in Section~\ref{sec:experimental}.
 
 \begin{defn}[Period]\label{def:period}
   The period $T\in\mathbb{R}_{> 0}$ is defined as the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in Assumption~\ref{assm:periodic}.
@@ -733,9 +733,9 @@ From Assumption~\ref{assm:periodic}, follows the next proposition.
       \end{bmatrix}=2.
   \end{equation*}
 \end{prop}
-\begin{proof}($\Longleftarrow$) The column rank of the matrix in the lemma is the dimension of its column space. It denotes the size of the set of all the possible linear combination of the column vectors. We note that there is a limited number (two) of linear combinations of the column vectors being these linearly dependent (the difference $d_j$ is the same for any $i$). 
-
-  ($\Longrightarrow$) The expression implies that $\varphi_{(i-1)n+j}$ is the same but shifted function in space $\varphi_{(i-1)n+j}=\varphi_{in+j}+d_j$ and $d_j$ is the $j$-th ``shift''. This is equivalent to Assumption~\ref{assm:periodic}.
+\begin{proof}($\Longrightarrow$) The expression implies that $\varphi_{(i-1)n+j}$ is the same but shifted function in space $\varphi_{(i-1)n+j}=\varphi_{in+j}+d_j$ and $d_j$ is the $j$-th ``shift''. This is equivalent to Assumption~\ref{assm:periodic}.
+  
+($\Longleftarrow$) The column rank of the matrix in the proposition is the dimension of its column space. It denotes the size of the set of all the possible linear combination of the column vectors. We note that there is a limited number (two) of linear combinations of the column vectors being these linearly dependent (from $\Longrightarrow$). 
 \end{proof}
 
 The proposition is a necessary ($\Longleftarrow$) and sufficient ($\Longrightarrow$) condition for the periodicity. The algorithm finds $n$ starting from one and finding the value which satisfies the proposition. 
@@ -875,29 +875,21 @@ The main purpose of the algorithm is to output a valid control sequence $\mathbf
 
 Let us proof that if the plan is periodic and one period is valid, then the plan is valid.
 
+\begin{assm}\label{assm:valid}
+  Given an initial plan $\Gamma$, we assume that $\exists i\in[l/n-1]^+,\,j\in[n]^+$ s.t. $\Gamma_{(i-1)n+j},\dots,\Gamma_{in+j}$ is valid.
+\end{assm}
+
 \begin{thm}[Valid periodic plan]\label{thm:state-vs-energy}  
-?
+  Suppose Assumption~\ref{assm:valid}, Lemma~\ref{lem:eqv}, and Proposition~\ref{assm:periodic} hold (a period of the plan is valid, its energy evolution is described by Equation~\ref{eq:state-perf}, and the plan is periodic). Then the plan is valid and its energy evolution modeled by the periodic energy model in Section~\ref{sec:model}.
 
   ----
-
-  Consider the mission from Definition~\ref{def:mission}, the valid mission from~\ref{def:valid}. Assume Assumption~\ref{assm:periodic} holds, the model of Equation~(\ref{eq:state-perf}) behaves ideally ($\mathbf{w}=\mathbf{0},v=0$), the initial energy coefficients state $\mathbf{q}_0$ is $y_0^a/m$ for the first coefficient where $y_0^a\in\mathbb{R}_{>0}$ is an initial measurement\footnote{$y_0^a$ can be the initial measurement or the measurement from a previous instance of the algorithm}, $(1/2)y_0^a/m$ for all the others, and the mission is valid.
-  Then, the instantaneous energy consumption $y_k$ is a linear combination of the state $\mathbf{q}_k$.
 \end{thm}
 \begin{proof}
   The proof is based on mathematical induction. 
-  Base case: we proof that $y_0=y_0^a$. Recall the definition of the state in Equation~(\ref{eq:state-details}). The output is $y_{0}=\alpha_{0,0}+\alpha_{0,1}+\dots+\alpha_{0,r}=y_0^a/m+(1/2)y_0^a/m+\cdots+(1/2)y_0^a/m=y_0^a$.
+  Base case: 
   
-  Induction step: by inspection of Equation~(\ref{eq:state-perf}), the output at instant $k$ can be expressed $y_{k}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)\alpha_{0,1}+\dots+p_r(k)\alpha_{0,r}$, where $\forall t\in\mathbb{Z}_{\geq 2}$
-  \begin{equation}\label{eq:proof-pr}
-    p_r(t):=\begin{cases}
-      \prod_{i=1}^{t/2}{r^3/\xi^3}&\text{ for even }t\\
-      (r/\xi)\prod_{i=1}^{(t-1)/2}{r^3/\xi^3}&\text{ for odd }t
-    \end{cases}.
-  \end{equation}
-  
-  Suppose $k$ is even and the theorem holds up to $k$. Initial energy coefficients state $\mathbf{q}_0$ leads to $y_{k}=(y_0^a/m+B\mathbf{u}_0+\dots+B\mathbf{u}_{k-1})+p_1(k)(1/2)y_0^a/m+\dots+p_r(k)(1/2)y_0^a/m=y_{k}^a$. 
-  
-  We prove now that the instantaneous energy consumption at $k+1$ is still a linear combination of the state. We express the output in function of the previous state $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)\beta_{k,1}+\dots+(r/\xi)\beta_{k,r}$. Notice that the coefficients $\alpha,\beta$ have an equivalent evolution (indeed this allows to simulate the periodicity) and $\beta_{k,r}=p_r(k)\beta_{0,r}$. Thus, the output can be expressed $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+(1/\xi)p_1(k)\beta_{0,1}+\dots+(r/\xi)p_r(k)\beta_{0,r}$. The expression is equivalent to $y_{k+1}=(\alpha_{0,0}+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)\beta_{0,r}+\dots+p_r(k+1)\beta_{0,r}$ using the definition of $p_r$ in Equation~(\ref{eq:proof-pr}). Again, the state $\mathbf{q}_0$ leads to $y_{k+1}=(y_0^a/m+B\mathbf{u}_0+\dots+B\mathbf{u}_{k})+p_r(k+1)(1/2)y_0^a/m+\dots+p_r(k+1)(1/2)y_0^a/m=y_{k+1}^a$, alike the previous statement, but at instant $k+1$. The proof for odd $k$ is equivalent.
+  Induction step:
+
 \end{proof}
 
 \subsection{Output constraints set}
@@ -983,21 +975,23 @@ Before the next step, state estimator--the discrete-time Kalman filter~\cite{sim
 \section{Results}
 \label{sec:experimental}
 
-Some preliminary results are discussed. Further analysis and re-implementation of the functionality of the algorithm is needed.
+*
 
-\begin{figure}[h]
-  \centering
-  \input{\figpath/trajectory/trajectory3.tikz}
-  \caption{The true trajectory. The trajectory is retrieved from the flight log.}
-  \label{fig:trajectory}
-\end{figure}
+%Some preliminary results are discussed. Further analysis and re-implementation of the functionality of the algorithm is needed.
 
-\begin{figure}[h]
-  \centering
-  \input{\figpath/energy/max_qos_tees3.tikz}
-  \caption{Derived energy consumption from the sensors (throttle). Red line is the estimated value. We use KF for state estimation when the difference between the sensor and model value is $>\varepsilon$. Otherwise we evolve the state without noise.}
-  \label{fig:energy-max}
-\end{figure}
+%\begin{figure}[h]
+%  \centering
+%  \input{\figpath/trajectory/trajectory3.tikz}
+%  \caption{The true trajectory. The trajectory is retrieved from the flight log.}
+%  \label{fig:trajectory}
+%\end{figure}
+
+%\begin{figure}[h]
+%  \centering
+%  \input{\figpath/energy/max_qos_tees3.tikz}
+%  \caption{Derived energy consumption from the sensors (throttle). Red line is the estimated value. We use KF for state estimation when the difference between the sensor and model value is $>\varepsilon$. Otherwise we evolve the state without noise.}
+%  \label{fig:energy-max}
+%\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1046,7 +1040,7 @@ We proof that the eigenvalues $\mathbf{\lambda}$ and eigenvectors $V$ are such t
 
 The matrix $A$ is a block diagonal matrix, so we can express its determinant as the multiplication of the determinants of its blocks $\det{(A)}=\det{(0)}\times\det{(A_1)}\times\cdots\times\det{(A_r)}$. We proof the first determinant and the others separately.
 
-We proof that the first term of both the Equation~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) matches. We find the eigenvalue from $\det(0)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily $(0-\lambda_0)v_0=\begin{bmatrix} 0 & \cdots & 0 \end{bmatrix}\,\,\,\forall v_0$, thus we choose $v_0=\begin{bmatrix}1 & 0 & \cdots & 0\end{bmatrix}$. We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal $\gamma_0=\begin{bmatrix}a_0 & 0 & \cdots & 0\end{bmatrix}$. 
+First, we proof that the first term of both the Equation~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) matches. We find the eigenvalue from $\det(0)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily $(0-\lambda_0)v_0=\begin{bmatrix} 0 & \cdots & 0 \end{bmatrix}\,\,\,\forall v_0$, thus we choose $v_0=\begin{bmatrix}1 & 0 & \cdots & 0\end{bmatrix}$. We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal $\gamma_0=\begin{bmatrix}a_0 & 0 & \cdots & 0\end{bmatrix}$. 
 
 Then, we proof that all the terms in the sum of both the Equations~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) match. 
 
@@ -1057,7 +1051,7 @@ For the first block $A_1$, we find the eigenvalues from $\det(A_1-\lambda I)=0$.
 \end{cases}\end{equation*}
 hold. They hold for $\gamma_1=\begin{bmatrix}b_1&a_1\end{bmatrix}$. The proof for the remaining $r-1$ blocks is equivalent.
 
-The initial guess is build such that the sum of the coefficients is the same in both the signals. The output matrix is built as follows. The coefficient $1/T$ accounts for the period in Equations~(\ref{eq:proof-complex}--\ref{eq:proof-output}) and~(\ref{eq:fourier}). At time instant zero, the coefficients $b_j$ are not present (and the coefficients $a_j$ are doubled for each $j=1,2,\dots,r$). To match the outputs $h(t)=y(t)$--or equivalently $F\mathbf{q}(t)/T=C\mathbf{q}(t)$--we define $C=1/T\begin{bmatrix}1 & 1 & 0 & \cdots & 1 & 0\end{bmatrix}$. We thus conclude that the lemma holds.
+The initial guess is build such that the sum of the coefficients is the same in both the signals. In the output matrix, the frequency $1/T$ accounts for the period in Equations~(\ref{eq:proof-complex}--\ref{eq:proof-output}) and~(\ref{eq:fourier}). At time instant zero, the coefficients $b_j$ are not present and the coefficients $a_j$ are doubled for each $j=1,2,\dots,r$ (thus we multiply by a half the corresponding coefficients in $\mathbf{q}_0$). To match the outputs $h(t)=y(t)$--or equivalently $F\mathbf{q}(t)/T=C\mathbf{q}(t)$--we define $C=1/T\begin{bmatrix}1 & 1 & 0 & \cdots & 1 & 0\end{bmatrix}$. We thus conclude that the lemma holds.
 
 We note that the signal would still be periodic with another linear combination of coefficients (for instance, $C=d\begin{bmatrix}1 & 0 & 1 & \cdots & 0 & 1\end{bmatrix}$, or $d\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ for a constant value $d\in\mathbb{R}$). Even if both the signals $h$ and $y$ would be still periodic, they would not be equal.
 
@@ -1069,13 +1063,13 @@ We note that the signal would still be periodic with another linear combination 
 \subsection{Format}
 \label{app:plan-spec}
 
-The algorithm reads the plan $\Gamma$ from a file--the plan specification--with a specific file format. We refer the reader to Appendix~\ref{app:plan-example} for an example.
+The algorithm reads the plan $\Gamma$ from a file--the plan specification--with a specific file format.
 
 The first stage $\Gamma_1$ is expressed in the first line of the file
 \begin{algorithmic}[1]
   \State\textbf{\texttt{$k_e$;$r$;$\varphi_1(\mathbf{p}_k,c_{1,1},\dots,c_{1,\rho})$}}\label{code:stage}
 \end{algorithmic}
-where $k_e$ is a convergence value, $r$ a rotation, and $\varphi_1$ the trajectory. In the next subsection where we discuss the physical meaning of the convergence value and rotation. The rotation is expressed in binary format with zero being the counter-clockwise rotation, one the clockwise rotation.
+where $k_e$ is a convergence value, $r$ a rotation, and $\varphi_1$ the trajectory. The rotation is expressed in binary format with zero being the counter-clockwise rotation, one the clockwise rotation.
 
 The next line specifies the triggering point $\mathbf{p}_{\Gamma_1}$
 \begin{algorithmic}[1]
@@ -1105,46 +1099,46 @@ Follows the entries for stage $\Gamma_2$ (equivalent to lines~\ref{code:stage}--
 \subsection{Example}
 \label{app:plan-example}
 
-We discuss how to specify an initial mission plan with an example of a survey mission. The reader can later execute the initial mission plan using the simulator in Appendix~\ref{app:simulator}. The plan is user-defined. It specifies the trajectory and tasks of a mission along the QoS and TEEs sets. 
+We discuss how to specify an initial plan with an example of a survey scenario, equivalent to the one in Figure~\ref{fig:il-abs}.  
 
-Recall that the mission is composed of a set of stages (Section~\ref{sec:prob}). The plan has a variable number of entries per each stage. We plan the mission in Figures~\ref{fig:il-abs},~\ref{fig:trajectory}. The first line
+Recall that the plan is composed of a set of stages (Section~\ref{sec:prob}). It has a variable number of entries per each stage. The first line
 \begin{algorithmic}[1]
-  \State\textbf{\texttt{0.0003;90;(x+45)\^{}2+(y-146)\^{}2-4900+c1}}\label{code:firstcircle}
+  \State\textbf{\texttt{0.0003;0;(x+45)\^{}2+(y-146)\^{}2-4900+c1}}\label{code:firstcircle}
 \end{algorithmic}
-corresponds to TEE $\varphi_0(\mathbf{p}_k,c_{0,1}):=(x+45)^2+(y-146)^2-4900+c_{0,1}$ in the initial stage $\mathcal{M}_0$. The TEE is a circle. The gain is $k_e=3\cdot 10^{-4}$, and the rotation is of ninety degrees--we use the rotation matrix $E$ from Equation~(\ref{eq:pd}). Note that line~\ref{code:firstcircle} further specifies the adjustment {\tt\textbf{c1}} of the radius of the circle. It corresponds to $c_{0,1}$ in Definition~\ref{def:mission} (zero numerates the stage, one the adjustment).
+corresponds to the trajectory $\varphi_1(\mathbf{p}_k,c_{1,1}):=(x+45)^2+(y-146)^2-4900+c_{1,1}$ in the initial stage $\Gamma_1$. The trajectory is a circle. The gain is $k_e=3\cdot 10^{-4}$, and the rotation is counter-clockwise--we use the rotation matrix $E$ from Equation~(\ref{eq:pd}). We note that line~\ref{code:firstcircle} further specifies the parameter {\tt\textbf{c1}} of the radius of the circle. It corresponds to $c_{1,1}$ in Definition~\ref{def:mission}.
 
 The following line
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:firstcircle}
   \State\textbf{\texttt{-sqrt(4900+c1)-45,146}}\label{code:trigger}
 \end{algorithmic}
-specifies the triggering point. {\tt\textbf{sqrt}} is the square root. The UAV reaches the triggering point within a given $\varepsilon$ (the tolerance), and the algorithm switches to the next stage $\mathcal{M}_1$. The algorithm ensures that the overall mission is still valid--Equation~(\ref{eq:mission-valid}). It ensure that the TEEs and QoS constraints sets are satisfied with the generated control input. Note that the triggering point is in function of the adjustment {\tt\textbf{c1}}. This is necessary; an adjustment in one stage affects the overall flight.
+specifies the triggering point $\mathbf{p}_{\Gamma_1}$. {\tt\textbf{sqrt}} is the square root. The UAV reaches the triggering point within a given $\varepsilon$ (the tolerance), and the algorithm switches to the next stage $\Gamma_2$. We note that the triggering point is in function of the parameter {\tt\textbf{c1}}. This is necessary; an change in a parameter in one stage affects the overall flight.
 
-Let us assume the mission has two tasks. One task is the CNN object detection algorithm. Its computation $s_{0,1}$ is the fps rate. Another task is the variable key-size encryption algorithm. Its computation $s_{0,2}$ is the key-size. Then in mission plan
+Let us assume the scenario has two computations. One computation is the CNN object detection algorithm, and it can be planned by one parameter $c_{1,2}$, the fps rate. Another computation is the variable key-size encryption algorithm. It can be planned by one parameter $c_{1,2}$, the key-size. Then in the plan
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:trigger}
   \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset}
   \State\textbf{\texttt{[2,10]}}\label{code:qos1set}
   \State\textbf{\texttt{[32,448]}}\label{code:qos2set}
 \end{algorithmic}
-line~\ref{code:teeset} corresponds to TEE $\varphi_0$'s set $\mathbb{C}_0=[-3\cdot10^3,0]$. The algorithm selects $c_{0,1}\in\mathbb{C}_0$. Line~\ref{code:qos1set} corresponds to the QoS set $\mathbb{S}_{0,1}$ for the computation $s_{0,1}$. Line~\ref{code:qos1set} corresponds to the QoS set $\mathbb{S}_{0,2}$ for the computation $s_{0,2}$. Lines~\ref{code:teeset}--\ref{code:qos2set} must follow the ascending order of adjustments and computations. Lines~\ref{code:firstcircle}--\ref{code:qos2set} all describe the stage $\mathcal{M}_0$.
+line~\ref{code:teeset} corresponds to the trajectory $\varphi_1$'s contraints set $\mathbb{C}_1=[-3\cdot10^3,0]$. The algorithm selects $c_{1,1}\in\mathbb{C}_1$. Line~\ref{code:qos1set} corresponds to the computation constraints set $\mathbb{S}_{1,1}$ for the computation parameter $c_{1,2}$. Line~\ref{code:qos1set} corresponds to the computation constraints set $\mathbb{S}_{1,2}$ for the computation parameter $c_{1,2}$. Lines~\ref{code:teeset}--\ref{code:qos2set} must follow the ascending order of the parameters. Lines~\ref{code:firstcircle}--\ref{code:qos2set} all describe the stage $\Gamma_1$.
 
-Once the UAV reaches the triggering point (line~\ref{code:trigger}) and there are no further lines, the algorithm terminates. If there are further lines, the stage switches to $\mathcal{M}_1$
+Once the UAV reaches the triggering point (line~\ref{code:trigger}) and there are no further lines, the algorithm terminates (the last triggering point is the final point). If there are further lines, the stage switches to $\Gamma_2$
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:qos2set}
-  \State\textbf{\texttt{0.05;270;x+sqrt(4900+c1)+45}}\label{code:tee2}
+  \State\textbf{\texttt{0.05;1;x+sqrt(4900+c1)+45}}\label{code:tee2}
   \State\textbf{\texttt{-sqrt(4900+c1)-45,11}}\label{code:trigger2}
   \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset2}
   \State\textbf{\texttt{[2,10]}}
   \State\textbf{\texttt{[32,448]}}\label{code:qosset12}
 \end{algorithmic}
-line~\ref{code:tee2} corresponds to TEE $\varphi_1(\mathbf{p}_k,c_{0,1}):=x+\sqrt{4900+c_{0,1}}+45$, a linear equation that intersects the triggering point (line~\ref{code:trigger}). The gain is $k_e=5\cdot 10^{-2}$, and the rotation is opposite to line~\ref{code:firstcircle}. The algorithm computes $-E$ from the rotation matrix in Equation~\ref{eq:pd}. 
+line~\ref{code:tee2} corresponds to the trajectory $\varphi_2(\mathbf{p}_k,c_{1,1}):=x+\sqrt{4900+c_{1,1}}+45$, a linear equation that intersects the triggering point (line~\ref{code:trigger}). The gain is $k_e=5\cdot 10^{-2}$, and the rotation is opposite to line~\ref{code:firstcircle}. The algorithm computes $-E$ from the rotation matrix in Equation~\ref{eq:pd}. 
 
-The gain is different from the one used in $\varphi_0$ as different equations require different convergence rate. When we follow a circle it is useful to turn the rotation direction in advance. When we follow a straight line, it is preferable to turn the rotation direction closer to the line. We refer to the simulator in Appendix~\ref{app:simulator} for more details on how to tune the gain $k_e$. The reader can simulate different rates to see how they affect the flight. The rotation is likewise different. In fact, the rotation matrix $E$ points upwards in the space. It guides the UAV in the counter-clockwise direction (see Figure~\ref{fig:tee1}; the UAV is traveling counter-clockwise). The rotation matrix $-E$ points downwards and guides the UAV in the clockwise direction.
+The gain is different from the one used in $\varphi_1$ as different equations require different convergence rate. When we follow a circle it is useful to turn the rotation direction in advance. When we follow a straight line, it is preferable to turn the rotation direction closer to the line. The rotation is likewise different. In fact, the rotation matrix $E$ points upwards in the space. It guides the UAV in the counter-clockwise direction (see Figure~\ref{fig:tee1}; the UAV is traveling counter-clockwise). The rotation matrix $-E$ points downwards and guides the UAV in the clockwise direction.
 
-The triggering point of the stage $\mathcal{M}_1$ at line~\ref{code:trigger2} also depends on the adjustment {\tt\textbf{c1}}. Lines~\ref{code:teeset2}--\ref{code:qosset12} specifies the constraints sets. They are expressed the same way as lines~\ref{code:teeset}--\ref{code:qos2set}. They have to be specified explicitly for each stage, although they don't change. The current implementation of the algorithm has no other means to distinguish different constraints sets. 
+The triggering point of the stage $\Gamma_2$ at line~\ref{code:trigger2} also depends on the parameter {\tt\textbf{c1}}. Lines~\ref{code:teeset2}--\ref{code:qosset12} specifies the constraints sets. They are expressed the same way as lines~\ref{code:teeset}--\ref{code:qos2set}. They have to be specified explicitly for each stage, although they don't change. The current implementation of the algorithm has no other means to distinguish different constraints sets. 
 
-Again, if there are further lines and UAV reaches the triggering point (line~\ref{code:trigger2}), the algorithm switches the stage to $\mathcal{M}_2$
+Again, if there are further lines and UAV reaches the triggering point (line~\ref{code:trigger2}), the algorithm switches the stage to $\Gamma_3$
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:qosset12}
   \State\textbf{\texttt{0.0003;90;(x+sqrt(4900+c1)-30)\^{}2}}
@@ -1154,7 +1148,7 @@ Again, if there are further lines and UAV reaches the triggering point (line~\re
   \State\textbf{\texttt{[2,10]}}
   \State\textbf{\texttt{[32,448]}}\label{code:qosset32}
 \end{algorithmic}
-line~\ref{code:tee3} corresponds to TEE $\varphi_2(\mathbf{p}_k,c_{0,1}):=(x+\sqrt{4900+c_{0,1}}-30)^2+(y-11)^2-5625$, a circle of fixed size that changes the coordinates in function of the adjustment {\tt\textbf{c1}}. The rotation is counter-clockwise, alike $\varphi_0$.
+line~\ref{code:tee3} corresponds to the trajectory $\varphi_3(\mathbf{p}_k,c_{1,1}):=(x+\sqrt{4900+c_{1,1}}-30)^2+(y-11)^2-5625$, a circle of fixed size that changes the coordinates in function of the parameter {\tt\textbf{c1}}. The rotation is counter-clockwise, alike $\varphi_1$.
 
 The lines
 \begin{algorithmic}[1]
@@ -1169,26 +1163,26 @@ The lines
   \State\textbf{\texttt{-3*sqrt(4900+c1)+105,147}}\label{code:triggerlast}
   \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset5}
 \end{algorithmic}
-defines the stages $\mathcal{M}_3$ and $\mathcal{M}_4$. Line~\ref{code:tee4} corresponds to TEE $\varphi_3(\mathbf{p}_k,c_{0,1}):=x+\sqrt{4900+c_{0,1}}-105$. Line~\ref{code:tee5} corresponds to TEE $\varphi_4(\mathbf{p}_k,c_{0,1}):=(x-\sqrt{4900+c_{0,1}}+105)^2+(y-147)^2-4900+c_{0,1}$.
+defines the stages $\Gamma_4$ and $\Gamma_5$. Line~\ref{code:tee4} corresponds to the trajectory $\varphi_4(\mathbf{p}_k,c_{1,1}):=x+\sqrt{4900+c_{1,1}}-105$. Line~\ref{code:tee5} corresponds to the trajectory $\varphi_4(\mathbf{p}_k,c_{0,1}):=(x-\sqrt{4900+c_{0,1}}+105)^2+(y-147)^2-4900+c_{0,1}$.
 
-Note that the survey mission example changes the radius of the circular TEE $\varphi_0$ through the parameter $c_{0,1}$. It also changes the radius of $\varphi_4$ in the same way. The other TEEs ($\varphi_1,\varphi_2,\varphi_3$) displacement alters the distance between the lines in the survey. A familiar pattern from Figure~\ref{fig:tee1}. For simplicity, we suppose line~\ref{code:triggerlast} describes the last point of the mission. We further suppose the user does not desire to process any task in the last stage $\mathcal{M}_4$. To inhibit the computations
+We note that the survey scenario example changes the radius of the circular trajectory $\varphi_1$ through the parameter $c_{1,1}$. It also changes the radius of $\varphi_5$ in the same way (recall Assumption~\ref{assm:periodic}). The other trajectories ($\varphi_2,\varphi_3,\varphi_4$) displacement alters the distance between the lines in the survey. For simplicity, we suppose line~\ref{code:triggerlast} describes the final point. We further suppose the user does not desire to process any computation in the last stage $\Gamma_5$. To inhibit the computations
 \begin{algorithmic}[1]
   \setcounterref{ALG@line}{code:teeset5}
   \State\textbf{\texttt{[0,0]}}
   \State\textbf{\texttt{[0,0]}}
 \end{algorithmic}
 
-If there are any following stages in the survey, they are constructed the same way. The stages $\mathcal{M}_i$ for $i:=\{0,4,8,\dots\}$ contain TEE circle with variable radius. For $i:=\{1,3,5,\dots\}$ TEE line with variable displacement. For $i:=\{2,6,10,\dots\}$ TEE circle with fixed radius and variable displacement.
+If there are any following stages in the survey, they are constructed the same way. The stages $\Gamma_i$ for $i:=\{0,4,8,\dots\}$ contain trajectory circle with variable radius. For $i:=\{1,3,5,\dots\}$ trajectory line with variable displacement. For $i:=\{2,6,10,\dots\}$ trajectory circle with fixed radius and variable displacement.
 
-We need a further abstraction before we can simulate a mission in Appendix~\ref{app:simulator}. The algorithm needs to know how to model the tasks--the software components.
+%We need a further abstraction before we can simulate a mission in Appendix~\ref{app:simulator}. The algorithm needs to know how to model the tasks--the software components.
 
-\section{Simulator}
-\label{app:simulator}
+%\section{Simulator}
+%\label{app:simulator}
 
-We discuss how to execute the initial mission plan and the component specification in the simulator. The reader can use the simulator to simulate different environmental interference and their effects on the mission.
+%We discuss how to execute the initial mission plan and the component specification in the simulator. The reader can use the simulator to simulate different environmental interference and their effects on the mission.
 
-The simulator is written in MATLAB and released under MIT license. It implements the algorithm (Subsection~\ref{sec:algo}) providing a position $\mathbf{p}_k$ at each time step $k$ and an energy sensor's value $y_k^a$. It is derived from empirical data. It is an abstraction of the physical observations. 
+%The simulator is written in MATLAB and released under MIT license. It implements the algorithm (Subsection~\ref{sec:algo}) providing a position $\mathbf{p}_k$ at each time step $k$ and an energy sensor's value $y_k^a$. It is derived from empirical data. It is an abstraction of the physical observations. 
 
-The user is prompted to initialize the trajectory and the algortihm.
+%The user is prompted to initialize the trajectory and the algortihm.
 
 \end{document}
