@@ -32,7 +32,7 @@ function [A, B, C, u, h] = build_model(r, xi, gck, mk)
     
     for i = 1:r
         A(2 * i : 2 * i + 1, 2 * i : 2 * i + 1) = An(i); 
-        C = [C 1 1];
+        C = [C 1 0];
         h = h + 1 * q(2 * i) * cos(i * k / xi) + ...
                 1 * q(2 * i + 1) * sin(i * k / xi);
     end

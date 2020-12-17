@@ -620,7 +620,7 @@ To achieve the energy-aware dynamic planning, we further introduce and formally 
 
 In the spirit of reducing costs and resources, we showcase the algorithm using the problem of dynamic planning for a precision agriculture fixed-wing UAV. Precision agriculture is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The plan is structured as follows. Trajectory-wise, the UAV flies in circles and lines covering a polygon. Computationally-wise, it detects obstacles using a convolutional neural network (CNN) and notifies grounded mobile robots employed for harvesting. The algorithm alters the plan; it controls the processing rate and the radius of the circles (affecting the distance between the lines). Figure~\ref{fig:il-abs} shows a slice of such and the small plot shows the periodicity from the collected energy data. The small rectangle shows the spectrum power with the first frequency filtered, showing thus that three frequencies are mostly necessary to model the energy. Computations significantly impact the battery, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations (see Section~\ref{sec:experimental}).
 
-The remainder of the paper is organized as follows. The overview of dynamic planning is provided in Section~\ref{sec:prob}, and the problem is set with some preliminaries in Section~\ref{sec:prelim}. A suitable model for the energy in Section~\ref{sec:energy-model}. The algorithm is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcases the performances. We propose some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information and examples in Appendixes~\ref{app:proof-eqv}--\ref{app:simulator}.
+The remainder of the paper is organized as follows. The overview of dynamic planning is provided in Section~\ref{sec:prob}, and the problem is set with some preliminaries in Section~\ref{sec:prelim}. A suitable model for the energy in Section~\ref{sec:energy-model}. The algorithm is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcases the performances. We propose some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information and examples in Appendixes~\ref{app:proof-eqv}--\ref{app:plan-spec}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -632,6 +632,13 @@ The algorithm plans the path and computations from a user-specified initial plan
 
 \subsection{Preliminaries and Problem Definition}
 \label{sec:prelim}
+
+\begin{figure}[h]
+  \centering
+  \input{\figpath/traj1.tikz}
+  \caption{Illustrative example of the alteration of a trajectory parameter}
+  \label{fig:tee1}
+\end{figure}
 
 Let us assume that the trajectory at stage $i$ can be altered with $\rho$ trajectory parameters and the computations with $\sigma$ computations parameters. We then express the trajectory as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the trajectory parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computations parameters. We discuss the concrete meaning of the value of trajectory parameters in Subsection~\ref{sec:model}, and computations parameters in Subsection~\ref{sec:computations-model}.
 
@@ -815,26 +822,10 @@ Equation~(\ref{eq:state-control}) accounts for the energy due to the change of p
 
 \begin{figure}[h]
   \centering
-  \input{\figpath/path2.tikz}
+  \input{\figpath/traj2.tikz}
   \caption{Illustrative example of the alteration of a trajectory parameter}
   \label{fig:tee1}
 \end{figure}
-
-%\begin{figure}[h]
-%  \centering
-%  \input{\figpath/traj1.tikz}
-%  \caption{Illustrative example of the alteration of a trajectory parameter}
-%  \label{fig:tee1}
-%\end{figure}
-
-%\begin{figure}[h]
-%  \centering
-%  \input{\figpath/traj2.tikz}
-%  \caption{Illustrative example of the alteration of a trajectory parameter}
-%  \label{fig:tee1}
-%\end{figure}
-
-
 
 Let us assume that the set
 \begin{equation}\label{eq:area}
@@ -1076,9 +1067,9 @@ We note that the signal would still be periodic with another linear combination 
 
 
 \section{Plan Specification}
+\label{app:plan-spec}
 
 \subsection{Format}
-\label{app:plan-spec}
 
 The algorithm reads the plan $\Gamma$ from a file--the plan specification--with a specific file format.
 
