@@ -64,6 +64,13 @@
 \let\NAT@parse\undefined
 \makeatother
 \usepackage{hyperref}
+\makeatletter
+\newcommand*{\textlabel}[2]{%
+  \edef\@currentlabel{#1}% Set target label
+  \phantomsection% Correct hyper reference link
+  #1\label{#2}% Print and store label
+}
+\makeatother
 
 \usepackage{textpos}
 
@@ -131,6 +138,10 @@
 % for blank page
 
 \usepackage{afterpage}
+
+% for bibliography (double column balances)
+
+\usepackage{balance}
 
 %% references (generates a bib file for bibtex)
 \begin{filecontents}{\jobname.bib}
@@ -608,41 +619,42 @@ Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agri
   \centering
   \input{\figpath/il_abs.tikz}
   \input{\figpath/il_abs_energy.tikz}
-  \caption{An initial plan of an agricultural scenario replanned dynamically in terms of both the path (\protect\tikz{\fill[white](0,0)circle(.7ex);\fill[blue](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}\, travels a more accurate survey than \protect\tikz{\fill[white](0,0)circle(.7ex);\fill[c00FFFF](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}) and computations (\protect\tikz{\fill[green](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}\, elaborates more images per second than \protect\tikz{\fill[red](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}). In bottom right, the collected energy data of the UAV flying the scenario, along the power spectrum (small rectangle) where the first frequency has been filtered.}
+  \caption{An initial plan of an agricultural scenario replanned dynamically in terms of both the path (\ref{sth:i}~travels a more accurate survey than~\ref{sth:ii}) and computations (\ref{sth:a}~elaborates more images per second than~\ref{sth:b}). In bottom right, the collected energy data of the UAV flying the scenario, along the power spectrum (small rectangle) where the first frequency has been filtered.}
   \label{fig:il-abs}
 \end{figure}
 
 Planning algorithms literature for mobile robots includes topics such as trajectory generation and path planning. Generally, the algorithms select an energy-optimized trajectory~\cite{mei2004energy}, e.g., by maximizing the operational time~\cite{wahab2015energy}. However, they apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence for the energy consumption also being significantly influenced by computations~\cite{mei2005case}. Given the availability of powerful GPU-equipped mobile hardware~\cite{rizvi2017general}, the use of computations is expected to increase in the near future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. More complex planning, which includes a broader concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. For UAVs specifically, rotorcrafts have also gained interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. 
 
-Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. We present here a brief summary of the algorithm. To model the path we use multiple trajectories and denote each of them with a mathematical function. In Figure~\ref{fig:il-abs}, the path contains multiple circles and lines. To model the computations we use a profiling tool presented in previous work~\cite{seewald2019coarse}. To guide the UAV we use a vector field~\cite{de2017guidance} that converges smoothly to the planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. 
+Unlike most of the past planning algorithms literature, our algorithm plans both the path and computations. To model the path we use multiple trajectories and denote each with a mathematical function. In Figure~\ref{fig:il-abs}, the path contains multiple circles and lines. To model the computations we use a profiling tool presented in previous work~\cite{seewald2019coarse}. To guide the UAV we use a vector field~\cite{de2017guidance} that converges smoothly to the planned trajectory. The use of vector fields for planning is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. 
 
-To achieve the energy-aware dynamic planning, we further introduce and formally proof a periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\cite{seewald2020mechanical}. Indeed, UAV scenarios often iterate over a set of tasks and trajectories (e.g., monitoring or search and rescue). Given that the plan is periodic, we expect the energy consumption to approximately evolve periodically. The observation applies broadly; we show different UAV scenarios that can produce such periodic energy consumption evolution. Moreover, we briefly investigate periodic energy consumption evolution in some ground-based mobile robots.
+To achieve the energy-aware dynamic planning, we further introduce and formally proof a periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\cite{seewald2020mechanical}. Indeed, UAV scenarios often iterate over a set of tasks and trajectories (e.g., monitoring or search and rescue). Given that the plan is periodic, we expect the energy consumption to approximately evolve periodically. In Figure~\ref{fig:il-abs}, some collected data from a UAV flying a survey scenario along the power spectrum plot motivates out choice. The observation applies broadly; we show different UAV scenarios that can produce such periodic energy consumption evolution. Moreover, we briefly investigate periodic energy consumption evolution in some ground-based mobile robots.
 
-In the spirit of reducing costs and resources, we showcase the algorithm using the problem of dynamic planning for a precision agriculture fixed-wing UAV. Precision agriculture is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The plan is structured as follows. Trajectory-wise, the UAV flies in circles and lines covering a polygon. Computationally-wise, it detects obstacles using a convolutional neural network (CNN) and notifies grounded mobile robots employed for harvesting. The algorithm alters the plan; it controls the processing rate and the radius of the circles (affecting the distance between the lines). Figure~\ref{fig:il-abs} shows a slice of such and the small plot shows the periodicity from the collected energy data. The small rectangle shows the spectrum power with the first frequency filtered, showing thus that three frequencies are mostly necessary to model the energy. Computations significantly impact the battery, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations (see Section~\ref{sec:experimental}).
+In the spirit of reducing costs and resources, we showcase the algorithm using the problem of dynamic planning for a precision agriculture fixed-wing UAV. Precision agriculture is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The plan is structured as follows. Trajectory-wise, the UAV flies in circles and lines covering a polygon. Computationally-wise, it detects obstacles using a convolutional neural network (CNN) and notifies grounded mobile robots employed for harvesting. The algorithm alters the plan; it controls the processing rate and the radius of the circles (affecting the distance between the lines). Figure~\ref{fig:il-abs} shows a slice of such plan. Computations significantly impact the battery, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations (see Section~\ref{sec:experimental}).
 
-The remainder of the paper is organized as follows. The overview of dynamic planning is provided in Section~\ref{sec:prob}, and the problem is set with some preliminaries in Section~\ref{sec:prelim}. A suitable model for the energy in Section~\ref{sec:energy-model}. The algorithm is proposed in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcases the performances. We propose some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information and examples in Appendixes~\ref{app:proof-eqv}--\ref{app:plan-spec}.
+The remainder of the paper is organized as follows. The overview of dynamic planning, some preliminaries, and problem definition is provided in Section~\ref{sec:prob}. We show a suitable model for the energy in Section~\ref{sec:energy-model}, and propose the algorithm in Section~\ref{sec:algo}. Section~\ref{sec:experimental} presents the result and showcases the performances. We propose some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information and examples in Appendixes~\ref{app:proof-eqv}--\ref{app:plan-spec}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Planning Overview}
 \label{sec:prob}
  
-The algorithm plans the path and computations from a user-specified initial plan that consists of different stages and some initial guesses that are necessary for the position and energy estimation. At each stage, the UAV must follow a trajectory within the trajectory constraints set and do the computations within the computations constraints sets. There is one trajectory constraints set but multiple computations constraints sets, one per each computation parameter. The user specifies the maximum, minimum, and current levels of some parameters relative to the path and computations in such plan with an energy budget. In Figure~\ref{fig:il-abs}, there are two parameters. The radius of the trajectory circle is relative to the trajectory (\protect\tikz{\fill[white](0,0)circle(.7ex);\fill[blue](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;} and \protect\tikz{\fill[white](0,0)circle(.7ex);\fill[c00FFFF](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}). The quality of image detection is relative to the computations (\protect\tikz{\fill[green](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;} and \protect\tikz{\fill[red](0,0)circle(.7ex);\fill[white](0,0)--(90:.7ex)arc(90:270:.7ex)--cycle;}). The algorithm outputs the parameters (the control) using output model predictive control (MPC)~\cite{rawlings2017model}. The UAV utilizes the control to alter its energy consumption to meet the energy budget. The control is data-driven. Energy sensor data estimates coefficients of the energy model used to predict future energy consumption and derive the control, replanning the initial plan in presence of uncertainty. The energy budget is the battery capacity and some other battery parameters. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm. 
+The algorithm inputs an user-specified initial plan that consist of different stages. At each stage the UAV flies a trajectory, and does some computations. Per each stage the plan contains some parameters that allow to change the path and computations along an energy budget. These parameters are bounded. There is one trajectory constraints set which bounds the path and multiple computations constraints sets, one per each computation parameter, which bound computations. In Figure~\ref{fig:il-abs}, there are two parameters. The radius of the trajectory circle is relative to the trajectory (\ref{sth:i}~and~\ref{sth:ii}). The quality of image detection is relative to the computations (\ref{sth:a}~and~\ref{sth:b}). 
 
+The algorithm outputs the parameters (the control) using output model predictive control (MPC)~\cite{rawlings2017model}. The UAV utilizes the control to alter its energy consumption to meet the energy budget. The control is data-driven. Energy sensor data estimates coefficients of the energy model used to predict future energy consumption and derive the control, replanning the initial plan in presence of uncertainty. The energy budget is the battery capacity and some other battery parameters. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. The term parameters should not be confused with the battery parameters, which we always mention explicitly. These are fixed values that are not replanned by the algorithm. 
 
-\subsection{Preliminaries and Problem Definition}
+\subsection{Plan definition}
 \label{sec:prelim}
-
-\begin{figure}[h]
-  \centering
-  \input{\figpath/traj1.tikz}
-  \caption{Illustrative example of the alteration of a trajectory parameter}
-  \label{fig:tee1}
-\end{figure}
 
 Let us assume that the trajectory at stage $i$ can be altered with $\rho$ trajectory parameters and the computations with $\sigma$ computations parameters. We then express the trajectory as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the trajectory parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computations parameters. We discuss the concrete meaning of the value of trajectory parameters in Subsection~\ref{sec:model}, and computations parameters in Subsection~\ref{sec:computations-model}.
 
 Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. $c_{i,j}$ specifies the $j$-th parameter of the $i$-th parameters set $c_i$. $c_{i,j}^0$ is the optimal value of the parameter $c_{i,j}$ w.r.t. a given cost function $l$, and $\underline{c}_{i,j},\overline{c}_{i,j}$ its lower and upper bounds. The set $\langle c_{i,1},c_{i,2},...,c_{i,n}\rangle$ is an ordered list of $n$ parameters.
+
+\begin{figure}[h]
+  \centering
+  \input{\figpath/traj1.tikz}
+  \caption{Illustrative figure shows notation on a small initial slice of the plan in Figure~\ref{fig:il-abs}.}
+  \label{fig:traj1}
+\end{figure}
 
 \begin{defn}[Stage, plan, triggering, and final point]\label{def:mission}
   A \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined as the ordered list
@@ -651,7 +663,7 @@ Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is
     &\,\exists\,\,\mathbf{p}_k,\,\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathbb{C}_i,\,\\
       &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathbb{S}_{i,j}\,\},
   \end{split}\end{equation}
-  where $\mathbb{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the trajectory constraints set, and $\mathbb{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation constraints set. $\mathbf{p}_k$ is a point of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$.
+  where $\mathbb{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the trajectory constraints set, and $\mathbb{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation constraints set. $\mathbf{p}_k$ is a point of a UAV flying at an assigned altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$. In Figure~\ref{fig:traj1} $\varphi_1$ and $\varphi_5$ are circles and $\varphi_2$,$\varphi_4$, and $\varphi_6$ are lines. They are all relative to different stages $\Gamma_1,\Gamma_2,\dots$. The constaints set $\mathbb{C}_1,\mathbb{C}_2,\dots$ forms the set $\mathcal{P}_i$ which disclose the area where the trajectories $\varphi_1,\varphi_2,\dots$ can be replanned with the parameters $c_{i,1},\dots,c_{i,\sigma}$ forming the path $\mathcal{P}$. We define the area $\mathcal{P}_i$ formally in Subsection~\ref{sec:model}. 
 
   The \emph{plan} is a finite state machine $\Gamma$ where the state-transition function $\delta:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
   \begin{equation*}\delta(\Gamma_i,\mathbf{p}_k):=\begin{cases}
@@ -705,6 +717,8 @@ Generally, one can express the triggering points in function of the $i$-th traje
 We refer the reader to an example in Appendix~\ref{app:plan-example} for a detailed implementation. In the example, the first trajectory parameter is propagated to all the following trajectories and triggering points. 
 
 We store the plan in the plan specification, the format is described in Appendix~\ref{app:plan-spec}. 
+
+\subsection{Problem formulation}
 
 In order to formulate the problem, we considerate the assumption.
 
@@ -823,7 +837,7 @@ Equation~(\ref{eq:state-control}) accounts for the energy due to the change of p
 \begin{figure}[h]
   \centering
   \input{\figpath/traj2.tikz}
-  \caption{Illustrative example of the alteration of a trajectory parameter}
+  \caption{Illustrative figure shows of the alteration of the trajectory parameter $c_{1,1}$, the radius of the circle. The figure shows the alteration of the path from Figure~\ref{fig:il-abs}.}
   \label{fig:tee1}
 \end{figure}
 
@@ -1009,11 +1023,12 @@ Before the next step, state estimator--the discrete-time Kalman filter~\cite{sim
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\balance
 \bibliographystyle{IEEEtran}
 \bibliography{\jobname} 
 
 \leavevmode\thispagestyle{empty}\newpage
-\leavevmode\thispagestyle{empty}\newpage
+\nobalance
 
 \appendices
 
