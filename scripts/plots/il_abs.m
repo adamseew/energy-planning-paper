@@ -44,8 +44,8 @@ f0 = (-n/2:n/2-1)*(fs/n); % 0-centered frequency range
 
 figure(3);
 plot(f0,power0((end-n)/2+1:(end+n)/2))
-xlabel('Frequency')
-ylabel('Power')
+xlabel('Frequency (Hz)')
+ylabel('Power (dB)')
 
 csvwrite('periodic_energy.csv', [t x2]);
 csvwrite('spectrum.csv', [f0' power0((end-n)/2+1:(end+n)/2)]);

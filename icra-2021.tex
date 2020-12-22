@@ -617,8 +617,19 @@ Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agri
 
 \begin{figure}[t]
   \centering
-  \input{\figpath/il_abs.tikz}
-  \input{\figpath/il_abs_energy.tikz}
+
+  
+
+  \begin{tikzpicture}
+    \node[inner sep=0pt] () at (0,0)
+        {\input{\figpath/il_abs.tikz}};
+    \node[inner sep=0pt] () at (-1.8,-5.5)
+        {\footnotesize \input{\figpath/il_abs_energy.tikz}};
+    \node[inner sep=0pt] () at (2,-5.5)
+        {\footnotesize \input{\figpath/il_abs_spectrum.tikz}};
+  \end{tikzpicture}
+
+
   \caption{An initial plan of an agricultural scenario replanned dynamically in terms of both the path (\ref{sth:i}~travels a more accurate survey than~\ref{sth:ii}) and computations (\ref{sth:a}~elaborates more images per second than~\ref{sth:b}). In bottom right, the collected energy data of the UAV flying the scenario, along the power spectrum (small rectangle) where the first frequency has been filtered.}
   \label{fig:il-abs}
 \end{figure}
