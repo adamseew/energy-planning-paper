@@ -52,7 +52,7 @@
   \end{scope}
   \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(54.675,101.25)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(54.675,101.25)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(56.675,101.25)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {0};
 
 
@@ -80,7 +80,7 @@
   \end{scope}
   \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(82.0125,101.25)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(82.0125,101.25)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(83.0125,101.25)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {2};
 
 
@@ -192,8 +192,8 @@
   \end{scope}
   \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(129.6,89.1)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(119.6,85.1)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{Spectrum (hdB)}};
+  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(119.6,92.1)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{Spectrum ($10^2$\hspace*{.2ex}dB)}};
 
 
 
@@ -210,8 +210,8 @@
   \end{scope}
   \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(20.7562,115.425)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(20.7562,115.425)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {Frequency (cHz)};
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(15.7562,115.425)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] () {Frequency ($10^{-2}$\hspace*{.2ex}Hz)};
 
 
 
