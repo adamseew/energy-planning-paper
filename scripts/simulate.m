@@ -1,6 +1,6 @@
 function [k pos pow est ua] = simulate(varphi, trigger, trajparams, mpcparams, si, ci, animate)
 %SIMULATE Simulation wrapper function
-%   
+%        
 % Inputs:
 %   varphi:   the set of TEE [strings, format: rotation;ke;equation]
 %   trigger:  the set of triggering point that tells when to go from TEE i 
@@ -27,7 +27,7 @@ function [k pos pow est ua] = simulate(varphi, trigger, trajparams, mpcparams, s
 %             t)
 %   ci:       the TEEs set (same applies as above)
 %   animate:  show animation
-%
+%         
 % Outputs:
 %   k:        time [sec]
 %   pos:      vector of positions [2m]
