@@ -49,7 +49,7 @@ answer = inputdlg(...
     {'3','1','10'}); % asking for initial data
 
 if isempty(answer)
-    strp = [3; 10; 1; 10]; % default initial data
+    strp = [3; 1; 10]; % default initial data
 else
     strp = str2double(answer);
 end
@@ -59,9 +59,8 @@ clear answer;
 % stroing data
 
 r = strp(1);
-xi = strp(2);
-eps = strp(3);
-N = strp(4);
+eps = strp(2);
+N = strp(3);
 
 clear strp;
 
@@ -113,29 +112,33 @@ while true
     end
 end
 
+n = i;
+
 fclose(fid);
 
 
 %% building the model
 
+period = 1;
+
+delta = .01;
 [A C] = build_model(2*pi/1, r);
 syms q [2*r+1 1];
-delta = .01;
 
 % discretizing 
 
 Ad = A*delta+eye(2*r+1);
-
+%Ad = exp(A*delta);
 
 %% model guesses
 
 q0 = ones(size(q,1),1);
 
-P0 = eye(size(q,1));
+P0 = ones(size(q,1));
     
 % process noise and sensor noise
 
-Q = P0;
+Q = ones(size(q,1));
 R = 1;    
 
 
@@ -182,11 +185,18 @@ pdanglelist = [];
     
 % contribution of the wind. This doesn't change as winspeed and
 % direction is constant
-windx = windspeed * cosd(winddir);
-windy = windspeed * sind(winddir);
+windx = delta * windspeed * cosd(winddir);  % using delta to make the path more smooth
+windy = delta * windspeed * sind(winddir);
     
 y = []; % model output
 q = []; % model state
+
+addpath(genpath('position')); % needed for build_gdn2
+
+P_record = [];
+
+i = 1;
+time = 0;
 
 for traj = transpose(path)
         
@@ -201,6 +211,32 @@ for traj = transpose(path)
     ke = str2double(traj(1));
         
     while true
+        
+        time = time + delta;
+        
+        if period < time
+        
+            period = time;
+        
+            [A C] = build_model(2*pi/period, r);
+            Ad = A*delta+eye(2*r+1);
+        
+            % re-initialization of the KF
+            P0 = ones(size(q,1));
+            
+        elseif mod(i, n) == 0
+        
+            period = time;
+        
+            [A C] = build_model(2*pi/period, r);
+            Ad = A*delta+eye(2*r+1);
+            
+            % re-initialization of the KF
+            P0 = ones(size(q,1));
+        
+            time = 1;
+        
+        end
 
         pos = [pos; nowpos];
             
@@ -213,8 +249,8 @@ for traj = transpose(path)
         % now if the time is sampled every second, the below expression
         % actually indicates the offset from the original location
             
-        posx = .1 * vehspeed * cosd(pdangle);
-        posy = .1 * vehspeed * sind(pdangle);
+        posx = delta * vehspeed * cosd(pdangle);
+        posy = delta * vehspeed * sind(pdangle);
         
         % new position
         nowpos = [nowpos(1) + windx + posx, nowpos(2) + windy + posy]; 
@@ -244,33 +280,38 @@ for traj = transpose(path)
         pow = [pow; simpow];
                    
         % estimating the energy     
-        
-        for l = delta:delta:1
-            q1_minus = A * q0;
+        q1_minus = Ad * q0;
                 
-            %[yy, qq0, P1] = estimate_kf(A, B, C, u, q0, P0, Q, R, ...
-            %    pow(k), k, eps);
+        %[yy, qq0, P1] = estimate_kf(A, B, C, u, q0, P0, Q, R, ...
+        %    pow(k), k, eps);
         
-            P1_minus = A * P0 * transpose(A) + Q;
+        if size(q,2) == 970
+            1 == 1
+        end
+        
+        P_record = [P_record P0];
+        
+        P1_minus = Ad * P0 * transpose(Ad) + Q;
+        
+        
     
-            % estimation
-            K1 = (P1_minus * transpose(C)) / ...
-                (C * P1_minus * transpose(C) + R);
-            q1 = q1_minus + K1 * (simpow - C * q1_minus);
-            P1 = (eye(size(q0, 1)) + K1 * C) * P1_minus;
+        % estimation
+        K1 = (P1_minus * transpose(C)) / ...
+            (C * P1_minus * transpose(C) + R);
+        q1 = q1_minus + K1 * (simpow - C * q1_minus);
+        P1 = (eye(size(q0, 1)) + K1 * C) * P1_minus;
         
-            y0_estimate = C * q1;
+        y0_estimate = C * q1;
     
             % updating values for the next iteration
-            q0 = q1;
+        q0 = q1;
             
-            P0 = P1;
+        P0 = P1;
                 
-            y = [y; y0_estimate];
+        y = [y; y0_estimate];
         
-            q = [q; q0];
-        end
-                        
+        q = [q q0];
+                                
         k = k + 1;
     end
         
