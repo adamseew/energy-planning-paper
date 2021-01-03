@@ -278,13 +278,13 @@ for traj = transpose(path)
         simpow = minpw + (maxpw - minpw) * .5 * abs(1 - cosd(angle)) * ... 
             windspeed / vehspeed; % winddir and windspeed effect
         
-        %if mod(k, 10) == 0
-        %    v = randn; % uncomment to add some noise
-        %end
-        %simpow = simpow+v; % energy signal with normal noise
-        
         pow = [pow; simpow]; % energy signal
         
+        if mod(k, 20) == 0
+        %    v = randn; % uncomment to add some noise
+        end
+        
+        pown = [pown; simpow+v]; % energy signal with normal noise
                    
         % estimating the energy     
         q1_minus = Ad * q0;
@@ -294,7 +294,7 @@ for traj = transpose(path)
         % estimation
         K1 = (P1_minus * transpose(C)) / ...
             (C * P1_minus * transpose(C) + R);
-        q1 = q1_minus + K1 * (pow(end) - C * q1_minus);
+        q1 = q1_minus + K1 * (pown(end) - C * q1_minus);
         P1 = (eye(size(q0, 1)) + K1 * C) * P1_minus;
         
         y0_estimate = C * q1;
@@ -328,6 +328,11 @@ subplot(2,2,3);
 plot(linspace(0, k, size(pow, 1)), pow(:, 1))
 
 subplot(2,2,4);
+plot(linspace(0, k, size(pown, 1)), pown(:, 1))
+
+figure(2);
+
+% plotting the estimated signal
 plot(linspace(0, k, size(y, 1)), y(:, 1))
 
 
