@@ -39,8 +39,6 @@ maxpw = strp(7);
 minpw = strp(8); 
 trigeps = strp(9);
 
-clear strp;
-
 % asking data about the algorithm
 
 answer = inputdlg(...
@@ -49,20 +47,18 @@ answer = inputdlg(...
     {'3','1','10'}); % asking for initial data
 
 if isempty(answer)
-    strp = [3; 1; 10]; % default initial data
+    strp2 = [3; 1; 10]; % default initial data
 else
-    strp = str2double(answer);
+    strp2 = str2double(answer);
 end
 
 clear answer;
 
 % stroing data
 
-r = strp(1);
-eps = strp(2);
-N = strp(3);
-
-clear strp;
+r = strp2(1);
+eps = strp2(2);
+N = strp2(3);
 
 % asking for the plan specifization 
 
@@ -329,6 +325,41 @@ plot(linspace(0, k, size(pow, 1)), pow(:, 1))
 
 subplot(2,2,4);
 plot(linspace(0, k, size(y, 1)), y(:, 1))
+
+figure(2);
+subplot(7,1,1);
+plot(q(1,1:end))
+
+subplot(7,1,2);
+plot(q(2,1:end))
+
+subplot(7,1,3);
+plot(q(3,1:end))
+
+subplot(7,1,4);
+plot(q(4,1:end))
+
+subplot(7,1,5);
+plot(q(5,1:end))
+
+subplot(7,1,6);
+plot(q(6,1:end))
+
+subplot(7,1,7);
+plot(q(7,1:end))
+
+
+%% saving data
+
+csvwrite('position_simulation3A.csv', [pos(:, 1) pos(:, 2) pdanglelist]);
+
+csvwrite('energy_simulation3A.csv', [linspace(0, k, size(pow, 1)), ...
+    pow(:, 1)', y(:, 1)', q(1,1:end), q(2,1:end), q(3,1:end),     ...
+    q(4,1:end), q(5,1:end), q(6,1:end), q(7,1:end)]);
+
+csvwrite('trajdata_simulation3A.csv', strp);
+
+csvwrite('algdata_simulation3A.csv', strp2);
 
 
 %% model building function
