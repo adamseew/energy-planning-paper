@@ -351,15 +351,15 @@ plot(q(7,1:end))
 
 %% saving data
 
-csvwrite('position_simulation3A.csv', [pos(:, 1) pos(:, 2) pdanglelist]);
+csvwrite('position_simulation3D.csv', [pos(:, 1) pos(:, 2) pdanglelist]);
 
-csvwrite('energy_simulation3A.csv', [linspace(0, k, size(pow, 1)), ...
+csvwrite('energy_simulation3D.csv', [linspace(0, k, size(pow, 1)), ...
     pow(:, 1)', y(:, 1)', q(1,1:end), q(2,1:end), q(3,1:end),     ...
     q(4,1:end), q(5,1:end), q(6,1:end), q(7,1:end)]);
 
-csvwrite('trajdata_simulation3A.csv', strp);
+csvwrite('trajdata_simulation3D.csv', strp);
 
-csvwrite('algdata_simulation3A.csv', strp2);
+csvwrite('algdata_simulation3D.csv', strp2);
 
 
 %% model building function
