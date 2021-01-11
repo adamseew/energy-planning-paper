@@ -198,7 +198,7 @@
 \end{scope}
 \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
-\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(148.162,100.625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(144.162,100.625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \path[fill=black] (0.0000,0.0000) node[above right] (text196) {\rotatebox{90}{Spectrum ($10^2$\hspace*{.2ex}dB)}};
 
 
