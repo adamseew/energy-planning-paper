@@ -88,6 +88,7 @@ function [k pos pow est ua] = simulate(varphi, trigger, trajparams, mpcparams, s
 
     for varphii = transpose(varphi) % per each TEE
         
+        pdanglelist = [pdanglelist; pdangle];
         varphii = split(varphii, ";");
         
         fprintf('varphi%d((%d,%d)):=%s\n', i, nowpos(1), nowpos(2), varphii(3));

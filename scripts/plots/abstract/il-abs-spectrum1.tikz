@@ -1,0 +1,367 @@
+
+\definecolor{ca0a0a4}{RGB}{160,160,164}
+
+
+\def \globalscale {1.000000}
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
+\begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (29.5000,86.5000) -- (29.5000,33.7344);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (29.5000,86.5000) -- (29.5000,83.5000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \path[fill=black] (0.0000,0.0000) node[above right] (text32) {-2};
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (63.5000,86.5000) -- (63.5000,33.7565);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (63.5000,86.5000) -- (63.5000,83.5000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \path[fill=black] (0.0000,0.0000) node[above right] (text60) {0};
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (97.5000,86.5000) -- (97.5000,33.8092);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (97.5000,86.5000) -- (97.5000,83.5000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \path[fill=black] (0.0000,0.0000) node[above right] (text88) {2};
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (12.5000,86.5000) -- (113.5000,86.5000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (113.5000,86.5000) -- (113.5000,86.5000) -- (110.5000,86.5000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \path[fill=black] (0.0000,0.0000) node[above right] (text116) {0};
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (12.5000,67.5000) -- (113.5000,67.5000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (113.5000,67.5000) -- (113.5000,67.5000) -- (110.5000,67.5000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \path[fill=black] (0.0000,0.0000) node[above right] (text144) {2};
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (12.5000,48.5000) -- (113.5000,48.5000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (113.5000,48.5000) -- (113.5000,48.5000) -- (110.5000,48.5000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \path[fill=black] (0.0000,0.0000) node[above right] (text172) {4};
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(148.162,86.625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \path[fill=black] (0.0000,0.0000) node[above right] (text196) {Spectrum (hdB)};
+
+
+
+\end{scope}
+\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \path[fill=black] (0.0000,0.0000) node[above right] (text212) {Frequency (cHz)};
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[draw] (12.5000,86.2000) -- (12.5000,86.2000) -- (13.6000,86.2000) -- (14.6000,86.4000) -- (15.7000,85.0000) -- (16.7000,86.4000) -- (17.8000,85.4000) -- (18.8000,86.1000) -- (19.9000,85.9000) -- (20.9000,86.2000) -- (22.0000,86.0000) -- (23.1000,86.0000) -- (24.1000,85.4000) -- (25.2000,86.0000) -- (26.2000,86.2000) -- (27.3000,86.2000) -- (28.3000,86.1000) -- (29.4000,85.3000) -- (30.5000,85.5000) -- (31.5000,86.2000) -- (32.6000,86.1000) -- (33.6000,86.4000) -- (34.7000,85.4000) -- (35.7000,84.1000) -- (36.8000,86.1000) -- (37.9000,85.9000) -- (38.9000,86.3000) -- (40.0000,86.0000) -- (41.0000,86.1000) -- (42.1000,84.0000) -- (43.1000,81.0000) -- (44.2000,84.4000) -- (45.2000,84.9000) -- (46.3000,84.6000) -- (47.4000,85.0000) -- (48.4000,83.2000) -- (49.5000,43.3000) -- (50.5000,84.9000) -- (51.6000,83.8000) -- (52.6000,79.7000) -- (53.7000,84.3000) -- (54.8000,83.0000) -- (55.8000,83.4000) -- (56.9000,51.8000) -- (57.9000,86.1000) -- (59.0000,77.0000) -- (60.0000,81.0000) -- (61.1000,79.0000) -- (62.1000,85.1000) -- (62.1000,33.7178);
+
+
+
+  \path[draw] (64.3000,33.7516) -- (64.3000,85.1000) -- (65.3000,79.0000) -- (66.4000,81.0000) -- (67.4000,77.0000) -- (68.5000,86.1000) -- (69.5000,51.8000) -- (70.6000,83.4000) -- (71.6000,83.0000) -- (72.7000,84.3000) -- (73.8000,79.7000) -- (74.8000,83.8000) -- (75.9000,84.9000) -- (76.9000,43.3000) -- (78.0000,83.2000) -- (79.0000,85.0000) -- (80.1000,84.6000) -- (81.2000,84.9000) -- (82.2000,84.4000) -- (83.3000,81.0000) -- (84.3000,84.0000) -- (85.4000,86.1000) -- (86.4000,86.0000) -- (87.5000,86.3000) -- (88.6000,85.9000) -- (89.6000,86.1000) -- (90.7000,84.1000) -- (91.7000,85.4000) -- (92.8000,86.4000) -- (93.8000,86.1000) -- (94.9000,86.2000) -- (95.9000,85.5000) -- (97.0000,85.3000) -- (98.1000,86.1000) -- (99.1000,86.2000) -- (100.2000,86.2000) -- (101.2000,86.0000) -- (102.3000,85.4000) -- (103.3000,86.0000) -- (104.4000,86.0000) -- (105.5000,86.2000) -- (106.5000,85.9000) -- (107.6000,86.1000) -- (108.6000,85.4000) -- (109.7000,86.4000) -- (110.7000,85.0000) -- (111.8000,86.4000) -- (112.8000,86.2000) -- (113.9000,86.2000) -- (113.9000,86.2000);
+
+
+
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(2.93137,0.31012)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[color=black,fill=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=miter,line cap=butt,miter limit=4.00,nonzero rule,line width=0.400pt] (26.5000,16.7500) .. controls (26.3619,16.7500) and (26.2500,16.8619) .. (26.2500,17.0000) -- (26.2500,17.5000) .. controls (26.2500,17.6381) and (26.3619,17.7500) .. (26.5000,17.7500) .. controls (26.6381,17.7500) and (26.7500,17.6381) .. (26.7500,17.5000) -- (26.7500,17.0000) .. controls (26.7500,16.8619) and (26.6381,16.7500) .. (26.5000,16.7500) -- cycle(26.5000,18.2500) .. controls (26.3619,18.2500) and (26.2500,18.3619) .. (26.2500,18.5000) -- (26.2500,19.0000) .. controls (26.2500,19.1381) and (26.3619,19.2500) .. (26.5000,19.2500) .. controls (26.6381,19.2500) and (26.7500,19.1381) .. (26.7500,19.0000) -- (26.7500,18.5000) .. controls (26.7500,18.3619) and (26.6381,18.2500) .. (26.5000,18.2500) -- cycle(26.5000,19.7500) .. controls (26.3619,19.7500) and (26.2500,19.8619) .. (26.2500,20.0000) -- (26.2500,20.5000) .. controls (26.2500,20.6381) and (26.3619,20.7500) .. (26.5000,20.7500) .. controls (26.6381,20.7500) and (26.7500,20.6381) .. (26.7500,20.5000) -- (26.7500,20.0000) .. controls (26.7500,19.8619) and (26.6381,19.7500) .. (26.5000,19.7500) -- cycle(26.5000,21.2500) .. controls (26.3619,21.2500) and (26.2500,21.3619) .. (26.2500,21.5000) -- (26.2500,22.0000) .. controls (26.2500,22.1381) and (26.3619,22.2500) .. (26.5000,22.2500) .. controls (26.6381,22.2500) and (26.7500,22.1381) .. (26.7500,22.0000) -- (26.7500,21.5000) .. controls (26.7500,21.3619) and (26.6381,21.2500) .. (26.5000,21.2500) -- cycle(26.5000,22.7500) .. controls (26.3619,22.7500) and (26.2500,22.8619) .. (26.2500,23.0000) -- (26.2500,23.5000) .. controls (26.2500,23.6381) and (26.3619,23.7500) .. (26.5000,23.7500) .. controls (26.6381,23.7500) and (26.7500,23.6381) .. (26.7500,23.5000) -- (26.7500,23.0000) .. controls (26.7500,22.8619) and (26.6381,22.7500) .. (26.5000,22.7500) -- cycle(26.5000,24.2500) .. controls (26.3619,24.2500) and (26.2500,24.3619) .. (26.2500,24.5000) -- (26.2500,25.0000) .. controls (26.2500,25.1381) and (26.3619,25.2500) .. (26.5000,25.2500) .. controls (26.6381,25.2500) and (26.7500,25.1381) .. (26.7500,25.0000) -- (26.7500,24.5000) .. controls (26.7500,24.3619) and (26.6381,24.2500) .. (26.5000,24.2500) -- cycle(26.5000,25.7500) .. controls (26.3619,25.7500) and (26.2500,25.8619) .. (26.2500,26.0000) -- (26.2500,26.5000) .. controls (26.2500,26.6381) and (26.3619,26.7500) .. (26.5000,26.7500) .. controls (26.6381,26.7500) and (26.7500,26.6381) .. (26.7500,26.5000) -- (26.7500,26.0000) .. controls (26.7500,25.8619) and (26.6381,25.7500) .. (26.5000,25.7500) -- cycle(26.5000,27.2500) .. controls (26.3619,27.2500) and (26.2500,27.3619) .. (26.2500,27.5000) -- (26.2500,28.0000) .. controls (26.2500,28.1381) and (26.3619,28.2500) .. (26.5000,28.2500) .. controls (26.6381,28.2500) and (26.7500,28.1381) .. (26.7500,28.0000) -- (26.7500,27.5000) .. controls (26.7500,27.3619) and (26.6381,27.2500) .. (26.5000,27.2500) -- cycle(26.5000,28.7500) .. controls (26.3619,28.7500) and (26.2500,28.8619) .. (26.2500,29.0000) -- (26.2500,29.5000) .. controls (26.2500,29.6381) and (26.3619,29.7500) .. (26.5000,29.7500) .. controls (26.6381,29.7500) and (26.7500,29.6381) .. (26.7500,29.5000) -- (26.7500,29.0000) .. controls (26.7500,28.8619) and (26.6381,28.7500) .. (26.5000,28.7500) -- cycle;
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.01288,0.0,0.0,1.0125,(8.01061,0.31012)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[color=black,fill=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=miter,line cap=butt,miter limit=4.00,nonzero rule,line width=0.400pt] (55.5000,16.7500) .. controls (55.3619,16.7500) and (55.2500,16.8619) .. (55.2500,17.0000) -- (55.2500,17.5000) .. controls (55.2500,17.6381) and (55.3619,17.7500) .. (55.5000,17.7500) .. controls (55.6381,17.7500) and (55.7500,17.6381) .. (55.7500,17.5000) -- (55.7500,17.0000) .. controls (55.7500,16.8619) and (55.6381,16.7500) .. (55.5000,16.7500) -- cycle(55.5000,18.2500) .. controls (55.3619,18.2500) and (55.2500,18.3619) .. (55.2500,18.5000) -- (55.2500,19.0000) .. controls (55.2500,19.1381) and (55.3619,19.2500) .. (55.5000,19.2500) .. controls (55.6381,19.2500) and (55.7500,19.1381) .. (55.7500,19.0000) -- (55.7500,18.5000) .. controls (55.7500,18.3619) and (55.6381,18.2500) .. (55.5000,18.2500) -- cycle(55.5000,19.7500) .. controls (55.3619,19.7500) and (55.2500,19.8619) .. (55.2500,20.0000) -- (55.2500,20.5000) .. controls (55.2500,20.6381) and (55.3619,20.7500) .. (55.5000,20.7500) .. controls (55.6381,20.7500) and (55.7500,20.6381) .. (55.7500,20.5000) -- (55.7500,20.0000) .. controls (55.7500,19.8619) and (55.6381,19.7500) .. (55.5000,19.7500) -- cycle(55.5000,21.2500) .. controls (55.3619,21.2500) and (55.2500,21.3619) .. (55.2500,21.5000) -- (55.2500,22.0000) .. controls (55.2500,22.1381) and (55.3619,22.2500) .. (55.5000,22.2500) .. controls (55.6381,22.2500) and (55.7500,22.1381) .. (55.7500,22.0000) -- (55.7500,21.5000) .. controls (55.7500,21.3619) and (55.6381,21.2500) .. (55.5000,21.2500) -- cycle(55.5000,22.7500) .. controls (55.3619,22.7500) and (55.2500,22.8619) .. (55.2500,23.0000) -- (55.2500,23.5000) .. controls (55.2500,23.6381) and (55.3619,23.7500) .. (55.5000,23.7500) .. controls (55.6381,23.7500) and (55.7500,23.6381) .. (55.7500,23.5000) -- (55.7500,23.0000) .. controls (55.7500,22.8619) and (55.6381,22.7500) .. (55.5000,22.7500) -- cycle(55.5000,24.2500) .. controls (55.3619,24.2500) and (55.2500,24.3619) .. (55.2500,24.5000) -- (55.2500,25.0000) .. controls (55.2500,25.1381) and (55.3619,25.2500) .. (55.5000,25.2500) .. controls (55.6381,25.2500) and (55.7500,25.1381) .. (55.7500,25.0000) -- (55.7500,24.5000) .. controls (55.7500,24.3619) and (55.6381,24.2500) .. (55.5000,24.2500) -- cycle(55.5000,25.7500) .. controls (55.3619,25.7500) and (55.2500,25.8619) .. (55.2500,26.0000) -- (55.2500,26.5000) .. controls (55.2500,26.6381) and (55.3619,26.7500) .. (55.5000,26.7500) .. controls (55.6381,26.7500) and (55.7500,26.6381) .. (55.7500,26.5000) -- (55.7500,26.0000) .. controls (55.7500,25.8619) and (55.6381,25.7500) .. (55.5000,25.7500) -- cycle(55.5000,27.2500) .. controls (55.3619,27.2500) and (55.2500,27.3619) .. (55.2500,27.5000) -- (55.2500,28.0000) .. controls (55.2500,28.1381) and (55.3619,28.2500) .. (55.5000,28.2500) .. controls (55.6381,28.2500) and (55.7500,28.1381) .. (55.7500,28.0000) -- (55.7500,27.5000) .. controls (55.7500,27.3619) and (55.6381,27.2500) .. (55.5000,27.2500) -- cycle(55.5000,28.7500) .. controls (55.3619,28.7500) and (55.2500,28.8619) .. (55.2500,29.0000) -- (55.2500,29.5000) .. controls (55.2500,29.6381) and (55.3619,29.7500) .. (55.5000,29.7500) .. controls (55.6381,29.7500) and (55.7500,29.6381) .. (55.7500,29.5000) -- (55.7500,29.0000) .. controls (55.7500,28.8619) and (55.6381,28.7500) .. (55.5000,28.7500) -- cycle;
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(0.00644,0.30976)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[color=black,fill=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=miter,line cap=butt,miter limit=4.00,nonzero rule,line width=0.400pt] (97.4629,16.7500) .. controls (97.3248,16.7500) and (97.2129,16.8619) .. (97.2129,17.0000) -- (97.2129,17.5000) .. controls (97.2129,17.6381) and (97.3248,17.7500) .. (97.4629,17.7500) .. controls (97.6010,17.7500) and (97.7129,17.6381) .. (97.7129,17.5000) -- (97.7129,17.0000) .. controls (97.7129,16.8619) and (97.6010,16.7500) .. (97.4629,16.7500) -- cycle(97.4629,18.2500) .. controls (97.3248,18.2500) and (97.2129,18.3619) .. (97.2129,18.5000) -- (97.2129,19.0000) .. controls (97.2129,19.1381) and (97.3248,19.2500) .. (97.4629,19.2500) .. controls (97.6010,19.2500) and (97.7129,19.1381) .. (97.7129,19.0000) -- (97.7129,18.5000) .. controls (97.7129,18.3619) and (97.6010,18.2500) .. (97.4629,18.2500) -- cycle(97.4629,19.7500) .. controls (97.3248,19.7500) and (97.2129,19.8619) .. (97.2129,20.0000) -- (97.2129,20.5000) .. controls (97.2129,20.6381) and (97.3248,20.7500) .. (97.4629,20.7500) .. controls (97.6010,20.7500) and (97.7129,20.6381) .. (97.7129,20.5000) -- (97.7129,20.0000) .. controls (97.7129,19.8619) and (97.6010,19.7500) .. (97.4629,19.7500) -- cycle(97.4629,21.2500) .. controls (97.3248,21.2500) and (97.2129,21.3619) .. (97.2129,21.5000) -- (97.2129,22.0000) .. controls (97.2129,22.1381) and (97.3248,22.2500) .. (97.4629,22.2500) .. controls (97.6010,22.2500) and (97.7129,22.1381) .. (97.7129,22.0000) -- (97.7129,21.5000) .. controls (97.7129,21.3619) and (97.6010,21.2500) .. (97.4629,21.2500) -- cycle(97.4629,22.7500) .. controls (97.3248,22.7500) and (97.2129,22.8619) .. (97.2129,23.0000) -- (97.2129,23.5000) .. controls (97.2129,23.6381) and (97.3248,23.7500) .. (97.4629,23.7500) .. controls (97.6010,23.7500) and (97.7129,23.6381) .. (97.7129,23.5000) -- (97.7129,23.0000) .. controls (97.7129,22.8619) and (97.6010,22.7500) .. (97.4629,22.7500) -- cycle(97.4629,24.2500) .. controls (97.3248,24.2500) and (97.2129,24.3619) .. (97.2129,24.5000) -- (97.2129,25.0000) .. controls (97.2129,25.1381) and (97.3248,25.2500) .. (97.4629,25.2500) .. controls (97.6010,25.2500) and (97.7129,25.1381) .. (97.7129,25.0000) -- (97.7129,24.5000) .. controls (97.7129,24.3619) and (97.6010,24.2500) .. (97.4629,24.2500) -- cycle(97.4629,25.7500) .. controls (97.3248,25.7500) and (97.2129,25.8619) .. (97.2129,26.0000) -- (97.2129,26.5000) .. controls (97.2129,26.6381) and (97.3248,26.7500) .. (97.4629,26.7500) .. controls (97.6010,26.7500) and (97.7129,26.6381) .. (97.7129,26.5000) -- (97.7129,26.0000) .. controls (97.7129,25.8619) and (97.6010,25.7500) .. (97.4629,25.7500) -- cycle(97.4629,27.2500) .. controls (97.3248,27.2500) and (97.2129,27.3619) .. (97.2129,27.5000) -- (97.2129,28.0000) .. controls (97.2129,28.1381) and (97.3248,28.2500) .. (97.4629,28.2500) .. controls (97.6010,28.2500) and (97.7129,28.1381) .. (97.7129,28.0000) -- (97.7129,27.5000) .. controls (97.7129,27.3619) and (97.6010,27.2500) .. (97.4629,27.2500) -- cycle(97.4629,28.7500) .. controls (97.3248,28.7500) and (97.2129,28.8619) .. (97.2129,29.0000) -- (97.2129,29.5000) .. controls (97.2129,29.6381) and (97.3248,29.7500) .. (97.4629,29.7500) .. controls (97.6010,29.7500) and (97.7129,29.6381) .. (97.7129,29.5000) -- (97.7129,29.0000) .. controls (97.7129,28.8619) and (97.6010,28.7500) .. (97.4629,28.7500) -- cycle;
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(0.00644,0.30976)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(0.14812,-45.24757)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[cm={{0.99831,0.0,0.0,1.0,(0.02075,0.0)}},draw] (12.5000,67.5000) -- (113.5000,67.5000);
+
+
+
+  \path[draw=black,line join=miter,line cap=butt,miter limit=4.00,line width=0.356pt] (10.0518,75.9099) -- (14.8259,74.8888);
+
+
+
+  \path[draw=black,line join=miter,line cap=butt,miter limit=4.00,even odd rule,line width=0.356pt] (10.0125,77.7847) -- (14.7866,76.7637);
+
+
+
+  \path[draw=black,line join=miter,line cap=butt,miter limit=4.00,even odd rule,line width=0.356pt] (60.7188,75.9099) -- (65.4929,74.8888);
+
+
+
+  \path[draw=black,line join=miter,line cap=butt,miter limit=4.00,even odd rule,line width=0.356pt] (60.6795,77.7847) -- (65.4536,76.7637);
+
+
+
+  \path[draw=black,line join=miter,line cap=butt,miter limit=4.00,even odd rule,line width=0.356pt] (111.0151,75.9099) -- (115.7892,74.8888);
+
+
+
+  \path[draw=black,line join=miter,line cap=butt,miter limit=4.00,even odd rule,line width=0.356pt] (110.9758,77.7847) -- (115.7499,76.7637);
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(0.00644,0.30976)}},draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[color=black,fill=black,line join=miter,line cap=butt,miter limit=4.00,nonzero rule,line width=0.400pt] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(120.77544,27.64726)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \begin{scope}[fill=black]
+    \path[fill=black] (3.7760,-1.3360) -- (3.7760,-1.8480) -- (2.9600,-1.8480) -- (2.9600,-5.4080) -- (2.6080,-5.4080) -- (0.0960,-1.8480) -- (0.0960,-1.3360) -- (2.3440,-1.3360) -- (2.3440,0.0000) -- (2.9600,0.0000) -- (2.9600,-1.3360) -- cycle(2.3360,-1.8480) -- (0.4160,-1.8480) -- (2.3360,-4.5920) -- cycle;
+
+
+
+    \path[fill=black] (7.8080,-2.6400) .. controls (7.8080,-4.2800) and (7.0800,-5.4080) .. (6.0320,-5.4080) .. controls (5.5920,-5.4080) and (5.2560,-5.2720) .. (4.9600,-4.9920) .. controls (4.4960,-4.5440) and (4.1920,-3.6240) .. (4.1920,-2.6880) .. controls (4.1920,-1.8160) and (4.4560,-0.8800) .. (4.8320,-0.4320) .. controls (5.1280,-0.0800) and (5.5360,0.1120) .. (6.0000,0.1120) .. controls (6.4080,0.1120) and (6.7520,-0.0240) .. (7.0400,-0.3040) .. controls (7.5040,-0.7440) and (7.8080,-1.6720) .. (7.8080,-2.6400) -- cycle(7.0400,-2.6240) .. controls (7.0400,-0.9520) and (6.6880,-0.0960) .. (6.0000,-0.0960) .. controls (5.3120,-0.0960) and (4.9600,-0.9520) .. (4.9600,-2.6160) .. controls (4.9600,-4.3120) and (5.3200,-5.2000) .. (6.0080,-5.2000) .. controls (6.6800,-5.2000) and (7.0400,-4.2960) .. (7.0400,-2.6240) -- cycle;
+
+
+
+    \path[fill=black] (11.8080,-2.6400) .. controls (11.8080,-4.2800) and (11.0800,-5.4080) .. (10.0320,-5.4080) .. controls (9.5920,-5.4080) and (9.2560,-5.2720) .. (8.9600,-4.9920) .. controls (8.4960,-4.5440) and (8.1920,-3.6240) .. (8.1920,-2.6880) .. controls (8.1920,-1.8160) and (8.4560,-0.8800) .. (8.8320,-0.4320) .. controls (9.1280,-0.0800) and (9.5360,0.1120) .. (10.0000,0.1120) .. controls (10.4080,0.1120) and (10.7520,-0.0240) .. (11.0400,-0.3040) .. controls (11.5040,-0.7440) and (11.8080,-1.6720) .. (11.8080,-2.6400) -- cycle(11.0400,-2.6240) .. controls (11.0400,-0.9520) and (10.6880,-0.0960) .. (10.0000,-0.0960) .. controls (9.3120,-0.0960) and (8.9600,-0.9520) .. (8.9600,-2.6160) .. controls (8.9600,-4.3120) and (9.3200,-5.2000) .. (10.0080,-5.2000) .. controls (10.6800,-5.2000) and (11.0400,-4.2960) .. (11.0400,-2.6240) -- cycle;
+
+
+
+    \path[fill=black] (15.8080,-2.6400) .. controls (15.8080,-4.2800) and (15.0800,-5.4080) .. (14.0320,-5.4080) .. controls (13.5920,-5.4080) and (13.2560,-5.2720) .. (12.9600,-4.9920) .. controls (12.4960,-4.5440) and (12.1920,-3.6240) .. (12.1920,-2.6880) .. controls (12.1920,-1.8160) and (12.4560,-0.8800) .. (12.8320,-0.4320) .. controls (13.1280,-0.0800) and (13.5360,0.1120) .. (14.0000,0.1120) .. controls (14.4080,0.1120) and (14.7520,-0.0240) .. (15.0400,-0.3040) .. controls (15.5040,-0.7440) and (15.8080,-1.6720) .. (15.8080,-2.6400) -- cycle(15.0400,-2.6240) .. controls (15.0400,-0.9520) and (14.6880,-0.0960) .. (14.0000,-0.0960) .. controls (13.3120,-0.0960) and (12.9600,-0.9520) .. (12.9600,-2.6160) .. controls (12.9600,-4.3120) and (13.3200,-5.2000) .. (14.0080,-5.2000) .. controls (14.6800,-5.2000) and (15.0400,-4.2960) .. (15.0400,-2.6240) -- cycle;
+
+
+
+  \end{scope}
+\end{scope}
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(0.15405,0.52227)}},draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[color=black,fill=black,line join=miter,line cap=butt,miter limit=4.00,nonzero rule,line width=0.400pt] (113.5824,29.1349) -- (113.5648,16.5000) .. controls (113.5648,16.3619) and (113.4529,16.2500) .. (113.3148,16.2500) -- (12.5137,16.2500) -- (12.5000,16.2500) .. controls (12.4862,16.2502) and (12.4725,16.2515) .. (12.4590,16.2539) .. controls (12.4451,16.2560) and (12.4313,16.2593) .. (12.4180,16.2637) .. controls (12.3781,16.2780) and (12.3424,16.3022) .. (12.3145,16.3340) .. controls (12.2733,16.3796) and (12.2504,16.4387) .. (12.2500,16.5000) -- (12.2487,29.1320) -- (12.7818,29.1333) -- (12.7500,16.7500) -- (113.0648,16.7500) -- (113.0618,29.1371);
+
+
+
+\end{scope}
+\begin{scope}[cm={{1.01288,0.0,0.0,1.0125,(8.01061,0.31012)}},draw=black,line join=round,line cap=round,even odd rule,line width=0.400pt]
+  \path[color=black,fill=black,line join=miter,line cap=butt,miter limit=4.00,nonzero rule,line width=0.400pt] (56.0430,29.3507) .. controls (56.0178,27.6026) and (55.9492,24.1035) .. (55.9492,24.1035) -- (55.9492,24.0957) .. controls (55.9462,23.9637) and (55.8410,23.8567) .. (55.7090,23.8516) .. controls (55.5694,23.8461) and (55.4524,23.9561) .. (55.4492,24.0957) -- (55.4492,24.1035) -- (55.3661,29.3497);
+
+
+
+\end{scope}
+
+\end{tikzpicture}
+

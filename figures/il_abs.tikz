@@ -41,7 +41,7 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(18.0,287.0)}}] (0.0000,0.0000) node[above right] () {$\ddagger\ddagger$};
+\path[cm={{1.0,0.0,0.0,1.0,(18.0,287.0)}}] (0.0000,0.0000) node[above right] () {};
 
 
 
@@ -77,7 +77,7 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(109.0,244.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{$\ddagger\ddagger$}{sth:b}};
+\path[cm={{1.0,0.0,0.0,1.0,(109.0,244.0)}}] (0.0000,0.0000) node[above right] () {};
 
 
 
@@ -369,7 +369,7 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(150.0,145.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{$\dagger$}{sth:i}};
+\path[cm={{1.0,0.0,0.0,1.0,(150.0,145.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{II}{sth:ii}};
 
 
 
@@ -469,7 +469,7 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(59.0,201.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{$\ddagger$}{sth:ii}};
+\path[cm={{1.0,0.0,0.0,1.0,(59.0,201.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{III}{sth:iii}};
 
 
 
@@ -569,11 +569,11 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(88.0,46.0)}}] (0.0000,0.0000) node[above right] () {$\dagger$};
+\path[cm={{1.0,0.0,0.0,1.0,(88.0,46.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{I}{sth:i}};
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(74.0,144.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{$\dagger\dagger$}{sth:a}};
+\path[cm={{1.0,0.0,0.0,1.0,(74.0,144.0)}}] (0.0000,0.0000) node[above right] () {};
 
 
 

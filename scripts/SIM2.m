@@ -195,6 +195,8 @@ time = 0;
 
 v = 0;
 
+periodlist = [];
+
 for traj = transpose(path)
         
     traj = split(traj, ";");
@@ -206,7 +208,7 @@ for traj = transpose(path)
     end
         
     ke = str2double(traj(1));
-        
+    
     while true
         
         time = time + delta;
@@ -214,22 +216,26 @@ for traj = transpose(path)
         if period < time
         
             period = time;
+            
+            periodlist = [periodlist; k period];
         
             [A C] = build_model(2*pi/period, r);
             Ad = A*delta+eye(2*r+1);
         
             % re-initialization of the KF
-            P0 = ones(size(q,1));
+            %P0 = ones(size(q,1));
             
         elseif mod(i, n) == 0
         
             period = time;
+            
+            periodlist = [periodlist; k period];
         
             [A C] = build_model(2*pi/period, r);
             Ad = A*delta+eye(2*r+1);
             
             % re-initialization of the KF
-            P0 = ones(size(q,1));
+            %P0 = ones(size(q,1));
         
             time = 1;
         
@@ -378,6 +384,6 @@ function [A, C] = build_model(omega,r)
         C = [C 1 0];
     end
     
-    C = 1/1 * C;
+    C = 1/((2*pi)/omega) * C;
 
 end

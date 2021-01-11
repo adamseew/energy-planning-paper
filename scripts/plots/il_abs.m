@@ -25,7 +25,7 @@ xline(250);
 xline(300); % just some lines at the hypothetical period 
 
 fs = 1/period; % frequency
-y = fft(x - mean(x)); % discrete fourier transform of the energy signal
+y = fft(x); % discrete fourier transform of the energy signal
 
 n = length(x); % number of samples
 f = (0:n-1)*(fs/n); % frequency range
@@ -47,6 +47,6 @@ plot(f0,power0((end-n)/2+1:(end+n)/2))
 xlabel('Frequency (Hz)')
 ylabel('Power (dB)')
 
-csvwrite('periodic_energy.csv', [t x2]);
-csvwrite('spectrum.csv', [f0' power0((end-n)/2+1:(end+n)/2)]);
+%csvwrite('periodic_energy.csv', [t x2]);
+csvwrite('spectrum2.csv', [f0' power0((end-n)/2+1:(end+n)/2)]);
 

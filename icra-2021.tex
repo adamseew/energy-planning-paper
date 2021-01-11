@@ -619,13 +619,13 @@ Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agri
   \centering
   \begin{tikzpicture}
     \node[inner sep=0pt] () at (0,0)
-        {\input{\figpath/il_abs.tikz}};
-    \node[inner sep=0pt] () at (-1.7,-5.5)
-        {\footnotesize \input{\figpath/il_abs_energy.tikz}};
+        {\footnotesize \input{\figpath/il_abs.tikz}};
+    \node[inner sep=0pt] () at (-1.9,-5.5)
+        {\footnotesize \input{\figpath/il_abs_energy1.tikz}};
     \node[inner sep=0pt] () at (1.9,-5.5)
-        {\footnotesize \input{\figpath/il_abs_spectrum.tikz}};
+        {\footnotesize \input{\figpath/il_abs_spectrum1.tikz}};
   \end{tikzpicture}
-  \caption{An initial plan of an agricultural scenario replanned dynamically in terms of both the path (\ref{sth:i}~travels a more accurate survey than~\ref{sth:ii}) and computations (\ref{sth:a}~elaborates more images per second than~\ref{sth:b}). In bottom left, the collected energy data of the UAV flying the scenario, along the power spectrum (bottom right) where the first frequency has been filtered.}
+  \caption{An initial plan of an agricultural scenario replanned dynamically in terms of both the path (\ref{sth:ii}~travels a more accurate survey than~\ref{sth:iii}) and computations (\ref{sth:i}~elaborates more images per second than~\ref{sth:ii}). In bottom left, the collected energy data of the UAV flying the scenario, along the power spectrum (bottom right) where the first frequency has been filtered.}
   \label{fig:il-abs}
 \end{figure}
 
@@ -644,7 +644,7 @@ The remainder of the paper is organized as follows. The overview of dynamic plan
 \section{Planning Overview}
 \label{sec:prob}
  
-The algorithm inputs a user-specified initial plan that consist of different stages. At each stage the UAV flies a trajectory, and does some computations. Per each stage the plan contains some parameters that allow to alter the path and computations along an energy budget. The alterations are bounded. There is one trajectory constraints set which bounds the path and multiple computations constraints sets, one per each computation parameter, that bound computations. In Figure~\ref{fig:il-abs}, there are two parameters. The radius of the trajectory circle is relative to the trajectory (\ref{sth:i}~and~\ref{sth:ii}). The quality of image detection is relative to the computations (\ref{sth:a}~and~\ref{sth:b}). 
+The algorithm inputs a user-specified initial plan that consist of different stages. At each stage the UAV flies a trajectory, and does some computations. Per each stage the plan contains some parameters that allow to alter the path and computations along an energy budget. The alterations are bounded. There is one trajectory constraints set which bounds the path and multiple computations constraints sets, one per each computation parameter, that bound computations. In Figure~\ref{fig:il-abs}, there are two parameters. The radius of the trajectory circle is relative to the trajectory (\ref{sth:ii}~and~\ref{sth:iii}). The quality of image detection is relative to the computations (\ref{sth:i}~and~\ref{sth:ii}). 
 
 The algorithm outputs the control (the parameters) using output model predictive control (MPC)~\cite{rawlings2017model}. The UAV utilizes the control to influence its energy consumption to meet the energy budget. The control is data-driven. Energy sensor data estimates some coefficients of an energy model used to predict future energy consumption in presence of uncertainty. The energy budget is the battery capacity and other battery parameters. These are fixed values that are not replanned by the algorithm. Our goal is to complete the plan with the highest possible parameters as the UAV flies and its batteries drain. 
 
