@@ -14,13 +14,14 @@ answer = inputdlg(...
     {'vehicle speed [m/s]:','wind speed [m/s]:',...
      'vehicle direction [angles]:','wind direction [angles]:',...
      'start coordinate x [m]:','start coordinate y [m]:',...
-     'max power [W]:','min power [W]:','triggering point radius [m]'...
+     'max power [W]:','min power [W]:','triggering point radius [m]',...
+     'max altitude [m]', 'min altitude [m]'...
     }, ...
     'path initialization',[1 40],...
-    {'20','5','270','90','-100','220','60','30','10'}); % asking for initial data
+    {'20','5','270','90','-100','220','60','30','10', '24', '10'}); % asking for initial data
 
 if isempty(answer)
-    strp = [20; 5; 270; 90; -100; 220; 60; 30; 10]; % default initial data
+    strp = [20; 5; 270; 90; -100; 220; 60; 30; 10; 24; 10]; % default initial data
 else
     strp = str2double(answer);
 end
@@ -38,6 +39,8 @@ starty = strp(6);
 maxpw = strp(7);
 minpw = strp(8); 
 trigeps = strp(9);
+maxh = strp(10);
+minh = strp(11);
 
 % asking data about the algorithm
 
@@ -128,14 +131,14 @@ Ad = A*delta+eye(2*r+1);
 
 %% model guesses
 
-q0 = ones(size(q,1),1);
+% just a very approximate guess!
 
-P0 = ones(size(q,1));
+q0 = ones(size(q,1),1);
     
 % process noise and sensor noise
 
 Q = ones(size(q,1));
-R = 1;    
+R = 1;
 
 
 %% iterating trajectories in the plan to get the constant n 
@@ -167,6 +170,8 @@ for traj = transpose(path) % per each trajectory
     n = n + 1;
 end
 
+fprintf('n is %d\n', n);
+ 
 
 %% running the simulation
     
@@ -197,9 +202,13 @@ v = 0;
 
 periodlist = [];
 
+hlist = [];
+
 for traj = transpose(path)
         
     traj = split(traj, ";");
+    
+    updated_period = 0;
             
     if contains(traj(2), '1')
         E = [0 1; -1 0];
@@ -209,35 +218,47 @@ for traj = transpose(path)
         
     ke = str2double(traj(1));
     
+    fprintf('working on trajectory %s\n', traj(3));
+    
+    fprintf('period is %f\n', period);
+    
+    fprintf('time is %f\n', time);
+    
+    if and(and(mod(i - 1, n) == 0, time > 1), updated_period == 0)
+            
+        fprintf('i is %d, n is %d\n', i, n);
+            
+        period = time;
+            
+        fprintf('period is updated (case mod) to %f\n', period);
+            
+        periodlist = [periodlist; k period];
+        
+        [A C] = build_model(2*pi/period, r);
+        Ad = A*delta+eye(2*r+1);
+            
+        % re-initialization of the KF
+        %P0 = ones(size(q,1));
+        
+        time = 0;
+            
+        updated_period = 1;
+    end
+    
     while true
         
-        time = time + delta;
-        
-        if period < time
-        
+        time = time + delta;        
+            
+        if and(period < time, time > 1)
+                   
             period = time;
+            
+            fprintf('period is updated (case >) to %f\n', period);
             
             periodlist = [periodlist; k period];
         
             [A C] = build_model(2*pi/period, r);
             Ad = A*delta+eye(2*r+1);
-        
-            % re-initialization of the KF
-            P0 = ones(size(q,1));
-            
-        elseif mod(i, n) == 0
-        
-            period = time;
-            
-            periodlist = [periodlist; k period];
-        
-            [A C] = build_model(2*pi/period, r);
-            Ad = A*delta+eye(2*r+1);
-            
-            % re-initialization of the KF
-            P0 = ones(size(q,1));
-        
-            time = 1;
         
         end
 
@@ -257,18 +278,13 @@ for traj = transpose(path)
         
         % new position
         nowpos = [nowpos(1) + windx + posx, nowpos(2) + windy + posy]; 
-            
-        % reached the triggering point, going to TEE i+1
-        if all(abs(nowpos - trigs(i,:)) <= trigeps) 
-            break;
-        end
                  
         % produce a simulated energy value
         % first, let's calculate the angle between the two vectors
         angle = acosd(...
             (posx * windx + posy * windy) / ...
             (sqrt(posx^2 + posy^2) * sqrt(windx^2 + windy^2))...
-                         );
+                     );
         % angle is nan? no windspeed then; so the contribution of the
         % wind is null
         if isnan(angle)
@@ -280,6 +296,13 @@ for traj = transpose(path)
         simpow = minpw + (maxpw - minpw) * .5 * abs(1 - cosd(angle)) * ... 
             windspeed / vehspeed; % winddir and windspeed effect
         
+        % altitude
+        
+        h = maxh + (minh - maxh) * .5 * abs(1 - cosd(angle)) * ...
+            windspeed / vehspeed;
+        
+        hlist = [hlist; h];
+        
         %if mod(k, 10) == 0
         %    v = randn; % uncomment to add some noise
         %end
@@ -287,21 +310,21 @@ for traj = transpose(path)
         
         pow = [pow; simpow]; % energy signal
         
-                   
         % estimating the energy     
         q1_minus = Ad * q0;
+    
+        %KF
         
-        P1_minus = Ad * P0 * transpose(Ad) + Q;
+        P1_minus = Ad*ones(size(q,1))*Ad.'+Q; % fix the covariance, just sim
         
         % estimation
-        K1 = (P1_minus * transpose(C)) / ...
-            (C * P1_minus * transpose(C) + R);
-        q1 = q1_minus + K1 * (pow(end) - C * q1_minus);
-        P1 = (eye(size(q0, 1)) + K1 * C) * P1_minus;
+        K1 = (P1_minus*C.')*(C*P1_minus*C.'+R)^-1;
+        q1 = q1_minus+K1*(pow(end)-C*q1_minus);
+        P1 = (eye(size(q0,1))+K1*C)*P1_minus;
         
         y0_estimate = C * q1;
     
-            % updating values for the next iteration
+        % updating values for the next iteration
         q0 = q1;
             
         P0 = P1;
@@ -311,6 +334,11 @@ for traj = transpose(path)
         q = [q q0];
                                 
         k = k + 1;
+        
+        % reached the triggering point, going to stage i+1
+        if all(abs(nowpos - trigs(i,:)) <= trigeps) 
+            break;
+        end
     end
         
     i = i + 1;
@@ -357,17 +385,17 @@ plot(q(7,1:end))
 
 %% saving data
 
-csvwrite('position_simulation3A.csv', [pos(:, 1) pos(:, 2) pdanglelist]);
+csvwrite('position_simulation3D.csv', [pos(:, 1) pos(:, 2) hlist pdanglelist]);
 
-csvwrite('energy_simulation3A.csv', [linspace(0, k, size(pow, 1))', ...
+csvwrite('energy_simulation3D.csv', [linspace(0, size(pow, 1)*delta, size(pow, 1))', ...
     pow(:, 1), y(:, 1), q(1,1:end)', q(2,1:end)', q(3,1:end)',     ...
     q(4,1:end)', q(5,1:end)', q(6,1:end)', q(7,1:end)']);
 
-csvwrite('trajdata_simulation3A.csv', strp);
+csvwrite('trajdata_simulation3D.csv', strp);
 
-csvwrite('algdata_simulation3A.csv', strp2);
+csvwrite('algdata_simulation3D.csv', strp2);
 
-csvwrite('perioddata_simulation3A.csv', periodlist);
+csvwrite('perioddata_simulation3D.csv', periodlist);
 
 
 %% model building function
@@ -387,3 +415,4 @@ function [A, C] = build_model(omega,r)
     end
 
 end
+
