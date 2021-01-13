@@ -312,10 +312,10 @@ for traj = transpose(path)
         
         % estimating the energy     
         q1_minus = Ad * q0;
-    
-        %KF
         
-        P1_minus = Ad*ones(size(q,1))*Ad.'+Q; % fix the covariance, just sim
+        %KF    
+        
+        P1_minus = Ad*ones(size(q0,1))*Ad.'+Q; % fix the covariance, just sim
         
         % estimation
         K1 = (P1_minus*C.')*(C*P1_minus*C.'+R)^-1;
@@ -385,17 +385,17 @@ plot(q(7,1:end))
 
 %% saving data
 
-csvwrite('position_simulation3D.csv', [pos(:, 1) pos(:, 2) hlist pdanglelist]);
+csvwrite('position_simulationNAME.csv', [pos(:, 1) pos(:, 2) hlist pdanglelist]);
 
-csvwrite('energy_simulation3D.csv', [linspace(0, size(pow, 1)*delta, size(pow, 1))', ...
+csvwrite('energy_simulationNAME.csv', [linspace(0, size(pow, 1)*delta, size(pow, 1))', ...
     pow(:, 1), y(:, 1), q(1,1:end)', q(2,1:end)', q(3,1:end)',     ...
     q(4,1:end)', q(5,1:end)', q(6,1:end)', q(7,1:end)']);
 
-csvwrite('trajdata_simulation3D.csv', strp);
+csvwrite('trajdata_simulationNAME.csv', strp);
 
-csvwrite('algdata_simulation3D.csv', strp2);
+csvwrite('algdata_simulationNAME.csv', strp2);
 
-csvwrite('perioddata_simulation3D.csv', periodlist);
+csvwrite('perioddata_simulationNAME.csv', periodlist);
 
 
 %% model building function
