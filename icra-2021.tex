@@ -885,19 +885,31 @@ Moreover, let $g(\{\emptyset\})$ be zero.
 
 
 \begin{figure*}
+  \hspace{-2ex}
   \begin{tikzpicture}
-    \node[inner sep=0pt] () at (-1,7)
-        {\footnotesize\input{\figpath/results/trajs_sim3.tikz}};
-      \node[inner sep=0pt] () at (4.8,7)
-        {\footnotesize\input{\figpath/results/evol_sim3.tikz}};
-    \node[inner sep=0pt] () at (9.3,7)
-        {\footnotesize\input{\figpath/results/coef_sim3D.tikz}};
     \node[inner sep=0pt] () at (0,0)
+        {\footnotesize\input{\figpath/results/trajs_sim3.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (-3,-4) {\footnotesize {(a) path simulation, {\color{red}+} is the UAV location after 200 seconds}};
+    \node[inner sep=0pt] () at (8.3,-.02)
         {\footnotesize\input{\figpath/results/ener_sim3.tikz}};
-    \node[inner sep=0pt] () at (7.9,0)
-        {\footnotesize\input{\figpath/results/ener_sim3_detail.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (5.6,-4) {\footnotesize {(b) energy evolution simulation in 200 seconds interval}};
   \end{tikzpicture}
-  \caption{.}
+  \caption[Path and energy simulation of a static plan]{Path and energy simulations with different atmospheric conditions. Simulations are performed from collected data by variations of wind speed and direction. The path and computations are static}
+  \label{fig:res1}
+\end{figure*}
+\begin{figure*}
+  \begin{tikzpicture}
+    \node[inner sep=0pt] () at (6,0)
+        {\footnotesize\input{\figpath/results/evol_sim3.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (-3.1,-4) {\footnotesize {(a) slice of the simulated energy along the estimated model}};
+    \node[inner sep=0pt] () at (10.6,.05)
+        {\footnotesize\input{\figpath/results/coef_sim3D.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (4.3,-4) {\footnotesize {(b) model evolution at different $k$s}};
+    \node[inner sep=0pt] () at (0,0)
+        {\footnotesize\input{\figpath/results/ener_sim3_detail.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (9.6,-4) {\footnotesize {(c) coefficients evolution}};
+  \end{tikzpicture}
+  \caption[] {Evolution of the simulated energy data from Figure~\ref{fig:res1}, using the estimation first in~\ref{}, the data with no estimation predicting the future in~\ref{}, and evolution of the estimated coefficients in~\ref{}}
 \end{figure*}
 
 

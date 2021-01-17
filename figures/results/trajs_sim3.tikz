@@ -799,7 +799,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00769,0.0,0.0,1.00769,(225.723,28.2154)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.00769,0.0,0.0,1.00769,(225.723,28.2154)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \begin{scope}[cm={{1.00769,0.0,0.0,1.00769,(225.123,28.2154)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {II};
 
 
@@ -1217,7 +1217,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00769,0.0,0.0,1.00769,(124.954,133.015)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.00769,0.0,0.0,1.00769,(124.954,133.015)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \begin{scope}[cm={{1.00769,0.0,0.0,1.00769,(124.454,133.015)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {III};
 
 
@@ -1639,7 +1639,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00769,0.0,0.0,1.00769,(227.738,133.015)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.00769,0.0,0.0,1.00769,(227.738,133.015)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \begin{scope}[cm={{1.00769,0.0,0.0,1.00769,(226.738,133.015)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {IV};
 
 

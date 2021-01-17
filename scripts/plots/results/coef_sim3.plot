@@ -12,8 +12,8 @@ unset key
 set macros
 
 set xrange [0:200]
-set yrange [10:40]
-set ytics ('20' 20, '40' 40) right scale .5
+set yrange [26:40]
+set ytics ('30' 30, '40' 40) right scale .5
 set grid xtics ytics
 
 NOXTICS = "set xtics ('' 0, '' 60, '' 120, '' 180) scale .5; \
@@ -30,14 +30,14 @@ set tmargin at screen 0.96; set bmargin at screen 0.84
 set lmargin at screen 0.16; set rmargin at screen 0.89
 @NOXTICS; @YTICS
 LABEL='I'
-set ylabel 'Value' offset 1,-6
+set ylabel 'Value' offset .5,-6
 set key at screen 0.86,0.90
 plot '../../../data/simulation3/raw5/updated/coefdata_simulation3D_resized.csv' using 1:2 w l ls 1 lw .6 title 'a0';
 
 set tmargin at screen 0.84; set bmargin at screen 0.72
 set lmargin at screen 0.16; set rmargin at screen 0.89
 @NOXTICS;
-set yrange [-30:15]
+set yrange [-28:15]
 set ytics ('-10' -10, '10' 10) right scale .5
 unset ylabel
 set key at screen 0.86,0.78

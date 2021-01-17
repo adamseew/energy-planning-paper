@@ -36,8 +36,8 @@ set multiplot layout 2,2 rowsfirst
 LABEL='I'
 set ylabel offset 0,-3.4;
 set obj 1 rect at graph 0.843,0.86 size char strlen(LABEL)+1.2, char 1
-set label 1 LABEL at graph 0.828,0.86
-plot '../../../data/simulation3/raw5/energy_simulation3D.csv' using 1:2 w l ls 1 lw .6, \
+set label 1 LABEL at graph 0.818,0.86
+plot '../../../data/simulation3/raw5/updated/energy_simulation3D.csv' using 1:2 w l ls 1 lw .6, \
      '' using 1:3 w l ls 1 lw .6 lc rgb '#FF0000' 
 
 @TMARGIN; @RMARGIN
@@ -49,9 +49,9 @@ unset ylabel
 
 LABEL='II'
 set obj 1 rect at graph 0.828,0.86 size char strlen(LABEL)+1.2, char 1
-set label 1 LABEL at graph 0.80,0.86
+set label 1 LABEL at graph 0.79,0.86
 set key left
-plot '../../../data/simulation3/raw1/energy_simulation3.csv' using 1:2 w l title 'data' ls 1 lw .6, \
+plot '../../../data/simulation3/raw1/updated/energy_simulation3.csv' using 1:2 w l title 'data' ls 1 lw .6, \
      '' using 1:3 w l ls 1 lw .6 lc rgb '#FF0000' title 'KF' 
 
 @BMARGIN; @LMARGIN
@@ -63,9 +63,9 @@ set xtics ('0' 0, '2' 2, '4' 4, '6' 6) scale .5 offset 0,.3
 set xlabel offset 12.4,.9
 set yrange [31.6:40]
 set ytics 32,2,38 scale .5
-set obj 1 rect at graph 0.88,0.86 size char strlen(LABEL)+.7, char 1
-set label 1 LABEL at graph 0.83,0.86
-plot '../../../data/simulation3/raw3/energy_simulation3B.csv' using 1:2 w l ls 1 lw .6,\
+set obj 1 rect at graph 0.85,0.86 size char strlen(LABEL)+.7, char 1
+set label 1 LABEL at graph 0.8,0.86
+plot '../../../data/simulation3/raw3/updated/energy_simulation3B.csv' using 1:2 w l ls 1 lw .6,\
      '' using 1:3 w l ls 1 lw .6 lc rgb '#FF0000'
 
 @BMARGIN; @RMARGIN
@@ -76,8 +76,8 @@ unset xlabel
 set yrange [47.6:56]
 set ytics 48,2,54 scale .5
 set obj 1 rect at graph 0.858,0.86 size char strlen(LABEL)+1.2, char 1
-set label 1 LABEL at graph 0.818,0.86 font ',8'
-plot '../../../data/simulation3/raw4/energy_simulation3C.csv' using 1:2 w l ls 1 lw .6,\
+set label 1 LABEL at graph 0.8,0.86 font ',8'
+plot '../../../data/simulation3/raw4/updated/energy_simulation3C.csv' using 1:2 w l ls 1 lw .6,\
      '' using 1:3 w l ls 1 lw .6 lc rgb '#FF0000'
 
 unset multiplot
