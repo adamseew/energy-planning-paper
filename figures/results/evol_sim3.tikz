@@ -5,7 +5,7 @@
 
 
 \def \globalscale {1.000000}
-\begin{tikzpicture}[y=0.86pt, x=0.67pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[y=0.86pt, x=0.7pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
 \begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \begin{scope}[cm={{1.0,0.0,0.0,1.0,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}

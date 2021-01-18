@@ -369,7 +369,7 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(150.0,145.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{II}{sth:ii}};
+\path[cm={{1.0,0.0,0.0,1.0,(150.0,145.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{ii}{sth:ii}};
 
 
 
@@ -469,7 +469,7 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(59.0,201.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{III}{sth:iii}};
+\path[cm={{1.0,0.0,0.0,1.0,(59.0,201.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{iii}{sth:iii}};
 
 
 
@@ -569,7 +569,7 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(88.0,46.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{I}{sth:i}};
+\path[cm={{1.0,0.0,0.0,1.0,(88.0,46.0)}}] (0.0000,0.0000) node[above right] () {\textlabel{i}{sth:i}};
 
 
 
