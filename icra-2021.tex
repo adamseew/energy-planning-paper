@@ -854,7 +854,7 @@ Let us assume that the set
   \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathcal{C}_i\},
 \end{equation}
 delimits the area where the $i$-th trajectory $\varphi_i$ is free to evolve using the trajectory parameters $c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:tee1}). $\varphi_i$ is a function of the two coordinates and is equal to zero when a point $\mathbf{p}_k$ is on the trajectory. Physically, this means the UAV is flying exactly over the nominal trajectory. The trajectory parameters allows to change the trajectory. They are a way to alter the nominal trajectory in the initial plan and thus alter the energy signal.
-In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the optimal trajectory parameters $c_i^0$, such that $\varphi_i$ has the highest instantaneous energy consumption, while still respecting the energy budget. In Figure~\ref{fig:tee1}, the parameter radius of the circle $c_{1,1}$ is replanned (reduced to $c_{1,1}^-$), as e.g., averse atmospheric conditions do not allow to terminate the plan. The sequence of these parameters (control sequence) forms the path $\mathcal{P}$. The gain factors for the trajectory parameters from Equation~\ref{eq:state-control} are obtained
+In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the optimal trajectory parameters $c_i^0$, such that $\varphi_i$ has the highest instantaneous energy consumption, while still respecting the energy budget. In Figure~\ref{fig:tee1}, the parameter radius of the circle $c_{1,1}$ is replanned (reduced to $c_{1,1}^-$), as e.g., averse atmospheric conditions do not allow to terminate the plan. The sequence of these parameters (control sequence) forms the path $\mathcal{P}$. The gain factors for the trajectory parameters from Equation~(\ref{eq:state-control}) are obtained
 \begin{equation}\label{eq:traj-gains}
   \begin{bmatrix}\nu_{i,1} \\ \vdots \\ \nu_{i,\rho}\end{bmatrix}=(\overline{c}_i-\underline{c}_i)^{-1}\rho^{-1}y_{\underline{c}_i}\begin{bmatrix}c_{i,1} \\ \vdots \\ c_{i,\rho}\end{bmatrix},
 \end{equation}
@@ -917,6 +917,7 @@ where the matrix is a diagonal matrix of computations parameters.
   \caption[] {Evolution of the simulated energy data from Figure~\ref{fig:sim-static-plan}, using the estimation first in~\ref{fig:evol-static-plan:a}, the data with no estimation predicting the future in~\ref{fig:evol-static-plan:b}, and evolution of the estimated coefficients in~\ref{fig:evol-static-plan:c}}
   \label{fig:evol-static-planned}
 \end{figure*}
+
 
 
 
