@@ -41,7 +41,12 @@
 \usepackage{amsthm}
 
 %% pseudocode package
-\usepackage{algpseudocode}
+\usepackage{algorithm,algorithmic}
+
+% counter to mantain the line numbering
+\renewcommand\thealgorithm{}
+\newcommand{\setalglineno}[1]{%
+  \setcounter{ALC@line}{\numexpr#1-1}}
 
 %% packages for alignment
 %\usepackage{array}
@@ -96,44 +101,6 @@
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
-
-\algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
-
-% just lines in pseudocode...
-\usepackage{etoolbox}
-
-\makeatletter
-% start with some helper code
-% This is the vertical rule that is inserted
-\newcommand*{\algrule}[1][\algorithmicindent]{%
-  \makebox[#1][l]{%
-    \hspace*{.2em}% <------------- This is where the rule starts from
-    \vrule height .75\baselineskip depth .25\baselineskip
-  }
-}
-
-\newcount\ALG@printindent@tempcnta
-\def\ALG@printindent{%
-    \ifnum \theALG@nested>0% is there anything to print
-    \ifx\ALG@text\ALG@x@notext% is this an end group without any text?
-    % do nothing
-    \else
-    \unskip
-    % draw a rule for each indent level
-    \ALG@printindent@tempcnta=1
-    \loop
-    \algrule[\csname ALG@ind@\the\ALG@printindent@tempcnta\endcsname]%
-    \advance \ALG@printindent@tempcnta 1
-    \ifnum \ALG@printindent@tempcnta<\numexpr\theALG@nested+1\relax
-    \repeat
-    \fi
-    \fi
-}
-% the following line injects our new indent handling code in place of the default spacing
-\patchcmd{\ALG@doentity}{\noindent\hskip\ALG@tlm}{\ALG@printindent}{}{\errmessage{failed to patch}}
-\patchcmd{\ALG@doentity}{\item[]\nointerlineskip}{}{}{} % no spurious vertical space
-% end vertical rule patch for algorithmicx
-\makeatother
 
 % for blank page
 
@@ -858,9 +825,9 @@ In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the op
 \end{equation}
 where $y_{\underline{c}_i}\in\mathbb{R}$ is the maximum energy consumption of the highest possible parameters level at $i$-th stage. The value is obtained empirically (e.g., using an energy sensor). Whenever the trajectory parameters are not equally distributed, one can define $y_{\underline{c}_i}$ as a diagonal matrix where the items of the diagonal are the highest possible levels of specific trajectory parameters.
 
-We derive the new position $\mathbf{p}_{k+1}$ using the function $\varPhi:=\varphi_i(\mathbf{p}_k,\mathbf{c}_i^0)$, computing its vector field $\nabla\varPhi:=\begin{bmatrix}\partial\varPhi/\partial x & \partial\varPhi/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector~\cite{de2017guidance}
+We derive the new position $\mathbf{p}_{k+1}$ computing the vector field $\nabla\varphi_i:=\begin{bmatrix}\partial\varphi_i/\partial x & \partial\varphi_i/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector~\cite{de2017guidance}
 \begin{equation*}\label{eq:pd}
-  \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varPhi-k_e\varPhi\nabla\varPhi,\,\,\,E=\begin{bmatrix}
+  \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varphi_i-k_e\varphi_i\nabla\varphi_i,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
   \end{bmatrix},
 \end{equation*}
@@ -972,58 +939,31 @@ where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the 
 \begin{defn}[Output constrain set]
 The output constrain set is then the set
 \begin{equation*}
-  \mathbb{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
+  \mathcal{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation*}
-and $\max{\mathbb{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption.
+and $\max{\mathcal{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption.
 \end{defn}
 ----
 
 \subsection{Deployment algorithm}
 
-\begin{algorithmic}[1]
-  \Procedure{Step}{$\mathbf{q}_{k-1}$, $\mathbf{u}_{k-1}^a$, $\mathbf{u}_{k-2}^a$, $P_{k-1}$}\label{alg:step}
-  
-  \State $\mathbf{u}_{k-1}\gets {\mathbf{u}_{k-1}(\max{\mathbf{u}}_{k-1}^a,\mathbf{u}_{k-2}^a)}$\label{alg:max_cont_sequence}
+\begin{algorithm}
+  \begin{algorithmic}[1]
+    \STATE $\mathbf{p}_k\gets \mathbf{p}_0, \mathbf{q}_k\gets \mathbf{q}_0$
+    \FOR{$i\in[l]^+$}
+      \WHILE{$\mathbf{p}_k\neq\mathbf{p}_{\Gamma_i}$}
+        \STATE $\mathbf{u}_k\gets\argmax_{\mathbf{u}}\hspace*{-1ex}{\displaystyle{\sum\limits_{i=k-1}^{k+N-2}}\hspace*{-1ex}{l(\mathbf{q}_i,\mathbf{u}_i)+V_f(\mathbf{q}_{k+N-1})}}$\label{alg:mpc}
+        \STATE $\mathbf{u}\gets\{\mathbf{u}\cup\mathbf{u}_k\}$
+        \STATE $\hat{\mathbf{q}}_{k+1}\gets A\mathbf{q}_k+B\mathbf{u}_k$\label{alg:evolution}
+        \STATE $\mathbf{q}_{k+1}\gets$ the estimate of the state from $\hat{\mathbf{q}}_{k+1}$ and sensor data\label{alg:kalman_end}
+        \STATE $\mathbf{p}_{k}\gets\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$ \label{alg:pos}
+        \STATE $k\gets k+1$
+      \ENDWHILE
+    \ENDFOR
+  \end{algorithmic}
+  \caption{Energy-Aware Dynamic Planning}    
+\end{algorithm}
 
-  \State $\mathbf{u}^0_{k-1}\gets\argmax_{\mathbf{u}}{\sum_{i=k-1}^{k+N-2}{l(\mathbf{q}_i,\mathbf{u}_i)+V_f(\mathbf{q}_{k+N-1})}}$\label{alg:mpc}
-
-  \State $\hat{\mathbf{q}}_k^-\gets A\hat{\mathbf{q}}_{k-1} + B\mathbf{u}^0_{k-1}$
-  \If{$C\hat{\mathbf{q}}_k^-\notin\mathbb{Y}_k$}\label{alg:output_constraints}
-    \State $\mathbf{u}^a_{k-1}\gets\mathbf{u}^a_{k-1}/\{\max{\mathbf{u}}^a_{k-1}\}$
-    \State\Return{\Call{Step}{$\mathbf{q}_{k-1}$, $\mathbf{u}^a_{k-1}$, $\mathbf{u}_{k-2}^a$,$P_{k-1}$}}\label{alg:recursion}
-  \Else
-    \If{$\abs{y_k^a-C\hat{\mathbf{q}}_k^-}\leq \varepsilon$}
-      \State $\hat{\mathbf{q}}_k\gets\hat{\mathbf{q}}_k^-$\label{alg:evolution}
-      \State $P_k\gets P_k^-$
-    \Else 
-      \State $P_k^-\gets AP_{k-1}A^T+Q$\label{alg:kalman_start}
-      \State $K\gets P_k^-C^T/(CP_k^-C^T+R)$
-      \State $\hat{\mathbf{q}}_k\gets \hat{\mathbf{q}}_k^-+K(y_k^a-C\hat{\mathbf{q}}_k^-)$
-      \State $P_k\gets(I+KC)P_k^-$\label{alg:kalman_end}
-    \EndIf
-    \State $\mathbf{u}_{k}^a\gets \mathbf{u}_{k-1}^a$
-    \State\Return{$(\hat{\mathbf{q}}_k,P_k,\mathbf{u}_k^a)$}
-  \EndIf
-  \EndProcedure
-\vspace*{1ex}
-  \Procedure{EADMPA}{$\mathcal{M}$, $\mathbf{p}_0$, $\mathbf{q}_0$}
-  \State $k\gets 0$
-%  \State $\mathbf{y}\gets \{\emptyset\}$
-  \State $\mathbf{u}_{k-1}^a\gets\{\emptyset\}$
-  \State $\mathbf{p}_k\gets\mathbf{p}_0$
-  \State $\mathbf{q}_k\gets\mathbf{q}_0$
-  \While{$k \leq t_f$}
-    
-    \State $\mathbf{u}_{k}^a\gets \{\mathbf{u}_{k}^a\mid(\varphi_i(\mathbf{p}_{k},\mathbf{c}_{i}),\Psi(\mathbf{s_{i}}))\in\lambda(\mathbf{p}_k)\}$
-    \State $(\mathbf{q}_k,P_k,\mathbf{u}_k^a)\gets$\Call{Step}{$\mathbf{q}_{k}$, $\mathbf{u}^a_{k}$, $\mathbf{u}_{k-1}^a$, $P_k$}\label{alg:en}
-    \State $\mathbf{p}_{k}\gets\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$\label{alg:pos}
-    \State $\mathbf{u}_{k-1}^a\gets\mathbf{u}_{k}^a$
-
-%    \State $\mathbf{y}\gets\mathbf{y}\cup C\hat{\mathbf{q}}_k$
-    \State $k\gets k + 1$
-  \EndWhile 
-  \EndProcedure
-\end{algorithmic}
 
 Per each time step $k$ (the final time $t_f$ is unknown), the algorithm updates the state--the position at line~\ref{alg:pos} and the energy coefficients at line~\ref{alg:en}--and the control input. Note that the position can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
   
@@ -1137,28 +1077,28 @@ The algorithm reads the plan $\Gamma$ from a file--the plan specification--with 
 
 The first stage $\Gamma_1$ is expressed in the first line of the file
 \begin{algorithmic}[1]
-  \State\textbf{\texttt{$k_e$;$r$;$\varphi_1(\mathbf{p}_k,c_{1,1},\dots,c_{1,\rho})$}}\label{code:stage}
+  \STATE\textbf{\texttt{$k_e$;$r$;$\varphi_1(\mathbf{p}_k,c_{1,1},\dots,c_{1,\rho})$}}\label{code:stage}
 \end{algorithmic}
 where $k_e$ is a convergence value, $r$ a rotation, and $\varphi_1$ the trajectory. The rotation is expressed in binary format with zero being the counter-clockwise rotation, one the clockwise rotation.
 
 The next line specifies the triggering point $\mathbf{p}_{\Gamma_1}$
 \begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:stage}
-  \State\textbf{\texttt{$x$,$y$}}\label{code:trigger-pt}
+  \setcounterref{ALC@line}{code:stage}
+  \STATE\textbf{\texttt{$x$,$y$}}\label{code:trigger-pt}
 \end{algorithmic}
 where $x$ and $y$ are the two coordinates of the point. The UAV reaches the point within a given radius (a parameter of the algorithm) and enters the next stage $\Gamma_2$. The coordinates can be expressed in function of the trajectory parameters $c_{1,1},\dots,c_{1,\rho}$.
 
 The line
 \begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:trigger-pt}
-  \State\textbf{\texttt{[$\underline{c}_1$,$\overline{c}_1$]}}\label{code:tee-set}
+  \setcounterref{ALC@line}{code:trigger-pt}
+  \STATE\textbf{\texttt{[$\underline{c}_1$,$\overline{c}_1$]}}\label{code:tee-set}
 \end{algorithmic}
 specifies the lower $\underline{c}_{1}$ and upper $\overline{c}_{1}$ bounds of the trajectory $\varphi_1$.
 
 The following $\sigma$ lines
 \begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:tee-set}
-  \State\textbf{\texttt{[$\underline{c}_{1,j}$,$\overline{c}_{1,j}$]}}\label{code:parameter-set}
+  \setcounterref{ALC@line}{code:tee-set}
+  \STATE\textbf{\texttt{[$\underline{c}_{1,j}$,$\overline{c}_{1,j}$]}}\label{code:parameter-set}
 \end{algorithmic}
 specifies the lower $\underline{c}_{1,j}$ and upper $\overline{c}_{1,j}$ bounds of the $j$-th computation parameter set. They are in ascending order. 
 
@@ -1173,34 +1113,34 @@ We discuss how to specify an initial plan with an example of a survey scenario, 
 
 Recall that the plan is composed of a set of stages (Section~\ref{sec:prob}). It has a variable number of entries per each stage. The first line
 \begin{algorithmic}[1]
-  \State\textbf{\texttt{0.0003;0;(x+45)\^{}2+(y-146)\^{}2-4900+c1}}\label{code:firstcircle}
+  \STATE\textbf{\texttt{0.0003;0;(x+45)\^{}2+(y-146)\^{}2-4900+c1}}\label{code:firstcircle}
 \end{algorithmic}
 corresponds to the trajectory $\varphi_1(\mathbf{p}_k,c_{1,1}):=(x+45)^2+(y-146)^2-4900+c_{1,1}$ in the initial stage $\Gamma_1$. The trajectory is a circle. The gain is $k_e=3\cdot 10^{-4}$, and the rotation is counter-clockwise--we use the rotation matrix $E$ from Equation~(\ref{eq:pd}). We note that line~\ref{code:firstcircle} further specifies the parameter {\tt\textbf{c1}} of the radius of the circle. It corresponds to $c_{1,1}$ in Definition~\ref{def:mission}.
 
 The following line
 \begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:firstcircle}
-  \State\textbf{\texttt{-sqrt(4900+c1)-45,146}}\label{code:trigger}
+  \setcounterref{ALC@line}{code:firstcircle}
+  \STATE\textbf{\texttt{-sqrt(4900+c1)-45,146}}\label{code:trigger}
 \end{algorithmic}
 specifies the triggering point $\mathbf{p}_{\Gamma_1}$. {\tt\textbf{sqrt}} is the square root. The UAV reaches the triggering point within a given $\varepsilon$ (the tolerance), and the algorithm switches to the next stage $\Gamma_2$. We note that the triggering point is in function of the parameter {\tt\textbf{c1}}. This is necessary; an change in a parameter in one stage affects the overall flight.
 
 Let us assume the scenario has two computations. One computation is the CNN object detection algorithm, and it can be planned by one parameter $c_{1,2}$, the fps rate. Another computation is the variable key-size encryption algorithm. It can be planned by one parameter $c_{1,2}$, the key-size. Then in the plan
 \begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:trigger}
-  \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset}
-  \State\textbf{\texttt{[2,10]}}\label{code:qos1set}
-  \State\textbf{\texttt{[32,448]}}\label{code:qos2set}
+  \setcounterref{ALC@line}{code:trigger}
+  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset}
+  \STATE\textbf{\texttt{[2,10]}}\label{code:qos1set}
+  \STATE\textbf{\texttt{[32,448]}}\label{code:qos2set}
 \end{algorithmic}
 line~\ref{code:teeset} corresponds to the trajectory $\varphi_1$'s contraints set $\mathcal{C}_1=[-3\cdot10^3,0]$. The algorithm selects $c_{1,1}\in\mathcal{C}_1$. Line~\ref{code:qos1set} corresponds to the computation constraints set $\mathcal{S}_{1,1}$ for the computation parameter $c_{1,2}$. Line~\ref{code:qos1set} corresponds to the computation constraints set $\mathcal{S}_{1,2}$ for the computation parameter $c_{1,2}$. Lines~\ref{code:teeset}--\ref{code:qos2set} must follow the ascending order of the parameters. Lines~\ref{code:firstcircle}--\ref{code:qos2set} all describe the stage $\Gamma_1$.
 
 Once the UAV reaches the triggering point (line~\ref{code:trigger}) and there are no further lines, the algorithm terminates (the last triggering point is the final point). If there are further lines, the stage switches to $\Gamma_2$
 \begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:qos2set}
-  \State\textbf{\texttt{0.05;1;x+sqrt(4900+c1)+45}}\label{code:tee2}
-  \State\textbf{\texttt{-sqrt(4900+c1)-45,11}}\label{code:trigger2}
-  \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset2}
-  \State\textbf{\texttt{[2,10]}}
-  \State\textbf{\texttt{[32,448]}}\label{code:qosset12}
+  \setcounterref{ALC@line}{code:qos2set}
+  \STATE\textbf{\texttt{0.05;1;x+sqrt(4900+c1)+45}}\label{code:tee2}
+  \STATE\textbf{\texttt{-sqrt(4900+c1)-45,11}}\label{code:trigger2}
+  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset2}
+  \STATE\textbf{\texttt{[2,10]}}
+  \STATE\textbf{\texttt{[32,448]}}\label{code:qosset12}
 \end{algorithmic}
 line~\ref{code:tee2} corresponds to the trajectory $\varphi_2(\mathbf{p}_k,c_{1,1}):=x+\sqrt{4900+c_{1,1}}+45$, a linear equation that intersects the triggering point (line~\ref{code:trigger}). The gain is $k_e=5\cdot 10^{-2}$, and the rotation is opposite to line~\ref{code:firstcircle}. The algorithm computes $-E$ from the rotation matrix in Equation~\ref{eq:pd}. 
 
@@ -1210,36 +1150,36 @@ The triggering point of the stage $\Gamma_2$ at line~\ref{code:trigger2} also de
 
 Again, if there are further lines and UAV reaches the triggering point (line~\ref{code:trigger2}), the algorithm switches the stage to $\Gamma_3$
 \begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:qosset12}
-  \State\textbf{\texttt{0.0003;90;(x+sqrt(4900+c1)-30)\^{}2}}
+  \setcounterref{ALC@line}{code:qosset12}
+  \STATE\textbf{\texttt{0.0003;90;(x+sqrt(4900+c1)-30)\^{}2}}
   \textbf{\texttt{\hspace*{14ex}+(y-11)\^{}2-5625}}\label{code:tee3}
-  \State\textbf{\texttt{-sqrt(4900+c1)+105,11}}
-  \State\textbf{\texttt{[-3*10\^{}3,0]}}
-  \State\textbf{\texttt{[2,10]}}
-  \State\textbf{\texttt{[32,448]}}\label{code:qosset32}
+  \STATE\textbf{\texttt{-sqrt(4900+c1)+105,11}}
+  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}
+  \STATE\textbf{\texttt{[2,10]}}
+  \STATE\textbf{\texttt{[32,448]}}\label{code:qosset32}
 \end{algorithmic}
 line~\ref{code:tee3} corresponds to the trajectory $\varphi_3(\mathbf{p}_k,c_{1,1}):=(x+\sqrt{4900+c_{1,1}}-30)^2+(y-11)^2-5625$, a circle of fixed size that changes the coordinates in function of the parameter {\tt\textbf{c1}}. The rotation is counter-clockwise, alike $\varphi_1$.
 
 The lines
 \begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:qosset32}
-  \State\textbf{\texttt{0.05;90;x+sqrt(4900+c1)-105}}\label{code:tee4}
-  \State\textbf{\texttt{-sqrt(4900+c1)+105,147}}
-  \State\textbf{\texttt{[-3*10\^{}3,0]}}
-  \State\textbf{\texttt{[2,10]}}
-  \State\textbf{\texttt{[32,448]}}\label{code:qosset42}
-  \State\textbf{\texttt{0.0003;90;(x-sqrt(4900+c1)+105)\^{}2}}
+  \setcounterref{ALC@line}{code:qosset32}
+  \STATE\textbf{\texttt{0.05;90;x+sqrt(4900+c1)-105}}\label{code:tee4}
+  \STATE\textbf{\texttt{-sqrt(4900+c1)+105,147}}
+  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}
+  \STATE\textbf{\texttt{[2,10]}}
+  \STATE\textbf{\texttt{[32,448]}}\label{code:qosset42}
+  \STATE\textbf{\texttt{0.0003;90;(x-sqrt(4900+c1)+105)\^{}2}}
   \textbf{\texttt{\hspace*{14ex}+(y-147)\^{}2-4900+c1}}\label{code:tee5}
-  \State\textbf{\texttt{-3*sqrt(4900+c1)+105,147}}\label{code:triggerlast}
-  \State\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset5}
+  \STATE\textbf{\texttt{-3*sqrt(4900+c1)+105,147}}\label{code:triggerlast}
+  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset5}
 \end{algorithmic}
 defines the stages $\Gamma_4$ and $\Gamma_5$. Line~\ref{code:tee4} corresponds to the trajectory $\varphi_4(\mathbf{p}_k,c_{1,1}):=x+\sqrt{4900+c_{1,1}}-105$. Line~\ref{code:tee5} corresponds to the trajectory $\varphi_4(\mathbf{p}_k,c_{0,1}):=(x-\sqrt{4900+c_{0,1}}+105)^2+(y-147)^2-4900+c_{0,1}$.
 
 We note that the survey scenario example changes the radius of the circular trajectory $\varphi_1$ through the parameter $c_{1,1}$. It also changes the radius of $\varphi_5$ in the same way (recall Assumption~\ref{assm:periodic}). The other trajectories ($\varphi_2,\varphi_3,\varphi_4$) displacement alters the distance between the lines in the survey. For simplicity, we suppose line~\ref{code:triggerlast} describes the final point. We further suppose the user does not desire to process any computation in the last stage $\Gamma_5$. To inhibit the computations
 \begin{algorithmic}[1]
-  \setcounterref{ALG@line}{code:teeset5}
-  \State\textbf{\texttt{[0,0]}}
-  \State\textbf{\texttt{[0,0]}}
+  \setcounterref{ALC@line}{code:teeset5}
+  \STATE\textbf{\texttt{[0,0]}}
+  \STATE\textbf{\texttt{[0,0]}}
 \end{algorithmic}
 
 If there are any following stages in the survey, they are constructed the same way. The stages $\Gamma_i$ for $i:=\{0,4,8,\dots\}$ contain trajectory circle with variable radius. For $i:=\{1,3,5,\dots\}$ trajectory line with variable displacement. For $i:=\{2,6,10,\dots\}$ trajectory circle with fixed radius and variable displacement.
