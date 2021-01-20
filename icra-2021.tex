@@ -823,14 +823,14 @@ In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the op
 \begin{equation}\label{eq:traj-gains}
   \begin{bmatrix}\nu_{i,1} \\ \vdots \\ \nu_{i,\rho}\end{bmatrix}=(\overline{c}_i-\underline{c}_i)^{-1}\rho^{-1}y_{\underline{c}_i}\begin{bmatrix}c_{i,1} \\ \vdots \\ c_{i,\rho}\end{bmatrix},
 \end{equation}
-where $y_{\underline{c}_i}\in\mathbb{R}$ is the maximum energy consumption of the highest possible parameters level at $i$-th stage. The value is obtained empirically (e.g., using an energy sensor). Whenever the trajectory parameters are not equally distributed, one can define $y_{\underline{c}_i}$ as a diagonal matrix where the items of the diagonal are the highest possible levels of specific trajectory parameters.
+where $y_{\underline{c}_i}\in\mathbb{R}$ is the maximum energy consumption of the highest possible parameters level at $i$-th stage. The value is obtained empirically (e.g., using an energy sensor). Whenever the trajectory parameters are not equally distributed, one can define $y_{\underline{c}_i}$ as a diagonal matrix where the items of the diagonal are the highest possible levels of specific trajectory parameters.  Moreover, let $\nu_{i,1},\dots,\nu_{i,\rho}$ be zero when the parameters $c_i^\rho=\{\emptyset\}$.
 
 We derive the new position $\mathbf{p}_{k+1}$ computing the vector field $\nabla\varphi_i:=\begin{bmatrix}\partial\varphi_i/\partial x & \partial\varphi_i/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector~\cite{de2017guidance}
-\begin{equation*}\label{eq:pd}
+\begin{equation}\label{eq:pd}
   \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varphi_i-k_e\varphi_i\nabla\varphi_i,\,\,\,E=\begin{bmatrix}
     0&1\\-1&0
   \end{bmatrix},
-\end{equation*}
+\end{equation}
 where $E$ specifies the rotation (it influence the tracking direction), and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading $\dot{\mathbf{p}}$ due to the atmospheric interferences, such as wind ($w\in\mathbb{R}$ in the top of Figure~\ref{fig:tee1}).
 
 \subsection{Computations parameters energy contribution}
@@ -844,45 +844,15 @@ The computations are implemented by software components, e.g., ROS nodes in a RO
 
 We note that while the trajectory can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
 
-Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the tool. Moreover, let $g(\{\emptyset\})$ be zero.
+Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the tool.
 
 The gain factors that quantifies the contribution of the computations parameters
 \begin{equation}\label{eq:energy-comp}
   \begin{bmatrix}\nu_{i,\rho+1} \\ \vdots \\ \nu_{i,\rho+\sigma}\end{bmatrix}=\begin{bmatrix}c_{i,\rho+1}^{-1} & & \\ & \ddots & \\ & & c_{i,\rho+\sigma}^{-1} \end{bmatrix}\begin{bmatrix}g(c_{i,\rho+1}) \\ \vdots \\ g(c_{i,\rho+\sigma})\end{bmatrix},
 \end{equation}
-where the matrix is a diagonal matrix of computations parameters.
+where the matrix is a diagonal matrix of computations parameters. Moreover, let $\nu_{i,\rho+1},\dots,\nu_{i,\rho+\sigma}$ be zero when the parameters $c_i^\sigma=\{\emptyset\}$.
 
 The factors thus add the computational energy component to the model in Equation~(\ref{eq:state-perf}).
-
-\begin{figure*}
-  \hspace*{-2ex}
-  \begin{tikzpicture}
-    \node[inner sep=0pt] () at (0,0)
-        {\footnotesize\input{\figpath/results/trajs_sim3.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (-3,-4) {\footnotesize {(a) path simulation, {\color{red}+} is the UAV location after 200 seconds}};
-    \node[inner sep=0pt] () at (8.3,-.02)
-        {\footnotesize\input{\figpath/results/ener_sim3.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (5.6,-4) {\footnotesize {(b) energy evolution simulation for 200 seconds interval}};
-  \end{tikzpicture}
-  \caption[Path and energy simulation of a static plan]{Path and energy simulations with different atmospheric conditions. Simulations are performed from collected data by variations of wind speed and direction. The path and computations are static}
-  \label{fig:sim-static-plan}
-\end{figure*}
-\begin{figure*}
-  \hspace*{-3.4ex}
-  \begin{tikzpicture}
-    \node[inner sep=0pt] () at (0,0)
-        {\footnotesize\input{\figpath/results/ener_sim3_detail.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (-3.1,-4) {\footnotesize {(\textlabel{a}{fig:evol-static-plan:a}) slice of the simulated energy along the estimated model}};
-    \node[inner sep=0pt] () at (6,0)
-        {\footnotesize\input{\figpath/results/evol_sim3.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (4.3,-4) {\footnotesize {(\textlabel{b}{fig:evol-static-plan:b}) model evolution at different $k$s}};
-    \node[inner sep=0pt] () at (10.8,.05)
-        {\footnotesize\input{\figpath/results/coef_sim3D.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (9.6,-4) {\footnotesize {(\textlabel{c}{fig:evol-static-plan:c}) coefficients evolution}};
-  \end{tikzpicture}
-  \caption[] {Evolution of the simulated energy data from Figure~\ref{fig:sim-static-plan}, using the estimation first in~\ref{fig:evol-static-plan:a}, the data with no estimation predicting the future in~\ref{fig:evol-static-plan:b}, and evolution of the estimated coefficients in~\ref{fig:evol-static-plan:c}}
-  \label{fig:evol-static-planned}
-\end{figure*}
 
 
 %%%%%%%%%%%%%%%%%%%
@@ -916,13 +886,13 @@ Let us proof that if the plan is periodic and one period is valid, then the plan
 \end{thm}
 \begin{proof}
   The proof is based on mathematical induction. 
-  Base case: 
+  Base case: * 
   
-  Induction step:
+  Induction step: * 
 
 \end{proof}
 
-\subsection{Output constraint set}
+\subsection{Output and control constraint sets}
 
 We stated earlier the output $y$--the instantaneous energy consumption--evolves in $\mathbb{R}_{\geq 0}$. This is generally untrue. Physical UAVs are bounded by strict energy budgets due to battery limitations.
 
@@ -942,64 +912,102 @@ The output constrain set is then the set
   \mathcal{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation*}
 and $\max{\mathcal{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption.
+
+The control constraint set is the trajectory contraint set for the trajectory parameters and computation constraint sets for the computation parameters (Definition~\ref{def:mission})
+\begin{equation*}
+  \mathcal{U}_k:=\begin{cases}
+    \mathcal{C}_i & \text{for } c_{i,j} \text{ with } j\leq\rho\\
+    \mathcal{S}_{i,j-\rho} & \text{for } c_{i,j} \text{ with } \rho<j\leq\sigma
+  \end{cases}.
+\end{equation*}
 \end{defn}
-----
 
 \subsection{Deployment algorithm}
 
-\begin{algorithm}
+\begin{algorithm}[t]
+  \caption{Energy-Aware Dynamic Planning}\label{alg}
   \begin{algorithmic}[1]
-    \STATE $\mathbf{p}_k\gets \mathbf{p}_0, \mathbf{q}_k\gets \mathbf{q}_0$
-    \FOR{$i\in[l]^+$}
-      \WHILE{$\mathbf{p}_k\neq\mathbf{p}_{\Gamma_i}$}
-        \STATE $\mathbf{u}_k\gets\argmax_{\mathbf{u}}\hspace*{-1ex}{\displaystyle{\sum\limits_{i=k-1}^{k+N-2}}\hspace*{-1ex}{l(\mathbf{q}_i,\mathbf{u}_i)+V_f(\mathbf{q}_{k+N-1})}}$\label{alg:mpc}
-        \STATE $\mathbf{u}\gets\{\mathbf{u}\cup\mathbf{u}_k\}$
-        \STATE $\hat{\mathbf{q}}_{k+1}\gets A\mathbf{q}_k+B\mathbf{u}_k$\label{alg:evolution}
-        \STATE $\mathbf{q}_{k+1}\gets$ the estimate of the state from $\hat{\mathbf{q}}_{k+1}$ and sensor data\label{alg:kalman_end}
-        \STATE $\mathbf{p}_{k}\gets\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$ \label{alg:pos}
+    \STATE $\mathbf{p}_{k-1}\gets \mathbf{p}_0, \mathbf{q}_{k-1}\gets \mathbf{q}_0, \mathbf{u}_{k-1}\gets \{\emptyset\}$\label{alg:init}
+    \FOR{$i\in[l]^+$}\label{alg:stages-loop}
+      \WHILE{$\mathbf{p}_{k-1}\neq\mathbf{p}_{\Gamma_i}$}
+        \STATE $\mathbf{u}_k\gets\argmax_{\mathbf{u}}\hspace*{-1ex}{\displaystyle{\sum\limits_{j=k-1}^{k+N-2}}\hspace*{-1ex}{l(\mathbf{q}_j,\mathbf{u}_j)+V_f(\mathbf{q}_{k+N-1})}}$\label{alg:mpc}
+        \STATE $\hat{\mathbf{q}}_{k}\gets A\mathbf{q}_{k-1}+B_i(\mathbf{u}_{k}-\mathbf{u}_{k-1})$\label{alg:evolution}
+        \STATE $\mathbf{q}_{k}\gets$ the estimate of the state from $\hat{\mathbf{q}}_{k}$ and sensor data\label{alg:kalman_end}
+        \STATE $\mathbf{p}_{k}\gets\mathbf{p}_{k-1}\dot{\mathbf{p}}_d(\mathbf{p}_{k-1})/v$ \label{alg:pos}
         \STATE $k\gets k+1$
       \ENDWHILE
     \ENDFOR
-  \end{algorithmic}
-  \caption{Energy-Aware Dynamic Planning}    
+  \end{algorithmic} 
 \end{algorithm}
 
+The algorithm first initializes the position, energy coefficients, and control (line~\ref{alg:init}). 
 
-Per each time step $k$ (the final time $t_f$ is unknown), the algorithm updates the state--the position at line~\ref{alg:pos} and the energy coefficients at line~\ref{alg:en}--and the control input. Note that the position can be computed directly from Equation~(\ref{eq:pd}). If the velocity is $v\in\mathbb{R}_{\geq 0}$, and the starting point $\mathbf{p}_0$, $\mathbf{p}_{k+1}=\mathbf{p}_k\dot{\mathbf{p}}_d(\mathbf{p}_k)/v$.
-  
-In detail, initial guess for $P_0\in\mathbb{R}^{j\times j}$ is positive definite and derived empirically, for $\mathbf{q}_0$ the initial measurement is distributed to the coefficients (see Theorem~\ref{thm:state-vs-energy}). Line~\ref{alg:max_cont_sequence} selects the maximum possible control from the current control input. Line~\ref{alg:mpc} uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the optimal control $\mathbf{u}^0$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
-\begin{equation}\begin{split}
-  l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k^TQ\mathbf{q}_k+\mathbf{u}_k^TR\mathbf{u}_k),\\
-  V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^TP_f\mathbf{q}_k),
+The position is updated at line~\ref{alg:pos}, using the expression from Equation~(\ref{eq:pd}) and the velocity $v\in\mathbb{R}_{\geq 0}$. The expression depends on the trajectory $\varphi_i$ from stage $\Gamma_i$. The algorithm iterates all the stages in the plan $\Gamma$ (line~\ref{alg:stages-loop}), and enters the next stage $\Gamma_{i+1}$ when the UAV reaches the triggering point $\mathbf{p}_{\Gamma_i}$.
+
+The energy coefficients are updated at line~\ref{alg:evolution}, using the expression from Equation~(\ref{eq:state-perf}). The a priori state estimate $\hat{\mathbf{q}}_k$ is refined using a state estimator--such as Kalman filter~\cite{simon2006optimal}--and the data from an energy sensor (line~\ref{alg:kalman_end}).
+At line~\ref{alg:mpc}, the algorithm uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the control $\mathbf{u}_k$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
+\begin{equation}\label{eq:cost}\begin{split}
+  l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k)+\\
+  &\hspace*{3.5ex}(1/2)(\mathbf{u}_k-\mathbf{u}_{k-1})^TB_i(\mathbf{u}_k-\mathbf{u}_{k-1}),\\
+  V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^TA\mathbf{q}_k),
 \end{split}\end{equation}
-where matrices $Q\in\mathbb{R}^{j\times j},R\in\mathbb{R}^{l\times l}$ are positive definite.
+where $\mathrm{diag}(C)$ is a diagonal matrix with the items of the matrix $C$ from Equation~(\ref{eq:state-details}) on the diagonal. 
 
-Follows a check if the mission can finish without the eventuality of battery discharge (output constraint satisfaction) at line~\ref{alg:output_constraints}, with the control input being eventually updated and the process reiterated at line~\ref{alg:recursion}.
+We note from Lemma~\ref{lem:eqv} that the expression in Equation~(\ref{eq:cost}) denotes the square of the predicted instantaneous energy consumption. Moreover, higher the horizon, higher the complexity and the accuracy of the control.
 
-Before the next step, state estimator--the discrete-time Kalman filter~\cite{simon2006optimal} at lines~\ref{alg:kalman_start}--\ref{alg:kalman_end}--predicts the state $\mathbf{q}$ if the modeled instantaneous energy consumption diverges from the sensor's value $y_k^a$ more than a given $\varepsilon\in\mathbb{R}_{\geq  0}$, or sensor measurements are unavailable ($y_k^a=0$).
+We further note that at every step of the summary on line~\ref{alg:mpc} the algorithm has to evolve the state to check if the output satisfies the output constraint set, and if the control satisfies the trajectory and the computation constraint sets. In particular, at each steps it performs the subroutine
+\begin{algorithmic}
+  {\let\fmtlinenumber\mathalph 
+  \WHILE{$\overline{c}_i\notin\mathcal{U}_k,\, y_k\notin\mathcal{Y}_k$}\label{alg2:while}
+    \STATE $\overline{c}_i\gets\overline{c}_i-\delta$
+  \ENDWHILE
+  \STATE $\mathbf{u}_k\gets\overline{c}_i$}
+\end{algorithmic} 
+where to evaluate the inclusion in the output control set the algorithm evolves the state from its previous estimate similarly as at line~\ref{alg:evolution} (we note that the condition can be written $\overline{c}_i\notin\mathcal{U}_k,\, C\mathbf{q}_k\notin\mathcal{Y}_k$).
+
+We finally note that one can express the tradeoffs between trajectory and computation parameters (e.g., a decrement in the distance between the lines in a survey scenario is related to a decrement in the number of detections per second) enriching the control constraint set with
+\begin{equation*}
+  F_i\mathbf{u}_k-e_i\geq 0,
+\end{equation*}
+where $e_i\in\mathbb{R}^n$ and $F_i\in\mathbb{R}^{n\times n}$ expresses the relation between the parameters (if $F_i$ is an identity matrix there is no relation between the parameters).
 
 
 %%%%%%%%%%%%%%%%%%%%
+
+\begin{figure*}
+  \hspace*{-2ex}
+  \begin{tikzpicture}
+    \node[inner sep=0pt] () at (0,0)
+        {\footnotesize\input{\figpath/results/trajs_sim3.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (-3,-4) {\footnotesize {(a) path simulation, {\color{red}+} is the UAV location after 200 seconds}};
+    \node[inner sep=0pt] () at (8.3,-.02)
+        {\footnotesize\input{\figpath/results/ener_sim3.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (5.6,-4) {\footnotesize {(b) energy evolution simulation for 200 seconds interval}};
+  \end{tikzpicture}
+  \caption[Path and energy simulation of a static plan]{Path and energy simulations with different atmospheric conditions. Simulations are performed from collected data by variations of wind speed and direction. The path and computations are static}
+  \label{fig:sim-static-plan}
+\end{figure*}
+\begin{figure*}
+  \hspace*{-3.4ex}
+  \begin{tikzpicture}
+    \node[inner sep=0pt] () at (0,0)
+        {\footnotesize\input{\figpath/results/ener_sim3_detail.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (-3.1,-4) {\footnotesize {(\textlabel{a}{fig:evol-static-plan:a}) slice of the simulated energy along the estimated model}};
+    \node[inner sep=0pt] () at (6,0)
+        {\footnotesize\input{\figpath/results/evol_sim3.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (4.3,-4) {\footnotesize {(\textlabel{b}{fig:evol-static-plan:b}) model evolution at different $k$s}};
+    \node[inner sep=0pt] () at (10.8,.05)
+        {\footnotesize\input{\figpath/results/coef_sim3D.tikz}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () at (9.6,-4) {\footnotesize {(\textlabel{c}{fig:evol-static-plan:c}) coefficients evolution}};
+  \end{tikzpicture}
+  \caption[] {Evolution of the simulated energy data from Figure~\ref{fig:sim-static-plan}, using the estimation first in~\ref{fig:evol-static-plan:a}, the data with no estimation predicting the future in~\ref{fig:evol-static-plan:b}, and evolution of the estimated coefficients in~\ref{fig:evol-static-plan:c}}
+  \label{fig:evol-static-planned}
+\end{figure*}
+
 \section{Results}
 \label{sec:experimental}
 
 *
-
-%Some preliminary results are discussed. Further analysis and re-implementation of the functionality of the algorithm is needed.
-
-%\begin{figure}[h]
-%  \centering
-%  \input{\figpath/trajectory/trajectory3.tikz}
-%  \caption{The true trajectory. The trajectory is retrieved from the flight log.}
-%  \label{fig:trajectory}
-%\end{figure}
-
-%\begin{figure}[h]
-%  \centering
-%  \input{\figpath/energy/max_qos_tees3.tikz}
-%  \caption{Derived energy consumption from the sensors (throttle). Red line is the estimated value. We use KF for state estimation when the difference between the sensor and model value is $>\varepsilon$. Otherwise we evolve the state without noise.}
-%  \label{fig:energy-max}
-%\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1142,7 +1150,7 @@ Once the UAV reaches the triggering point (line~\ref{code:trigger}) and there ar
   \STATE\textbf{\texttt{[2,10]}}
   \STATE\textbf{\texttt{[32,448]}}\label{code:qosset12}
 \end{algorithmic}
-line~\ref{code:tee2} corresponds to the trajectory $\varphi_2(\mathbf{p}_k,c_{1,1}):=x+\sqrt{4900+c_{1,1}}+45$, a linear equation that intersects the triggering point (line~\ref{code:trigger}). The gain is $k_e=5\cdot 10^{-2}$, and the rotation is opposite to line~\ref{code:firstcircle}. The algorithm computes $-E$ from the rotation matrix in Equation~\ref{eq:pd}. 
+line~\ref{code:tee2} corresponds to the trajectory $\varphi_2(\mathbf{p}_k,c_{1,1}):=x+\sqrt{4900+c_{1,1}}+45$, a linear equation that intersects the triggering point (line~\ref{code:trigger}). The gain is $k_e=5\cdot 10^{-2}$, and the rotation is opposite to line~\ref{code:firstcircle}. The algorithm computes $-E$ from the rotation matrix in Equation~(\ref{eq:pd}). 
 
 The gain is different from the one used in $\varphi_1$ as different equations require different convergence rate. When we follow a circle it is useful to turn the rotation direction in advance. When we follow a straight line, it is preferable to turn the rotation direction closer to the line. The rotation is likewise different. In fact, the rotation matrix $E$ points upwards in the space. It guides the UAV in the counter-clockwise direction (see Figure~\ref{fig:tee1}; the UAV is traveling counter-clockwise). The rotation matrix $-E$ points downwards and guides the UAV in the clockwise direction.
 
