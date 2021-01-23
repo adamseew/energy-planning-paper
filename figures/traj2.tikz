@@ -111,7 +111,7 @@
 
     \path[cm={{1.0,0.0,0.0,1.0,(185.0,158.0)}}] (0.0000,0.0000) node[above right] () {$\mathbf{p}_{k_6}$};
 
-    \path[cm={{1.0,0.0,0.0,1.0,(164.0,170.0)}}] (0.0000,0.0000) node[above right] () {\ref{sth:ii}};
+    \path[cm={{1.0,0.0,0.0,1.0,(161.0,170.0)}}] (0.0000,0.0000) node[above right] () {\ref{sth:iii}};
 
     \path[fill=cFFFFFF,line join=round,line width=0.160pt,rounded corners=0.0000cm] (192.4050,96.8819) rectangle (204.8546,109.3314);
 
