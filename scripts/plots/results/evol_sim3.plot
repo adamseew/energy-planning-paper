@@ -6,7 +6,7 @@ set datafile separator comma
 
 set style line 3 lc rgb '#FF0000' pt 5 ps 0.2 lt 1 lw .6
 set style line 1 lc rgb '#000000' pt 5 ps 0.2 lt 1 lw .6
-set style line 2 lc rgb '#A0A0A0' pt 5 ps 0.2 lt 1 lw .6
+set style line 2 lc rgb '#000000' pt 5 ps 0.2 lt 1 dt 8 lw .6
 set border lw .6
 
 unset key
@@ -36,8 +36,8 @@ set multiplot layout 1,2 rowsfirst
 @NOXTICS; @YTICS
 LABEL='I'
 set ylabel offset 0,-3.4;
-set obj 1 rect at graph 0.863,0.86 size char strlen(LABEL)+2.5, char 1
-set label 1 LABEL at graph 0.848,0.86
+set obj 1 rect at graph 0.873,0.86 size char strlen(LABEL)+2, char 1
+set label 1 LABEL at graph 0.858,0.87
 plot '../../../data/simulation3/raw5/evolved/evolution_simulation3D.csv' using 1:2 w l ls 2 lw .6,\
      '' using 1:4 w l ls 1 lw .6,\
      '' using 1:11 w l ls 3 lw .6
@@ -54,8 +54,8 @@ set xtics ('3:20' 200, '4:00' 240, '5:00' 300, '6:00' 360, '6:40' 400) scale .5 
 set xlabel offset -.1,.9
 set yrange [28.8:32]
 set ytics 29,1,31 right scale .6
-set obj 1 rect at graph 0.863,0.86 size char strlen(LABEL)+2.5, char 1
-set label 1 LABEL at graph 0.832,0.86
+set obj 1 rect at graph 0.873,0.86 size char strlen(LABEL)+2, char 1
+set label 1 LABEL at graph 0.848,0.87
 plot '../../../data/simulation3/raw2/evolved/evolution_simulation3A.csv' using 1:2 w l title 'k=n' ls 2 lw .6,\
      '' using 1:4 w l title 'k=n' ls 1 lw .6,\
      '' using 1:11 w l title 'k=n' ls 3 lw .6 

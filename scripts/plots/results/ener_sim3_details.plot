@@ -91,7 +91,7 @@ set grid x2tics,ytics
 set yrange [0:45]
 set ytics ('37.7' 37.7) scale .5
 set x2range [0:20000]
-set x2tics ('65' 6538) offset 0,-.5
+set x2tics ('65' 6538) offset 0,-.5 scale .5
 set size 0.3, 0.3
 set origin 0.225, 0.56
 set style rect fc lt -1 fs solid 0.15 noborder
@@ -101,7 +101,7 @@ plot '../../../data/simulation3/raw5/updated/perioddata_simulation3D.csv' using 
 set yrange [0:46]
 set ytics ('38.4' 38.36) scale .5
 set x2range [0:20000]
-set x2tics ('69' 6923) offset 0,-.5
+set x2tics ('69' 6923) offset 0,-.5 scale .5
 set size 0.3, 0.3
 set origin 0.625, 0.56
 set style rect fc lt -1 fs solid 0.15 noborder
@@ -111,7 +111,7 @@ plot '../../../data/simulation3/raw1/updated/perioddata_simulation3.csv' using 1
 set yrange [0:55]
 set ytics ('44.6' 44.56) scale .5
 set x2range [0:20000]
-set x2tics ('83' 8264) offset 0,-.5
+set x2tics ('83' 8264) offset 0,-.5 scale .5
 set size 0.3, 0.3
 set origin 0.225, 0.16
 set style rect fc lt -1 fs solid 0.15 noborder
@@ -121,7 +121,7 @@ plot '../../../data/simulation3/raw3/updated/perioddata_simulation3B.csv' using 
 set yrange [0:82]
 set ytics ('68.4' 68.43) scale .5
 set x2range [0:20000]
-set x2tics ('116' 11578) offset 0,-.5
+set x2tics ('116' 11578) offset 0,-.5 scale .5
 set size 0.3, 0.3
 set origin 0.625, 0.16
 set style rect fc lt -1 fs solid 0.15 noborder
