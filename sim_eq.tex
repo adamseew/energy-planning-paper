@@ -35,7 +35,39 @@
 
 \begin{document}
 \maketitle
-Hola
+We split horizontal and vertical dynamics.
+
+\section{Vertical dynamics}
+\begin{equation}
+	a_v = \frac{1}{m} (L - W),
+\end{equation}
+where $a_v$ is the vertical acceleration in ms$^{-2}$, $m$ is the mass of the aircraft in Kg, and $L$ and $W$ are the lift and weight forces respectively in Newtons.
+\begin{equation}
+W = mg,
+\end{equation}
+where $g = 9.8 \, \text{ms}^{-2}$ is the gravity acceleration.
+\begin{equation}
+L = c_l v_s^2,
+\end{equation}
+where $c_l$ is a coefficient to be determined experimentally, and $v_s$ is the airspeed of the aircraft. We can assume that
+\begin{equation}
+	v_s = c_{th}\, (t_h + \Delta t_h) + w_{bx},
+\end{equation}
+where $(t_h + \Delta_h) \in [0,100]$ is the throttle signal and $c_{th}$ is a coefficient to be determined experimentally, and $w_{bx}$ is the component of the wind vector along the horizontal axis of the vehicle. We set $t_h$ to a nominal value, let us say $50$ and we use $\Delta t_h$ to control the altitude of the aircrat with a P controller, i.e., 
+\begin{equation}
+	\Delta t_h = k_p (h_d - h_c),
+\end{equation}
+where $k_p$ is a positive gain constant, and $h_d$ is the desired altitude and $h_c$ is the current altitude of the aircraft.
+
+\subsection{Euler integration}
+\begin{equation}
+	\begin{cases}
+		h(k+1) &= h(k) + v_s(k) \Delta T \\
+		v_s(k+1) & = v_s(k) + a_v(k) \Delta T
+	\end{cases}
+\end{equation}
+
+
 \end{document}
 
 
