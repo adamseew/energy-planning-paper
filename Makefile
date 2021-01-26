@@ -6,7 +6,6 @@ clean:
 
 sim_eq.pdf: sim_eq.tex
 	pdflatex sim_eq
-	bibtex sim_eq
 	pdflatex sim_eq
 	pdflatex sim_eq
 
