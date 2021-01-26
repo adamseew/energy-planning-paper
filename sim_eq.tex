@@ -57,16 +57,33 @@ where $(t_h + \Delta_h) \in [0,100]$ is the throttle signal and $c_{th}$ is a co
 \begin{equation}
 	\Delta t_h = k_p (h_d - h_c),
 \end{equation}
-where $k_p$ is a positive gain constant, and $h_d$ is the desired altitude and $h_c$ is the current altitude of the aircraft.
+where $k_p$ is a positive gain constant, and $h_d$ is the desired altitude and $h_c$ is the current altitude of the aircraft in meters.
 
 \subsection{Euler integration}
 \begin{equation}
 	\begin{cases}
 		h(k+1) &= h(k) + v_s(k) \Delta T \\
-		v_s(k+1) & = v_s(k) + a_v(k) \Delta T
+		v_v(k+1) &= v_s(k) + a_v(k) \Delta T,
 	\end{cases}
 \end{equation}
+where $v_v$ is the vertical speed (do not confuse it with the airspeed $v_s$).
 
+\section{Horizontal dynamics}
+\begin{equation}
+	\begin{cases}
+		\dot p &= c_{th}(t_h + \Delta t_h) \begin{bmatrix}\cos(\theta) \\ \sin(\theta) \end{bmatrix} + w \\
+			\dot\theta &= u
+	\end{cases},
+\end{equation}
+where $p$ is the position of the aircraft in the plane, $\theta$ is the angle of the velocity vector in the plane, $w$ is the wind vector, and $u$ is the control action for steering the aircraft (path tracking controller).
+
+\subsection{Euler integration}
+\begin{equation}
+	\begin{cases}
+		p(k+1) &= p(k) + \dot p(k) \Delta T \\
+		\theta(k+1) &= \theta(k) + \dot\theta(k) \Delta T,
+	\end{cases}
+\end{equation}
 
 \end{document}
 
