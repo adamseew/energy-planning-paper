@@ -864,13 +864,14 @@ The factors thus add the computational energy component to the model in Equation
 The main purpose of the algorithm is to output a valid control sequence $\mathbf{u}:=\{\mathbf{u}_0,\mathbf{u}_1,\dots\}$ at each time step given an initial plan $\Gamma$ and to guide the UAV on a valid path: to solve Problem~\ref{pb}.
 
 \begin{defn}[Valid control sequence and path]\label{def:valid}
-  Given a close strictly positive discrete interval $[j-n+1,j]$, a \emph{control sequence} $\mathbf{u}$ is \emph{valid} on $j$ if for every stage $\Gamma_{i-1},\,i\in[j-n+1,j]$ there exists a control $\mathbf{u}_k$ that produce the next stage $\Gamma_i$. 
+  Given a close strictly positive discrete interval $\mathcal{J}:=[j-n+1,j]$ (for $j\in\mathbb{Z}_{>0},j\leq l$ and $n$ given in Assumption~\ref{assm:periodic}), a \emph{control sequence} $\mathbf{u}$ is \emph{valid} on $\mathcal{J}$ if for every stage $\Gamma_{i-1},\,i\in\mathcal{J}$ there exists a control $\mathbf{u}_k$ that produce the next stage $\Gamma_i$. 
   
-  The path $\mathcal{P}$ resulting from such control sequence is a \emph{valid path} on $j$
+  The path $\mathcal{P}$ resulting from such control sequence is a \emph{valid path} on $\mathcal{J}$
   \begin{equation*}\begin{split}\label{eq:mission-valid}
-   \mathcal{P}:=\{\mathbf{p}_{k}\mid\,\exists \mathbf{u}_k,&\forall i\in[j-n+1,j]\,\\&\langle\varphi_i(\mathbf{p}_{k},c_{k}^\rho),c_{k}^\sigma\rangle\in\Gamma_i\}.
+   \mathcal{P}:=\{\mathbf{p}_{k}\mid\,\exists \mathbf{u}_k,\forall i\in\mathcal{J},\,\langle\varphi_i(\mathbf{p}_{k},c_{k}^\rho),c_{k}^\sigma\rangle\in\Gamma_i\},
   \end{split}\end{equation*}
 \end{defn}
+where we recall that $\mathbf{u}_k=\begin{bmatrix}c_k^\rho & c_k^\sigma\end{bmatrix}^T$ from Equation~(\ref{eq:state-control}).
 
 Let us consider the assumption that at least one period in the user-defined initial plan is valid.
 
