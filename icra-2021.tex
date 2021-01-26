@@ -798,11 +798,11 @@ Let us suppose that at time instant $k$ the plan reached the $i$-th stage $\Gamm
 The control along with the input matrix
 \begin{equation}\label{eq:state-control}\begin{split}
   \mathbf{u}_k&=\begin{bmatrix}c_{k,1} & \cdots & c_{k,\rho} & c_{k,\rho+1} & \cdots & c_{k,\rho+\sigma}\end{bmatrix}^T\hspace*{-1ex},\\
-  B\mathbf{u}&:=B_i(\mathbf{u}_k-\mathbf{u}_{k-1}),\,\,\,B_i=\left[\begin{array}{c} \nu_i\\\mathbf{0}\end{array}\right],
+  \mathbf{u}&:=\mathrm{diag}(\nu_i)(\mathbf{u}_k-\mathbf{u}_{k-1})-\tau_i,\,\,\,B=\left[\begin{array}{c} \mathbf{1}\\\mathbf{0}\end{array}\right],
 \end{split}\end{equation}
-where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$, $B\in\mathbb{R}^{m\times n}$. Moreover, the top row of $B$ contains gain factors $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho} & \nu_{i,\rho + 1}& \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}$, quantifying the contribution of a given parameter to the instantaneous energy consumption. The other entries of $B$ are zeros. 
+where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$. Matrix $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row of ones. $\mathbf{u}$ is defined as a linear scale transformation from the parameters to the energy. In fact $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}^T$ and $\tau_i=\begin{bmatrix}\tau_{i,1} & \cdots & \tau_{i,\rho+\sigma}\end{bmatrix}^T$ are scaling factors quantifying the contribution of a given parameter to the instantaneous energy consumption. 
 
-In particular, the first $\rho$ gain factors quantifies the contribution of the $i$-th trajectory parameters. The following $\sigma$ gain factors quantifies the contribution of the computations parameters. We elucidate how we derive these factors in the next two subsections, in Equation~(\ref{eq:traj-gains}) and~(\ref{eq:energy-comp}).
+In particular, the first $\rho$ scaling factors quantifies the contribution of the $i$-th trajectory parameters. The following $\sigma$ scaling factors quantifies the contribution of the computations parameters. We elucidate how we derive these factors in the next two subsections, in Equation~(\ref{eq:traj-gains}) and~(\ref{eq:energy-comp}).
 
 \subsection{Trajectory parameters energy contribution}
 \label{sec:model}
@@ -821,11 +821,14 @@ Let us assume that the set
   \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathcal{C}_i\},
 \end{equation}
 delimits the area where the $i$-th trajectory $\varphi_i$ is free to evolve using the trajectory parameters $c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:tee1}). $\varphi_i$ is a function of the two coordinates and is equal to zero when a point $\mathbf{p}_k$ is on the trajectory. Physically, this means the UAV is flying exactly over the nominal trajectory. The trajectory parameters allows to change the trajectory. They are a way to alter the nominal trajectory in the initial plan and thus alter the energy.
-In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the trajectory parameters such that $\varphi_i$ has the highest instantaneous energy consumption, while still respecting the energy budget. In Figure~\ref{fig:tee1}, the parameter radius of the circle $c_{1,1}$ is replanned as, e.g., averse atmospheric conditions do not allow to terminate the plan. The sequence of these parameters (control sequence) forms the path $\mathcal{P}$. The gain factors for the trajectory parameters from Equation~(\ref{eq:state-control}) are obtained
-\begin{equation}\label{eq:traj-gains}
-  \begin{bmatrix}\nu_{i,1} \\ \vdots \\ \nu_{i,\rho}\end{bmatrix}=(\overline{c}_i-\underline{c}_i)^{-1}\rho^{-1}y_{\underline{c}_i}\begin{bmatrix}c_{i,1} \\ \vdots \\ c_{i,\rho}\end{bmatrix},
-\end{equation}
-where $y_{\underline{c}_i}\in\mathbb{R}$ is the maximum energy consumption of the highest possible parameters level at $i$-th stage. The value is obtained empirically (e.g., using an energy sensor). Whenever the trajectory parameters are not equally distributed, one can define $y_{\underline{c}_i}$ as a diagonal matrix where the items of the diagonal are the highest possible levels of specific trajectory parameters.  Moreover, let $\nu_{i,1},\dots,\nu_{i,\rho}$ be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
+In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the trajectory parameters such that $\varphi_i$ has the highest instantaneous energy consumption, while still respecting the energy budget. In Figure~\ref{fig:tee1}, the parameter radius of the circle $c_{1,1}$ is replanned as, e.g., averse atmospheric conditions do not allow to terminate the plan. The sequence of these parameters (control sequence) forms the path $\mathcal{P}$. The scaling factors for the trajectory parameters from Equation~(\ref{eq:state-control}) are obtained
+\begin{equation}\label{eq:traj-gains}\begin{split}
+  \nu_{i,j}&=\left((y_{\overline{c}_i}-y_{\underline{c}_i})/(\overline{c}_i-\underline{c}_i)\right)/\rho,\\
+  \tau_{i,j}&=\left(\underline{c}_i(y_{\overline{c}_i}-y_{\underline{c}_i})/(\overline{c}_i-\underline{c}_i)-y_{\underline{c}_i}\right)/\rho,
+\end{split}\end{equation}
+$\forall j\in[\rho]^+$. Moreover, $y_{\overline{c}_i},y_{\underline{c}_i}\in\mathbb{R}$ are the maximum (and minimum) energy contribution of the highest (and lowest) change of parameters at $i$-th stage. The value is obtained empirically (e.g., using an energy sensor). 
+%Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
+Moreover, let $\nu_{i,1},\dots,\nu_{i,\rho}$ be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
 
 We derive the new position $\mathbf{p}_{k+1}$ computing the vector field $\nabla\varphi_i:=\begin{bmatrix}\partial\varphi_i/\partial x & \partial\varphi_i/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector~\cite{de2017guidance}
 \begin{equation}\label{eq:pd}
@@ -848,11 +851,12 @@ We note that while the trajectory can differ for each stage, the tasks remain th
 
 Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the tool.
 
-The gain factors that quantifies the contribution of the computations parameters
-\begin{equation}\label{eq:energy-comp}
-  \begin{bmatrix}\nu_{i,\rho+1} \\ \vdots \\ \nu_{i,\rho+\sigma}\end{bmatrix}=\begin{bmatrix}c_{i,\rho+1}^{-1} & & \\ & \ddots & \\ & & c_{i,\rho+\sigma}^{-1} \end{bmatrix}\begin{bmatrix}g(c_{i,\rho+1}) \\ \vdots \\ g(c_{i,\rho+\sigma})\end{bmatrix},
-\end{equation}
-where the matrix is a diagonal matrix of computations parameters. Moreover, let $\nu_{i,\rho+1},\dots,\nu_{i,\rho+\sigma}$ be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
+The scaling factors that quantifies the energy contribution of the computations parameters are derived similarly as in Equation~(\ref{eq:traj-gains})
+\begin{equation}\label{eq:energy-comp}\begin{split}
+  \nu_{i,\rho+j}&=(g(\overline{c}_i)-g(\underline{c}_i))/(\overline{c}_i-\underline{c}_i),\\
+  \tau_{i,\rho+j}&=\underline{c}_i(g(\overline{c}_i)-g(\underline{c}_i))/(\overline{c}_i-\underline{c}_i)-g(\underline{c}_i),
+\end{split}\end{equation}
+$\forall j\in[\sigma]^+$. Moreover, let $\nu_{i,\rho+1},\dots,\nu_{i,\rho+\sigma}$ be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
 
 The factors thus add the computational energy component to the model in Equation~(\ref{eq:state-perf}).
 
@@ -927,11 +931,12 @@ The control constraint set is the trajectory contraint set for the trajectory pa
 \begin{algorithm}[t]
   \caption{Energy-Aware Dynamic Planning}\label{alg}
   \begin{algorithmic}[1]
-    \STATE $\mathbf{p}_{k-1}\gets \mathbf{p}_0, \mathbf{q}_{k-1}\gets \mathbf{q}_0, \mathbf{u}_{k-1}\gets \{\emptyset\}$\label{alg:init}
+    \STATE $\mathbf{p}_{k-1}\gets \mathbf{p}_0, \mathbf{q}_{k-1}\gets \mathbf{q}_0$
+    \STATE $\mathbf{u}_{k-2},\mathbf{u}_{k-1}\gets \{\emptyset\}$\label{alg:init}
     \FOR{$i\in[l]^+$}\label{alg:stages-loop}
       \WHILE{$\mathbf{p}_{k-1}\neq\mathbf{p}_{\Gamma_i}$}
         \STATE $\mathbf{u}_k\gets\argmax_{\mathbf{u}}\hspace*{-1ex}{\displaystyle{\sum\limits_{j=k-1}^{k+N-2}}\hspace*{-1ex}{l(\mathbf{q}_j,\mathbf{u}_j)+V_f(\mathbf{q}_{k+N-1})}}$\label{alg:mpc}
-        \STATE $\hat{\mathbf{q}}_{k}\gets A\mathbf{q}_{k-1}+B_i(\mathbf{u}_{k}-\mathbf{u}_{k-1})$\label{alg:evolution}
+        \STATE $\hat{\mathbf{q}}_{k}\gets A\mathbf{q}_{k-1}+B(\mathrm{diag}(\nu_i)(\mathbf{u}_k-\mathbf{u}_{k-1})-\tau_i)$\label{alg:evolution}
         \STATE $\mathbf{q}_{k}\gets$ the estimate of the state from $\hat{\mathbf{q}}_{k}$ and sensor data\label{alg:kalman_end}
         \STATE $\mathbf{p}_{k}\gets\mathbf{p}_{k-1}\dot{\mathbf{p}}_d(\mathbf{p}_{k-1})/v$ \label{alg:pos}
         \STATE $k\gets k+1$
@@ -947,23 +952,21 @@ The position is updated at line~\ref{alg:pos}, using the expression from Equatio
 The energy coefficients are updated at line~\ref{alg:evolution}, using the expression from Equation~(\ref{eq:state-perf}). The a priori state estimate $\hat{\mathbf{q}}_k$ is refined using a state estimator--such as Kalman filter~\cite{simon2006optimal}--and the data from an energy sensor (line~\ref{alg:kalman_end}).
 At line~\ref{alg:mpc}, the algorithm uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the control $\mathbf{u}_k$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
 \begin{equation}\label{eq:cost}\begin{split}
-  l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k)+\\
-  &\hspace*{3.5ex}(1/2)(\mathbf{u}_k-\mathbf{u}_{k-1})^TB_i(\mathbf{u}_k-\mathbf{u}_{k-1}),\\
-  V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^TA\mathbf{q}_k),
+  l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k+\mathbf{u}^TB\mathbf{u}),\\
+  V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k),
 \end{split}\end{equation}
-where $\mathrm{diag}(C)$ is a diagonal matrix with the items of the matrix $C$ from Equation~(\ref{eq:state-details}) on the diagonal. 
+where $\mathrm{diag}(C)$ is a diagonal matrix with the items of the matrix $C$ from Equation~(\ref{eq:state-details}) on the diagonal, and $\mathbf{u}$ is defined in Equation~(\ref{eq:state-control}).
 
 We note from Lemma~\ref{lem:eqv} that the expression in Equation~(\ref{eq:cost}) denotes the square of the predicted instantaneous energy consumption. Moreover, higher the horizon, higher the complexity and the accuracy of the control.
 
 We further note that at every step of the summary on line~\ref{alg:mpc} the algorithm has to evolve the state to check if the output satisfies the output constraint set, and if the control satisfies the control constraint set. In particular, at each steps it performs the subroutine
 \begin{algorithmic}
-  {\let\fmtlinenumber\mathalph 
+  \STATE $\mathbf{u}_k\gets\overline{c}_i$
   \WHILE{$\overline{c}_i\notin\mathcal{U}_k,\, y_k\notin\mathcal{Y}_k$}\label{alg2:while}
     \STATE $\overline{c}_i\gets\overline{c}_i-\delta$
   \ENDWHILE
-  \STATE $\mathbf{u}_k\gets\overline{c}_i$}
 \end{algorithmic} 
-where to evaluate the inclusion in the output control set the algorithm evolves the state from its previous estimate similarly as at line~\ref{alg:evolution} (we note that the condition can be written $\overline{c}_i\notin\mathcal{U}_k,\, C\mathbf{q}_k\notin\mathcal{Y}_k$).
+where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps (the maximum values of trajectory and computational parameters are reduced by the this step if they don't meet the constraints). To evaluate the inclusion in the output control set, the algorithm evolves the state from its previous estimate similarly as at line~\ref{alg:evolution} (we note that the condition can be written $\overline{c}_i\notin\mathcal{U}_k,\, C\mathbf{q}_k\notin\mathcal{Y}_k$).
 
 We finally note that one can express the tradeoffs between trajectory and computation parameters (e.g., a decrement in the distance between the lines in a survey scenario is related to a decrement in the number of detections per second) enriching the control constraint set with the constraints
 \begin{equation*}
