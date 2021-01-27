@@ -1,9 +1,11 @@
 
 % simulation from the equations from Hector
 
+clear all; clc; close all;
+
 %% init
-delta = 0.01;
-time = delta;
+delta_T = 0.01;
+final_time = 120;
 
 m = 1; % mass of the aircraft [kg]
 W = m*9.8; % weight force [N]
@@ -12,66 +14,77 @@ cl = 9.8/15^2; % coefficient to be determined experimentally
 cth = 15/50; % same
 
 kp = 1; % positive gain constant to be also determined experimentally
-
-th = 50; % nominal vlalue of the throttle
-
+th_nominal = 50; % nominal vlalue of the throttle
+th_delta = 0;
 hd = 25; % desired altitude [m]
+u_theta = 0.1;
 
-w = [1 0]; % wind vector (x, y axis velocity
+w = [1;0]; % wind vector (x, y axis velocity
 
-vv = [15]; % vertical velocity vector (initial 15 [m/s])
-h = [25]; % altitude vector (inital 25 [m])
+vv = 2; % vertical velocity
+sh = 15; % horizontal speed
+h = 20; % altitude 
+p = [0; 0]; % position
+theta = 0.1; % initial angle
+vh = sh * [cos(theta);sin(theta)]; % initial velocity
 
-p = [0; 0]; % position in space (initial 0,0 [m])
-theta = [0.1]; % initial angle
 
-store = []; % just storing all the records for debugging
+log_time = 0:delta_T:final_time;
+log_vv = zeros(length(log_time), 1);
+log_h = log_vv;
+log_theta = log_vv;
+log_sh = log_vv;
+log_th_delta = log_vv;
+log_p = zeros(length(log_time), 2);
+log_vh = log_p;
+
+i = 1;
+log_vv(i) = vv;
+log_h(i) = h;
+log_theta(i) = theta;
+log_sh(i) = sh;
+log_th_delta(i) = th_delta;
+log_p(i, :) = p;
+log_vh(i, :) = vh;
+
 
 %% sim
 
-while true
-    
-    dth = kp*(hd-h(end)); % dth is the change of throttle we use to adjust 
-                          % the altitude
-    
-    vs = cth*(th+dth)-w*[cos(theta(end)); sin(theta(end))]; % airspeed of  
-                                                            % the aircraft 
-                                                            % [m/s]
-    % Hector original formula was wbx; I changes it in -w*[cos(theta);
-    % sin(theta)] which substract the contribution of the wind
-    
-    L = cl*vs^2;
-    
-    av = (L-W)/m; % vertical accelaration [m/s^2]
-    
-    % verical dynamics
-    h = [h; h(end)+vv(end)*delta]; % integration with just Euler
-    vv = [vv; vs+av*delta];
-    
-    % you get the pdangle here in the old simulation instead of theta...
-    u = theta(end);
-    
-    % horizontal kinematics
-    p = [p p(:,end)+(cth*(th+dth)*...
-           [cos(theta(end)); sin(theta(end))]+w)*delta];
-    theta = [theta; theta(end)+u*delta];
-    
-    
-    store = [store; dth vs L av u];
-    
-    time = time + delta;
-    
-    if time >= 60 % 1 minute? It's over...
-        break;
-    end
+for time = delta_T:delta_T:final_time
+
+% Vertical dynamics
+th_delta = kp*(hd - h);
+wbx = dot(w,[cos(theta), sin(theta)]);
+vs = cth*(th_nominal + th_delta) + wbx;
+L = cl * vs*vs;
+av = 1/m * (L - W);
+vv = vv + av*delta_T;
+h = h + vv*delta_T;
+
+% Horizontal unicycle model
+sh = cth*(th_nominal + th_delta);
+pdot = sh*[cos(theta);sin(theta)] + w;
+
+p = p + pdot*delta_T;
+theta = theta + u_theta*delta_T;
+
+% Log
+i = i+1;
+log_vv(i) = vv;
+log_h(i) = h;
+log_theta(i) = theta;
+log_sh(i) = sh;
+log_th_delta(i) = th_delta;
+log_p(i, :) = p;
+log_vh(i, :) = vh;
     
 end
 
 %% plots
 
 subplot(1,2,1);
-plot(p(1,:), p(2,:))
+plot(log_p(:, 1), log_p(:, 2))
 title('position');
 subplot(1,2,2);
-plot(store(:,1))
-title('change in throttle');
+plot(log_time, th_nominal + log_th_delta)
+title('delta throttle');
