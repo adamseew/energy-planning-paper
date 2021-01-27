@@ -55,15 +55,15 @@ where $c_l$ is a coefficient to be determined experimentally, and $v_s$ is the a
 \end{equation}
 where $(t_h + \Delta_h) \in [0,100]$ is the throttle signal and $c_{th}$ is a coefficient to be determined experimentally, and $w_{bx}$ is the component of the wind vector along the horizontal axis of the vehicle. We set $t_h$ to a nominal value, let us say $50$ and we use $\Delta t_h$ to control the altitude of the aircrat with a P controller, i.e., 
 \begin{equation}
-	\Delta t_h = k_p (h_d - h_c),
+	\Delta t_h = k_p (h_d - h_c) - k_{vv} v_v,
 \end{equation}
-where $k_p$ is a positive gain constant, and $h_d$ is the desired altitude and $h_c$ is the current altitude of the aircraft in meters.
+where $k_p$ and $k_{vv}$ are positive gain constants, $h_d$ and $h_c$ are the desired and current altitudes in meters respectively, and $v_v$ is the vertical velocity in m/s.
 
 \subsection{Euler integration}
 \begin{equation}
 	\begin{cases}
 		h(k+1) &= h(k) + v_s(k) \Delta T \\
-		v_v(k+1) &= v_s(k) + a_v(k) \Delta T,
+		v_v(k+1) &= v_v(k) + a_v(k) \Delta T,
 	\end{cases}
 \end{equation}
 where $v_v$ is the vertical speed (do not confuse it with the airspeed $v_s$).
