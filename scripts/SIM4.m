@@ -1,6 +1,7 @@
 
 % simulation from the equations from Hector
 
+%% init
 delta = 0.01;
 time = delta;
 
@@ -25,6 +26,8 @@ p = [0; 0]; % position in space (initial 0,0 [m])
 theta = [0.1]; % initial angle
 
 store = []; % just storing all the records for debugging
+
+%% sim
 
 while true
     
@@ -64,3 +67,11 @@ while true
     
 end
 
+%% plots
+
+subplot(1,2,1);
+plot(p(1,:), p(2,:))
+title('position');
+subplot(1,2,2);
+plot(store(:,1))
+title('change in throttle');
