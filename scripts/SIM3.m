@@ -60,15 +60,15 @@ th_nominal = 50; % nominal vlalue of the throttle
 th_delta = 0;
 hd = 25; % desired altitude [m]
 
-w = [strp(2)*cosd(strp(4));strp(2)*sind(strp(4))]; % wind vector 
-                                                   % (x, y axis velocity)
+w = [strp(2)*cosd(strp(4)); strp(2)*sind(strp(4))]; % wind vector 
+                                                    % (x, y axis velocity)
 
 vv = 0; % vertical velocity
 sh = strp(1); % horizontal speed
 h = strp(10); % altitude
 p = [strp(5); strp(6)]; % position
 theta = deg2rad(strp(3)); % initial angle
-vh = sh * [cos(theta);sin(theta)]; % initial velocity
+vh = sh*[cos(theta); sin(theta)]; % initial velocity
 wbx = dot(w,[cos(theta), sin(theta)]);
 vs = cth*(th_nominal + th_delta) + wbx; % initial airspeed
 
@@ -81,6 +81,8 @@ r = strp2(1); % number of coefficients in the modle (more means more
 eps = strp2(2); % MPC related
 N = strp2(3); % MPC horizon
 
+% kd coefficient
+kd = 5e-2; % FIX ME !
 
 
 %%% building the model %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -253,15 +255,8 @@ for traj = transpose(path)
             Ad = A*delta_T+eye(2*r+1);
         end
             
-        %%% vector field update %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%% position simulation data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
          
-        [dpd, pdangle] = build_gdn2(E,ke,str2sym(traj(3)),p.'); 
-                        
-        log_pdangle = [log_pdangle; pdangle];
-        
-        % is the control u pdangle? NOPE
-        u_theta=deg2rad(pdangle); % radians 
-        
         % Vertical dynamics
         th_delta = kp*(hd-h)-kvv*vv;
         wbx = dot(w,[cos(theta) sin(theta)]);
@@ -277,6 +272,16 @@ for traj = transpose(path)
         pdot = sh*[cos(theta);sin(theta)]+w;
 
         p = p+pdot*delta_T;
+        
+        % getting the vector field
+        
+        varphi = str2sym(traj(3));
+        [dpd pdangle] = build_gdn3(E,ke,varphi,p.');
+                        
+        log_pdangle = [log_pdangle; pdangle];
+        
+        u_theta = build_guidance(pdot,p,theta,varphi,dpd,sh,E,ke,kd); 
+        
         theta = theta+u_theta*delta_T;
         
         log_vv = [log_vv; vv];
@@ -383,10 +388,66 @@ csvwrite('algdata_simulationNAME.csv', strp2);
 csvwrite('perioddata_simulationNAME.csv', periodlist);
 
 
-%% model
+%% functions
+
+function [u] = build_guidance(pdot,p,theta,varphi,dpd,airspeed,E,ke,kd)
+%BUILD_GUIDANCE Creates the guidance action
+%
+    syms x y;
+    
+    dvarphi = gradient(varphi,[x y]);
+    hes_varphi = hessian(varphi,[x y]);
+    x = p(1);
+    y = p(2);
+    varphi_p = double(subs(varphi));
+    dvarphi_p = double(subs(dvarphi));
+    hes_varphi_p = double(subs(hes_varphi));
+    
+    dotxi = -(E*(dpd/(norm(dpd))*(dpd*norm(dpd)).')*E*...
+              ((E-ke*varphi_p)*hes_varphi_p*pdot-...
+               ke*dvarphi_p.'*pdot*dvarphi_p...
+             )).'*E*dpd/norm(dpd)^2;
+         
+    u = norm(pdot)*(dotxi+kd*(pdot/norm(pdot)).'*E*(dpd/norm(dpd)))...
+        /airspeed*cos(...
+            acos((pdot/norm(pdot)).'*[cos(theta);sin(theta)])...
+                     );
+end
+
+function [dpd, pdangle] = build_gdn3(E,ke,varphi,points)
+%BUILD_GDN3 Creates the vector field (local implementation from build_gdn2)
+%
+    syms x y;
+    
+    dvarphi = gradient(varphi,[x y]); % gradient
+    dpd = E*dvarphi-ke*varphi*dvarphi;
+    x = points(:,1); % in one of the implementations there might be 
+                     % multiple points
+    y = points(:,2);
+    dpd = double(subs(dpd));
+    
+    % just the dehree angle for record
+    tdpd = dpd.';
+    angle = atand(tdpd(:,2)./tdpd(:,1));
+    
+    % One has to do the following operation, as the sign is not preserved
+    % in the atand function above
+    
+    % Corresponds to if (pd(1) < 0 && pd(2) < 0) ...
+    angle(and(tdpd(:,1) < 0,tdpd(:,2) < 0)) = ...
+        angle(and(tdpd(:,1) < 0, tdpd(:,2) < 0))+180;
+    
+    % And this corresponds to if (pd(1) < 0 && pd(2) > 0) ...
+    angle(and(tdpd(:,1) < 0, tdpd(:,2) > 0)) = ...
+        angle(and(tdpd(:,1) < 0, tdpd(:,2) > 0))+180;
+     
+    pdangle = angle;
+end
+
 
 function [A, C] = build_model(omega,r)
-
+%BUILD_MODEL Creates the simplified model (local implementation from
+%build_model)
     m = 2*r+1;
 
     Aj = @(omega, j) [0 omega*j ; -omega*j 0];
@@ -395,7 +456,7 @@ function [A, C] = build_model(omega,r)
     C = [1];
 
     for i = 1:r
-        A(2*i : 2*i + 1, 2*i : 2*i + 1) = Aj(omega, i); 
+        A(2*i : 2*i+1, 2*i : 2*i+1) = Aj(omega,i); 
         C = [C 1 0];
     end
 
