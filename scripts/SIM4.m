@@ -20,11 +20,11 @@ th_delta = 0;
 hd = 25; % desired altitude [m]
 u_theta = 0.1;
 
-w = [1;0]; % wind vector (x, y axis velocity
+w = [10;0]; % wind vector (x, y axis velocity
 
 vv = 0; % vertical velocity
-sh = 15; % horizontal speed
-h = 24; % altitude
+sh = 20; % horizontal speed
+h = 0; % altitude
 p = [0; 0]; % position
 theta = 0; % initial angle
 vh = sh * [cos(theta);sin(theta)]; % initial velocity
@@ -70,7 +70,7 @@ sh = cth*(th_nominal + th_delta);
 pdot = sh*[cos(theta);sin(theta)] + w;
 
 p = p + pdot*delta_T;
-theta = theta + u_theta*delta_T;
+theta = theta + u_theta*delta_T; % 
 
 % Log
 i = i+1;

@@ -44,7 +44,7 @@ end
 
 clear answer;
 
-% stroing data
+% storing data
 
 delta_T = 1e-2;
 
@@ -100,7 +100,7 @@ Q = ones(size(q,1));
 R = 1;
 
 
-% asking for the plan specifization (cancel to get the default one
+% asking for the plan specifization (cancel to get the default one)
 
 disp('plan specification');
 [bn folder] = uigetfile('.pln');
@@ -342,33 +342,25 @@ figure(1);
 % plotting the path
 subplot(2,2,[1 2]);
 plot(pos(:, 1), pos(:, 2), 'Color', 'r', 'LineWidth', 1.2)
-
 % plotting the energy and the estimated energy
 subplot(2,2,3);
 plot(linspace(0, k, size(pow, 1)), pow(:, 1))
-
 subplot(2,2,4);
 plot(linspace(0, k, size(y, 1)), y(:, 1))
 
 figure(2);
 subplot(7,1,1);
 plot(q(1,1:end))
-
 subplot(7,1,2);
 plot(q(2,1:end))
-
 subplot(7,1,3);
 plot(q(3,1:end))
-
 subplot(7,1,4);
 plot(q(4,1:end))
-
 subplot(7,1,5);
 plot(q(5,1:end))
-
 subplot(7,1,6);
 plot(q(6,1:end))
-
 subplot(7,1,7);
 plot(q(7,1:end))
 
@@ -377,8 +369,8 @@ plot(q(7,1:end))
 
 csvwrite('position_simulationNAME.csv', [pos(:, 1) pos(:, 2) hlist pdanglelist]);
 
-csvwrite('energy_simulationNAME.csv', [linspace(0, size(pow, 1)*delta, size(pow, 1))', ...
-    pow(:, 1), y(:, 1), q(1,1:end)', q(2,1:end)', q(3,1:end)',     ...
+csvwrite('energy_simulationNAME.csv', [linspace(0,size(pow, 1)*delta, size(pow, 1)).', ...
+    pow(:, 1), y(:, 1), q(1,1:end).', q(2,1:end).', q(3,1:end).',     ...
     q(4,1:end)', q(5,1:end)', q(6,1:end)', q(7,1:end)']);
 
 csvwrite('trajdata_simulationNAME.csv', strp);

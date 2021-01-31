@@ -57,7 +57,7 @@ end
 
 clear answer;
 
-% stroing data
+% storing data
 
 r = strp2(1);
 eps = strp2(2);

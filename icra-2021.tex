@@ -961,10 +961,10 @@ We note from Lemma~\ref{lem:eqv} that the expression in Equation~(\ref{eq:cost})
 
 We further note that at every step of the summary on line~\ref{alg:mpc} the algorithm has to evolve the state to check if the output satisfies the output constraint set, and if the control satisfies the control constraint set. In particular, at each steps it performs the subroutine
 \begin{algorithmic}
-  \STATE $\mathbf{u}_k\gets\overline{c}_i$
   \WHILE{$\overline{c}_i\notin\mathcal{U}_k,\, y_k\notin\mathcal{Y}_k$}\label{alg2:while}
     \STATE $\overline{c}_i\gets\overline{c}_i-\delta$
   \ENDWHILE
+  \STATE $\mathbf{u}_k\gets\overline{c}_i$
 \end{algorithmic} 
 where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps (the maximum values of trajectory and computational parameters are reduced by the this step if they don't meet the constraints). To evaluate the inclusion in the output control set, the algorithm evolves the state from its previous estimate similarly as at line~\ref{alg:evolution} (we note that the condition can be written $\overline{c}_i\notin\mathcal{U}_k,\, C\mathbf{q}_k\notin\mathcal{Y}_k$).
 
