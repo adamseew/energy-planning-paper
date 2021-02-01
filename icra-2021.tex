@@ -955,7 +955,7 @@ At line~\ref{alg:mpc}, the algorithm uses robust output feedback model predictiv
   V_f(\mathbf{q}_k)&:=(1/2)\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k,\\
   l(\mathbf{q}_k,\mathbf{u}_k)&:=V_f(\mathbf{q}_k)+(1/2)\mathbf{u}^TB\mathbf{u},
 \end{split}\end{equation}
-where $\mathrm{diag}(C)$ is a diagonal matrix with the items of the matrix $C$ from Equation~(\ref{eq:state-details}) on the diagonal, and $\mathbf{u}$ is defined in Equation~(\ref{eq:state-control}).
+where $\mathrm{diag}(C)$ is a diagonal matrix with the items of the matrix $C$ from Equation~(\ref{eq:state-details}) on the diagonal, and $\mathbf{u}$ ($\mathrm{diag}(\nu_i)(\mathbf{u}_k-\mathbf{u}_{k-1})-\tau_i$) is defined in Equation~(\ref{eq:state-control}).
 
 We note from Lemma~\ref{lem:eqv} that the expression in Equation~(\ref{eq:cost}) denotes the square of the predicted instantaneous energy consumption. Moreover, higher the horizon, higher the complexity and the accuracy of the control.
 

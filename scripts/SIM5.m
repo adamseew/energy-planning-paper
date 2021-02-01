@@ -193,6 +193,20 @@ wind_y = delta_T*ws*sind(wd);
 y = []; % model output
 q = []; % model state
 
+
+
+%%% params %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% beaware this works only with the default plan and has to be changed for a
+% new one
+min_c1 = -3000;
+max_c1 = 0;
+c1 = max_c1;
+delta_params = 500;
+ %to fix all this
+
+
+%%% physics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 for traj = transpose(path)
         
     traj = split(traj,";");
@@ -214,7 +228,7 @@ for traj = transpose(path)
         time = 0;
         updated_period = 1;
     end
-    
+        
     while true
         
         time = time+delta_T;
@@ -279,9 +293,9 @@ for traj = transpose(path)
         end
         
         % reached the battery striking point (just trying)
-        %if all(abs(log_p(:,end).'-[-42.821 219.39]) <= 0.1)
-        %    1 == 1;
-        %end
+        if all(abs(log_p(:,end).'-[-43.1845 212.027]) <= 0.1)
+            1 == 1;
+        end
     end
     
     i = i+1;
