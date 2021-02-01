@@ -901,23 +901,23 @@ Let us proof that if the plan is periodic and one period is valid, then the plan
 We stated earlier the output $y$--the instantaneous energy consumption--evolves in $\mathbb{R}_{\geq 0}$. This is generally untrue. Physical UAVs are bounded by strict energy budgets due to battery limitations.
 
 Let us hence consider the state of charge (SoC) of a UAV battery with a simplistic difference equation~\cite{seewald2020mechanical}
-\begin{equation*}\begin{split}
+\begin{equation}\label{eq:soc}\begin{split}
   \mathrm{SoC}_k=-\left(V-
   \sqrt{
     V^2-
-    4R_r\tilde{V}y_kV^{-1}}
+    4R_r\tilde{V}y_k/V}
   \right)/2R_rQ_c,\\ 
-\end{split}\end{equation*}
-where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the stabilized voltage, $R_r\in\mathbb{R}$ the resistance, and $Q_c\in\mathbb{R}$ the constant nominal capacity. 
+\end{split}\end{equation}
+where $V\in\mathbb{R}$ is the internal battery and $\tilde{V}\in\mathbb{R}$ the stabilized voltage measured in volts, $R_r\in\mathbb{R}$ the resistance measured in ohms, and $Q_c\in\mathbb{R}$ the constant nominal capacity measured in amperes per hour. 
 
 \begin{defn}[Output, control constrain sets]
 The output constrain set is then the set
 \begin{equation*}
   \mathcal{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation*}
-and $\max{\mathcal{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption.
+and $\max{\mathcal{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption. The SoC can be either obtained using an initial percentage decreased with Equation~(\ref{eq:soc}), or determined from the UAV.
 
-The control constraint set is the trajectory contraint set for the trajectory parameters and computation constraint sets for the computation parameters (Definition~\ref{def:mission})
+The control constraint set is the trajectory constraint set for the trajectory parameters and computation constraint sets for the computation parameters (Definition~\ref{def:mission})
 \begin{equation*}
   \mathcal{U}_k:=\begin{cases}
     \mathcal{C}_i & \text{for } c_{i,j} \text{ with } j\leq\rho\\
@@ -952,8 +952,8 @@ The position is updated at line~\ref{alg:pos}, using the expression from Equatio
 The energy coefficients are updated at line~\ref{alg:evolution}, using the expression from Equation~(\ref{eq:state-perf}). The a priori state estimate $\hat{\mathbf{q}}_k$ is refined using a state estimator--such as Kalman filter~\cite{simon2006optimal}--and the data from an energy sensor (line~\ref{alg:kalman_end}).
 At line~\ref{alg:mpc}, the algorithm uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the control $\mathbf{u}_k$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
 \begin{equation}\label{eq:cost}\begin{split}
-  l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k+\mathbf{u}^TB\mathbf{u}),\\
-  V_f(\mathbf{q}_k)&:=(1/2)(\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k),
+  V_f(\mathbf{q}_k)&:=(1/2)\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k,\\
+  l(\mathbf{q}_k,\mathbf{u}_k)&:=V_f(\mathbf{q}_k)+(1/2)\mathbf{u}^TB\mathbf{u},
 \end{split}\end{equation}
 where $\mathrm{diag}(C)$ is a diagonal matrix with the items of the matrix $C$ from Equation~(\ref{eq:state-details}) on the diagonal, and $\mathbf{u}$ is defined in Equation~(\ref{eq:state-control}).
 

@@ -210,7 +210,7 @@ for traj = transpose(path)
 
         period = time;
         [A C] = build_model(2*pi/period,r);
-        Ad = A*delta+eye(2*r+1);  
+        Ad = A*delta_T+eye(2*r+1);  
         time = 0;
         updated_period = 1;
     end
@@ -230,7 +230,7 @@ for traj = transpose(path)
         %%% vector field %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         [dpd, pdangle] = build_gdn2(E,ke,str2sym(traj(3)),log_p(:,end).');
         log_pdangle = [log_pdangle;pdangle];
-        log_dpd = [log_dpd dpd];
+        log_dpd = [log_dpd; dpd];
         
         % dpd is the ideal direction... We have wind though
         % now if the time is sampled every second, the below expression
@@ -274,9 +274,14 @@ for traj = transpose(path)
         k = k+1;
         
         % reached the triggering point, going to stage i+1
-        if all(abs(log_p(end)-trigs(i,:)) <= trig_eps) 
+        if all(abs(log_p(:,end).'-trigs(i,:)) <= trig_eps) 
             break;
         end
+        
+        % reached the battery striking point (just trying)
+        %if all(abs(log_p(:,end).'-[-42.821 219.39]) <= 0.1)
+        %    1 == 1;
+        %end
     end
     
     i = i+1;
@@ -288,10 +293,10 @@ end
 
 figure(1);
 
-time_v = linspace(0,k,size(log_p,1));
+time_v = linspace(0,k*delta_T,length(log_pow));
 % plotting the path
 subplot(2,2,[1 2]);
-plot(log_p(:,1),log_p(:,2),'Color','r','LineWidth',1.2)
+plot(log_p(1,:),log_p(2,:),'Color','r','LineWidth',1.2)
 % plotting the energy and the estimated energy
 subplot(2,2,3);
 plot(time_v,log_pow(:,1))
@@ -318,12 +323,11 @@ plot(time_v,log_q(7,1:end))
 
 %% save
 
-csvwrite('position_simulationNAME.csv',[log_p(:,1).' log_p(:,2).' ...
-    log_pdangle log_dpd(:,1).' log_dpd(:,2).']);
-csvwrite('energy_simulationNAME.csv',[time_v', ...
-    log_pow(:,1),log_y(:,1),log_q(1,1:end).',log_q(2,1:end).',...
-    log_q(3,1:end).',log_q(4,1:end).',log_q(5,1:end).',log_q(6,1:end).',...
-    log_q(7,1:end).']);
+csvwrite('position_simulationNAME.csv',[log_p(1,2:end).' ...
+    log_p(2,2:end).' log_pdangle log_dpd(:,1) log_dpd(:,2)]);
+csvwrite('energy_simulationNAME.csv',[time_v' ...
+    log_pow log_y log_q(1,:).' log_q(2,:).' log_q(3,:).' log_q(4,:).' ...
+    log_q(5,:).' log_q(6,:).' log_q(7,:).']);
 csvwrite('trajdata_simulationNAME.csv',strp);
 csvwrite('algdata_simulationNAME.csv',strp2);
 csvwrite('perioddata_simulationNAME.csv',log_period);
