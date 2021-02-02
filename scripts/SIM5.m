@@ -85,7 +85,7 @@ R = 1;
 disp('plan specification');
 [bn folder] = uigetfile('.pln');
 if bn == 0
-    fid = fopen('../data/simulation3/plan_specification.pln','rt');
+    fid = fopen('../data/simulation3/dyn_plan_specification.pln','rt');
 else
     fid = fopen(fullfile([folder bn]),'rt');
 end
@@ -106,6 +106,8 @@ while true
         break; 
     elseif isempty(thisline)
         continue;
+    elseif startsWith(thisline,"%",'IgnoreCase',true) == 1 % commentx
+        continue;
     end  % end of file
     
     if i == -1 % first line contains the shift
@@ -122,7 +124,7 @@ while true
         % in this simulation parameters are ignored
     elseif contains(thisline,",")
         thisline = split(thisline,",");
-        trigs = [trigs; str2double(thisline(1)) str2double(thisline(2))];
+        trigs = [trigs; convertCharsToStrings(thisline(1)) convertCharsToStrings(thisline(2))];
     else
         path = [path; convertCharsToStrings(thisline)];
         i = i+1;
@@ -132,6 +134,16 @@ end
 n = i;
 
 fclose(fid);
+
+
+
+%%% params %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% beaware this works only with the default plan and has to be changed for a
+% new one
+min_c1 = -3000;
+max_c1 = 0;
+c1 = max_c1;
+delta_params = 500;
 
 
 
@@ -167,13 +179,13 @@ end
 
 %%% loggers %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-log_p = [start_x;start_y];
-log_y = [];
-log_q = [];
-log_period = [];
-log_pdangle = [];
-log_pow = [];
-log_dpd = [];
+log_p = [start_x;start_y]; % position
+log_y = []; % model output
+log_q = []; % model state
+log_period = []; % periods
+log_pdangle = []; % vector field to trajectory angles
+log_pow = []; % simulated power
+log_dpd = []; % vector field result
  
 
 
@@ -190,21 +202,18 @@ v = 0;
 % direction are constant
 wind_x = delta_T*ws*cosd(wd); 
 wind_y = delta_T*ws*sind(wd);
-y = []; % model output
-q = []; % model state
 
 
+last_trig = double(subs(str2sym(trigs(end,:)))); % evaluates the last 
+                                                 % triggering point
 
-%%% params %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% beaware this works only with the default plan and has to be changed for a
-% new one
-min_c1 = -3000;
-max_c1 = 0;
+% forcing params (just testing)
+max_c1 = -1500;
 c1 = max_c1;
-delta_params = 500;
- %to fix all this
 
 
+ 
+                                                 
 %%% physics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 for traj = transpose(path)
@@ -229,6 +238,9 @@ for traj = transpose(path)
         updated_period = 1;
     end
         
+    trig = double(subs(str2sym(trigs(i,:)))); % evaluates the triggering 
+                                              % point
+    
     while true
         
         time = time+delta_T;
@@ -286,9 +298,9 @@ for traj = transpose(path)
         log_q = [log_q q0];
                                 
         k = k+1;
-        
-        % reached the triggering point, going to stage i+1
-        if all(abs(log_p(:,end).'-trigs(i,:)) <= trig_eps) 
+                
+        % came over the last triggering point
+        if all(abs(log_p(:,end).'-trig) <= trig_eps) 
             break;
         end
         
@@ -299,6 +311,10 @@ for traj = transpose(path)
     end
     
     i = i+1;
+    
+    if (all(trig > last_trig)) % reched the last triggering point
+        break;
+    end
 end
 
 
