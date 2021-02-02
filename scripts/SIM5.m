@@ -85,7 +85,7 @@ R = 1;
 disp('plan specification');
 [bn folder] = uigetfile('.pln');
 if bn == 0
-    fid = fopen('../data/simulation3/dyn_plan_specification.pln','rt');
+    fid = fopen('../data/simulation3/dyn_plan_specification2.pln','rt');
 else
     fid = fopen(fullfile([folder bn]),'rt');
 end
@@ -190,7 +190,8 @@ log_dpd = []; % vector field result
 
 
 %% sim
-    
+
+
 addpath(genpath('position')); % needed for build_gdn2
 
 k = 0;
@@ -206,11 +207,6 @@ wind_y = delta_T*ws*sind(wd);
 
 last_trig = double(subs(str2sym(trigs(end,:)))); % evaluates the last 
                                                  % triggering point
-
-% forcing params (just testing)
-max_c1 = -1500;
-c1 = max_c1;
-
 
  
                                                  
@@ -306,13 +302,17 @@ for traj = transpose(path)
         
         % reached the battery striking point (just trying)
         if all(abs(log_p(:,end).'-[-43.1845 212.027]) <= 0.1)
-            1 == 1;
+            % forcing params (just testing)
+            max_c1 = -1500;
+            c1 = max_c1;
         end
     end
     
     i = i+1;
     
-    if (all(trig > last_trig)) % reched the last triggering point
+    if all(abs(log_p(:,end).'-last_trig) <= trig_eps) % checking if reached  
+                                                      % the last triggering
+                                                      % point
         break;
     end
 end
