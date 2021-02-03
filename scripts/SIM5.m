@@ -7,6 +7,7 @@
 
 %% init
 
+
 %%% initializing all the params %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % prompts with data for input
@@ -62,7 +63,6 @@ eps = strp2(2); % optimization decrement step (to adapt control)
 N = strp2(3); % optimization horizon (for MPC)
 
 
-
 %%% building the model %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 delta_T =  1e-2;
@@ -77,7 +77,6 @@ P0 = ones(size(q0,1)); % covariance guess
 % process noise and sensor noise
 Q = ones(size(q,1));
 R = 1;
-
 
 
 %%% path plan %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -150,14 +149,15 @@ wind_y = delta_T*ws*sind(wd);
 last_trig = [175;161]; % the last triggering point
 
 changed = 0; % for c1 parameter adaptation simulation
+reached = 0; % reached the end of the simulation
  
                                                  
 %%% physics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 traj_C = 1;
 
-while ~all(log_p(:,end)>last_trig) % checking if reached the last 
-                                   % triggering point
+while true 
+    
     % getting the current trajectory
     if traj_C == 4 % traj 4
         
@@ -282,6 +282,12 @@ while ~all(log_p(:,end)>last_trig) % checking if reached the last
             break;
         end
         
+        if all(log_p(:,end)>last_trig) % checking if reached the last 
+                                       % triggering point
+            reached = 1;
+            break;
+        end
+        
         % reached the battery striking point (just trying)
         if and(k*delta_T >= 110,changed == 0)
             % forcing params (just testing)
@@ -327,13 +333,19 @@ while ~all(log_p(:,end)>last_trig) % checking if reached the last
         end
     end
     
+    if reached
+        break;
+    end
+    
     i = i+1;
     traj_C = traj_C+1;
-end
+    
+end  
 
 
 
 %% plots
+
 
 figure(1);
 
@@ -367,6 +379,7 @@ plot(time_v,log_q(7,1:end))
 
 %% save
 
+
 csvwrite('position_simulationNAME.csv',[log_p(1,2:end).' ...
     log_p(2,2:end).' log_pdangle log_dpd(:,1) log_dpd(:,2)]);
 csvwrite('energy_simulationNAME.csv',[time_v' ...
@@ -379,6 +392,7 @@ csvwrite('perioddata_simulationNAME.csv',log_period);
 
 
 %% functions
+
 
 function [A, C] = build_model(omega,r)
 %BUILD_MODEL Creates the simplified model (local implementation from
