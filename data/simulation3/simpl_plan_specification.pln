@@ -1,0 +1,40 @@
+%
+% initial plan in function of one parameter (c1)
+% simplified plan specification format
+%
+% first positions of the trajectories
+%
+% %%%
+init:
+%
+n=4
+p1x=115-sqrt(4900+c1),-(2*75-2*sqrt(4900+c1))
+p1y=-146,-(2*(75-sqrt(4900+c1))/5)
+p2x=115,-(2*75-2*sqrt(4900+c1))
+p3x=115-sqrt(5625),-(2*75-2*sqrt(4900+c1))
+p3y=-11,-(2*(75-sqrt(4900+c1))/5)
+p4x=115-2*sqrt(5625),-(2*75-2*sqrt(4900+c1))
+%
+% %%%
+path:
+%
+% 1st
+0.0003;0;(x+p1x)^2-(y+p1y)^2-4900-c1
+-p2x,p1y
+% 2nd
+0.05;1;x+p2x
+-p2x,p3y
+% 3rd
+0.0003;0;(x+p3x)^2+(y+p3y)^2-5625
+-p4x,p3y
+% 4th
+0.05;0;x+p4x
+% p1y is the next one
+-p4x,p1y
+%
+% %%%
+trig:
+%
+% final point
+% not in function of c1; otherwise one would extend the survey...
+175,161

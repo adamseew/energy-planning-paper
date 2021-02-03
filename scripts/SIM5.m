@@ -7,7 +7,6 @@
 
 %% init
 
-
 %%% initializing all the params %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % prompts with data for input
@@ -80,62 +79,17 @@ Q = ones(size(q,1));
 R = 1;
 
 
-% asking for the plan specifization (cancel to get the default one)
 
-disp('plan specification');
-[bn folder] = uigetfile('.pln');
-if bn == 0
-    fid = fopen('../data/simulation3/dyn_plan_specification2.pln','rt');
-else
-    fid = fopen(fullfile([folder bn]),'rt');
-end
+%%% path plan %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-%%% parsing plan %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-path = []; % trajectories
-
-trigs = []; % triggering points
-
-i = -1;
-sp = [];
-while true
-    thisline = fgetl(fid);
-    if ~ischar(thisline) 
-        break; 
-    elseif isempty(thisline)
-        continue;
-    elseif startsWith(thisline,"%",'IgnoreCase',true) == 1 % commentx
-        continue;
-    end  % end of file
-    
-    if i == -1 % first line contains the shift
-        thisline = split(thisline,',');
-        shift = [str2double(thisline(1));str2double(thisline(2))];
-        i = i+1;
-        continue;
-    end
-    
-    if contains(thisline,"[")
-        thisline(1:1) = [];
-        thisline(end:end) = [];
-        thisline = split(thisline,',');
-        % in this simulation parameters are ignored
-    elseif contains(thisline,",")
-        thisline = split(thisline,",");
-        trigs = [trigs; convertCharsToStrings(thisline(1)) convertCharsToStrings(thisline(2))];
-    else
-        path = [path; convertCharsToStrings(thisline)];
-        i = i+1;
-    end
-end
-
-n = i;
-
-fclose(fid);
-
-
+p1x_ = str2sym("115-sqrt(4900+c1)"); % start points first trajs
+p1y_ = str2sym("-146");
+p2_ = str2sym("115");
+p3x_ = str2sym("115-sqrt(5625)");
+p3y_ = str2sym("-11");
+p4_ = str2sym("115-2*sqrt(5625)");
+psx_ = str2sym("-(2*75-2*sqrt(4900+c1))"); % shift
+psy_ = str2sym("-(2*(75-sqrt(4900+c1))/10)");
 
 %%% params %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % beaware this works only with the default plan and has to be changed for a
@@ -144,37 +98,25 @@ min_c1 = -3000;
 max_c1 = 0;
 c1 = max_c1;
 delta_params = 500;
+n = 4; % used to measure the period T
 
-
-
-%%% iterating trajectories to get n %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% (to measure the period)
-
-e = [];
-p_fix = [0; 0];
-n = 0;
-
-% n is used to measure the period T
-
-for traj = transpose(path) % per each trajectory
-        
-    traj = split(traj,";");
-    traj = str2sym(traj(3));
-    x = p_fix(1);
-    y = p_fix(1);
-    e_j = double(subs(traj));
-    x = p_fix(1)-shift(1);
-    y = p_fix(2)-shift(2);
-    
-    if ismember(double(subs(traj)),e)
-        break;
-    else
-        e = [e e_j];
-    end
-    
-    n = n+1;
-end
-
+psx = 0;
+psy = 0;
+p1x = double(subs(p1x_)); % to be redone every time c1 changes
+p1y = double(subs(p1y_));
+p2 = double(subs(p2_));
+p3x = double(subs(p3x_));
+p3y = double(subs(p3y_));
+p4 = double(subs(p4_));
+t1 = str2sym(strcat("(x+",num2str(p1x),")^2+(y+",num2str(p1y),...
+    ")^2-4900-",num2str(c1)));
+t2 = str2sym(strcat("x+",num2str(p2)));
+t3 = str2sym(strcat("(x+",num2str(p3x),")^2+(y+",num2str(p3y),")^2-5625"));
+t4 = str2sym(strcat("x+",num2str(p4)));
+trg4 = [-p4;-p1y];
+trg3 = [-p4;p3y];
+trg2 = [-p2;p3y];
+trg1 = [-p2;-p1y];
 
 
 %%% loggers %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -205,37 +147,76 @@ wind_x = delta_T*ws*cosd(wd);
 wind_y = delta_T*ws*sind(wd);
 
 
-last_trig = double(subs(str2sym(trigs(end,:)))); % evaluates the last 
-                                                 % triggering point
+last_trig = [175;161]; % the last triggering point
 
+changed = 0; % for c1 parameter adaptation simulation
  
                                                  
 %%% physics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-for traj = transpose(path)
-        
-    traj = split(traj,";");
-    updated_period = 0;
-            
-    if contains(traj(2),'1')
-        E = [0 1;-1 0];
-    else
-        E = [0 -1;1 0];
-    end
-        
-    ke = str2double(traj(1));
-    
-    if and(and(mod(i-1,n) == 0,time > 1),updated_period == 0)
+traj_C = 1;
 
+while ~all(log_p(:,end)>last_trig) % checking if reached the last 
+                                   % triggering point
+    % getting the current trajectory
+    if traj_C == 4 % traj 4
+        
+        traj = t4;
+        ke = 0.05;
+        E = [0 -1;1 0];
+        trig = trg4;
+
+        % updating the trajs for the next iterations
+        traj_C = 0;
+        p1x = double(subs(p1x_)); % to be redone every time c1 changes
+        p3x = double(subs(p3x_));
+        p4 = double(subs(p4_));
+        
+        psx__ = double(subs(psx_));
+        psy__ = double(subs(psy_));
+        psx = psx+psx__;
+        psy = psy+psy__;
+        t1 = str2sym(strcat("(x+",num2str(p1x+psx),")^2+(y+",...
+            num2str(p1y+psy),")^2-4900-",num2str(c1)));
+        t2 = str2sym(strcat("x+",num2str(p2+psx)));
+        t3 = str2sym(strcat("(x+",num2str(p3x+psx),")^2+(y+",...
+            num2str(p3y+psy),")^2-5625"));
+        t4 = str2sym(strcat("x+",num2str(p4+psx)));
+        trg4 = [-p4-psx;-p1y-psy];
+        trg3 = [-p4-psx;p3y-psy];
+        trg2 = [-p2-psx;p3y-psy];
+        trg1 = [-p2-psx;-p1y-psy];
+
+    elseif traj_C == 3 % traj 3
+        
+        traj = t3;
+        ke = 0.0003;
+        E = [0 -1;1 0];
+        trig = trg3;
+    elseif traj_C == 2 % traj 2
+        
+        traj = t2;
+        ke = 0.05;
+        E = [0 1;-1 0];
+        trig = trg2;
+    else % traj 1
+        
+        traj = t1;
+        ke = 0.0003;
+        E = [0 -1;1 0];
+        trig = trg1;
+    end
+    
+    updated_period = 0; % used to check if the period has been updated
+        
+    if and(and(mod(i-1,n) == 0,time > 1),updated_period == 0)
+        
         period = time;
         [A C] = build_model(2*pi/period,r);
         Ad = A*delta_T+eye(2*r+1);  
         time = 0;
         updated_period = 1;
     end
-        
-    trig = double(subs(str2sym(trigs(i,:)))); % evaluates the triggering 
-                                              % point
     
     while true
         
@@ -248,11 +229,12 @@ for traj = transpose(path)
             [A C] = build_model(2*pi/period,r);
             Ad = A*delta_T+eye(2*r+1);
         end
+         
         
         %%% vector field %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        [dpd, pdangle] = build_gdn2(E,ke,str2sym(traj(3)),log_p(:,end).');
+        [dpd, pdangle] = build_gdn2(E, ke, traj, log_p(:,end).'); 
         log_pdangle = [log_pdangle;pdangle];
-        log_dpd = [log_dpd; dpd];
+        log_dpd = [log_dpd;dpd];
         
         % dpd is the ideal direction... We have wind though
         % now if the time is sampled every second, the below expression
@@ -296,25 +278,57 @@ for traj = transpose(path)
         k = k+1;
                 
         % came over the last triggering point
-        if all(abs(log_p(:,end).'-trig) <= trig_eps) 
+        if all(abs(log_p(:,end)-trig) <= trig_eps) 
             break;
         end
         
         % reached the battery striking point (just trying)
-        if all(abs(log_p(:,end).'-[-43.1845 212.027]) <= 0.1)
+        if and(k*delta_T >= 110,changed == 0)
             % forcing params (just testing)
-            max_c1 = -1500;
+            max_c1 = -1000;
             c1 = max_c1;
+            
+            p1x = double(subs(p1x_)); % to be redone every time c1 changes
+            p3x = double(subs(p3x_));
+            p4 = double(subs(p4_));
+            
+            psx = psx-psx__;
+            psy = psy-psy__;
+            psx__ = double(subs(psx_));
+            psy__ = double(subs(psy_));
+            psx = psx+psx__;
+            psy = psy+psy__;
+            t1 = str2sym(strcat("(x+",num2str(p1x+psx),")^2+(y+",...
+                num2str(p1y+psy),")^2-4900-",num2str(c1)));
+            t2 = str2sym(strcat("x+",num2str(p2+psx)));
+            t3 = str2sym(strcat("(x+",num2str(p3x+psx),")^2+(y+",...
+                num2str(p3y+psy),")^2-5625"));
+            t4 = str2sym(strcat("x+",num2str(p4+psx)));
+            trg4 = [-p4-psx;-p1y-psy];
+            trg3 = [-p4-psx;p3y-psy];
+            trg2 = [-p2-psx;p3y-psy];
+            trg1 = [-p2-psx;-p1y-psy];
+            
+            if traj_C == 4 % updating trajs with new data
+                traj = t4;
+                trig = trg4;
+            elseif traj_C == 3
+                traj = t3;
+                trig = trg3;
+            elseif traj_C == 2
+                traj = t2;
+                trig = trg2;
+            else
+                traj = t1;
+                trig = trg1;
+            end
+            
+            changed = 1;
         end
     end
     
     i = i+1;
-    
-    if all(abs(log_p(:,end).'-last_trig) <= trig_eps) % checking if reached  
-                                                      % the last triggering
-                                                      % point
-        break;
-    end
+    traj_C = traj_C+1;
 end
 
 
