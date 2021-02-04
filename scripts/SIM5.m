@@ -409,7 +409,7 @@ function [dpd,pdangle] = build_gdn3(E,ke,path,grad,p)
         dpd = E*grad()-ke*path(p(:,1))*grad();
     end
     
-    dpd = transpose(double(subs(dpd)));
+    dpd = dpd.';
     pdangle = atand(dpd(:,2)./dpd(:,1));
     
     % One has to do the following operation, as the sign is not preserved
@@ -420,7 +420,7 @@ function [dpd,pdangle] = build_gdn3(E,ke,path,grad,p)
     % And this corresponds to if (pd(1) < 0 && pd(2) > 0) ...
     pdangle(and(dpd(:,1) < 0,dpd(:,2) > 0)) = ...
         pdangle(and(dpd(:,1) < 0,dpd(:,2) > 0))+180;
-    pdangle = transpose(pdangle);
+    pdangle = pdangle.';
     
 end
 
