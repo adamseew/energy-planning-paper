@@ -81,7 +81,7 @@ R = 1;
 
 %%% path plan %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-p1x_ = str2sym("115-sqrt(4900+c1)"); % start points first trajs
+p1x_ = str2sym("115-sqrt(4900+c1)"); % start points first paths
 p1y_ = str2sym("-146");
 p2_ = str2sym("115");
 p3x_ = str2sym("115-sqrt(5625)");
@@ -124,7 +124,7 @@ log_p = [start_x;start_y]; % position
 log_y = []; % model output
 log_q = []; % model state
 log_period = []; % periods
-log_pdangle = []; % vector field to trajectory angles
+log_pdangle = []; % vector field to pathectory angles
 log_pow = []; % simulated power
 log_dpd = []; % vector field result
  
@@ -139,6 +139,7 @@ k = 0;
 i = 1;
 time = 0;
 v = 0;
+syms x y;
 
 % contribution of the wind. This doesn't change as winspeed and
 % direction are constant
@@ -154,20 +155,20 @@ reached = 0; % reached the end of the simulation
                                                  
 %%% physics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-traj_C = 1;
+path_C = 1;
 
 while true 
     
-    % getting the current trajectory
-    if traj_C == 4 % traj 4
+    % getting the current pathectory
+    if path_C == 4 % path 4
         
-        traj = t4;
+        path = t4;
         ke = 0.05;
         E = [0 -1;1 0];
         trig = trg4;
 
-        % updating the trajs for the next iterations
-        traj_C = 0;
+        % updating the paths for the next iterations
+        path_C = 0;
         p1x = double(subs(p1x_)); % to be redone every time c1 changes
         p3x = double(subs(p3x_));
         p4 = double(subs(p4_));
@@ -187,25 +188,29 @@ while true
         trg2 = [-p2-psx;p3y-psy];
         trg1 = [-p2-psx;-p1y-psy];
 
-    elseif traj_C == 3 % traj 3
+    elseif path_C == 3 % path 3
         
-        traj = t3;
+        path = t3;
         ke = 0.0003;
         E = [0 -1;1 0];
         trig = trg3;
-    elseif traj_C == 2 % traj 2
+    elseif path_C == 2 % path 2
         
-        traj = t2;
+        path = t2;
         ke = 0.05;
         E = [0 1;-1 0];
         trig = trg2;
-    else % traj 1
+    else % path 1
         
-        traj = t1;
+        path = t1;
         ke = 0.0003;
         E = [0 -1;1 0];
         trig = trg1;
     end
+    grad = gradient(path,[x y]); 
+    grad = matlabFunction(grad); % getting function_handle (way faster then
+                                 % sym
+    path = matlabFunction(path);
     
     updated_period = 0; % used to check if the period has been updated
         
@@ -232,7 +237,7 @@ while true
          
         
         %%% vector field %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        [dpd, pdangle] = build_gdn2(E, ke, traj, log_p(:,end).'); 
+        [dpd,pdangle] = build_gdn3(E,ke,path,grad,log_p(:,end).'); 
         log_pdangle = [log_pdangle;pdangle];
         log_dpd = [log_dpd;dpd];
         
@@ -315,20 +320,22 @@ while true
             trg2 = [-p2-psx;p3y-psy];
             trg1 = [-p2-psx;-p1y-psy];
             
-            if traj_C == 4 % updating trajs with new data
-                traj = t4;
+            if path_C == 4 % updating paths with new data
+                path = t4;
                 trig = trg4;
-            elseif traj_C == 3
-                traj = t3;
+            elseif path_C == 3
+                path = t3;
                 trig = trg3;
-            elseif traj_C == 2
-                traj = t2;
+            elseif path_C == 2
+                path = t2;
                 trig = trg2;
             else
-                traj = t1;
+                path = t1;
                 trig = trg1;
             end
-            
+            grad = gradient(path,[x y]); 
+            grad = matlabFunction(grad);
+            path = matlabFunction(path);
             changed = 1;
         end
     end
@@ -338,7 +345,7 @@ while true
     end
     
     i = i+1;
-    traj_C = traj_C+1;
+    path_C = path_C+1;
     
 end  
 
@@ -385,7 +392,7 @@ csvwrite('position_simulationNAME.csv',[log_p(1,2:end).' ...
 csvwrite('energy_simulationNAME.csv',[time_v' ...
     log_pow log_y log_q(1,:).' log_q(2,:).' log_q(3,:).' log_q(4,:).' ...
     log_q(5,:).' log_q(6,:).' log_q(7,:).']);
-csvwrite('trajdata_simulationNAME.csv',strp);
+csvwrite('pathdata_simulationNAME.csv',strp);
 csvwrite('algdata_simulationNAME.csv',strp2);
 csvwrite('perioddata_simulationNAME.csv',log_period);
 
@@ -393,6 +400,29 @@ csvwrite('perioddata_simulationNAME.csv',log_period);
 
 %% functions
 
+function [dpd,pdangle] = build_gdn3(E,ke,path,grad,p)
+%BUILD_GDN3 Creates the vector field (local implementation from build_gdn2)
+
+    if nargin(path) > 1 % function handle has two arguments (circle)
+        dpd = E*grad(p(:,1),p(:,2))-ke*path(p(:,1),p(:,2))*grad(p(:,1),p(:,2));
+    else % one argument (line)
+        dpd = E*grad()-ke*path(p(:,1))*grad();
+    end
+    
+    dpd = transpose(double(subs(dpd)));
+    pdangle = atand(dpd(:,2)./dpd(:,1));
+    
+    % One has to do the following operation, as the sign is not preserved
+    % in the atand function above
+    % Corresponds to if (pd(1) < 0 && pd(2) < 0) ...
+    pdangle(and(dpd(:,1) < 0, dpd(:,2)<0)) = ...
+        pdangle(and(dpd(:,1) < 0, dpd(:,2) < 0))+180;
+    % And this corresponds to if (pd(1) < 0 && pd(2) > 0) ...
+    pdangle(and(dpd(:,1) < 0,dpd(:,2) > 0)) = ...
+        pdangle(and(dpd(:,1) < 0,dpd(:,2) > 0))+180;
+    pdangle = transpose(pdangle);
+    
+end
 
 function [A, C] = build_model(omega,r)
 %BUILD_MODEL Creates the simplified model (local implementation from
