@@ -76,7 +76,7 @@ th_delta = 0;
 hd = 25; % desired altitude [m]
 
 % guidance
-kd = .01;
+kd = .0005;
 
 % physics init
 w =  ws*[cosd(wd);sind(wd)]; % wind vector (x, y axis velocity)
@@ -228,7 +228,7 @@ while true
         
         path = t3;
         %ke = 0.000251785;
-        ke = .009;
+        ke = .001;
         dir = 1;
         trig = trg3;
     elseif path_C == 2 % path 2
@@ -342,16 +342,16 @@ while true
             break;
         end
         
-        %if all(log_p(:,end)>last_trig) % checking if reached the last 
+        if all(log_p(:,end)>last_trig) % checking if reached the last 
                                        % triggering point
-         %   reached = 1;
-          %  break;
-        %end
+            reached = 1;
+            break;
+        end
         
         % reached the battery striking point (just trying)
-        if and(k*delta_T >= 110,changed == 0)
+        if and(k*delta_T >= 200,changed == 0)
             plot(log_p(1,:),log_p(2,:),'Color','r','LineWidth',1.2)
-            return
+            
             % forcing params (just testing)
             max_c1 = -1000;
             c1 = max_c1;
@@ -408,7 +408,8 @@ while true
     
 end  
 
-
+            plot(log_p(1,:),log_p(2,:),'Color','r','LineWidth',1.2)
+return
 
 %% plots
 
