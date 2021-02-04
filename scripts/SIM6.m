@@ -296,7 +296,8 @@ while true
         pdot = sh*[cos(theta);sin(theta)]+w;
 
         p = p+pdot*delta_T;
-        theta = theta+u_theta*delta_T; % 
+        theta = theta+u_theta*delta_T;  
+        theta = wrapToPi(theta); % normalizing between -pi and pi
         
         % log
         log_vv = [log_vv;vv];
