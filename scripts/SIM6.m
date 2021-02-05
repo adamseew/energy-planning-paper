@@ -1,7 +1,7 @@
 
-% SIM5
+% SIM6
 
-% complete simulation of the algo (old physics, not from Hector)
+% complete simulation of the algo (new physics, from Hector)
 
 
 
@@ -14,36 +14,44 @@
 
 % asking data about the path
 
-%answer = inputdlg(...
-%    {'vehicle direction [deg]:','wind speed [m/s]:',...
-%     'wind direction [deg]:','start coordinate x [m]:','y [m]:',...
-%     'max power [W]:','min power [W]:','triggering point radius [m]'
-%    }, ...
-%    'path initialization',[1 40],...
-%    {'270','5','90','-100','220','60','30','10'});
+answer = inputdlg(...
+    {'vehicle direction [deg]:','wind speed [m/s]:',...
+     'wind direction [deg]:','start coordinate x [m]:','y [m]:',...
+     'max power [W]:','min power [W]:','triggering point radius [m]'
+    }, ...
+    'path initialization',[1 40],...
+    {'270','5','90','-100','220','60','30','10'});
 
-%if isempty(answer)
-    strp = [270; 5; 90; -100; 220; 60; 30; 10];
-%else
-%    strp = str2double(answer);
-%end
+if isempty(answer)
+    strp = [270; 2; 345; -100; 220; 60; 30; 10];
+else
+    strp = str2double(answer);
+end
 
-%clear answer;
+clear answer;
 
 % asking data about the algorithm
 
-%answer = inputdlg(...
-%    {'order r:','epsilon:','horizon N:'},...
-%    'model and algorithm initialization',[1 40],...
-%    {'3','1','60'});
+answer = inputdlg(...
+    {'order r:','epsilon:','horizon N:'},...
+    'model and algorithm initialization',[1 40],...
+    {'3','1','60'});
 
-%if isempty(answer)
+if isempty(answer)
     strp2 = [3; 1; 60]; % default initial data
-%else
-%    strp2 = str2double(answer);
-%end
+else
+    strp2 = str2double(answer);
+end
 
-%clear answer;
+clear answer;
+
+
+%%% gains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%         .0005    .025 .001 
+% kp, kvv, kd, ke1, ke2, ke3, ke4
+strp3 = [5 5 .001 .0003 .02 .0006 .07];
+
 
 %%% physics data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -56,7 +64,8 @@ start_x = strp(4); % starting position x
 start_y = strp(5); % y
 max_pw = strp(6); % maximum reachable power
 min_pw = strp(7); % minimum
-trig_eps = strp(8); % radius of the triggering point (it's a circular area)
+trig_eps = [strp(8);strp(8)]; % radius of the triggering point (it's a 
+                              % circular area)
 r = strp2(1); % model size (the bigger the more precise)
 eps = strp2(2); % optimization decrement step (to adapt control)
 N = strp2(3); % optimization horizon (for MPC)
@@ -69,14 +78,14 @@ W = m*9.8; % weight force [N]
 cl = 9.8/15^2; % coefficient to be determined experimentally
 cth = 15/50; % same
 
-kp = 5; % positive gain constant to be also determined experimentally
-kvv = 5;
+kp = strp3(1); % positive gain constant to be also determined experimentally
+kvv = strp3(2);
 th_nominal = 50; % nominal vlalue of the throttle
 th_delta = 0;
 hd = 25; % desired altitude [m]
 
 % guidance
-kd = .0005;
+kd = strp3(3);
 
 % physics init
 w =  ws*[cosd(wd);sind(wd)]; % wind vector (x, y axis velocity)
@@ -85,7 +94,6 @@ h = 20; % initial altitude
 vv = 0; % initial vertical velocity
 p = [start_x;start_y]; % position
 theta = deg2rad(vd); % initial angle
-
 
 sh = cth*(th_nominal+th_delta);
 pdot = sh*[cos(theta);sin(theta)]+w; % initial velocity
@@ -120,6 +128,11 @@ p3y_ = str2sym("-11");
 p4_ = str2sym("115-2*sqrt(5625)");
 psx_ = str2sym("-(2*75-2*sqrt(4900+c1))"); % shift
 psy_ = str2sym("-(2*(75-sqrt(4900+c1))/10)");
+ke1 = strp3(4); % gain first path
+ke2 = strp3(5);
+ke3 = strp3(6);
+ke4 = strp3(7);
+
 
 %%% params %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % beaware this works only with the default plan and has to be changed for a
@@ -166,6 +179,9 @@ log_th_delta = th_delta;
 log_vh = [];
 log_pdot = pdot;
 
+strp4 = [m W cl cth th_nominal th_delta hd h vv delta_T]; % saving 
+                                                            % parameters
+
 
 %% sim
 
@@ -176,21 +192,15 @@ time = 0;
 v = 0;
 syms x y;
 
-% contribution of the wind. This doesn't change as winspeed and
-% direction are constant
-wind_x = delta_T*ws*cosd(wd); 
-wind_y = delta_T*ws*sind(wd);
-
-
 last_trig = [175;161]; % the last triggering point
-
+% next are just some simulation utilities
 changed = 0; % for c1 parameter adaptation simulation
 reached = 0; % reached the end of the simulation
 
                                                  
 %%% physics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-path_C = 1;
+path_C = 1; % also just simulation utility
 
 while true 
     
@@ -198,8 +208,7 @@ while true
     if path_C == 4 % path 4
         
         path = t4;
-        %ke = 0.1;
-        ke = .07;
+        ke = ke4;
         dir = 1;
         trig = trg4;
 
@@ -227,22 +236,19 @@ while true
     elseif path_C == 3 % path 3
         
         path = t3;
-        %ke = 0.000251785;
-        ke = .001;
+        ke = ke3;
         dir = 1;
         trig = trg3;
     elseif path_C == 2 % path 2
         
         path = t2;
-        %ke = 0.0003;
-        ke = .025;
+        ke = ke2;
         dir = -1;
         trig = trg2;
     else % path 1
         
         path = t1;
-        %ke = 0.00043;
-        ke = .0003;
+        ke = ke1;
         dir = 1;
         trig = trg1;
     end
@@ -339,7 +345,7 @@ while true
         k = k+1;
                 
         % came over the last triggering point
-        if all(abs(log_p(:,end)-trig) <= trig_eps) 
+        if all(abs(log_p(:,end)-trig(:)) <= trig_eps) 
             break;
         end
         
@@ -354,7 +360,7 @@ while true
             plot(log_p(1,:),log_p(2,:),'Color','r','LineWidth',1.2)
             
             % forcing params (just testing)
-            max_c1 = -1000;
+            %max_c1 = -1000;
             c1 = max_c1;
             
             p1x = double(subs(p1x_)); % to be redone every time c1 changes
@@ -409,57 +415,87 @@ while true
     
 end  
 
-            plot(log_p(1,:),log_p(2,:),'Color','r','LineWidth',1.2)
-return
+
 
 %% plots
 
 
 figure(1);
-
 time_v = linspace(0,k*delta_T,length(log_pow));
 % plotting the path
-subplot(2,2,[1 2]);
-plot(log_p(1,:),log_p(2,:),'Color','r','LineWidth',1.2)
+subplot(4,2,[1 2]);
+plot(log_p(1,:),log_p(2,:),'Color','r')
+title('trajectory');
 % plotting the energy and the estimated energy
-subplot(2,2,3);
+subplot(4,2,5);
 plot(time_v,log_pow(:,1))
-subplot(2,2,4);
+title('energy sensor');
+subplot(4,2,6);
 plot(time_v,log_y)
+title('estimated energy');
+subplot(4,2,3);
+plot(time_v,log_h);
+title('altitute');
+subplot(4,2,4);
+plot(time_v,log_th_delta+th_nominal)
+title('throttle');
 
-figure(2); % to be fixed if size is different from r=3
+figure(2); % to be fixed if size is different from 3
 subplot(7,1,1);
 plot(time_v,log_q(1,1:end))
+title('model coef alpha 0');
 subplot(7,1,2);
 plot(time_v,log_q(2,1:end))
+title('alpha 1');
 subplot(7,1,3);
 plot(time_v,log_q(3,1:end))
+title('beta 1');
 subplot(7,1,4);
 plot(time_v,log_q(4,1:end))
+title('alpha 2');
 subplot(7,1,5);
 plot(time_v,log_q(5,1:end))
+title('beta 2');
 subplot(7,1,6);
 plot(time_v,log_q(6,1:end))
+title('alpha 3');
 subplot(7,1,7);
 plot(time_v,log_q(7,1:end))
+title('beta 3');
 
 
 
 %% save
 
 
-csvwrite('position_simulationNAME.csv',[log_p(1,2:end).' ...
+% asking data about the algorithm
+
+answer = inputdlg(...
+    {'simulation data label:',[1 40],...
+    ''});
+
+if isempty(answer)
+    strp5 = 'NAME'; % default label
+else
+    strp5 = answer;
+end
+
+clear answer;
+
+save(strcat(strp5,'.mat'));
+
+csvwrite(strcat('position_simulation',strp5,'.csv'),[log_p(1,2:end).'...
     log_p(2,2:end).' log_pdangle log_dpd(:,1) log_dpd(:,2)]);
-csvwrite('energy_simulationNAME.csv',[time_v' ...
-    log_pow log_y log_q(1,:).' log_q(2,:).' log_q(3,:).' log_q(4,:).' ...
+csvwrite(strcat('energy_simulation',strp5,'.csv'),[time_v' ...
+    log_pow log_y log_q(1,:).' log_q(2,:).' log_q(3,:).' log_q(4,:).'...
     log_q(5,:).' log_q(6,:).' log_q(7,:).']);
-csvwrite('pathdata_simulationNAME.csv',strp);
-csvwrite('algdata_simulationNAME.csv',strp2);
-csvwrite('perioddata_simulationNAME.csv',log_period);
+csvwrite(strcat('data_simulation',strp5,'.csv'),[strp strp2 strp3 strp4]);
+csvwrite(strcat('perioddata_simulation',strp5,'.csv'),log_period);
 
 
 
 %% functions
+
 
 function [u_theta] = gvf_control_2D(p,dot_p,ke,kd,path,grad,hess,dir)
 %GVF_CONTROL_2D
@@ -486,48 +522,20 @@ function [u_theta] = gvf_control_2D(p,dot_p,ke,kd,path,grad,hess,dir)
 
 end
 
-
-
-
-function [dpd,pdangle] = build_gdn3(E,ke,path,grad,p)
-%BUILD_GDN3 Creates the vector field (local implementation from build_gdn2)
-
-    if nargin(path) > 1 % function handle has two arguments (circle)
-        dpd = E*grad(p(:,1),p(:,2))-ke*path(p(:,1),p(:,2))*grad(p(:,1),p(:,2));
-    else % one argument (line)
-        dpd = E*grad()-ke*path(p(:,1))*grad();
-    end
-    
-    dpd = dpd.';
-    pdangle = atand(dpd(:,2)./dpd(:,1));
-    
-    % One has to do the following operation, as the sign is not preserved
-    % in the atand function above
-    % Corresponds to if (pd(1) < 0 && pd(2) < 0) ...
-    pdangle(and(dpd(:,1) < 0, dpd(:,2)<0)) = ...
-        pdangle(and(dpd(:,1) < 0, dpd(:,2) < 0))+180;
-    % And this corresponds to if (pd(1) < 0 && pd(2) > 0) ...
-    pdangle(and(dpd(:,1) < 0,dpd(:,2) > 0)) = ...
-        pdangle(and(dpd(:,1) < 0,dpd(:,2) > 0))+180;
-    pdangle = pdangle.';
-    
-end
-
 function [A, C] = build_model(omega,r)
 %BUILD_MODEL Creates the simplified model (local implementation from
 %build_model)
     m = 2*r+1;
 
-    Aj = @(omega, j) [0 omega*j ; -omega*j 0];
+    Aj = @(omega, j) [0 omega*j;-omega*j 0];
     A  = zeros(m);
     A(1,1) = 0;
     C = [1];
 
     for i = 1:r
-        A(2*i : 2*i+1, 2*i : 2*i+1) = Aj(omega,i); 
+        A(2*i:2*i+1,2*i:2*i+1) = Aj(omega,i); 
         C = [C 1 0];
     end
 
 end
-
 
