@@ -20,10 +20,10 @@ answer = inputdlg(...
      'max power [W]:','min power [W]:','triggering point radius [m]'
     }, ...
     'path initialization',[1 40],...
-    {'270','5','90','-100','220','60','30','10'});
+    {'270','5','90','-100','220','36','16','12'});
 
 if isempty(answer)
-    strp = [270; 2; 345; -100; 220; 60; 30; 10];
+    strp = [270; 5; 90; -100; 220; 36; 16; 12];
 else
     strp = str2double(answer);
 end
@@ -46,14 +46,13 @@ end
 clear answer;
 
 
-%%% gains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%% physics data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% gains
 %         .0005    .025 .001 
 % kp, kvv, kd, ke1, ke2, ke3, ke4
 strp3 = [5 5 .001 .0003 .02 .0006 .07];
-
-
-%%% physics data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % storing data
 
@@ -168,15 +167,12 @@ log_p = [start_x;start_y]; % position
 log_y = []; % model output
 log_q = []; % model state
 log_period = []; % periods
-log_pdangle = []; % vector field to pathectory angles
 log_pow = []; % simulated power
-log_dpd = []; % vector field result
 
 log_vv = vv;
 log_h = h;
 log_theta = theta;
 log_th_delta = th_delta;
-log_vh = [];
 log_pdot = pdot;
 
 strp4 = [m W cl cth th_nominal th_delta hd h vv delta_T]; % saving 
@@ -313,34 +309,22 @@ while true
         log_p = [log_p p];
         log_pdot = [log_pdot pdot];
                  
-        % produce a simulated energy value
-        % first, let's calculate the angle between the two vectors
-        %angle = acosd((pos_x*wind_x+pos_y*wind_y)/...
-        %    (sqrt(pos_x^2+pos_y^2)*sqrt(wind_x^2+wind_y^2))...
-        %             );
-        % angle is nan? no windspeed then; so the contribution of the
-        % wind is none
-        %if isnan(angle)
-        %    angle = 0;
-        %end
-            
-        % if the angle is 0, lowest energy (tail wind). 180, heighest
-        % (head wind)
-        %log_pow = [log_pow;...
-        %    min_pw+(max_pw-min_pw)*.5*abs(1-cosd(angle))*ws/vs]; 
-                                             % winddir and windspeed effect
+        % produce a simulated energy value from throttle
+        log_pow = [log_pow;...
+            (max_pw-min_pw)*(th_delta+th_nominal)/(2*th_nominal)+min_pw]; 
+        
         
         %%% estimating the energy with KF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
-        %q1_minus = Ad*q0;
-        %P1_minus = Ad*P0*Ad.'+Q; % fix the covariance, just sim
-        %K1 = (P1_minus*C.')*(C*P1_minus*C.'+R)^-1;
-        %q1 = q1_minus+K1*(log_pow(end)-C*q1_minus);
-        %P1 = (eye(size(q0,1))+K1*C)*P1_minus;
-        %y0_estimate = C*q1;
-        %q0 = q1;
+        q1_minus = Ad*q0;
+        P1_minus = Ad*P0*Ad.'+Q;
+        K1 = (P1_minus*C.')*(C*P1_minus*C.'+R)^-1;
+        q1 = q1_minus+K1*(log_pow(end)-C*q1_minus);
+        P1 = (eye(size(q0,1))+K1*C)*P1_minus;
+        y0_estimate = C*q1;
+        q0 = q1;
                 
-        %log_y = [log_y;y0_estimate];
-        %log_q = [log_q q0];
+        log_y = [log_y;y0_estimate];
+        log_q = [log_q q0];
                                 
         k = k+1;
                 
@@ -356,11 +340,12 @@ while true
         end
         
         % reached the battery striking point (just trying)
-        if and(k*delta_T >= 200,changed == 0)
-            plot(log_p(1,:),log_p(2,:),'Color','r','LineWidth',1.2)
+        %      place 0 to NOT force parameter
+        %      ↓ 
+        if and(0,and(k*delta_T >= 200,changed == 0))
             
-            % forcing params (just testing)
-            %max_c1 = -1000;
+            % forcing param (just testing)
+            max_c1 = -1000;
             c1 = max_c1;
             
             p1x = double(subs(p1x_)); % to be redone every time c1 changes
@@ -415,54 +400,54 @@ while true
     
 end  
 
+time_v = linspace(0,k*delta_T,length(log_pow)); % time vector
 
 
 %% plots
 
 
-figure(1);
-time_v = linspace(0,k*delta_T,length(log_pow));
-% plotting the path
-subplot(4,2,[1 2]);
+figure(1); % plotting the path
 plot(log_p(1,:),log_p(2,:),'Color','r')
-title('trajectory');
-% plotting the energy and the estimated energy
-subplot(4,2,5);
-plot(time_v,log_pow(:,1))
+title('model traj');
+xlabel('x (m)');
+ylabel('y (m)');
+
+figure(2); % plotting the energy and the estimated energy
+t = tiledlayout(2,2);
+nexttile,plot(time_v,log_pow(:,1))
 title('energy sensor');
-subplot(4,2,6);
-plot(time_v,log_y)
+ylabel('power (W)');
+nexttile,plot(time_v,log_y)
 title('estimated energy');
-subplot(4,2,3);
-plot(time_v,log_h);
+ylabel('power (W)');
+nexttile,plot(time_v,log_h(2:end));
 title('altitute');
-subplot(4,2,4);
-plot(time_v,log_th_delta+th_nominal)
+ylabel('z (m)');
+nexttile,plot(time_v,log_th_delta(2:end)+th_nominal)
 title('throttle');
+ylabel('value');
+title(t,'model energy')
+xlabel(t,'time (sec)')
 
-figure(2); % to be fixed if size is different from 3
-subplot(7,1,1);
-plot(time_v,log_q(1,1:end))
-title('model coef alpha 0');
-subplot(7,1,2);
-plot(time_v,log_q(2,1:end))
+figure(3); % to be fixed if size is different from 3
+t = tiledlayout(7,1);
+nexttile,plot(time_v,log_q(1,1:end))
+title('alpha 0');
+nexttile,plot(time_v,log_q(2,1:end))
 title('alpha 1');
-subplot(7,1,3);
-plot(time_v,log_q(3,1:end))
+nexttile,plot(time_v,log_q(3,1:end))
 title('beta 1');
-subplot(7,1,4);
-plot(time_v,log_q(4,1:end))
+nexttile,plot(time_v,log_q(4,1:end))
 title('alpha 2');
-subplot(7,1,5);
-plot(time_v,log_q(5,1:end))
+nexttile,plot(time_v,log_q(5,1:end))
 title('beta 2');
-subplot(7,1,6);
-plot(time_v,log_q(6,1:end))
+nexttile,plot(time_v,log_q(6,1:end))
 title('alpha 3');
-subplot(7,1,7);
-plot(time_v,log_q(7,1:end))
+nexttile,plot(time_v,log_q(7,1:end))
 title('beta 3');
-
+title(t,'model coefs')
+xlabel(t,'time (sec)')
+ylabel(t,'value')
 
 
 %% save
@@ -470,27 +455,29 @@ title('beta 3');
 
 % asking data about the algorithm
 
-answer = inputdlg(...
-    {'simulation data label:',[1 40],...
-    ''});
+answer = inputdlg('simulation data label:','save',[1 40],{'NAME'});
 
 if isempty(answer)
-    strp5 = 'NAME'; % default label
+    clear answer;
+    return; % pressed cancel, do not save
 else
     strp5 = answer;
 end
 
 clear answer;
 
+strp5 = string(strp5);
 save(strcat(strp5,'.mat'));
 
-csvwrite(strcat('position_simulation',strp5,'.csv'),[log_p(1,2:end).'...
-    log_p(2,2:end).' log_pdangle log_dpd(:,1) log_dpd(:,2)]);
+csvwrite(strcat('position_simulation',strp5,'.csv'),[log_p(1,:).'...
+    log_p(2,:).' log_h log_theta log_vv log_th_delta ...
+    log_pdot(1,:).' log_pdot(2,:).']);
 csvwrite(strcat('energy_simulation',strp5,'.csv'),[time_v' ...
     log_pow log_y log_q(1,:).' log_q(2,:).' log_q(3,:).' log_q(4,:).'...
     log_q(5,:).' log_q(6,:).' log_q(7,:).']);
-csvwrite(strcat('data_simulation',strp5,'.csv'),[strp strp2 strp3 strp4]);
 csvwrite(strcat('perioddata_simulation',strp5,'.csv'),log_period);
+csvwrite(strcat('data_simulation',strp5,'.csv'),[strp.' strp2.' ...
+    strp3 strp4]);
 
 
 
