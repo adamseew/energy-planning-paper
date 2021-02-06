@@ -7,7 +7,7 @@ E = [0 1; -1 0];
 tau = direction*E*n;
 
 dot_pd = tau - ke*e*n; % (7)
-ddot_pd = (E - ke*e)*H*dot_p - ke*n'*dot_p*n; % (10)
+ddot_pd = (E - ke*e*eye(2))*H*dot_p - ke*n'*dot_p*n; % (10)
 ddot_pdhat = -E*(dot_pd*dot_pd')*E*ddot_pd / norm(dot_pd)^3; % (9)
 
 dot_Xid = ddot_pdhat'*E*dot_pd/norm(dot_pd); % (13)
