@@ -20,10 +20,10 @@ answer = inputdlg(...
      'max power [W]:','min power [W]:','triggering point radius [m]'
     }, ...
     'path initialization',[1 40],...
-    {'270','5','90','-100','220','36','16','12'});
+    {'270','5','90','-100','220','36','16','15'});
 
 if isempty(answer)
-    strp = [270; 5; 90; -100; 220; 36; 16; 12];
+    strp = [270; 5; 90; -100; 220; 36; 16; 15];
 else
     strp = str2double(answer);
 end
@@ -38,7 +38,7 @@ answer = inputdlg(...
     {'3','1','60'});
 
 if isempty(answer)
-    strp2 = [3; 1; 60]; % default initial data
+    strp2 = [3; 1; 60]; % default initial dSIM6ata
 else
     strp2 = str2double(answer);
 end
@@ -50,11 +50,9 @@ clear answer;
 %%% physics data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % gains
-%         .0005    .025 .001 
-% kp, kvv, kd, ke1, ke2, ke3, ke4
-strp3 = [5 5 .001 .0003 .02 .0006 .07];
-
-% storing data
+%       kp, kvv  kd,  ke1, ke2, ke3, ke4
+strp3 = [5   5  .001  .006 .07 .006 .07];
+%         
 
 vd = strp(1); % initial UAV direction
 ws = strp(2); % wind speed
@@ -342,7 +340,7 @@ while true
         % reached the battery striking point (just trying)
         %      place 0 to NOT force parameter
         %      ↓ 
-        if and(0,and(k*delta_T >= 200,changed == 0))
+        if and(1,and(k*delta_T >= 200,changed == 0))
             
             % forcing param (just testing)
             max_c1 = -1000;
@@ -406,13 +404,13 @@ time_v = linspace(0,k*delta_T,length(log_pow)); % time vector
 %% plots
 
 
-figure(1); % plotting the path
+figure; % plotting the path
 plot(log_p(1,:),log_p(2,:),'Color','r')
 title('model traj');
 xlabel('x (m)');
 ylabel('y (m)');
 
-figure(2); % plotting the energy and the estimated energy
+figure; % plotting the energy and the estimated energy
 t = tiledlayout(2,2);
 nexttile,plot(time_v,log_pow(:,1))
 title('energy sensor');
@@ -429,7 +427,7 @@ ylabel('value');
 title(t,'model energy')
 xlabel(t,'time (sec)')
 
-figure(3); % to be fixed if size is different from 3
+figure; % to be fixed if size is different from 3
 t = tiledlayout(7,1);
 nexttile,plot(time_v,log_q(1,1:end))
 title('alpha 0');
@@ -500,7 +498,7 @@ function [u_theta] = gvf_control_2D(p,dot_p,ke,kd,path,grad,hess,dir)
     tau = dir*E*n;
 
     dot_pd = tau-ke*e*n; % (7)
-    ddot_pd = (E-ke*e)*H*dot_p-ke*n'*dot_p*n; % (10)
+    ddot_pd = (E-ke*e*eye(2))*H*dot_p-ke*n'*dot_p*n; % (10)
     ddot_pdhat = -E*(dot_pd*dot_pd')*E*ddot_pd/norm(dot_pd)^3; % (9)
 
     dot_Xid = ddot_pdhat'*E*dot_pd/norm(dot_pd); % (13)
