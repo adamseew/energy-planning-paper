@@ -854,7 +854,7 @@ Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the insta
 The scaling factors that quantifies the energy contribution of the computations parameters are derived similarly as in Equation~(\ref{eq:traj-gains})
 \begin{equation}\label{eq:energy-comp}\begin{split}
   \nu_{i,\rho+j}&=(g(\overline{c}_i)-g(\underline{c}_i))/(\overline{c}_i-\underline{c}_i),\\
-  \tau_{i,\rho+j}&=\underline{c}_i(g(\overline{c}_i)-g(\underline{c}_i))/(\overline{c}_i-\underline{c}_i)-g(\underline{c}_i),
+  \tau_{i,\rho+j}&=\underline{c}_i(g(\underline{c}_i)-g(\overline{c}_i))/(\overline{c}_i-\underline{c}_i)+g(\underline{c}_i),
 \end{split}\end{equation}
 $\forall j\in[\sigma]^+$. Moreover, let $\nu_{i,\rho+1},\dots,\nu_{i,\rho+\sigma}$ be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
 
@@ -900,24 +900,24 @@ Let us proof that if the plan is periodic and one period is valid, then the plan
 
 We stated earlier the output $y$--the instantaneous energy consumption--evolves in $\mathbb{R}_{\geq 0}$. This is generally untrue. Physical UAVs are bounded by strict energy budgets due to battery limitations.
 
-Let us hence consider the state of charge (SoC) of a UAV battery with a simplistic difference equation~\cite{seewald2020mechanical}
-\begin{equation}\label{eq:soc}\begin{split}
-  \mathrm{SoC}_k=-\left(V-
+Let us hence consider the state of charge (SoC) $b$ of a UAV battery with a simplistic difference equation~\cite{seewald2020mechanical}
+\begin{equation*}
+  b_k=b_{k-1}-k_b\left(V-
   \sqrt{
     V^2-
     4R_ry_k}
-  \right)/(2R_rQ_c),\\ 
-\end{split}\end{equation}
-where $V\in\mathbb{R}$ is the internal battery 
+  \right)/(2R_rQ_c),
+\end{equation*}
+where $k_b$ is the battery coefficient determined experimentally,  $V\in\mathbb{R}$ is the internal battery 
 % and $\tilde{V}\in\mathbb{R}$ the stabilized 
 voltage measured in volts, $R_r\in\mathbb{R}$ the resistance measured in ohms, and $Q_c\in\mathbb{R}$ the constant nominal capacity measured in amperes per hour. 
 
 \begin{defn}[Output, control constrain sets]
 The output constrain set is then the set
 \begin{equation*}
-  \mathcal{Y}_k:=\{y_k\mid y_k\in[0,\mathrm{SoC}_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
+  \mathcal{Y}_k:=\{y_k\mid y_k\in[0,b_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation*}
-and $\max{\mathcal{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption. The SoC can be either obtained using an initial percentage decreased with Equation~(\ref{eq:soc}), or determined from the UAV.
+and $\max{\mathcal{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption. $b_{k-1}$ can be determined using a sensor.
 
 The control constraint set is the trajectory constraint set for the trajectory parameters and computation constraint sets for the computation parameters (Definition~\ref{def:mission})
 \begin{equation*}
@@ -955,7 +955,7 @@ The energy coefficients are updated at line~\ref{alg:evolution}, using the expre
 At line~\ref{alg:mpc}, the algorithm uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the control $\mathbf{u}_k$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
 \begin{equation}\label{eq:cost}\begin{split}
   V_f(\mathbf{q}_k)&:=(1/2)\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k,\\
-  l(\mathbf{q}_k,\mathbf{u}_k)&:=V_f(\mathbf{q}_k)+(1/2)\mathbf{u}^TB\mathbf{u},
+  l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k+B\mathbf{u})^T\mathrm{diag}(C)(\mathbf{q}_k+B\mathbf{u}),\hspace*{-2ex}
 \end{split}\end{equation}
 where $\mathrm{diag}(C)$ is a diagonal matrix with the items of the matrix $C$ from Equation~(\ref{eq:state-details}) on the diagonal, and $\mathbf{u}$ ($\mathrm{diag}(\nu_i)(\mathbf{u}_k-\mathbf{u}_{k-1})-\tau_i$) is defined in Equation~(\ref{eq:state-control}).
 
