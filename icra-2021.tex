@@ -604,7 +604,7 @@ To achieve the energy-aware dynamic planning, we further introduce and formally 
 
 In the spirit of reducing costs and resources, we showcase the algorithm using the problem of dynamic planning for a precision agriculture fixed-wing UAV. Precision agriculture is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The plan is structured as follows. Trajectory-wise, the UAV flies in circles and lines covering a polygon. Computationally-wise, it detects obstacles using a convolutional neural network (CNN) and notifies grounded mobile robots employed for harvesting. The algorithm alters the plan; it controls the processing rate and the radius of the circles (affecting the distance between the lines). Figure~\ref{fig:il-abs} shows a slice of such plan. We observe that not only the path but also the computations significantly impact the energy, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations (see Section~\ref{sec:experimental}), in presence of a standard battery.
 
-The remainder of the paper is organized as follows. The overview of dynamic planning, some preliminaries, and problem definition are provided in Section~\ref{sec:prob}. We show a suitable model for the energy in Section~\ref{sec:energy-model}, and propose the algorithm in Section~\ref{sec:algo}. In Section~\ref{sec:experimental}, we present the results and showcases the performances. We then derive some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information and examples in Appendixes~\ref{app:proof-eqv}--\ref{app:plan-spec}.
+The remainder of the paper is organized as follows. The overview of dynamic planning, some preliminaries, and problem definition are provided in Section~\ref{sec:prob}. We show a suitable model for the energy in Section~\ref{sec:energy-model}, and propose the algorithm in Section~\ref{sec:algo}. In Section~\ref{sec:experimental}, we present the results and showcases the performances. We then derive some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information in Appendixes.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -687,9 +687,9 @@ A slice of the plan in Figure~\ref{fig:state-machine} shows the transition betwe
 
 Generally, one can express the triggering points in function of the $i$-th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary (see Figure~\ref{fig:state-machine2}).
 
-We refer the reader to an example in Appendix~\ref{app:plan-example} for a detailed implementation. In the example, the first trajectory parameter is propagated to all the following trajectories and triggering points. 
+%We refer the reader to an example in Appendix~\ref{app:plan-example} for a detailed implementation. In the example, the first trajectory parameter is propagated to all the following trajectories and triggering points. 
 
-We store the initial plan in the plan specification, the format is described in Appendix~\ref{app:plan-spec}. 
+%We store the initial plan in the plan specification, the format is described in Appendix~\ref{app:plan-spec}. 
 
 \subsection{Problem formulation}
 
@@ -1085,132 +1085,5 @@ The initial guess is build such that the sum of the coefficients is the same in 
 
 We note for practical reasons that the signal would still be periodic with another linear combination of coefficients (for instance, $C=d\begin{bmatrix}1 & 0 & 1 & \cdots & 0 & 1\end{bmatrix}$, or $d\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ for a constant value $d\in\mathbb{R}$).
 
-
-\section{Plan Specification}
-\label{app:plan-spec}
-
-\subsection{Format}
-
-The algorithm reads the plan $\Gamma$ from a file--the plan specification--with a specific file format.
-
-The first stage $\Gamma_1$ is expressed in the first line of the file
-\begin{algorithmic}[1]
-  \STATE\textbf{\texttt{$k_e$;$r$;$\varphi_1(\mathbf{p}_k,c_{1,1},\dots,c_{1,\rho})$}}\label{code:stage}
-\end{algorithmic}
-where $k_e$ is a convergence value, $r$ a rotation, and $\varphi_1$ the trajectory. The rotation is expressed in binary format with zero being the counter-clockwise rotation, one the clockwise rotation.
-
-The next line specifies the triggering point $\mathbf{p}_{\Gamma_1}$
-\begin{algorithmic}[1]
-  \setcounterref{ALC@line}{code:stage}
-  \STATE\textbf{\texttt{$x$,$y$}}\label{code:trigger-pt}
-\end{algorithmic}
-where $x$ and $y$ are the two coordinates of the point. The UAV reaches the point within a given radius (a parameter of the algorithm) and enters the next stage $\Gamma_2$. The coordinates can be expressed in function of the trajectory parameters $c_{1,1},\dots,c_{1,\rho}$.
-
-The line
-\begin{algorithmic}[1]
-  \setcounterref{ALC@line}{code:trigger-pt}
-  \STATE\textbf{\texttt{[$\underline{c}_1$,$\overline{c}_1$]}}\label{code:tee-set}
-\end{algorithmic}
-specifies the lower $\underline{c}_{1}$ and upper $\overline{c}_{1}$ bounds of the trajectory $\varphi_1$.
-
-The following $\sigma$ lines
-\begin{algorithmic}[1]
-  \setcounterref{ALC@line}{code:tee-set}
-  \STATE\textbf{\texttt{[$\underline{c}_{1,j}$,$\overline{c}_{1,j}$]}}\label{code:parameter-set}
-\end{algorithmic}
-specifies the lower $\underline{c}_{1,j}$ and upper $\overline{c}_{1,j}$ bounds of the $j$-th computation parameter set. They are in ascending order. 
-
-This means that for the first stage, the algorithm can alter the trajectory satisfying $\varphi_1\in\mathcal{C}_1$. It can alter the computations individually. In fact the $j$-th computation parameter has to be in $\mathcal{S}_{1,j}$.
-
-Follows the entries for stage $\Gamma_2$ (equivalent to lines~\ref{code:stage}--\ref{code:parameter-set}), $\Gamma_3$ and so on, until the last stage. We assume that the last triggering point is the final UAV position.
-
-\subsection{Example}
-\label{app:plan-example}
-
-We discuss how to specify an initial plan with an example of a survey scenario, equivalent to the one in Figure~\ref{fig:il-abs}.  
-
-Recall that the plan is composed of a set of stages (Section~\ref{sec:prob}). It has a variable number of entries per each stage. The first line
-\begin{algorithmic}[1]
-  \STATE\textbf{\texttt{0.0003;0;(x+45)\^{}2+(y-146)\^{}2-4900+c1}}\label{code:firstcircle}
-\end{algorithmic}
-corresponds to the trajectory $\varphi_1(\mathbf{p}_k,c_{1,1}):=(x+45)^2+(y-146)^2-4900+c_{1,1}$ in the initial stage $\Gamma_1$. The trajectory is a circle. The gain is $k_e=3\cdot 10^{-4}$, and the rotation is counter-clockwise--we use the rotation matrix $E$ from Equation~(\ref{eq:pd}). We note that line~\ref{code:firstcircle} further specifies the parameter {\tt\textbf{c1}} of the radius of the circle. It corresponds to $c_{1,1}$ in Definition~\ref{def:mission}.
-
-The following line
-\begin{algorithmic}[1]
-  \setcounterref{ALC@line}{code:firstcircle}
-  \STATE\textbf{\texttt{-sqrt(4900+c1)-45,146}}\label{code:trigger}
-\end{algorithmic}
-specifies the triggering point $\mathbf{p}_{\Gamma_1}$. {\tt\textbf{sqrt}} is the square root. The UAV reaches the triggering point within a given $\varepsilon$ (the tolerance), and the algorithm switches to the next stage $\Gamma_2$. We note that the triggering point is in function of the parameter {\tt\textbf{c1}}. This is necessary; an change in a parameter in one stage affects the overall flight.
-
-Let us assume the scenario has two computations. One computation is the CNN object detection algorithm, and it can be planned by one parameter $c_{1,2}$, the fps rate. Another computation is the variable key-size encryption algorithm. It can be planned by one parameter $c_{1,2}$, the key-size. Then in the plan
-\begin{algorithmic}[1]
-  \setcounterref{ALC@line}{code:trigger}
-  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset}
-  \STATE\textbf{\texttt{[2,10]}}\label{code:qos1set}
-  \STATE\textbf{\texttt{[32,448]}}\label{code:qos2set}
-\end{algorithmic}
-line~\ref{code:teeset} corresponds to the trajectory $\varphi_1$'s contraints set $\mathcal{C}_1=[-3\cdot10^3,0]$. The algorithm selects $c_{1,1}\in\mathcal{C}_1$. Line~\ref{code:qos1set} corresponds to the computation constraints set $\mathcal{S}_{1,1}$ for the computation parameter $c_{1,2}$. Line~\ref{code:qos1set} corresponds to the computation constraints set $\mathcal{S}_{1,2}$ for the computation parameter $c_{1,2}$. Lines~\ref{code:teeset}--\ref{code:qos2set} must follow the ascending order of the parameters. Lines~\ref{code:firstcircle}--\ref{code:qos2set} all describe the stage $\Gamma_1$.
-
-Once the UAV reaches the triggering point (line~\ref{code:trigger}) and there are no further lines, the algorithm terminates (the last triggering point is the final point). If there are further lines, the stage switches to $\Gamma_2$
-\begin{algorithmic}[1]
-  \setcounterref{ALC@line}{code:qos2set}
-  \STATE\textbf{\texttt{0.05;1;x+sqrt(4900+c1)+45}}\label{code:tee2}
-  \STATE\textbf{\texttt{-sqrt(4900+c1)-45,11}}\label{code:trigger2}
-  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset2}
-  \STATE\textbf{\texttt{[2,10]}}
-  \STATE\textbf{\texttt{[32,448]}}\label{code:qosset12}
-\end{algorithmic}
-line~\ref{code:tee2} corresponds to the trajectory $\varphi_2(\mathbf{p}_k,c_{1,1}):=x+\sqrt{4900+c_{1,1}}+45$, a linear equation that intersects the triggering point (line~\ref{code:trigger}). The gain is $k_e=5\cdot 10^{-2}$, and the rotation is opposite to line~\ref{code:firstcircle}. The algorithm computes $-E$ from the rotation matrix in Equation~(\ref{eq:pd}). 
-
-The gain is different from the one used in $\varphi_1$ as different equations require different convergence rate. When we follow a circle it is useful to turn the rotation direction in advance. When we follow a straight line, it is preferable to turn the rotation direction closer to the line. The rotation is likewise different. In fact, the rotation matrix $E$ points upwards in the space. It guides the UAV in the counter-clockwise direction (see Figure~\ref{fig:tee1}; the UAV is traveling counter-clockwise). The rotation matrix $-E$ points downwards and guides the UAV in the clockwise direction.
-
-The triggering point of the stage $\Gamma_2$ at line~\ref{code:trigger2} also depends on the parameter {\tt\textbf{c1}}. Lines~\ref{code:teeset2}--\ref{code:qosset12} specifies the constraints sets. They are expressed the same way as lines~\ref{code:teeset}--\ref{code:qos2set}. They have to be specified explicitly for each stage, although they don't change. The current implementation of the algorithm has no other means to distinguish different constraints sets. 
-
-Again, if there are further lines and UAV reaches the triggering point (line~\ref{code:trigger2}), the algorithm switches the stage to $\Gamma_3$
-\begin{algorithmic}[1]
-  \setcounterref{ALC@line}{code:qosset12}
-  \STATE\textbf{\texttt{0.0003;90;(x+sqrt(4900+c1)-30)\^{}2}}
-  \textbf{\texttt{\hspace*{14ex}+(y-11)\^{}2-5625}}\label{code:tee3}
-  \STATE\textbf{\texttt{-sqrt(4900+c1)+105,11}}
-  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}
-  \STATE\textbf{\texttt{[2,10]}}
-  \STATE\textbf{\texttt{[32,448]}}\label{code:qosset32}
-\end{algorithmic}
-line~\ref{code:tee3} corresponds to the trajectory $\varphi_3(\mathbf{p}_k,c_{1,1}):=(x+\sqrt{4900+c_{1,1}}-30)^2+(y-11)^2-5625$, a circle of fixed size that changes the coordinates in function of the parameter {\tt\textbf{c1}}. The rotation is counter-clockwise, alike $\varphi_1$.
-
-The lines
-\begin{algorithmic}[1]
-  \setcounterref{ALC@line}{code:qosset32}
-  \STATE\textbf{\texttt{0.05;90;x+sqrt(4900+c1)-105}}\label{code:tee4}
-  \STATE\textbf{\texttt{-sqrt(4900+c1)+105,147}}
-  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}
-  \STATE\textbf{\texttt{[2,10]}}
-  \STATE\textbf{\texttt{[32,448]}}\label{code:qosset42}
-  \STATE\textbf{\texttt{0.0003;90;(x-sqrt(4900+c1)+105)\^{}2}}
-  \textbf{\texttt{\hspace*{14ex}+(y-147)\^{}2-4900+c1}}\label{code:tee5}
-  \STATE\textbf{\texttt{-3*sqrt(4900+c1)+105,147}}\label{code:triggerlast}
-  \STATE\textbf{\texttt{[-3*10\^{}3,0]}}\label{code:teeset5}
-\end{algorithmic}
-defines the stages $\Gamma_4$ and $\Gamma_5$. Line~\ref{code:tee4} corresponds to the trajectory $\varphi_4(\mathbf{p}_k,c_{1,1}):=x+\sqrt{4900+c_{1,1}}-105$. Line~\ref{code:tee5} corresponds to the trajectory $\varphi_4(\mathbf{p}_k,c_{0,1}):=(x-\sqrt{4900+c_{0,1}}+105)^2+(y-147)^2-4900+c_{0,1}$.
-
-We note that the survey scenario example changes the radius of the circular trajectory $\varphi_1$ through the parameter $c_{1,1}$. It also changes the radius of $\varphi_5$ in the same way (recall Assumption~\ref{assm:periodic}). The other trajectories ($\varphi_2,\varphi_3,\varphi_4$) displacement alters the distance between the lines in the survey. For simplicity, we suppose line~\ref{code:triggerlast} describes the final point. We further suppose the user does not desire to process any computation in the last stage $\Gamma_5$. To inhibit the computations
-\begin{algorithmic}[1]
-  \setcounterref{ALC@line}{code:teeset5}
-  \STATE\textbf{\texttt{[0,0]}}
-  \STATE\textbf{\texttt{[0,0]}}
-\end{algorithmic}
-
-If there are any following stages in the survey, they are constructed the same way. The stages $\Gamma_i$ for $i:=\{0,4,8,\dots\}$ contain trajectory circle with variable radius. For $i:=\{1,3,5,\dots\}$ trajectory line with variable displacement. For $i:=\{2,6,10,\dots\}$ trajectory circle with fixed radius and variable displacement.
-
-%We need a further abstraction before we can simulate a mission in Appendix~\ref{app:simulator}. The algorithm needs to know how to model the tasks--the software components.
-
-%\section{Simulator}
-%\label{app:simulator}
-
-%We discuss how to execute the initial mission plan and the component specification in the simulator. The reader can use the simulator to simulate different environmental interference and their effects on the mission.
-
-%The simulator is written in MATLAB and released under MIT license. It implements the algorithm (Subsection~\ref{sec:algo}) providing a position $\mathbf{p}_k$ at each time step $k$ and an energy sensor's value $y_k^a$. It is derived from empirical data. It is an abstraction of the physical observations. 
-
-%The user is prompted to initialize the trajectory and the algortihm.
 
 \end{document}
