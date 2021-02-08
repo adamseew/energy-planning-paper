@@ -769,7 +769,6 @@ The state $\mathbf{q}$ are the energy coefficients
   \end{array}\right]^T,\\
   A&=\left[\begin{array}{cccc}
     0&    &       &  \\
-     & A_1&       &  \\
      &    & \ddots&  \\
      &    &       & A_r 
   \end{array}\right],\,A_j\begin{bmatrix}0 & \omega j \\ -\omega j & 0\end{bmatrix},\\
@@ -798,11 +797,12 @@ Let us suppose that at time instant $k$ the plan reached the $i$-th stage $\Gamm
 The control along with the input matrix
 \begin{equation}\label{eq:state-control}\begin{split}
   \mathbf{u}_k&=\begin{bmatrix}c_{k,1} & \cdots & c_{k,\rho} & c_{k,\rho+1} & \cdots & c_{k,\rho+\sigma}\end{bmatrix}^T\hspace*{-1ex},\\
-  \mathbf{u}&:=\mathrm{diag}(\nu_i)(\mathbf{u}_k-\mathbf{u}_{k-1})-\tau_i,\,\,\,B=\left[\begin{array}{c} \mathbf{1}\\\mathbf{0}\end{array}\right],
+  B&=\begin{bmatrix} 0 & \cdots & 0 & 1 & \cdots & 1 \\ & & & & & \end{bmatrix}\\
+  \mathbf{u}&:=\mathrm{diag}(\nu_i)(\mathbf{u}_k-\mathbf{u}_{k-1})-\tau_i,\,\,\,
 \end{split}\end{equation}
-where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$. Matrix $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row of ones. $\mathbf{u}$ is defined as a linear scale transformation from the parameters to the energy. In fact $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}^T$ and $\tau_i=\begin{bmatrix}\tau_{i,1} & \cdots & \tau_{i,\rho+\sigma}\end{bmatrix}^T$ are scaling factors quantifying the contribution of a given parameter to the instantaneous energy consumption. 
+where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$. Matrix $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row where the first $\rho$ columns are still zeros and the remaining $\sigma$ are ones. $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}^T$ and $\tau_i=\begin{bmatrix}\tau_{i,1} & \cdots & \tau_{i,\rho+\sigma}\end{bmatrix}^T$ are scaling factors quantifying the contribution to the plan of a given parameter in terms of time (for the first $\rho$ parameters) and the energy (for the remaining $\sigma$). 
 
-In particular, the first $\rho$ scaling factors quantifies the contribution of the $i$-th trajectory parameters. The following $\sigma$ scaling factors quantifies the contribution of the computations parameters. We elucidate how we derive these factors in the next two subsections, in Equation~(\ref{eq:traj-gains}) and~(\ref{eq:energy-comp}).
+We elucidate how we derive these factors in the next two subsections.
 
 \subsection{Trajectory parameters energy contribution}
 \label{sec:model}
@@ -821,14 +821,15 @@ Let us assume that the set
   \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathcal{C}_i\},
 \end{equation}
 delimits the area where the $i$-th trajectory $\varphi_i$ is free to evolve using the trajectory parameters $c_{i,1},...,c_{i,\rho}$ (the gray area in Figure~\ref{fig:tee1}). $\varphi_i$ is a function of the two coordinates and is equal to zero when a point $\mathbf{p}_k$ is on the trajectory. Physically, this means the UAV is flying exactly over the nominal trajectory. The trajectory parameters allows to change the trajectory. They are a way to alter the nominal trajectory in the initial plan and thus alter the energy.
-In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the trajectory parameters such that $\varphi_i$ has the highest instantaneous energy consumption, while still respecting the energy budget. In Figure~\ref{fig:tee1}, the parameter radius of the circle $c_{1,1}$ is replanned as, e.g., averse atmospheric conditions do not allow to terminate the plan. The sequence of these parameters (control sequence) forms the path $\mathcal{P}$. The scaling factors for the trajectory parameters from Equation~(\ref{eq:state-control}) are obtained
-\begin{equation}\label{eq:traj-gains}\begin{split}
-  \nu_{i,j}&=\left((y_{\overline{c}_i}-y_{\underline{c}_i})/(\overline{c}_i-\underline{c}_i)\right)/\rho,\\
-  \tau_{i,j}&=\left(\underline{c}_i(y_{\overline{c}_i}-y_{\underline{c}_i})/(\overline{c}_i-\underline{c}_i)-y_{\underline{c}_i}\right)/\rho,
-\end{split}\end{equation}
-$\forall j\in[\rho]^+$. Moreover, $y_{\overline{c}_i},y_{\underline{c}_i}\in\mathbb{R}$ are the maximum (and minimum) energy contribution of the highest (and lowest) change of parameters at $i$-th stage. The value is obtained empirically (e.g., using an energy sensor). 
+In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the trajectory parameters such that $\varphi_i$ has the highest instantaneous energy consumption, while still respecting the energy budget. In Figure~\ref{fig:tee1}, the parameter radius of the circle $c_{1,1}$ is replanned as, e.g., averse atmospheric conditions do not allow to terminate the plan. The sequence of these parameters (control sequence) forms the path $\mathcal{P}$. 
+
+The scaling factors for the trajectory parameters from Equation~(\ref{eq:state-control}) are derived empirically (e.g., using the simulator). For the example in Figure~\ref{fig:tee1}, we can obtain the scaling factor $\nu_{1,1}$ measuring the time needed to compute the path with the lowest configuration $\underline{c}_1$, $\underline{t}$ and the highest $\overline{t}$. The variation of the control hence results in an approximate measure of the plans' time variation
+\begin{equation}\label{eq:scale-traj}\begin{split}
+  \nu_{i,j}&=\left((\overline{t}-\underline{t}))/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
+  \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t}))/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
+\end{split}\end{equation} 
 %Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
-Moreover, let $\nu_{i,1},\dots,\nu_{i,\rho}$ be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
+$\forall j\in[\rho]^+$. Moreover, let $\nu_{i,1},\dots,\nu_{i,\rho}$ be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
 
 We derive the new position $\mathbf{p}_{k+1}$ computing the vector field $\nabla\varphi_i:=\begin{bmatrix}\partial\varphi_i/\partial x & \partial\varphi_i/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector~\cite{de2017guidance}
 \begin{equation}\label{eq:pd}
@@ -851,12 +852,12 @@ We note that while the trajectory can differ for each stage, the tasks remain th
 
 Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the tool.
 
-The scaling factors that quantifies the energy contribution of the computations parameters are derived similarly as in Equation~(\ref{eq:traj-gains})
-\begin{equation}\label{eq:energy-comp}\begin{split}
-  \nu_{i,\rho+j}&=(g(\overline{c}_i)-g(\underline{c}_i))/(\overline{c}_i-\underline{c}_i),\\
-  \tau_{i,\rho+j}&=\underline{c}_i(g(\underline{c}_i)-g(\overline{c}_i))/(\overline{c}_i-\underline{c}_i)+g(\underline{c}_i),
-\end{split}\end{equation}
-$\forall j\in[\sigma]^+$. Moreover, let $\nu_{i,\rho+1},\dots,\nu_{i,\rho+\sigma}$ be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
+The scaling factors that quantifies the energy contribution of the computations parameters are derived similarly to Equation~(\ref{eq:scale-traj})
+\begin{equation*}\begin{split}
+  \nu_{i,j}&=(g(\overline{c}_{i,j})-g(\underline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j}),\\
+  \tau_{i,j}&=\underline{c}_{i,j}(g(\underline{c}_{i,j})-g(\overline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j})+g(\underline{c}_{i,j}),
+\end{split}\end{equation*}
+$\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let $\nu_{i,\rho+1},\dots,\nu_{i,\rho+\sigma}$ be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
 
 The factors thus add the computational energy component to the model in Equation~(\ref{eq:state-perf}).
 

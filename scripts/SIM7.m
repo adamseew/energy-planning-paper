@@ -204,7 +204,7 @@ log_th_delta = th_delta;
 log_pdot = pdot;
 
 strp4 = [m W cl cth th_nominal th_delta hd h vv delta_T]; % saving 
-                                                            % parameters
+                                                          % parameters
 
 
 %% sim
@@ -360,12 +360,10 @@ while true
                              % controls in the sequence sattisfy the
                              % output constraint
             while 1
-                                          % output constraint respected 
-                                          % with the highest possible
-                                          % control
-                if bat_success == N
-                    break;
-                end
+                
+                if bat_success == N % output constraint respected with the
+                    break;          % highest possible control
+                end                
                 
                 if and(max_c1 <= min_c1,max_c2 <= min_c2) % lowest possible
                                                           % control reached
