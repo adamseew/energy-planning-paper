@@ -122,8 +122,9 @@ R = 1;
 % soc
 kb = .004; % battery coefficient
 b = @(y) -kb*(int_v-sqrt(int_v^2-4*res*y))/(2*res*qc);
-soc = linspace(1,.75,288);
-soc = [soc linspace(.743,.6,712)];
+soc = linspace(1,.78,228);
+soc = [soc linspace(.77,.57,10)]; % sudden battery drop
+soc = [soc linspace(.56,.47,762)];
 
 % scaling factors
 nu1 = 135/353; % traj param
@@ -223,6 +224,8 @@ reached = 0; % reached the end of the simulation
 %%% physics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 path_C = 1; % also just simulation utility
+
+get_optcotrol = 1; % inhibits the controller whenever the limit is reached
 
 while true 
     
@@ -342,7 +345,8 @@ while true
         
         %%% params controller %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-        if k*delta_T >= 60 % let the model to estimate the parameters for 
+        if get_optcotrol*k*delta_T >= 60 
+                           % let the model to estimate the parameters for 
                            % 1 minute
         
             costs = [0]; % result of the cost functions
@@ -355,24 +359,43 @@ while true
             bat_success = 0; % we do expect this to be N, meaning all the 
                              % controls in the sequence sattisfy the
                              % output constraint
-            while or(bat_success < N,...
-                    and(max_c1 == min_c1,max_c2 == min_c2))
-            
+            while 1
+                                          % output constraint respected 
+                                          % with the highest possible
+                                          % control
+                if bat_success == N
+                    break;
+                end
+                
+                if and(max_c1 <= min_c1,max_c2 <= min_c2) % lowest possible
+                                                          % control reached
+                    get_optcotrol = 0;
+                    break;
+                end
+
+                
                 b0 = soc(round(k*delta_T)+1);
+                qq0 = q0; % state
                 bat_success = 0;
                 for j=k-1:k+N-2
             
                     for jj=j+delta_T:delta_T:j+1
                         qq1 = Ad*qq0+B*u(c1,c1_old,c2,c2_old);
                         yy1 = C*qq1;
-                        b0 = b0+b(yy1);
+                        b0 = b0+delta_T*b(yy1);
                         qq0 = qq1;
                     end
                 
                     if yy1>b0*qc*int_v % reduction of control needed
-                        max_c1 = max_c1-deltas(1);
-                        max_c2 = max_c2-deltas(2);
-                        break; % redo !
+                        if max_c1 > min_c1
+                            max_c1 = max_c1-deltas(1);
+                        end
+                        if max_c2 > min_c2
+                            max_c2 = max_c2-deltas(2);
+                        end
+                        break; % redo the iteration with new control; if it
+                               % doesn't respect the output const repeat
+                               % again...
                     else
                         bat_success = bat_success+1;
                     end
