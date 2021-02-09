@@ -790,7 +790,7 @@ The linear model in Equation~(\ref{eq:state-perf}) allows us to include the cont
 The equality of the signal and output is achieved by a proper choice of the items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof, where we justify the choices of the items of the matrices and of the initial guess. 
 \end{proof}
 
-Let us consider for practical reasons the discretized version $A_d$ of the matrix $A$. We denote the continuous and discrete time with the standard notation (such as $t,k$).
+Let us consider for practical reasons the discretized version of the system in Equation~\ref{eq:state-perf}. 
 
 Let us suppose that at time instant $k$ the plan reached the $i$-th stage $\Gamma_i$.
 
@@ -849,7 +849,7 @@ For this purpose, we assume the UAV carries an embedded board that runs the comp
 
 The computations are implemented by software components, e.g., ROS nodes in a ROS based system. The user implements these nodes such that they change the computational load with node-specific ROS parameters, the computations parameters. In a generic software component system, the user maps the computational load to the arguments. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is a CNN object detector, the computation parameter $c_{i,\rho+1}$ might correspond to frames-per-second (fps) rate. The tool then changes the detection frequency.
 
-We note that while the trajectory can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
+We note that while the path can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
 
 Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the tool.
 
@@ -863,10 +863,10 @@ $\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let $\nu_{i,\rho+1},\dots,\nu_{i,\
 The factors thus add the computational energy component to the model in Equation~(\ref{eq:state-perf}).
 
 
-%%%%%%%%%%%%%%%%%%%
-\section{Algorithm}
-\label{sec:algo}
-
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Algorithm}  %
+\label{sec:algo}     %
+                     %
 The main purpose of the algorithm is to output a valid control sequence $\mathbf{u}:=\{\mathbf{u}_0,\mathbf{u}_1,\dots\}$ at each time step given an initial plan $\Gamma$ and to guide the UAV on a valid path: to solve Problem~\ref{pb}.
 
 \begin{defn}[Valid control sequence and path]\label{def:valid}
@@ -891,10 +891,12 @@ Let us proof that if the plan is periodic and one period is valid, then the plan
   Suppose Assumption~\ref{assm:valid}, Lemma~\ref{lem:eqv}, and Proposition~\ref{assm:periodic} hold (a period of the plan is valid, its energy evolution is described by Equation~(\ref{eq:state-perf}), and the plan is periodic). Then the plan is valid and its energy evolution modeled by the periodic energy model in Section~\ref{sec:model}.
 \end{thm}
 \begin{proof}
-  From Definition~\ref{def:valid} we know that there exists a $\mathcal{J}\subseteq[l]^+$ where the path is valid, and from Proposition~\ref{prop:rank} we know that the path is periodic. Hence if the set $\mathcal{J}$ is valid, then also the set $i[j-n+1,j]\subseteq[l]^+$ is valid for a given $i$. From Assumption~\ref{assm:valid} we note that $i\in[l/n]^+$ and thus under the assumptions $\mathcal{J}=[l]^+$. Due to the periodicity, Lemma~\ref{lem:eqv} tells us that we can use the proposed approach to model the energy.
+  From Definition~\ref{def:valid}, Assumption~\ref{assm:valid}, we know that there exists a $\mathcal{J}\subseteq[l]^+$ where the path is valid, and from Proposition~\ref{prop:rank} we know that the path is periodic. Hence if the set $\mathcal{J}$ is valid, then also the set $i[j-n+1,j]\subseteq[l]^+$ is valid for a given $i$. From the assumption we note that $i\in[l/n]^+$ and, due to the proposition, $\mathcal{J}=[l]^+$. Due to the periodicity, Lemma~\ref{lem:eqv} allows us to use the proposed approach to model the energy.
 \end{proof}
 
-We can thus output a valid control sequence for the initial plan $\Gamma$. For practical means, we consider some realistic constraints to the energy of a flying UAV. We illustrate such constraints in the following subsection.
+We can thus output a valid control sequence for the initial plan $\Gamma$. 
+%The algorithm can assess the validity of the plan using Theorem~\ref{thm:state-vs-energy}, but still find that there is no control available. 
+For practical means, we consider some realistic constraints to the energy of a flying UAV. We illustrate such constraints in the following subsection.
 
 \subsection{Output and control constraint sets}
 
@@ -919,7 +921,7 @@ The output constrain set is then the set
 \end{equation*}
 and $\max{\mathcal{Y}}_k$ is the maximum discharge capacity by the internal battery voltage--the maximum instantaneous energy consumption. $b_{k-1}$ can be determined using a sensor.
 
-The control constraint set is the trajectory constraint set for the trajectory parameters and computation constraint sets for the computation parameters (Definition~\ref{def:mission})
+The control constraint set is the path constraint set for the path parameters and computation constraint sets for the computation parameters (Definition~\ref{def:mission})
 \begin{equation*}
   \mathcal{U}_k:=\begin{cases}
     \mathcal{C}_i & \text{for } c_{i,j} \text{ with } j\leq\rho\\
@@ -947,9 +949,7 @@ The control constraint set is the trajectory constraint set for the trajectory p
   \end{algorithmic} 
 \end{algorithm}
 
-The algorithm first initializes the position, energy coefficients, and control (line~\ref{alg:init}). 
-
-The position is updated at line~\ref{alg:pos}, using the expression from Equation~(\ref{eq:pd}) and the velocity $v\in\mathbb{R}_{\geq 0}$. The expression depends on the trajectory $\varphi_i$ from stage $\Gamma_i$. The algorithm iterates all the stages in the plan $\Gamma$ (line~\ref{alg:stages-loop}), and enters the next stage $\Gamma_{i+1}$ when the UAV reaches the triggering point $\mathbf{p}_{\Gamma_i}$.
+The algorithm first initializes the position, energy coefficients, and control (line~\ref{alg:init}). It updates the position at line~\ref{alg:pos}, using the expression from Equation~(\ref{eq:pd}) and the velocity $v\in\mathbb{R}_{\geq 0}$. The expression depends on the path $\varphi_i$ from stage $\Gamma_i$. The algorithm iterates all the stages in the plan $\Gamma$ (line~\ref{alg:stages-loop}), and enters the next stage $\Gamma_{i+1}$ when the UAV reaches the triggering point $\mathbf{p}_{\Gamma_i}$ (we recall the FSM in Definition~\ref{def:mission}).
 
 The energy coefficients are updated at line~\ref{alg:evolution}, using the expression from Equation~(\ref{eq:state-perf}). The a priori state estimate $\hat{\mathbf{q}}_k$ is refined using a state estimator--such as Kalman filter~\cite{simon2006optimal}--and the data from an energy sensor (line~\ref{alg:kalman_end}).
 At line~\ref{alg:mpc}, the algorithm uses robust output feedback model predictive control (MPC)~\cite{rawlings2017model} to select the control $\mathbf{u}_k$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function
@@ -957,9 +957,9 @@ At line~\ref{alg:mpc}, the algorithm uses robust output feedback model predictiv
   V_f(\mathbf{q}_k)&:=(1/2)\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k,\\
   l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k+B\mathbf{u})^T\mathrm{diag}(C)(\mathbf{q}_k+B\mathbf{u}),\hspace*{-2ex}
 \end{split}\end{equation}
-where $\mathrm{diag}(C)$ is a diagonal matrix with the items of the matrix $C$ from Equation~(\ref{eq:state-details}) on the diagonal, and $\mathbf{u}$ ($\mathrm{diag}(\nu_i)(\mathbf{u}_k-\mathbf{u}_{k-1})-\tau_i$) is defined in Equation~(\ref{eq:state-control}).
+where $\mathrm{diag}(C)$ is a diagonal matrix with the items of $C$ from Equation~(\ref{eq:state-details}), and $\mathbf{u}$ is defined in Equation~(\ref{eq:state-control}).
 
-We note from Lemma~\ref{lem:eqv} that the expression in Equation~(\ref{eq:cost}) denotes the square of the predicted instantaneous energy consumption. Moreover, higher the horizon, higher the complexity and the accuracy of the control.
+We note from Lemma~\ref{lem:eqv} that the expression in Equation~(\ref{eq:cost}) denotes the square of the predicted power. Moreover, higher the horizon, higher the complexity and the robustness of the control to the output constraints.
 
 We further note that at every step of the summary on line~\ref{alg:mpc} the algorithm has to evolve the state to check if the output satisfies the output constraint set, and if the control satisfies the control constraint set. In particular, at each steps it performs the subroutine
 \begin{algorithmic}
@@ -968,18 +968,14 @@ We further note that at every step of the summary on line~\ref{alg:mpc} the algo
   \ENDWHILE
   \STATE $\mathbf{u}_k\gets\overline{c}_i$
 \end{algorithmic} 
-where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps (the maximum values of trajectory and computational parameters are reduced by the this step if they don't meet the constraints). To evaluate the inclusion in the output control set, the algorithm evolves the state from its previous estimate similarly as at line~\ref{alg:evolution} (we note that the condition can be written $\overline{c}_i\notin\mathcal{U}_k,\, C\mathbf{q}_k\notin\mathcal{Y}_k$).
+where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps (the maximum values of path and computational parameters are reduced by the steps if they don't meet the constraints). To evaluate the inclusion in the output control set, the algorithm evolves the state from its previous estimate similarly as at line~\ref{alg:evolution}.
 
-We finally note that one can express the tradeoffs between trajectory and computation parameters (e.g., a decrement in the distance between the lines in a survey scenario is related to a decrement in the number of detections per second) enriching the control constraint set with the constraints
+We finally note that one can express the tradeoffs between parameters (e.g., a decrement in the distance between the lines in a survey scenario is related to a decrement in the number of detections per second) enriching the control constraint set with the constraints
 \begin{equation*}
   R_i\mathbf{u}_k-r_i\geq 0,
 \end{equation*}
 where $r_i\in\mathbb{R}^n$ and $R_i\in\mathbb{R}^{n\times n}$ expresses the relation between the parameters (if $R_i$ is the identity matrix, there is no relation between the parameters).
 
-The algorithm can assess the validity of the plan using Theorem~\ref{thm:state-vs-energy}, but still find that there is no control available using the subroutine.
-
-
-%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure*}
   \hspace*{-2ex}
@@ -1011,8 +1007,10 @@ The algorithm can assess the validity of the plan using Theorem~\ref{thm:state-v
   \label{fig:evol-static-planned}
 \end{figure*}
 
-\section{Results}
-\label{sec:experimental}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}         %
+\label{sec:experimental}  %
 
 *
 
