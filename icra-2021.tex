@@ -891,12 +891,10 @@ Let us proof that if the plan is periodic and one period is valid, then the plan
   Suppose Assumption~\ref{assm:valid}, Lemma~\ref{lem:eqv}, and Proposition~\ref{assm:periodic} hold (a period of the plan is valid, its energy evolution is described by Equation~(\ref{eq:state-perf}), and the plan is periodic). Then the plan is valid and its energy evolution modeled by the periodic energy model in Section~\ref{sec:model}.
 \end{thm}
 \begin{proof}
-  The proof is based on mathematical induction. 
-  Base case: * 
-  
-  Induction step: * 
-
+  From Definition~\ref{def:valid} we know that there exists a $\mathcal{J}\subseteq[l]^+$ where the path is valid, and from Proposition~\ref{prop:rank} we know that the path is periodic. Hence if the set $\mathcal{J}$ is valid, then also the set $i[j-n+1,j]\subseteq[l]^+$ is valid for a given $i$. From Assumption~\ref{assm:valid} we note that $i\in[l/n]^+$ and thus under the assumptions $\mathcal{J}=[l]^+$. Due to the periodicity, Lemma~\ref{lem:eqv} tells us that we can use the proposed approach to model the energy.
 \end{proof}
+
+We can thus output a valid control sequence for the initial plan $\Gamma$. For practical means, we consider some realistic constraints to the energy of a flying UAV. We illustrate such constraints in the following subsection.
 
 \subsection{Output and control constraint sets}
 
