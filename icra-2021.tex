@@ -768,6 +768,7 @@ The state $\mathbf{q}$ contains the energy coefficients
   \end{array}\right]^T,\\
   A&=\left[\begin{array}{cccc}
     0&    &       &  \\
+     & A_1&       &  \\
      &    & \ddots&  \\
      &    &       & A_r 
   \end{array}\right],\,A_j\begin{bmatrix}0 & \omega j \\ -\omega j & 0\end{bmatrix},\\
@@ -796,10 +797,10 @@ Let us suppose that at time instant $k$ the plan reached the $i$-th stage $\Gamm
 The control along with the input matrix
 \begin{equation}\label{eq:state-control}\begin{split}
   \mathbf{u}_k&=\begin{bmatrix}c_{k,1} & \cdots & c_{k,\rho} & c_{k,\rho+1} & \cdots & c_{k,\rho+\sigma}\end{bmatrix}^T\hspace*{-1ex},\\
-  B&=\begin{bmatrix} 0 & \cdots & 0 & 1 & \cdots & 1 \\ & & & & & \end{bmatrix}\\
-  \mathbf{u}&:=\mathrm{diag}(\nu_i)(\mathbf{u}_k-\mathbf{u}_{k-1})-\tau_i,\,\,\,
+  \mathbf{u}&=(\hat{\mathbf{u}}_k-\hat{\mathbf{u}}_{k-1}),B=\begin{bmatrix} 0 &\hspace*{-.5ex} \cdots\hspace*{-.5ex} & 0 & 1 &\hspace*{-1ex} \cdots\hspace*{-1ex} & 1 \\ & & & & & \end{bmatrix}\\
+  \hat{\mathbf{u}}_k&:=\mathrm{diag}(\nu_i)\mathbf{u}_k+\tau_i,\,\,\,
 \end{split}\end{equation}
-where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$. Matrix $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row where the first $\rho$ columns are still zeros and the remaining $\sigma$ are ones. $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}^T$ and $\tau_i=\begin{bmatrix}\tau_{i,1} & \cdots & \tau_{i,\rho+\sigma}\end{bmatrix}^T$ are scaling factors quantifying the contribution to the plan of a given parameter in terms of time (for the first $\rho$ parameters) and the power (for the remaining $\sigma$).
+where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$. Matrix $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row where the first $\rho$ columns are still zeros and the remaining $\sigma$ are ones. $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}^T$ and $\tau_i=\begin{bmatrix}\tau_{i,1} & \cdots & \tau_{i,\rho+\sigma}\end{bmatrix}^T$ are scaling factors quantifying the contribution to the plan of a given parameter in terms of time (for the first $\rho$ parameters) and the power (for the remaining $\sigma$). $\hat{\mathbf{u}}_k$ is then the difference in the instantaneous power contribution.
 %Indeed an alteration of the path affects the overall flying time (and consequently the energy). An alteration the the computations affects the instantaneous energy consumption.
 
 We elucidate how we derive these factors in the next two subsections.
@@ -831,13 +832,13 @@ We derive the new position $\mathbf{p}_{k+1}$ computing the vector field $\nabla
 \end{equation}
 where $E$ specifies the rotation (it influence the tracking direction), and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading $\dot{\mathbf{p}}$ due to the atmospheric interferences (wind $w\in\mathbb{R}$ in the top of Figure~\ref{fig:tee1}).
 
-The scaling factors for the path parameters from Equation~(\ref{eq:state-control}) are derived empirically. For the example in Figure~\ref{fig:tee1}, we can obtain the scaling factor $\nu_{1,1}$ measuring the time needed to compute the path with the lowest configuration $\underline{c}_1$, $\underline{t}$ and the highest $\overline{t}$. The variation of the control hence results in an approximate measure of the plans' time variation
+The scaling factors for the path parameters from Equation~(\ref{eq:state-control}) are derived empirically. For the example in Figure~\ref{fig:tee1}, we can obtain the scaling factor $\nu_{1,1}$ measuring the time needed to compute the path with the lowest configuration $\underline{c}_1$, $\underline{t}$ and the highest $\overline{t}$. The variation of the control hence results in an approximate measure of the plans' time variation with factors
 \begin{equation}\label{eq:scale-traj}\begin{split}
-  \nu_{i,j}&=\left((\overline{t}-\underline{t}))/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
-  \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t}))/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
+  \nu_{i,j}&=\left((\overline{t}-\underline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
+  \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
 \end{split}\end{equation} 
 %Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
-$\forall j\in[\rho]^+$. Moreover, let $\nu_{i,1},\dots,\nu_{i,\rho}$ be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
+$\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
 
 \subsection{Computations parameters energy contribution}
 \label{sec:computations-model}
@@ -852,14 +853,13 @@ We note that while the path can differ for each stage, the tasks remain the same
 
 Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the tool.
 
-The scaling factors that quantifies the energy contribution of the computations parameters are derived similarly to Equation~(\ref{eq:scale-traj})
+The scaling factors add the computational energy component to the model in Equation~(\ref{eq:state-perf}). They are derived similarly to Equation~(\ref{eq:scale-traj})
 \begin{equation*}\begin{split}
   \nu_{i,j}&=(g(\overline{c}_{i,j})-g(\underline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j}),\\
   \tau_{i,j}&=\underline{c}_{i,j}(g(\underline{c}_{i,j})-g(\overline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j})+g(\underline{c}_{i,j}),
 \end{split}\end{equation*}
-$\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let $\nu_{i,\rho+1},\dots,\nu_{i,\rho+\sigma}$ be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
+$\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let the factors be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
 
-The factors thus add the computational energy component to the model in Equation~(\ref{eq:state-perf}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%
