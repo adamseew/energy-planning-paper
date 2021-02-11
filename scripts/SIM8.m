@@ -35,7 +35,7 @@ clear answer;
 
 % gains
 %       kp, kvv  kd,  ke1, ke2, ke3, ke4
-strp3 = [5   5  .001  .006 .07 .006 .07];
+strp3 = [5   5  .001 .006  .1  .006  .1];
 %         
 
 vd = strp(1); % initial UAV direction
@@ -104,10 +104,10 @@ Q = ones(size(q,1));
 R = 1;
 
 % soc
-kb = .0018; % battery coefficient
+kb = .00183; % battery coefficient
 b = @(y) -kb*(int_v-sqrt(int_v^2-4*res*y))/(2*res*qc);
-soc = linspace(1,.9099,94);
-soc = [soc linspace(.9,.78,134)];
+soc = linspace(1,.9,93);
+soc = [soc linspace(.84,.76,135)];
 soc = [soc linspace(.77,.57,10)]; % sudden battery drop
 soc = [soc linspace(.56,.47,762)];
 
@@ -370,7 +370,7 @@ while true
             qq0 = q0; % state
             
             for j=k-1:k+N-2 % MPC
-            
+                                
                 for jj=j+delta_T:delta_T:j+1
                     qq1 = Ad*qq0+B*u(eeu,eest_u_old);
                     yy1 = C*qq1;
@@ -378,38 +378,21 @@ while true
                     qq0 = qq1;
                 end
                 
-                if yy1>b0*qc*int_v % reduction of control needed
-                        
-                    while yy1+C*B*u(est_u(c1,max_c2),eeu) > b0*qc*int_v
-                                
-                        % speeding up a bit (we can do this because 
-                        % how the control works
-                        if max_c2 <= min_c2
-                            break;
-                        else
-                            max_c2 = max_c2-deltas(2);
-                        end
-                    end
-
-                else
-                    while yy1+C*B*u(est_u(c1,max_c2),eeu) <= b0*qc*int_v
-                                
-                        if max_c2 >= mmax_c2
-                            break;
-                        else
-                            max_c2 = max_c2+deltas(2);
-                        end
-                    end
-                    bat_success = bat_success+1;
+                ccost = [];
+                
+                for ctl=min_c2:deltas(2):mmax_c2
+                    ccost = [ccost;yy1+C*B*u(est_u(c1,ctl),eeu)];
                 end
                 
-                if j == k+N-2
-                    costs(end) = costs(end)+.5*(qq0).'*diag(C)*(qq0);
+                ctl=min_c2:deltas(2):mmax_c2;
+                max_c2 = ctl(ccost<b0*qc*int_v);
+                
+                if length(max_c2) == 0
+                    max_c2 = min_c2;
                 else
-                    costs(end) = costs(end)+...
-                        .5*(qq0+B*u(est_u(c1,max_c2),eeu)).'*diag(C)*...
-                        (qq0+B*u(est_u(c1,max_c2),eeu));
+                    max_c2 = max_c2(end);
                 end
+                
             end
                 
             % estimating remaining time from c1
@@ -420,6 +403,10 @@ while true
                                                      % instant
             bat_t = N; % getting the time when the battery is gonna be
                        % fully discharged (we already did up to N!)
+                       
+            if round(k*delta_T)+1 == 94
+                1 == 1;
+            end
                            
             while b0 > 0
                 for jj=j+delta_T:delta_T:j+1
