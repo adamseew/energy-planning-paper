@@ -200,6 +200,9 @@ log_theta = theta;
 log_th_delta = th_delta;
 log_pdot = pdot;
 
+log_c1 = [];
+log_c2 = [];
+
 strp4 = [m W cl cth th_nominal th_delta hd h vv delta_T]; % saving 
                                                           % parameters
 
@@ -223,6 +226,8 @@ reached = 0; % reached the end of the simulation
 path_C = 1; % also just simulation utility
 
 get_optcotrol = 1; % inhibits the controller whenever the limit is reached
+
+ts_changed = 0; % used
 
 while true 
     
@@ -339,60 +344,56 @@ while true
                  
         % produce a simulated energy value from throttle
         log_pow = [log_pow;...
-            (max_pw-min_pw)*(th_delta+th_nominal)/(2*th_nominal)+min_pw]; 
+            (max_pw-min_pw)*(th_delta+th_nominal)/(2*th_nominal)+min_pw];
         
         
         %%% params controller %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-        if get_optcotrol*k*delta_T >= 60 
-                           % let the model to estimate the parameters for 
-                           % 1 minute
-        
-            costs = [0]; % result of the cost functions
-            qq0 = q0; % state
-        
-            % not necessary to iterate over controls because we imply that 
-            % the highest control corresponds to the highest energy 
-            % consumption (highest cost function)
-        
+        if get_optcotrol*k*delta_T >= 60  % let the model to estimate the 
+                                          % parameters for 1 minute
             bat_success = 0; % we do expect this to be N, meaning all the 
                              % controls in the sequence sattisfy the
                              % output constraint
-                            
             eeu = eu; % control estimate
             eest_u_old = eu; % old control estimate (which will 
                              % eventually change later so for now it's 
-                             % the same one)             
-                
-
-                
+                             % the same one)    
             b0 = soc(round(k*delta_T)+1);
             qq0 = q0; % state
             
-            for j=k-1:k+N-2 % MPC
+            if ts_changed+2 <= k*delta_T % for stability
+                                         % change to c2 after 5 sec of
+                                         % latest change
+                for j=k-1:k+N-2 % MPC
                                 
-                for jj=j+delta_T:delta_T:j+1
-                    qq1 = Ad*qq0+B*u(eeu,eest_u_old);
-                    yy1 = C*qq1;
-                    b0 = b0+delta_T*b(yy1);
-                    qq0 = qq1;
+                    for jj=j+delta_T:delta_T:j+1
+                        qq1 = Ad*qq0+B*u(eeu,eest_u_old);
+                        yy1 = C*qq1;
+                        b0 = b0+delta_T*b(yy1);
+                        qq0 = qq1;
+                    end
+                
+                    ccost = [];
+                
+                    for ctl=min_c2:deltas(2):mmax_c2
+                        ccost = [ccost;yy1+C*B*u(est_u(c1,ctl),eeu)];
+                    end
+                
+                    ctl=min_c2:deltas(2):mmax_c2;
+                    max_c2 = ctl(ccost<b0*qc*int_v);
+                
+                    if length(max_c2) == 0
+                        max_c2 = min_c2;
+                    else
+                        max_c2 = max_c2(end);
+                        ts_changed = k*delta_T;
+                    end
                 end
                 
-                ccost = [];
-                
-                for ctl=min_c2:deltas(2):mmax_c2
-                    ccost = [ccost;yy1+C*B*u(est_u(c1,ctl),eeu)];
-                end
-                
-                ctl=min_c2:deltas(2):mmax_c2;
-                max_c2 = ctl(ccost<b0*qc*int_v);
-                
-                if length(max_c2) == 0
-                    max_c2 = min_c2;
-                else
-                    max_c2 = max_c2(end);
-                end
-                
+                bat_t = N; % getting the time when the battery is gonna be
+                       % fully discharged (we already did up to N!)
+            else
+                bat_t = 0;
             end
                 
             % estimating remaining time from c1
@@ -401,9 +402,7 @@ while true
                               % at the beginning
             rem_t = (sim_t/max_t)*(max_t-k*delta_T); % at the current 
                                                      % instant
-            bat_t = N; % getting the time when the battery is gonna be
-                       % fully discharged (we already did up to N!)
-                       
+                                                     
             if round(k*delta_T)+1 == 94
                 1 == 1;
             end
@@ -433,7 +432,8 @@ while true
            
                 bat_success = 0; % cannot finish with current path,  
                                  % not enough battery
-            end                    
+            end
+            
             c1 = max_c1;
             c2 = max_c2;
             eest_u_old = eeu;
@@ -453,13 +453,13 @@ while true
         %%% estimating the energy with KF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         eu = est_u(c1,c2); % u estimate
+        log_pow(end) = log_pow(end)+eu(2); % eu(2) simulates the computa-
+                                           % tional power
         q1_minus = Ad*q0+B*u(eu,est_u_old);
         est_u_old = eu;
         P1_minus = Ad*P0*Ad.'+Q;
         K1 = (P1_minus*C.')*(C*P1_minus*C.'+R)^-1;
-        q1 = q1_minus+K1*(log_pow(end)+eu(2)-C*q1_minus); % eu(2) simulates
-                                                          % the computatio-
-                                                          % nal power
+        q1 = q1_minus+K1*(log_pow(end)-C*q1_minus);
         P1 = (eye(size(q0,1))+K1*C)*P1_minus;
         y0_estimate = C*q1;
         q0 = q1;
@@ -526,6 +526,9 @@ while true
         
         c1_old = c1; % saving params for next iteration
         c2_old = c2;
+        
+        log_c1 = [log_c1;c1];
+        log_c2 = [log_c2;c2];
     end
     
     if reached
