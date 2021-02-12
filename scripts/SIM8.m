@@ -107,9 +107,8 @@ R = 1;
 kb = .00183; % battery coefficient
 b = @(y) -kb*(int_v-sqrt(int_v^2-4*res*y))/(2*res*qc);
 soc = linspace(1,.9,93);
-soc = [soc linspace(.84,.76,135)];
-soc = [soc linspace(.77,.57,10)]; % sudden battery drop
-soc = [soc linspace(.56,.47,762)];
+soc = [soc linspace(.84,.45,177)];
+soc = [soc linspace(.36,.2,730)]; % with unplanned sudden battery drops
 
 
 %%% path plan %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -403,10 +402,6 @@ while true
             rem_t = (sim_t/max_t)*(max_t-k*delta_T); % at the current 
                                                      % instant
                                                      
-            if round(k*delta_T)+1 == 94
-                1 == 1;
-            end
-                           
             while b0 > 0
                 for jj=j+delta_T:delta_T:j+1
                     qq1 = Ad*qq0+B*u(eeu,eest_u_old);
@@ -480,6 +475,9 @@ while true
             break;
         end
         
+        log_c1 = [log_c1;c1];
+        log_c2 = [log_c2;c2];
+        
         % traj param changed, we need to change the params
         if c1_old ~= c1
             
@@ -527,8 +525,6 @@ while true
         c1_old = c1; % saving params for next iteration
         c2_old = c2;
         
-        log_c1 = [log_c1;c1];
-        log_c2 = [log_c2;c2];
     end
     
     if reached
@@ -541,6 +537,8 @@ while true
 end  
 
 time_v = linspace(0,k*delta_T,length(log_pow)); % time vector
+log_b = soc(1:round(k*delta_T)+1);
+log_b = [linspace(0,k*delta_T,length(log_b)).' log_b.' log_b.'*qc*int_v];
 
 
 %% plots
@@ -558,6 +556,16 @@ nexttile,plot(time_v,log_pow(:,1))
 title('energy sensor');
 ylabel('power (W)');
 nexttile,plot(time_v,log_y)
+hold on
+plot(log_b(:,1),log_b(:,2))
+axes('Position',[.7 .7 .2 .2])
+box on
+plot(time_v,log_c1)
+ylabel('c1')
+hold on
+yyaxis right
+plot(time_v,log_c2)
+ylabel('c2')
 title('estimated energy');
 ylabel('power (W)');
 nexttile,plot(time_v,log_h(2:end));
@@ -612,13 +620,14 @@ save(strcat(strp5,'.mat'));
 csvwrite(strcat('position_simulation',strp5,'.csv'),[log_p(1,:).'...
     log_p(2,:).' log_h log_theta log_vv log_th_delta ...
     log_pdot(1,:).' log_pdot(2,:).']);
-csvwrite(strcat('energy_simulation',strp5,'.csv'),[time_v' ...
+csvwrite(strcat('energy_simulation',strp5,'.csv'),[time_v.' ...
     log_pow log_y log_q(1,:).' log_q(2,:).' log_q(3,:).' log_q(4,:).'...
     log_q(5,:).' log_q(6,:).' log_q(7,:).']);
 csvwrite(strcat('perioddata_simulation',strp5,'.csv'),log_period);
 csvwrite(strcat('data_simulation',strp5,'.csv'),[strp.' strp2.' ...
     strp3 strp4]);
-
+csvwrite(strcat('bat_simulation',strp5,'.csv'),log_b);
+csvwrite(strcat('ctl_simulation',strp5,'.csv'),[time_v.' log_c1 log_c2]);
 
 
 %% functions
