@@ -20,27 +20,12 @@ answer = inputdlg(...
      'max power [W]:','min power [W]:','triggering point radius [m]'
     }, ...
     'path initialization',[1 40],...
-    {'270','5','90','-100','220','36','16','15'});
+    {'270','5','90','-100','220','36','16','10'});
 
 if isempty(answer)
-    strp = [270; 5; 90; -100; 220; 36; 16; 15];
+    strp = [270; 5; 90; -100; 220; 36; 16; 10];
 else
     strp = str2double(answer);
-end
-
-clear answer;
-
-% asking data about the algorithm
-
-answer = inputdlg(...
-    {'order r:','epsilon:','horizon N:'},...
-    'model and algorithm initialization',[1 40],...
-    {'3','1','60'});
-
-if isempty(answer)
-    strp2 = [3; 1; 60]; % default initial dSIM6ata
-else
-    strp2 = str2double(answer);
 end
 
 clear answer;
@@ -51,7 +36,7 @@ clear answer;
 
 % gains
 %       kp, kvv  kd,  ke1, ke2, ke3, ke4
-strp3 = [5   5  .001  .006 .07 .006 .07];
+strp3 = [5   5  .001 .006  .1  .006  .1];
 %         
 
 vd = strp(1); % initial UAV direction
@@ -63,9 +48,7 @@ max_pw = strp(6); % maximum reachable power
 min_pw = strp(7); % minimum
 trig_eps = [strp(8);strp(8)]; % radius of the triggering point (it's a 
                               % circular area)
-r = strp2(1); % model size (the bigger the more precise)
-eps = strp2(2); % optimization decrement step (to adapt control)
-N = strp2(3); % optimization horizon (for MPC)
+r = 3; % model size (the bigger the more precise)
 
 % dynamics control
 
@@ -340,7 +323,7 @@ while true
         % reached the battery striking point (just trying)
         %      place 0 to NOT force parameter
         %      ↓ 
-        if and(1,and(k*delta_T >= 200,changed == 0))
+        if and(0,and(k*delta_T >= 200,changed == 0))
             
             % forcing param (just testing)
             max_c1 = -1000;
@@ -474,7 +457,7 @@ csvwrite(strcat('energy_simulation',strp5,'.csv'),[time_v' ...
     log_pow log_y log_q(1,:).' log_q(2,:).' log_q(3,:).' log_q(4,:).'...
     log_q(5,:).' log_q(6,:).' log_q(7,:).']);
 csvwrite(strcat('perioddata_simulation',strp5,'.csv'),log_period);
-csvwrite(strcat('data_simulation',strp5,'.csv'),[strp.' strp2.' ...
+csvwrite(strcat('data_simulation',strp5,'.csv'),[strp.' r ...
     strp3 strp4]);
 
 
