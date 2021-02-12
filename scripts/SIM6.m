@@ -20,10 +20,10 @@ answer = inputdlg(...
      'max power [W]:','min power [W]:','triggering point radius [m]'
     }, ...
     'path initialization',[1 40],...
-    {'270','5','90','-100','220','36','16','10'});
+    {'270','5','90','-100','220','36','16','20'});
 
 if isempty(answer)
-    strp = [270; 5; 90; -100; 220; 36; 16; 10];
+    strp = [270; 5; 90; -100; 220; 36; 16; 20];
 else
     strp = str2double(answer);
 end
