@@ -461,6 +461,8 @@ while true
                 
         log_y = [log_y;y0_estimate];
         log_q = [log_q q0];
+        log_c1 = [log_c1;c1];
+        log_c2 = [log_c2;c2];
                                 
         k = k+1;
         
@@ -474,9 +476,6 @@ while true
             reached = 1;
             break;
         end
-        
-        log_c1 = [log_c1;c1];
-        log_c2 = [log_c2;c2];
         
         % traj param changed, we need to change the params
         if c1_old ~= c1
@@ -556,16 +555,6 @@ nexttile,plot(time_v,log_pow(:,1))
 title('energy sensor');
 ylabel('power (W)');
 nexttile,plot(time_v,log_y)
-hold on
-plot(log_b(:,1),log_b(:,2))
-axes('Position',[.7 .7 .2 .2])
-box on
-plot(time_v,log_c1)
-ylabel('c1')
-hold on
-yyaxis right
-plot(time_v,log_c2)
-ylabel('c2')
 title('estimated energy');
 ylabel('power (W)');
 nexttile,plot(time_v,log_h(2:end));
@@ -576,6 +565,22 @@ title('throttle');
 ylabel('value');
 title(t,'model energy')
 xlabel(t,'time (sec)')
+
+figure;
+plot(time_v,log_y)
+xlabel('time (sec)')
+ylabel('power (W)')
+title('algorithms')
+hold on
+plot(log_b(:,1),log_b(:,3))
+axes('Position',[.6 .6 .3 .3])
+box on
+plot(time_v,log_c1)
+ylabel('c1')
+hold on
+yyaxis right
+plot(time_v,log_c2)
+ylabel('c2')
 
 figure; % to be fixed if size is different from 3
 t = tiledlayout(7,1);
