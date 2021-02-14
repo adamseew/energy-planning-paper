@@ -1504,14 +1504,14 @@
 
 
 
-  \begin{scope}[cm={{1.00714,0.0,0.0,1.00714,(85.9642,210.66226)}},fill=cff0000,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=cff0000] (2.7667,-0.9239) node[above right] (text824-1) {\scriptsize \color{red} -.5k$c_1$};
+  \begin{scope}[cm={{1.00714,0.0,0.0,1.00714,(78.9642,210.66226)}},fill=cff0000,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=cff0000] (2.7667,-0.9239) node[above right] (text824-1) {\scriptsize \color{red} $c_1=$\vspace{.5ex}-.5k};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.00714,0.0,0.0,1.00714,(184.68407,207.48274)}},fill=cff0000,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=cff0000] (-3.7346,2.1010) node[above right] (text824-1-7) {\scriptsize \color{red} -1k$c_2$};
+  \begin{scope}[cm={{1.00714,0.0,0.0,1.00714,(172.68407,207.48274)}},fill=cff0000,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=cff0000] (-3.7346,2.1010) node[above right] (text824-1-7) {\scriptsize \color{red} $c_1=$\vspace{.5ex}-1k};
 
 
 

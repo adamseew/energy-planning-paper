@@ -1,6 +1,7 @@
 
 \definecolor{ca0a0a4}{RGB}{160,160,164}
 \definecolor{cffffff}{RGB}{255,255,255}
+\definecolor{cff0000}{RGB}{255,0,0}
 
 
 \def \globalscale {1.000000}
@@ -1825,7 +1826,7 @@
   \begin{scope}[cm={{1.00833,0.0,0.0,1.00833,(195.617,193.6)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00833,0.0,0.0,1.00833,(242.867,207.1)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1482) {\scriptsize \rotatebox{90}{$c_1$}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1482) {\scriptsize \rotatebox{90}{k$c_1$}};
 
 
 
@@ -2304,7 +2305,6 @@
   \end{scope}
   \begin{scope}[cm={{1.00833,0.0,0.0,1.00833,(133.13182,130.72964)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
     \path[fill=black] (-1.6003,-0.3082) node[above right] (text328-2) {I.d};
-
 
 
   \end{scope}

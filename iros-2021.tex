@@ -120,7 +120,7 @@
     year={2020},
     organization={IEEE},
     DOI={10.1109/IRC.2020.00028},
-    url={https://adamseew.bitbucket.io/short/mechanical2020}
+    url={https://adamseewald.cc/short/mechanical2020}
   }
 
   @article{seewald2019coarse,
@@ -131,7 +131,7 @@
     year={2019},
     publisher={Springer},
     DOI={10.1007/s10766-019-00645-y},
-    url={https://adamseew.bitbucket.io/short/coarse2019}
+    url={https://adamseewald.cc/short/coarse2019}
   }
   @inproceedings{seewald2019component,
     title={Component-based computation-energy modeling for embedded systems},
@@ -141,7 +141,7 @@
     year={2019},
     organization={ACM},
     DOI={10.1145/3359061.3362775},
-    url={https://adamseew.bitbucket.io/short/component2019}
+    url={https://adamseewald.cc/short/component2019}
   }
   @inproceedings{hajjaj2014review,
     title={Review of research in the area of agriculture mobile robots},
@@ -401,7 +401,7 @@
     year={2020},
     organization={IEEE},
     DOI={10.1109/IRC.2020.00054},
-    url={https://adamseew.bitbucket.io/short/energy2020}
+    url={https://adamseewald.cc/short/energy2020}
   }
 
   @inproceedings{seewald2020beyond,
@@ -412,7 +412,7 @@
     year={2020},
     publisher={ETH Zurich, Department of Mechanical and Process Engineering},
     DOI={10.3929/ethz-b-000450120},
-    url={https://adamseew.bitbucket.io/short/beyond2020}
+    url={https://adamseewald.cc/short/beyond2020}
   }
   @inproceedings{lindemann2005smoothly,
     title={Smoothly blending vector fields for global robot navigation},
@@ -989,13 +989,13 @@ where $r_i\in\mathbb{R}^n$ and $R_i\in\mathbb{R}^{n\times n}$ expresses the rela
 \begin{figure}[ht]
   \footnotesize
   \input{\figpath/results/new_physics/model.tikz}
-  \caption[Energy estimation and evolution of the state]{Energy estimation process for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right}
+  \caption[Energy estimation and evolution of the state]{Energy estimation for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right}
   \label{fig:model}
 \end{figure}
 \begin{figure}[ht]
   \footnotesize
   \input{\figpath/results/new_physics/ener.tikz}
-  \caption[] {The model after 200 seconds of estimation on top along the energy and the algorithm that dynamically adapts path when the UAV cannot reach the end of the plan, and adapts the computation when the battery is discharged (smaller plot on right)}
+  \caption[] {The models after 200 seconds on top. The algorithm that uses the model I to dynamically adapt the path (when the final time and battery time doesn't match) and the computation (when the battery is discharged--the smaller plot on right) on bottom}
   \label{fig:ener}
 \end{figure}
 
