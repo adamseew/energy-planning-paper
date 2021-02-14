@@ -460,6 +460,28 @@ csvwrite(strcat('perioddata_simulation',strp5,'.csv'),log_period);
 csvwrite(strcat('data_simulation',strp5,'.csv'),[strp.' r ...
     strp3 strp4]);
 
+return;
+
+csvwrite(strcat('evol_simulation',strp5,'.csv'),[...
+    linspace(0,200,length(log_yy)).' log_yy]);
+    
+
+
+%% pure evolution
+
+% this part takes the coefficients at 200 s estimated with KF above and
+% evolve them to see if the model match the data
+
+qq0 = log_q(:,200/delta_T);
+log_yy = [log_y(200/delta_T)];
+Ad = A*delta_T/10+eye(2*r+1);
+for ii=200+delta_T:delta_T/10:400
+    qq0 = Ad*qq0;
+    log_yy = [log_yy; C*qq0];
+end
+
+figure;
+plot(log_yy)
 
 
 %% functions
