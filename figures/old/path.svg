@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="318.657" height="235.935" viewBox="0 0 318.66 235.94" enable-background="new 0 0 318.66 235.94" xml:space="preserve">
+	<path fill="#DEDEDE" fill-opacity="1" stroke-width="1.6" stroke-linejoin="round" d="M 13.6098,144.24L 13.6381,144.24C 14.6918,106.85 45.0061,76.7806 82.4938,76.1202L 82.4938,112.55C 65.0922,113.19 51.0572,127.013 50.0821,144.327L 50.0967,158.676L 50.0821,159.001L 50.0821,159.33C 50.0975,160.158 50.2166,161.018 50.1937,161.832L 50.1998,161.84L 50.1998,163.853L 50.0821,209.438L 50.0821,217.64L 50.061,217.64L 50.0605,217.802L 50.0484,218.723L 50.1143,222.916L 13.4101,222.925C 13.4101,221.023 13.386,224.783 13.3745,220.576L 13.3745,218.823L 13.3745,218.468L 13.3745,217.992L 13.3745,217.645L 13.3745,146.471L 13.6098,144.24 Z "/>
+	<ellipse fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#2B2B2B" stroke-opacity="1" cx="83.73" cy="146.119" rx="70.1444" ry="70.1443"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="85.1956" y1="147.431" x2="82.3309" y2="144.566"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="82.3321" y1="147.431" x2="85.1972" y2="144.566"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#2B2B2B" stroke-opacity="1" x1="13.613" y1="58.9207" x2="13.6123" y2="222.753"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="83.8116" y1="146.035" x2="13.5289" y2="146.035"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 16.4958,147.747L 16.4888,144.389L 13.5838,146.074L 16.4958,147.747 Z "/>
+	<path fill="none" stroke-width="1.28" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 88.9347,20.9284C 97.0742,23.1247 98.9997,31.4807 98.9997,31.4807C 98.9997,31.4807 114.254,68.9845 73.9151,76.7265C 68.6769,77.7319 69.8409,78.6842 72.6628,78.5785"/>
+	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 105.402,40.3425L 101.458,24.0201L 97.8475,28.2196L 92.3755,29.7459L 105.402,40.3425 Z "/>
+	<g>
+		<rect x="6.72861" y="69.884" fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" width="14.1472" height="18.1471"/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 5.00 84.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">V2</tspan>
+		</text>
+	</g>
+	<g>
+		<rect x="102.381" y="73.5241" fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" width="18.1472" height="14.1472"/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 104.00 87.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">V1</tspan>
+		</text>
+	</g>
+	<g>
+		<path fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" d="M 60.4211,215.856L 46.2739,215.856L 46.2532,229.525L 60.4334,229.525L 60.4211,215.856 Z "/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 49.00 228.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">c4</tspan>
+		</text>
+	</g>
+	<g>
+		<rect x="51.8751" y="139.051" fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" width="14.1472" height="14.1471"/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 55.00 149.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:8.480278pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">c1</tspan>
+		</text>
+	</g>
+	<line fill="none" stroke-width="1.6" stroke-linejoin="round" x1="98.2907" y1="31.0272" x2="104.589" y2="73.8075"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="99.7561" y1="31.1721" x2="89.0057" y2="57.4532"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="99.6471" y1="31.4188" x2="104.658" y2="5.57785"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 91.0932,56.8371L 88.0287,55.463L 88.3708,58.8039L 91.0932,56.8371 Z "/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 102.97,5.43759L 106.235,6.2247L 105.284,3.00363L 102.97,5.43759 Z "/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="99.7199" y1="31.378" x2="119.494" y2="51.1842"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 119.404,48.8861L 117.254,51.4664L 120.563,52.0382L 119.404,48.8861 Z "/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 108.00 10.00)" xml:space="preserve">
+		<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">P</tspan>
+	</text>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 123.00 52.00)" xml:space="preserve">
+		<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">p</tspan>
+	</text>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 72.00 56.00)" xml:space="preserve">
+		<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">pd</tspan>
+	</text>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 13.3215,211.949L 13.3443,206.615L 14.6243,206.621L 14.6015,211.954L 13.3215,211.949 Z M 13.367,201.282L 13.3898,195.949L 14.6698,195.954L 14.647,201.288L 13.367,201.282 Z M 13.4126,190.616L 13.4353,185.282L 14.7153,185.288L 14.6925,190.621L 13.4126,190.616 Z M 13.4581,179.949L 13.4808,174.616L 14.7608,174.621L 14.7381,179.955L 13.4581,179.949 Z M 13.5036,169.282L 13.5264,163.949L 14.8063,163.955L 14.7836,169.288L 13.5036,169.282 Z M 13.5491,158.616L 13.5719,153.283L 14.8519,153.288L 14.8291,158.621L 13.5491,158.616 Z M 13.5946,147.949L 13.6174,142.616L 14.8974,142.622L 14.8746,147.955L 13.5946,147.949 Z M 13.6402,137.283L 13.6456,136.009L 13.6568,135.885L 13.6932,135.765L 13.753,135.654L 13.834,135.559L 13.93,135.478L 14.0405,135.419L 14.1606,135.383L 14.2856,135.372L 13.7546,135.302L 14.0956,133.58L 14.4947,131.905L 15.7459,132.175L 15.3469,133.849L 15.0149,135.525L 14.2856,136.652L 14.9256,136.015L 14.9201,137.288L 13.6402,137.283 Z M 15.9627,126.721L 17.1381,123.258L 17.7773,121.672L 18.9782,122.115L 18.339,123.701L 17.1854,127.1L 15.9627,126.721 Z M 19.9048,116.743L 21.4398,113.539L 22.3445,111.955L 23.4793,112.547L 22.5746,114.131L 21.0771,117.257L 19.9048,116.743 Z M 25.092,107.33L 28.1148,102.914L 28.1387,102.886L 29.1624,103.654L 29.1385,103.683L 26.1782,108.007L 25.092,107.33 Z M 31.5404,98.7779L 32.4915,97.6295L 35.2732,94.8905L 36.2182,95.7539L 33.4365,98.493L 32.5641,99.5464L 31.5404,98.7779 Z M 39.2744,91.2738L 43.4654,87.9753L 44.3134,88.9342L 40.1224,92.2325L 39.2744,91.2738 Z M 48.0669,85.1386L 50.4869,83.6611L 52.8339,82.6002L 53.4336,83.731L 51.0866,84.792L 48.7993,86.1884L 48.0669,85.1386 Z M 57.6938,80.4033L 58.2989,80.1296L 62.8364,78.728L 63.2906,79.9248L 58.7531,81.3264L 58.2934,81.5341L 57.6938,80.4033 Z M 68.0352,77.2423L 73.2852,76.3027L 73.5875,77.5465L 68.3376,78.4861L 68.0352,77.2423 Z M 13.276,222.615L 13.2988,217.282L 14.5788,217.288L 14.556,222.621L 13.276,222.615 Z "/>
+	<g>
+		<path fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" d="M 17.0292,215.856L 2.88206,215.856L 2.84394,229.577L 17.0241,229.542L 17.0292,215.856 Z "/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 0.00 228.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">c4</tspan>
+		</text>
+	</g>
+	<path fill="#9B9B9B" fill-opacity="1" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 63.6373,79.2025L 80.407,80.0737L 76.0128,76.0731L 77.507,69.7362L 63.6373,79.2025 Z "/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 52.00 72.00)" xml:space="preserve">
+		<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">qk</tspan>
+	</text>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="18.6794" y1="17.7386" x2="18.6794" y2="43.6091"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="44.3726" y1="43.3996" x2="18.502" y2="43.3996"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 17.0159,19.2555L 20.3744,19.2484L 18.6891,16.3434L 17.0159,19.2555 Z "/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 42.5833,41.7101L 42.5903,45.0686L 45.4953,43.3831L 42.5833,41.7101 Z "/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 9.00 55.00)" xml:space="preserve">
+		<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">Ow</tspan>
+	</text>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="18.7257" y1="43.28" x2="99.1806" y2="31.4406"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 96.6472,30.4129L 97.2266,33.5702L 99.789,31.0704L 96.6472,30.4129 Z "/>
+	<g>
+		<rect x="55.9754" y="27.6389" fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" width="18.1472" height="14.1471"/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 61.00 38.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">p</tspan>
+		</text>
+	</g>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="40.6977" y1="11.4071" x2="60.2164" y2="11.4071"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 59.5075,9.78574L 59.5146,13.1443L 62.4196,11.4588L 59.5075,9.78574 Z "/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 43.00 8.00)" xml:space="preserve">
+		<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">w</tspan>
+	</text>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="64.0076" y1="79.0998" x2="75.9018" y2="76.0717"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="97.8349" y1="28.2206" x2="105.296" y2="40.2361"/>
+	<path fill="#DEDEDE" fill-opacity="1" fill-rule="evenodd" stroke-width="1.6" stroke-linejoin="round" d="M 226.196,80.0239C 232.822,77.8043 239.609,76.2579 246.951,76.1285L 246.951,112.559C 229.549,113.198 215.514,127.021 214.539,144.335L 214.554,158.684L 214.539,159.009L 214.539,159.338C 214.554,160.166 214.673,161.027 214.651,161.84L 214.657,161.848L 214.657,163.861L 214.539,209.446L 214.539,217.648L 214.518,217.648L 214.517,217.811L 214.505,218.731L 214.571,222.925L 194.353,222.929C 194.67,200.169 193.534,167.788 194.509,146.611C 194.985,136.269 197.28,128.348 197.952,126.011C 200.475,117.241 198.674,91.399 225.69,80.2168L 226.196,80.0239 Z "/>
+	<ellipse fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" cx="248.192" cy="146.136" rx="70.1444" ry="70.1443"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="249.658" y1="147.448" x2="246.793" y2="144.583"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="246.794" y1="147.447" x2="249.659" y2="144.582"/>
+	<ellipse fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#2B2B2B" stroke-opacity="1" cx="248.804" cy="146.384" rx="54.1612" ry="54.1611"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#4D4D4D" stroke-opacity="1" x1="194.61" y1="58.9373" x2="194.609" y2="222.77"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="298.987" y1="165.49" x2="248.418" y2="146.096"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 297.198,162.971L 296.018,166.116L 299.331,165.566L 297.198,162.971 Z "/>
+	<path fill="none" stroke-width="1.28" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 253.397,20.9452C 261.536,23.1414 263.462,31.4974 263.462,31.4974C 263.462,31.4974 278.883,69.0638 238.494,76.5385C 198.105,84.0134 200.825,116.048 197.957,126.02C 194.993,136.327 194.54,145.952 194.54,145.952L 194.556,146.254L 194.603,146.762"/>
+	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 269.864,40.3587L 265.92,24.0363L 262.31,28.2359L 256.838,29.7623L 269.864,40.3587 Z "/>
+	<path fill="#9B9B9B" fill-opacity="1" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 195.092,138.488L 204.175,124.364L 198.242,125.231L 193.762,121.749L 195.092,138.488 Z "/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 193.91,212.513L 193.91,207.179L 195.19,207.179L 195.19,212.513L 193.91,212.513 Z M 193.91,201.846L 193.91,196.513L 195.19,196.513L 195.19,201.846L 193.91,201.846 Z M 193.91,191.179L 193.91,185.846L 195.19,185.846L 195.19,191.179L 193.91,191.179 Z M 193.91,180.513L 193.91,175.179L 195.19,175.179L 195.19,180.513L 193.91,180.513 Z M 193.91,169.846L 193.91,164.513L 195.19,164.513L 195.19,169.846L 193.91,169.846 Z M 193.91,159.179L 193.91,153.846L 195.19,153.846L 195.19,159.179L 193.91,159.179 Z M 193.91,148.513L 193.91,146.396L 195.19,146.396L 195.19,148.513L 193.91,148.513 Z M 193.91,223.179L 193.91,217.846L 195.19,217.846L 195.19,223.179L 193.91,223.179 Z "/>
+	<g>
+		<rect x="187.726" y="69.9007" fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" width="14.1472" height="18.1472"/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 186.00 84.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">V2</tspan>
+		</text>
+	</g>
+	<g>
+		<path fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" d="M 197.325,215.855L 183.178,215.855L 183.139,229.576L 197.32,229.541L 197.325,215.855 Z "/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 180.00 228.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">c4</tspan>
+		</text>
+	</g>
+	<g>
+		<path fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" d="M 278.413,143.414L 260.265,143.414L 260.265,161.561L 278.413,161.561L 278.413,143.414 Z "/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 262.00 157.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">c</tspan>
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round">2</tspan>
+		</text>
+	</g>
+	<line fill="none" stroke-width="1.6" stroke-linejoin="round" x1="262.753" y1="31.044" x2="269.051" y2="73.8241"/>
+	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 228.1,79.2188L 244.869,80.0899L 240.475,76.0893L 241.969,69.7525L 228.1,79.2188 Z "/>
+	<g>
+		<path fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" d="M 226.213,114.199L 208.066,114.199L 208.066,132.346L 226.213,132.347L 226.213,114.199 Z "/>
+		<text transform="matrix(0.9999999403953552 0.0000000000000000 0.0000000000000000 0.9999999403953552 210.00 127.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">qk</tspan>
+		</text>
+	</g>
+	<g>
+		<rect x="219.176" y="60.6526" fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" width="14.1472" height="14.1471"/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 222.00 70.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">p</tspan>
+		</text>
+	</g>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="228.47" y1="79.1165" x2="240.364" y2="76.0885"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="195.291" y1="137.756" x2="198.198" y2="125.305"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="262.297" y1="28.2374" x2="269.758" y2="40.2527"/>
+	<g>
+		<path fill="#FFFFFF" fill-opacity="1" stroke-width="1.28" stroke-linejoin="round" d="M 246.655,187.571L 228.507,187.571L 228.507,205.718L 246.655,205.717L 246.655,187.571 Z "/>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 231.00 202.00)" xml:space="preserve">
+			<tspan style=" font-family:Arial; font-size:12.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">V1</tspan>
+		</text>
+	</g>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="178.054" y1="58.9566" x2="178.054" y2="222.789"/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 72.00 233.00)" xml:space="preserve">
+		<tspan style=" font-family:Arial; font-size:8.480278pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">(a) initial path</tspan>
+	</text>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 223.00 233.00)" xml:space="preserve">
+		<tspan style=" font-family:Arial; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">(b) path adjustment</tspan>
+	</text>
+</svg>

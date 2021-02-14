@@ -1,4 +1,4 @@
-all: sim_eq.pdf icra-2021.pdf
+all: sim_eq.pdf iros-2021.pdf
 
 clean:
 	$(RM) *~ *.pdf *.dvi *.log *.aux *.bbl *.blg *.toc *.lol *.loa *.lox \
@@ -9,10 +9,10 @@ sim_eq.pdf: sim_eq.tex
 	pdflatex sim_eq
 	pdflatex sim_eq
 
-icra-2021.pdf: icra-2021.tex
-	pdflatex icra-2021
-	bibtex icra-2021
-	pdflatex icra-2021
-	pdflatex icra-2021
+iros-2021.pdf: iros-2021.tex
+	pdflatex iros-2021
+	bibtex iros-2021
+	pdflatex iros-2021
+	pdflatex iros-2021
 
 
