@@ -974,42 +974,31 @@ We finally note that one can express the tradeoffs between parameters (e.g., a d
 where $r_i\in\mathbb{R}^n$ and $R_i\in\mathbb{R}^{n\times n}$ expresses the relation between the parameters (if $R_i$ is the identity matrix, there is no relation between the parameters).
 
 
-\begin{figure*}
-  \hspace*{-2ex}
-  \begin{tikzpicture}
-    \node[inner sep=0pt] () at (0,0)
-        {\footnotesize\input{\figpath/results/new_physics/trajs.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (-3,-4) {\footnotesize {(a) path simulation, {\color{red}+} is the UAV location after 200 seconds}};
-    \node[inner sep=0pt] () at (8.3,-.02)
-        {\footnotesize\input{\figpath/results/ener_sim3.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (5.6,-4) {\footnotesize {(b) energy evolution simulation for 200 seconds interval}};
-  \end{tikzpicture}
-  \caption[Path and energy simulation of a static plan]{Path and energy simulations with different atmospheric conditions. Simulations are performed from collected data by variations of wind speed and direction. The path and computations are static}
-  \label{fig:sim-static-plan}
-\end{figure*}
-\begin{figure*}
-  \hspace*{-3.4ex}
-  \begin{tikzpicture}
-    \node[inner sep=0pt] () at (0,0)
-        {\footnotesize\input{\figpath/results/new_physics/model.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (-3.1,-4) {\footnotesize {(\textlabel{a}{fig:evol-static-plan:a}) slice of the simulated energy along the estimated model}};
-    \node[inner sep=0pt] () at (6,0)
-        {\footnotesize\input{\figpath/results/evol_sim3_3.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (4.3,-4) {\footnotesize {(\textlabel{b}{fig:evol-static-plan:b}) model evolution at different $k$s}};
-    \node[inner sep=0pt] () at (10.8,.05)
-        {\footnotesize\input{\figpath/results/coef_sim3D.tikz}};
-    \path[fill=black] (0.0000,0.0000) node[above right] () at (9.3,-4) {\footnotesize {(\textlabel{c}{fig:evol-static-plan:c}) path I coefficients evolution}};
-  \end{tikzpicture}
-  \caption[] {Evolution of the simulated energy data from Figure~\ref{fig:sim-static-plan}, using the estimation first in~\ref{fig:evol-static-plan:a}, the data with no estimation predicting the future in~\ref{fig:evol-static-plan:b}, and evolution of the estimated coefficients in~\ref{fig:evol-static-plan:c}}
-  \label{fig:evol-static-planned}
-\end{figure*}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}         %
 \label{sec:experimental}  %
 
 *
+
+\begin{figure}[h!]
+  \footnotesize
+  \input{\figpath/results/new_physics/trajs.tikz}
+  \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In I, II the path is static. It is dynamically adapted with the algorithm in I.d, with the path parameter radius of the circle $c_1$ and computation parameter frames-per-second rate $c_2$}
+  \label{fig:trajs}
+\end{figure}
+\begin{figure}[h!]
+  \footnotesize
+  \input{\figpath/results/new_physics/model.tikz}
+  \caption[Energy estimation and evolution of the state]{Energy estimation process for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right}
+  \label{fig:model}
+\end{figure}
+\begin{figure}[h!]
+  \footnotesize
+  \input{\figpath/results/new_physics/ener.tikz}
+  \caption[] {The model after 200 seconds of estimation on top along the energy and the algorithm that dynamically adapts path when the UAV cannot reach the end of the plan, and adapts the computation when the battery is discharged (smaller plot on right)}
+  \label{fig:ener}
+\end{figure}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
