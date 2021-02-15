@@ -1417,7 +1417,7 @@
   \begin{scope}[cm={{1.00714,0.0,0.0,1.00714,(231.643,104.743)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00714,0.0,0.0,1.00714,(237.643,101.743)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1126) {data};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1126) {\scriptsize data};
 
 
 
@@ -1458,7 +1458,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00714,0.0,0.0,1.00714,(235.671,112.8)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.00714,0.0,0.0,1.00714,(225.671,114.3)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \begin{scope}[cm={{1.00714,0.0,0.0,1.00714,(222.671,114.3)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
     \path[fill=black] (0.0000,0.0000) node[above right] (text1162) {\scriptsize $b_k Q_c V$};
 
 

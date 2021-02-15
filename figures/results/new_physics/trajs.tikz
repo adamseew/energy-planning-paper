@@ -438,7 +438,7 @@
   \begin{scope}[cm={{1.00833,0.0,0.0,1.00833,(43.3583,24.2)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00833,0.0,0.0,1.00833,(43.3583,16.7)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text360) {path};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text360) {\scriptsize path};
 
 
 

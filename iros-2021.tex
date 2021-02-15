@@ -403,7 +403,6 @@
     DOI={10.1109/IRC.2020.00054},
     url={https://adamseewald.cc/short/energy2020}
   }
-
   @inproceedings{seewald2020beyond,
     title={Beyond Traditional Energy Planning: the Weight of Computations in Planetary Exploration}, 
     author={Seewald, Adam},
@@ -666,7 +665,7 @@ Let us assume that the path at stage $i$ can be altered with $\rho$ path paramet
   \label{fig:state-machine}
 \end{figure}
 
-A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_1}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point.
+A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_1}$. It eventually enterss the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point.
 
 %\begin{figure}[h]
 %  \center
@@ -847,7 +846,7 @@ Let us recall from Definition~\ref{def:mission} that the $i$-th stage $\Gamma_i$
 
 For this purpose, we assume the UAV carries an embedded board that runs the computations. The tool measures the instantaneous energy consumption of a subset of possible computations parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per each computation. 
 
-The computations are implemented by software components, e.g., ROS nodes in a ROS based system. The user implements these nodes such that they change the computational load with node-specific ROS parameters, the computations parameters. In a generic software component system, the user maps the computational load to the arguments. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is a CNN object detector, the computation parameter $c_{i,\rho+1}$ might correspond to frames-per-second (fps) rate. The tool then changes the detection frequency.
+The computations are implemented by software components, e.g., Robot Operating System (ROS) nodes in a ROS based system~\cite{quigley2009ros}. The user implements these nodes such that they change the computational load with node-specific ROS parameters, the computations parameters. In a generic software component system, the user maps the computational load to the arguments. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is a CNN object detector, the computation parameter $c_{i,\rho+1}$ might correspond to frames-per-second (fps) rate. The tool then changes the detection frequency.
 
 We note that while the path can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
 
@@ -900,18 +899,18 @@ For practical means indeed, we consider some realistic constraints to the energy
 We stated earlier the output $y$--the instantaneous energy consumption--evolves in $\mathbb{R}_{\geq 0}$. This is generally untrue. Physical UAVs are bounded by strict energy budgets due to battery limitations.
 
 Let us hence consider the state of charge (SoC) $b$ of a UAV battery with a simplistic difference equation~\cite{seewald2020mechanical}
-\begin{equation*}
+\begin{equation}\label{eq:bat}
   b_k=b_{k-1}-k_b\left(V-
   \sqrt{
     V^2-
     4R_ry_k}
   \right)/(2R_rQ_c),
-\end{equation*}
+\end{equation}
 where $k_b$ is the battery coefficient determined experimentally,  $V\in\mathbb{R}$ is the internal battery 
 % and $\tilde{V}\in\mathbb{R}$ the stabilized 
 voltage measured in volts, $R_r\in\mathbb{R}$ the resistance measured in ohms, and $Q_c\in\mathbb{R}$ the constant nominal capacity measured in amperes per hour. 
 
-\begin{defn}[Output, control constrain sets]
+\begin{defn}[Output, control constrain sets]\label{def:const}
 The output constrain set is then the set
 \begin{equation*}
   \mathcal{Y}_k:=\{y_k\mid y_k\in[0,b_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
@@ -937,7 +936,7 @@ The control constraint set is the path constraint set for the path parameters an
     \FOR{$i\in[l]^+$}\label{alg:stages-loop}
       \WHILE{$\mathbf{p}_{k-1}\neq\mathbf{p}_{\Gamma_i}$}
         \STATE $\mathbf{u}_k\gets\argmax_{\mathbf{u}}\hspace*{-1ex}{\displaystyle{\sum\limits_{j=k-1}^{k+N-2}}\hspace*{-1ex}{l(\mathbf{q}_j,\mathbf{u}_j)+V_f(\mathbf{q}_{k+N-1})}}$\label{alg:mpc}
-        \STATE $\hat{\mathbf{q}}_{k}\gets A\mathbf{q}_{k-1}+B(\mathrm{diag}(\nu_i)(\mathbf{u}_k-\mathbf{u}_{k-1})-\tau_i)$\label{alg:evolution}
+        \STATE $\hat{\mathbf{q}}_{k}\gets A\mathbf{q}_{k-1}+B\mathbf{u}$\label{alg:evolution}
         \STATE $\mathbf{q}_{k}\gets$ the estimate of the state from $\hat{\mathbf{q}}_{k}$ and sensor data\label{alg:kalman_end}
         \STATE $\mathbf{p}_{k}\gets\mathbf{p}_{k-1}\dot{\mathbf{p}}_d(\mathbf{p}_{k-1})/v$ \label{alg:pos}
         \STATE $k\gets k+1$
@@ -978,43 +977,60 @@ where $r_i\in\mathbb{R}^n$ and $R_i\in\mathbb{R}^{n\times n}$ expresses the rela
 \section{Results}         %
 \label{sec:experimental}  %
 
-*
-
-\begin{figure}[ht]
+\begin{figure}[h]
+  \centering
   \footnotesize
   \input{\figpath/results/new_physics/trajs.tikz}
-  \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In I, II the path is static. It is dynamically adapted with the algorithm in I.d, with the path parameter radius of the circle $c_1$ and computation parameter frames-per-second rate $c_2$}
+  \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In I, II the path is static. It is dynamically replanned with the algorithm in I.d. The algorithm adapts path parameter radius of the circle $c_1$ and computation parameter fps rate $c_2$}
   \label{fig:trajs}
 \end{figure}
+
+The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (subfigures of Figure~\ref{fig:il-abs}). We collected these data flying Opterra, a fixed-wing UAV that we adapted for an agricultural scenario. The UAV was flying in standard atmospheric conditions in a pattern similar to the first ``non-adapted'' part of Figure~\ref{fig:il-abs}. We later extended the UAV to carry a companion computer, Nvidia Jetson Nano, running ROS middleware. The companion implements two ROS nodes; one detects obstacles using PedNet, a Fully Convolutional Network (FCN)~\cite{ullah2018pednet}, and the other communicates with a ground station.
+
 \begin{figure}[ht]
+  \centering
   \footnotesize
   \input{\figpath/results/new_physics/model.tikz}
   \caption[Energy estimation and evolution of the state]{Energy estimation for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right}
   \label{fig:model}
 \end{figure}
-\begin{figure}[ht]
+\begin{figure}[h]
+  \centering
   \footnotesize
   \input{\figpath/results/new_physics/ener.tikz}
-  \caption[] {The models after 200 seconds on top. The algorithm that uses the model I to dynamically adapt the path (when the final time and battery time doesn't match) and the computation (when the battery is discharged--the smaller plot on right) on bottom}
+  \caption[Energy models of different static and dynamic plans] {The energy models of the paths I, II in Figure~\ref{fig:trajs} after 200 seconds on top. Of the dynamic plan I.d which replans the path (when the final time and battery time do not match) and the computation (when the battery is discharged--the smaller plot on right) on bottom}
   \label{fig:ener}
 \end{figure}
 
+We implemented a realistic simulator to simulate the empirical data of a given flying plan and atmospheric conditions. We show the effects of different conditions in Figure~\ref{fig:trajs}. Both paths I and II are flying the same plan. The path I is flying with a constant wind speed of 5 meters per second and wind direction of 90 degrees (north). Path II is flying under the same conditions but a wind direction of 0 degrees (east). The energy evolutions of the paths are the top two subfigures of Figure~\ref{fig:ener}.
+
+We showcase the energy model from Section~\ref{sec:energy-model} in Figure~\ref{fig:model}. Left figures illustrate an initial slice of the estimation of the data and period $T$ (Proposition~\ref{prop:rank}). We used order $r$ equal to 3. We motivate this choice again with Figure~\ref{fig:il-abs}, where the power spectrum plot shows that 3 frequencies are adequate to model the evolution of the data. On the right of Figure~\ref{fig:model}, we show the states $\alpha_0,...,\beta_3$ in time, concluding that approximately 1 minute is sufficient to obtain a stable estimation. We performed some trials with non-periodic signals and observed that the estimator estimates primarily the first state $\alpha_0$ neglecting the others. It hence approximates the non-periodicity with a linear model.
+
+\subsection{Implementation of the Planning Strategy}
+
+The practical implementation is based on observations of different variations of path and computations. 
+
+A variation of path alters the overall flying time. We hence use the factors $\nu_1,\tau_1$ in Equation~(\ref{eq:scale-traj}) to map the coefficient to the remaining time. We compare this time with the time needed to completely deplete the battery from Equation~(\ref{eq:bat}) and reduce the parameter $c_1$ whenever the latest is lower. The parameter $c_1$ is equal for all the stages: it changes the radius of the first circle (the change is illustrated in Figure~\ref{fig:tee1}) in the current period and shifts the other paths accordingly. It results in shorter or longer distance between the survey lines and in an increment or reduction of the flying time respectively (subfigure I.d of Figure~\ref{fig:trajs} with the variation of the parameter in time on the right--a reduction in $c_1$ has reduced the flying time).
+
+A variation of computations affects directly the power and we thus select the highest computation which satisfies the constraints from Definition~\ref{def:const} in the line~\ref{alg:mpc} of the algorithm. We observed a low effect on the power of the communication ROS node. Nevertheless, the detection node varies between 5 and 10 watts for the lowest and highest fps. We implemented fps rate parameter $c_2$ and used factors  $\nu_2,\tau_2$ to map $c_2$ to the data from \powprof{} (subfigure I.d of Figure~\ref{fig:trajs}--the fps is replanned to meet the constraints). 
+
+We have tested the validity of Theorem~\ref{thm:state-vs-energy} showing the dynamic adaptation in the subfigure I.d of Figure~\ref{fig:ener}. We simulated two unexpected battery drops at approximately 1 minute and a half and 4 minutes and a half. The algorithm tries to maximize the parameter $c_2$ when the battery is discharging (plot on right) and reduces the path with parameter $c_1$ as the original plan cannot be completed with the current configuration of parameters. We used reductions $\delta$ of 500 and 2 for $c_1$ and $c_2$ respectively.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion and Future Work}
-\label{sec:conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion and Future Work}  %
+\label{sec:conclusion}                %
+                                      %
+In this paper, we presented a planning algorithm for autonomous UAVs with a limited power source. The algorithm plans the path with computations dynamically and all together. We collected some empirical data of a fixed-wing UAV flying an agricultural scenario and build a simulator to show-case the algorithm in different conditions. The algorithm estimates the energy with KF and optimizes the path and computations using MPC. It evolves the state to verify the satisfaction of battery and time constraints. It uses a plan where at each stage the UAV flies a path and does some computations. It guides the UAV using a vector field. Finally, it exploits our earlier computational energy model varying the level of computations in the function of the current battery level.
 
-*
+We are currently extending the results of this paper with an existing flying controller. We are further investigating the validity of the energy model on some other energy-critical mobile robots. For instance, we briefly investigated some possible implications on planetary rovers in~\cite{seewald2020beyond}.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\balance
-\bibliographystyle{IEEEtran}
-\bibliography{\jobname} 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{IEEEtran}  %
+\bibliography{\jobname}       %
+                              %
 \leavevmode\thispagestyle{empty}\newpage
-\nobalance
 
 \appendices
 
