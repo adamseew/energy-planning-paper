@@ -547,7 +547,7 @@ Energy-Aware Dynamic Planning Algorithm for Autonomous UAVs
 \pagestyle{empty}
 
 \begin{abstract}
-  The paper presents a planning algorithm for autonomous UAVs with energy constraints and solves the problem of dynamic planning of the path and computations simultaneously. The planning strategy is based on a periodic energy model that is empirically motivated and formally proved. The model is enhanced with the time and energy contribution of the path and computations. The algorithm replans both in the function of the battery state accounting for uncertainty and rescuing the UAV from a possible failure in case of unexpected changes of the power source due to, e.g., adverse atmospheric conditions.
+  The paper presents a planning algorithm for autonomous UAVs with energy constraints and solves the problem of dynamic planning of the path and computations simultaneously. The planning strategy is based on a periodic energy model that is empirically motivated and formally proved. The model is enhanced with the time and energy contribution of the path and computations. The algorithm replans both in function of the battery state accounting for uncertainty. The dynamic planning allows to exploit all the available resources, yet avoid possible in-flight failure in case of unexpected battery drops due to, e.g., adverse atmospheric conditions.
 \end{abstract}
 
 % For peer review papers, you can put extra information on the cover
@@ -577,7 +577,7 @@ Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agri
     \node[inner sep=0pt] () at (1.9,-5.5)
         {\footnotesize \input{\figpath/il_abs_spectrum1.tikz}};
   \end{tikzpicture}
-  \caption{An initial plan of an agricultural scenario replanned dynamically in terms of the path and computations all together. An initial plan~(in~\ref{sth:i}) is adapted computation-wise~(in~\ref{sth:ii}) and path-wise~(in~\ref{sth:iii}). In the bottom left, the collected energy data of a physical UAV (Opterra fixed-wing drone) flying the scenario, along its power spectrum.}
+  \caption{Dynamic replanning of an agricultural scenario in terms of the path and computations simultaneously. An initial plan~(in~\ref{sth:i}) is adapted computation-wise~(in~\ref{sth:ii}) and path-wise~(in~\ref{sth:iii}). In the bottom left, the collected energy data of a physical UAV (Opterra fixed-wing drone) flying the scenario is shown along its power spectrum.}
   \label{fig:il-abs}
 \end{figure}
 
@@ -604,15 +604,15 @@ The algorithm outputs the control (the parameters) using output model predictive
 \subsection{Plan definition}
 \label{sec:prelim}
 
-Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. Bold lower-case letters indicates vectors. $c_{i,j}$ the $j$-th parameter of the $i$-th parameters set $c_i$. $\underline{c}_{i,j},\overline{c}_{i,j}$ are the lower and upper bounds of the parameter $c_{i,j}$. The set $\langle c_{i,1},c_{i,2},...,c_{i,n}\rangle$ is an ordered list $\langle c_i \rangle$ of $n$ parameters.
+Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. Bold lower-case letters indicates vectors. $c_{i,j}$ the $j$-th parameter of the $i$-th parameters set $c_i$. $\underline{c}_{i,j},\overline{c}_{i,j}$ are the lower and upper bounds of the parameter $c_{i,j}$.
 
-Let us assume that the path at stage $i$ can be altered with $\rho$ path parameters $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$, and the computations with $\sigma$ computations parameters $c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}$. We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computations parameters. We discuss the concrete meaning of the value of path parameters in Subsection~\ref{sec:model}, and computations parameters in Subsection~\ref{sec:computations-model}.
+Let us assume that the path at stage $i$ can be altered with $\rho$ path parameters $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$, and the computations with $\sigma$ computation parameters $c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}$. We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computation parameters. We discuss the concrete meaning of the value of path parameters in Subsection~\ref{sec:model}, and computation parameters in Subsection~\ref{sec:computations-model}.
 
 \begin{defn}[Stage, plan, triggering, and final point]\label{def:mission}
   The $i$-th \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined as the ordered list
   \begin{equation*}\begin{split}
-    \Gamma_i:=\{\langle&\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho}),c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\rangle\\\mid
-    &\,\exists\,\,\mathbf{p}_k,\,\varphi_i(\mathbf{p}_k,c_{i,1},\dots,c_{i,\rho})\in\mathcal{C}_i,\,\\
+    \Gamma_i:=\{\varphi_i(\mathbf{p}_k,c_i^\rho),c_i^\sigma\mid
+    \,&\exists\,\,\mathbf{p}_k,\,\varphi_i(\mathbf{p}_k,c_i^\rho)\in\mathcal{C}_i,\,\\
       &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathcal{S}_{i,j}\,\},
   \end{split}\end{equation*}
   where $\mathcal{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the path constraint set, and $\mathcal{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation constraint set. $\mathbf{p}_k$ is a point of a UAV flying at an altitude $h\in\mathbb{R}_{>0}$\footnote{The altitude might change at different flying phases and under different atmospheric conditions} w.r.t. some inertial navigation frame $\mathcal{O}_W$. In Figure~\ref{fig:traj1}, $\varphi_1,\dots,\varphi_6$ are paths. $\varphi_1$ and $\varphi_5$ are circles, while $\varphi_2$, $\varphi_4$, and $\varphi_6$ are lines. They are all relative to different stages $\Gamma_1,\Gamma_2,\dots$. The constraints set $\mathcal{C}_1,\mathcal{C}_2,\dots$ forms the area where the paths $\varphi_1,\varphi_2,\dots$ can be altered with the parameters $c_{i,1},\dots,c_{i,\rho}$ (gray area in the figure). This area is bounded by $\underline{c}_i,\overline{c}_i$, and can be different per each stage (in Figure~\ref{fig:traj1}, the area relative to $\Gamma_4$ is bounded by $\underline{c}_4,\overline{c}_4$).
@@ -680,48 +680,24 @@ A slice of the plan in Figure~\ref{fig:state-machine} shows the transition betwe
 
 \subsection{Problem formulation}
 
-In order to formulate the problem, we considerate the next assumption.
+In order to simplify the problem formulation, we consider some primitive paths. All the other paths are build from these paths with a shift $\mathbf{d}:=(x_d,y_d)$.
 
-\begin{assm}[Plan periodicity]\label{assm:periodic}
-  Given an initial plan $\Gamma$ consisting of $l$ stages, a generic starting point $\mathbf{p}$, the current levels of the path parameters $c_1^\rho$, and a shift $\mathbf{d}:=(x_d,y_d)$, there exists a constant $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) such that
-  \begin{equation*}\begin{split}
-    &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)\approx\\ &\,\,\,\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho),\,\,\,\forall i\in[l/n-1]^+,j\in[n]^+.
-  \end{split}\end{equation*}
-\end{assm}
-
-Physically, this means that the plan is approximately periodic. The justification for this assumptions originates from empirical data (we refer the reader back to Figure~\ref{fig:il-abs}). It indeed lays in the autonomous nature of the UAVs scenario we are interested into planning, with the UAV being expected to iterate over paths and computations attending some events (such as detections). We will see this assumption being eased in practice for non-periodic plans in Section~\ref{sec:experimental}.
+Given $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) primitive paths $\varphi_1,\dots\varphi_n$, a generic starting point $\mathbf{p}$ and the current levels of the path parameters $c_1^\rho$, all the other paths $\varphi_{n+1},\dots,\varphi_l$ are build
+\begin{equation}\label{eq:primitive}\begin{split}
+  &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\\ &\,\,\,\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
+\end{split}\end{equation}
+$\forall i\in[l/n-1]^+,j\in[n]^+$, where $e_j\in\mathbb{R}$ is the $j$-th constant difference.
 
 \begin{defn}[Period]\label{def:period}
-  The period $T\in\mathbb{R}_{> 0}$ is the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in Assumption~\ref{assm:periodic}.
+  The period $T\in\mathbb{R}_{> 0}$ is the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in Equation~(\ref{eq:primitive}).
 \end{defn} 
 
-From Assumption~\ref{assm:periodic} follows the next proposition.
+The algorithm measures the time between the paths and assumes the initial period is one. The periods might be different for different $j$s due to atmospheric interferences.
 
-\begin{prop}[Necessary and sufficient condition for periodicity]\label{prop:rank}
-  The plan $\Gamma$ is periodic if
-  \begin{equation*}\begin{split}
-    &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\\ &\,\,\,\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,\,\,\,\forall i\in[l/n-1]^+,j\in[n]^+.
-  \end{split}\end{equation*}
-  Moreover, if the plan $\Gamma$ is periodic, then
-  \begin{equation*}
-    \mathrm{rank}\begin{bmatrix}
-        \varphi_1 & \varphi_{n+1} & \cdots & \varphi_{(l-n)+1} \\ 
-        %\varphi_2 & \varphi_{n+2} & \cdots & \varphi_{(l-n)+2} \\
-        \vdots & \vdots & \ddots & \vdots \\
-        \varphi_n & \varphi_{2n} & \cdots & \varphi_l   
-      \end{bmatrix}=2,
-  \end{equation*}
-  where the paths in the first column are evaluated on $\mathbf{p},c_1^\rho$, in the second on $\mathbf{p}+\mathbf{d},c_1^\rho$, and in the last on $\mathbf{p}+(l/n-1)\mathbf{d},c_1^\rho$.
-\end{prop}
-\begin{proof}($\Longrightarrow$) The expression implies that $\varphi_{(i-1)n+j}$ is the same but shifted function in space $\varphi_{(i-1)n+j}=\varphi_{in+j}+e_j$ and $e_j$ is the $j$-th constant difference. It is the same for paths selected at each period. This is equivalent to Assumption~\ref{assm:periodic}.
-  
-($\Longleftarrow$) The column rank of the matrix in the proposition is the dimension of its column space. It denotes the size of the set of all the possible linear combination of the column vectors. We note that there is a limited number (two) of linear combinations of the column vectors being these linearly dependent (from $\Longrightarrow$). 
-\end{proof}
-
-The proposition is a necessary ($\Longleftarrow$) and sufficient ($\Longrightarrow$) condition for periodicity. The algorithm finds $n$ initializing it to one and finding the value which satisfies the proposition. It then measures the time between the stages and assumes the initial period is one. The periods might be different for different $j$s due to atmospheric interferences.
+One can define the plan using primitive paths or define all the stages explicitly and find $n$ searching the value which satisfies the Equation~(\ref{eq:primitive}). If there is no such value, (e.g., when the plan is composed of only one path), the period $T$ from Definition~\ref{def:period} can be determined empirically from energy data (such as these shown in Figure~\ref{fig:il-abs}).
 
 \begin{pb}[UAV planning problem]\label{pb}
-  Consider an initial plan $\Gamma$ from Definition~\ref{def:mission} that satisfies Assumption~\ref{assm:periodic}. We are interested in the planning of the parameters $c_i,\,\forall i\in[l]^+$ and in the guidance to the path resulting from such plan.
+  Consider an initial plan $\Gamma$ from Definition~\ref{def:mission}. We are interested in the planning of the parameters $c_i,\,\forall i\in[l]^+$ and energy constraints and in the guidance of the UAV to the path resulting from such plan.
 \end{pb}
 
 
@@ -732,9 +708,9 @@ The proposition is a necessary ($\Longleftarrow$) and sufficient ($\Longrightarr
                                  %
 We refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series) and estimated using a state estimator. %(Kalman filter); well, potentially here with simulated data one could use other estimators (least square filter would work I bet) 
 
-We proof a relation between the energy signal and the energy coefficients in Lemma~\ref{lem:eqv}. We show after the main results how this approach allows us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
+We prove a relation between the energy signal and the energy coefficients in Lemma~\ref{lem:eqv}. We show after the main results how this approach allows us variability in terms of the systems behaving periodically, piece-wise periodically, or merely linearly with sporadic periodicity.
 
-Once we illustrate the energy model, we enhance it with the energy contribution of the path in Subsection~\ref{sec:model}, and of the computations in Subsection~\ref{sec:computations-model}. 
+After having illustrated the energy model, we enhance it with the energy contribution of the path in Subsection~\ref{sec:model}, and of the computations in Subsection~\ref{sec:computations-model}. 
 
 Let us consider a periodic energy signal of period $T$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the energy signal
 \begin{equation}\label{eq:fourier}
@@ -778,20 +754,26 @@ The linear model in Equation~(\ref{eq:state-perf}) allows us to include the cont
 The equality of the signal and output is achieved by a proper choice of the items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof, where we justify the choices of the items of the matrices and of the initial guess. 
 \end{proof}
 
-Let us consider for practical reasons the discretized version of the system in Equation~\ref{eq:state-perf}. 
+%Let us consider for practical reasons the discretized version of the system in Equation~\ref{eq:state-perf}. 
 
-Let us suppose that at time instant $k$ the plan reached the $i$-th stage $\Gamma_i$.
+Let us suppose that at time instant $k$ the plan reached the $i$-th stage $\Gamma_i$ and the control
+\begin{equation}\label{eq:state-control2}
+  \mathbf{u}_k=\begin{bmatrix}c_k^\rho & c_k^\sigma\end{bmatrix}^T,
+\end{equation}
+where $\mathbf{u}_k\in\mathbb{R}^n$ with $n=\rho+\sigma$ differs from the nominal control $\mathbf{u}$ in Equation~(\ref{eq:state-perf}). We include the control in the nominal control exploiting the following observation. 
 
-The control along with the input matrix
+We observe that a change in path parameters affects the energy indirectly. It alters the time when the UAV reaches the final point $\mathbf{p}_{\Gamma_l}$. We use this information later in the algorithm to check that the battery discharge time is greater and replan the path parameters accordingly. A change in computation parameters affects the energy directly. It alters the instantaneous energy consumption as more computations require more power (and vice versa). We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
+
+The nominal control and the input matrix
 \begin{equation}\label{eq:state-control}\begin{split}
-  \mathbf{u}_k&=\begin{bmatrix}c_{k,1} & \cdots & c_{k,\rho} & c_{k,\rho+1} & \cdots & c_{k,\rho+\sigma}\end{bmatrix}^T\hspace*{-1ex},\\
   \mathbf{u}&=(\hat{\mathbf{u}}_k-\hat{\mathbf{u}}_{k-1}),B=\begin{bmatrix} 0 &\hspace*{-.5ex} \cdots\hspace*{-.5ex} & 0 & 1 &\hspace*{-1ex} \cdots\hspace*{-1ex} & 1 \\ & & & & & \end{bmatrix}\\
-  \hat{\mathbf{u}}_k&:=\mathrm{diag}(\nu_i)\mathbf{u}_k+\tau_i,\,\,\,
+  \hat{\mathbf{u}}_k&:=\mathrm{diag}(\nu_i)\mathbf{u}_k+\tau_i.
 \end{split}\end{equation}
-where $\mathbf{u}\in\mathbb{R}^n$ is the control with $n=\rho+\sigma$. Matrix $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row where the first $\rho$ columns are still zeros and the remaining $\sigma$ are ones. $\nu_i=\begin{bmatrix}\nu_{i,1} & \cdots & \nu_{i,\rho+\sigma}\end{bmatrix}^T$ and $\tau_i=\begin{bmatrix}\tau_{i,1} & \cdots & \tau_{i,\rho+\sigma}\end{bmatrix}^T$ are scaling factors quantifying the contribution to the plan of a given parameter in terms of time (for the first $\rho$ parameters) and power (for the remaining $\sigma$). $B\mathbf{u}$ is then the difference in the instantaneous power contribution.
+The matrix $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row where the first $\rho$ columns are still zeros and the remaining $\sigma$ are ones. $\hat{\mathbf{u}}_k$ is a scale transformation with $\nu_i=\begin{bmatrix}\nu_i^\rho & \nu_i^\sigma\end{bmatrix}^T$ and $\tau_i=\begin{bmatrix}\tau_i^\rho & \tau_i^\sigma\end{bmatrix}^T$ scaling factors quantifying the contribution to the plan of a given parameter in terms of time (for the first $\rho$ parameters) and power (for the remaining $\sigma$). The nominal control $\mathbf{u}$ is then the difference of these contributions of two consecutive controls $\mathbf{u}_{k-1},\mathbf{u}_k$ applied to the system. $B\mathbf{u}$ merely includes the difference in power into the model in Equation~(\ref{eq:state-perf}).
+ 
 %Indeed an alteration of the path affects the overall flying time (and consequently the energy). An alteration the the computations affects the instantaneous energy consumption.
 
-We elucidate how we derive the factors in the next two subsections.
+We clarify how we derive the factors $\nu_i,\tau_i$ in the next two subsections.
 
 \subsection{Path parameters energy contribution}
 \label{sec:model}
@@ -829,14 +811,14 @@ The scaling factors for the path parameters from Equation~(\ref{eq:state-control
 %Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
 $\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
 
-\subsection{Computations parameters energy contribution}
+\subsection{Computation parameters energy contribution}
 \label{sec:computations-model}
 
-Let us recall from Definition~\ref{def:mission} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computations parameters which characterize the computations. We assess the energy cost of these computations using \powprof{}, the open-source modeling tool adapted from earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
+Let us recall from Definition~\ref{def:mission} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computation parameters which characterize the computations. We estimate the energy cost of these computations using \powprof{}, the open-source modeling tool adapted from earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
 
-For this purpose, we assume the UAV carries an embedded board that runs the computations. The tool measures the instantaneous energy consumption of a subset of possible computations parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per each computation. 
+For this purpose, we assume the UAV carries an embedded board that runs the computations. Our tool measures the instantaneous energy consumption of a subset of possible computation parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per each computation. 
 
-The computations are implemented by software components, e.g., Robot Operating System (ROS) nodes in a ROS based system~\cite{quigley2009ros}. The user implements these nodes such that they change the computational load with node-specific ROS parameters--computations parameters. In a generic software component system, the user maps the computational load to the arguments. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is an object detector, the computation parameter $c_{i,\rho+1}$ might correspond to frames-per-second (fps) rate. The tool then changes the detection frequency.
+The computations are implemented by software components, e.g., Robot Operating System (ROS) nodes in a ROS-based system~\cite{quigley2009ros}. The user implements these nodes such that they change the computational load according to node-specific ROS parameters--the computation parameters. In a generic software component system, the user maps the computational load to the arguments~\cite{seewald2019component}. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is an object detector, the computation parameter $c_{i,\rho+1}$ might correspond to frames-per-second (fps) rate. The tool then measures power according to the detection frequency.
 
 We note that while the path can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
 
@@ -855,34 +837,9 @@ $\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let the factors be zero when the p
 \section{Algorithm}  %
 \label{sec:algo}     %
                      %
-The main purpose of the algorithm is to output a valid control sequence $\mathbf{u}:=\{\mathbf{u}_0,\mathbf{u}_1,\dots\}$ at each time step given an initial plan $\Gamma$ and to guide the UAV on a valid path: to solve Problem~\ref{pb}.
+The main purpose of the algorithm is to output a valid control sequence $\mathbf{u}:=\{\mathbf{u}_0,\mathbf{u}_1,\dots\}$ at each time step given an initial plan $\Gamma$ and to guide the UAV on the path resulting from such control--to solve Problem~\ref{pb}.
 
-\begin{defn}[Validity]\label{def:valid}
-  Given a close strictly positive discrete interval $\mathcal{J}:=[j-n+1,j]$ (for $j\in\mathbb{Z}_{>0},j\leq l$ and $n$ given in Assumption~\ref{assm:periodic}), a \emph{control sequence} $\mathbf{u}$ is \emph{valid} on $\mathcal{J}$ if for every stage $\Gamma_{i-1},\,i\in\mathcal{J}$ there exists a control $\mathbf{u}_k$ that produce the next stage $\Gamma_i$. 
-  
-  The plan resulting from such control sequence is a \emph{valid plan} on $\mathcal{J}$. It generates the \emph{valid path}
-  \begin{equation*}\begin{split}\label{eq:mission-valid}
-   \mathcal{P}:=\{\mathbf{p}_{k}\mid\,\exists \mathbf{u}_k,\forall i\in\mathcal{J},\,\langle\varphi_i(\mathbf{p}_{k},c_{k}^\rho),c_{k}^\sigma\rangle\in\Gamma_i\}.
-  \end{split}\end{equation*}
-\end{defn}
-
-Let us consider the assumption that the plan is valid on at least one period.
-
-\begin{assm}[Period validity]\label{assm:valid}
-  Given an initial plan $\Gamma$, we assume that $\exists i\in[l/n]^+$ s.t. the subplan $\Gamma_{(i-1)n+1},\dots,\Gamma_{in}$ is valid.
-\end{assm}
-
-Let us proof that if the plan is periodic and valid on at least one period, then the plan is valid.
-
-\begin{thm}[Valid periodic plan]\label{thm:state-vs-energy}  
-  Suppose Assumption~\ref{assm:valid}, Lemma~\ref{lem:eqv}, and Proposition~\ref{prop:rank} hold (the plan is valid on a period, its energy evolution is described by Equation~(\ref{eq:state-perf}), and the plan is periodic). Then the plan is valid and its energy evolution modeled by the periodic energy model in Section~\ref{sec:model}.
-\end{thm}
-\begin{proof}
-  From Definition~\ref{def:valid}, Assumption~\ref{assm:valid}, we know that there exists a $\mathcal{J}\subseteq[l]^+$ where the plan is valid, and from Proposition~\ref{prop:rank} we know that the plan is periodic. Hence if the set $\mathcal{J}$ delimits a valid plan, then also the set $i[j-n+1,j]\subseteq[l]^+$ does for a given $i$. From the assumption we note that $i\in[l/n]^+$ and, due to the proposition, $\mathcal{J}=[l]^+$. Finally, due to the periodicity, Lemma~\ref{lem:eqv} allows us to use the proposed approach to model the energy.
-\end{proof}
-
-The algorithm can assess the validity of the plan using Theorem~\ref{thm:state-vs-energy}, but still find that there is no control available. 
-For practical means indeed, we consider some realistic constraints to the energy of a flying UAV in the following subsection.
+A valid control sequence has to respect the energy constraints. We consider some realistic constraints to the energy of a flying UAV in the following subsection.
 
 \subsection{Output and control constraint sets}
 
@@ -952,7 +909,7 @@ We note that at every step of the sum on line~\ref{alg:mpc}, the algorithm evolv
   \ENDWHILE
   \STATE $\mathbf{u}_k\gets\overline{c}_i$
 \end{algorithmic} 
-where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps (the maximum values of path and computations parameters are reduced by the steps if they don't meet the constraints).
+where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps (the maximum values of path and computation parameters are reduced by the steps if they don't meet the constraints).
 
 We finally note that one can express the tradeoffs between parameters (e.g., a decrement in the distance between the lines in a survey scenario is related to a decrement in the number of detections per second) enriching the control constraint set with the constraints
 \begin{equation*}
@@ -965,24 +922,27 @@ where $r_i\in\mathbb{R}^n$ and $R_i\in\mathbb{R}^{n\times n}$ expresses the rela
 \section{Results}         %
 \label{sec:experimental}  %
 
-\begin{figure}[h]
+The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (see subfigures of Figure~\ref{fig:il-abs}). We collected these data flying Opterra, a fixed-wing UAV that we adapted for an agricultural scenario. The UAV was flying in standard atmospheric conditions in a pattern similar to the first ``non-adapted'' part of Figure~\ref{fig:il-abs}. We later extended the UAV to carry a companion computer, Nvidia Jetson Nano~\cite{nano}, running ROS. The companion computer implements two ROS nodes; one detects obstacles using PedNet, a Fully Convolutional Network~\cite{ullah2018pednet}, and the other communicates with a ground station.
+
+We implemented a realistic simulator to simulate the empirical data of a given plan and atmospheric conditions. We show the effects of different conditions in Figure~\ref{fig:trajs}. Both paths I and II are flying the same plan. Path I is flying with a constant wind speed of 5 meters per second and wind direction of 90 degrees (north). Path II is flying under the same conditions but a wind direction of 0 degrees (east). The energy evolutions of the paths are the top two subfigures of Figure~\ref{fig:ener}.
+
+We showcase the energy model from Section~\ref{sec:energy-model} in Figure~\ref{fig:model}. Left figures illustrate an initial slice of the model and period estimation (Definition~\ref{def:period}). We used order $r$ equal to 3. We motivate this choice again with Figure~\ref{fig:il-abs}, where the power spectrum plot shows that 3 frequencies are adequate. On the right of Figure~\ref{fig:model}, we show the states $\alpha_0,...,\beta_3$ in time, concluding that approximately 1 minute is sufficient to obtain a consistent state estimate. We performed some trials with non-periodic signals and observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
+
+\begin{figure}[t]
   \centering
   \footnotesize
   \input{\figpath/results/new_physics/trajs.tikz}
   \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In I, II the path is static. It is dynamically replanned with the algorithm in I.d. The algorithm adapts path parameter radius of the circle $c_1$ and computation parameter fps rate $c_2$.}
   \label{fig:trajs}
 \end{figure}
-
-The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (subfigures of Figure~\ref{fig:il-abs}). We collected these data flying Opterra, a fixed-wing UAV that we adapted for an agricultural scenario. The UAV was flying in standard atmospheric conditions in a pattern similar to the first ``non-adapted'' part of Figure~\ref{fig:il-abs}. We later extended the UAV to carry a companion computer, Nvidia Jetson Nano~\cite{nano}, running ROS. The companion implements two ROS nodes; one detects obstacles using PedNet, a Fully Convolutional Network~\cite{ullah2018pednet}, and the other communicates with a ground station.
-
-\begin{figure}[ht]
+\begin{figure}[t]
   \centering
   \footnotesize
   \input{\figpath/results/new_physics/model.tikz}
   \caption[Energy estimation and evolution of the state]{Energy estimation for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right.}
   \label{fig:model}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[t]
   \centering
   \footnotesize
   \input{\figpath/results/new_physics/ener.tikz}
@@ -990,34 +950,29 @@ The algorithm that we presented in this paper is motivated by a periodic behavio
   \label{fig:ener}
 \end{figure}
 
-We implemented a realistic simulator to simulate the empirical data of a given flying plan and atmospheric conditions. We show the effects of different conditions in Figure~\ref{fig:trajs}. Both paths I and II are flying the same plan. The path I is flying with a constant wind speed of 5 meters per second and wind direction of 90 degrees (north). Path II is flying under the same conditions but a wind direction of 0 degrees (east). The energy evolutions of the paths are the top two subfigures of Figure~\ref{fig:ener}.
-
-We showcase the energy model from Section~\ref{sec:energy-model} in Figure~\ref{fig:model}. Left figures illustrate an initial slice of the model and period estimation (Proposition~\ref{prop:rank}). We used order $r$ equal to 3. We motivate this choice again with Figure~\ref{fig:il-abs}, where the power spectrum plot shows that 3 frequencies are adequate. On the right of Figure~\ref{fig:model}, we show the states $\alpha_0,...,\beta_3$ in time, concluding that approximately 1 minute is sufficient to obtain a consistent state estimate. We performed some trials with non-periodic signals and observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
-
 \subsection{Implementation of the Planning Strategy}
 
-The practical implementation is based on observations of different variations of path and computations. 
-
-A variation of path alters the overall flying time. We hence use the factors $\nu_1,\tau_1$ in Equation~(\ref{eq:scale-traj}) to map the coefficient to the remaining time. We compare this time with the time needed to completely deplete the battery from Equation~(\ref{eq:bat}) and reduce the parameter $c_1$ whenever the latest is lower. We implemented the path parameter $c_1$ equal for all the stages: it changes the radius of the first circle (the change is illustrated in Figure~\ref{fig:tee1}) in the current period and shifts the other paths accordingly. It results in shorter or longer distance between the survey lines and in an increment or reduction of the flying time respectively (subfigure I.d of Figure~\ref{fig:trajs} with the variation of the parameter in time on the right--a reduction in $c_1$ has reduced the flying time). The path constraint set is set to $\underline{c}_1=$ -1000 and $\overline{c}_1=$ 0.
+The practical implementation is based on observations of different variations of path and computations. A variation of path alters the overall flying time. We hence use the factors $\nu_1,\tau_1$ in Equation~(\ref{eq:scale-traj}) to map the coefficient to the remaining time. We compare this time with the time needed to completely deplete the battery from Equation~(\ref{eq:bat}) and reduce the parameter $c_1$ whenever the latest is lower. We implemented the path parameter $c_1$ equal for all the stages: it changes the radius of the first circle (the change is illustrated in Figure~\ref{fig:tee1}) in the current period and shifts the other paths accordingly. It results in shorter or longer distance between the survey lines and in an increment or reduction of the flying time respectively (subfigure I.d of Figure~\ref{fig:trajs} with the variation of the parameter in time on the right--a reduction in $c_1$ has reduced the flying time). The path constraint set is set to $\underline{c}_1=$ -1000 and $\overline{c}_1=$ 0.
 
 A variation of computations affects directly the power and we thus select the highest computation which satisfies the constraints from Definition~\ref{def:const} in the line~\ref{alg:mpc} of the algorithm. We observed a low effect on the power of the communication ROS node. Nevertheless, the detection node varies between 5 and 10 watts for the lowest and highest fps. We implemented fps rate parameter $c_2$ and used factors  $\nu_2,\tau_2$ to map $c_2$ to the data from \powprof{} (subfigure I.d of Figure~\ref{fig:trajs}--the fps is replanned to meet the constraints). The computation constraint set is set to $\underline{c}_2=$ 2 and $\overline{c}_2=$ 10.
 
-We have tested the validity of Theorem~\ref{thm:state-vs-energy} showing the dynamic adaptation in the subfigure I.d of Figure~\ref{fig:ener}. We simulated two unexpected battery drops at approximately 1 minute and a half and 4 minutes and a half. The algorithm tries to maximize the parameter $c_2$ when the battery is discharging (plot on right) and reduces the path with parameter $c_1$ as the original plan cannot be completed with the current configuration of parameters. We used reductions $\delta$ of 500 and 2 for $c_1$ and $c_2$ respectively, and a horizon $N$ equal to period $T$.
+We have tested the validity of the algorithm showing the dynamic adaptation in the subfigure I.d of Figure~\ref{fig:ener}. We simulated two unexpected battery drops at approximately 1 minute and a half and 4 minutes and a half. The algorithm tries to maximize the parameter $c_2$ when the battery is discharging (plot on right) and reduces the path with parameter $c_1$ as the original plan cannot be completed with the current configuration of parameters. We used reductions $\delta$ of 500 and 2 for $c_1$ and $c_2$ respectively, and the horizon $N$ equal to the period $T$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Future Work}  %
 \label{sec:conclusion}                %
                                       %
-In this paper, we presented a planning algorithm for autonomous UAVs with a limited power source. The algorithm plans the path with computations dynamically and simultaneously. We collected some empirical data of a fixed-wing UAV flying an agricultural scenario and build a simulator to show-case the algorithm in different conditions. The algorithm estimates the energy with KF and optimizes the path and computations using MPC. It evolves the state to verify the satisfaction of battery and time constraints. It uses a plan where at each stage the UAV flies a path and does some computations. It guides the UAV using a vector field. Finally, it exploits the computational energy model varying the level of computations in the function of the current battery level.
+In this paper, we presented a planning algorithm for autonomous UAVs with a limited power source. The algorithm plans the path with computations dynamically and simultaneously. We collected empirical data of a fixed-wing UAV flying an agricultural scenario and build a simulator to test the algorithm in different conditions. The algorithm estimates the energy with a KF and optimizes the path and computations using MPC. It evolves the state to verify the satisfaction of battery and time constraints. It uses a plan where at each stage the UAV flies a path and does some computations. It guides the UAV using a vector field. Finally, it exploits the computational energy model varying the level of computations in the function of the current battery level.
 
-We are currently extending the results of this paper with an existing flight controller. We are further investigating the validity of the energy model on some other energy-critical mobile robots. For instance, we briefly investigated some possible implications on planetary exploration rovers in~\cite{seewald2020beyond}.
+We are currently extending the results of this paper to work with a standard flight controller. We are further investigating the validity of the energy model on other energy-critical mobile robots. Such as on planetary exploration rovers in~\cite{seewald2020beyond}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{IEEEtran}  %
 \bibliography{\jobname}       %
                               %
+\leavevmode\thispagestyle{empty}\newpage
 \leavevmode\thispagestyle{empty}\newpage
 
 \appendices
