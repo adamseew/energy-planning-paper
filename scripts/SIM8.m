@@ -1,7 +1,7 @@
 
-% SIM7
+% SIM8
 
-% complete simulation of the algo with control (new physics, from Hector)
+% simulation of the algorithm, path I, dynamic
 
 
 
@@ -390,7 +390,7 @@ while true
                 end
                 
                 bat_t = N; % getting the time when the battery is gonna be
-                       % fully discharged (we already did up to N!)
+                           % fully discharged (we already did up to N!)
             else
                 bat_t = 0;
             end
@@ -435,7 +435,7 @@ while true
             eeu = est_u(c1,c2);
                 
             if bat_success ~= floor(N+1e-3)  % 1e^-3 because when it's
-                                                 % integer it would do -1
+                                             % integer it would do -1
                 bat_flag = 1; % battery low  
             end   
             
