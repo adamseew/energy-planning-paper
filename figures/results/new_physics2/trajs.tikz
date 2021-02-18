@@ -407,7 +407,7 @@
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(126.741,30.1765)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(126.741,30.1765)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text328) {I};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text328) {\label{fig:trajs-I-static}I};
 
 
 
@@ -857,7 +857,7 @@
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(227.329,30.1765)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(227.329,30.1765)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text692) {II};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text692) {\label{fig:trajs-II-static}II};
 
 
 
@@ -1237,7 +1237,7 @@
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(161.947,127.747)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(161.947,127.747)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text998) {I};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text998) {\label{fig:trajs-dyn-i}i};
 
 
 
@@ -1593,7 +1593,7 @@
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(276.618,139.315)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(263.618,139.315)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1292) {\rotatebox{90}{\scriptsize $c_2$}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1292) {\rotatebox{90}{\scriptsize $c_{1,2}$}};
 
 
 
@@ -1973,7 +1973,7 @@
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(276.618,186.591)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(263.618,186.591)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1602) {\rotatebox{90}{\scriptsize k$c_1$}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1602) {\rotatebox{90}{\scriptsize k$c_{1,1}$}};
 
 
 
@@ -2345,7 +2345,7 @@
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(161.947,237.388)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(161.947,237.388)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1898) {II};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1898) {\label{fig:trajs-dyn-ii}ii};
 
 
 
@@ -2701,7 +2701,7 @@
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(276.618,254.991)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(263.618,254.991)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text2192) {\rotatebox{90}{\scriptsize $c_2$}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text2192) {\rotatebox{90}{\scriptsize $c_{1,2}$}};
 
 
 
@@ -3081,7 +3081,7 @@
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(276.618,303.274)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(263.618,303.274)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text2502) {\rotatebox{90}{\scriptsize k$c_1$}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text2502) {\rotatebox{90}{\scriptsize k$c_{1,1}$}};
 
 
 

@@ -324,8 +324,8 @@
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(128.753,29.1706)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(127.953,29.1706)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text258) {I};
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(128.953,29.1706)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text258) {\label{fig:ener:static-I}I};
 
 
 
@@ -746,8 +746,8 @@
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(235.376,29.1706)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(235.376,29.1706)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text600) {II};
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(235.976,29.1706)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text600) {\label{fig:ener:static-II}II};
 
 
 
@@ -1031,7 +1031,7 @@
 
 
     \end{scope}
-    \path[fill=cffffff,line join=round,even odd rule,line width=0.326pt,rounded corners=0.0000cm] (91.7711,188.5536) rectangle (120.8145,197.0678);
+
 
 
 
@@ -1045,7 +1045,6 @@
 
 
     \end{scope}
-    \path[fill=cffffff,line join=round,even odd rule,line width=0.326pt,rounded corners=0.0000cm] (80.5099,294.6144) rectangle (109.5532,303.1285);
 
 
 
@@ -1284,7 +1283,7 @@
   \end{scope}
   \begin{scope}[scale=1.006,draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \path[fill=cffffff,line join=round,even odd rule,line width=0.328pt,rounded corners=0.0000cm] (180.3098,189.7221) rectangle (209.5239,198.2863);
+
 
 
 
@@ -1339,7 +1338,7 @@
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(236.382,132.776)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(236.382,132.776)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1004) {I};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1004) {\label{fig:ener-dyn-i}i};
 
 
 
@@ -1803,7 +1802,7 @@
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(232.359,238.394)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(231.359,238.394)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1396) {II};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1396) {\label{fig:ener-dyn-ii}ii};
 
 
 
@@ -1858,16 +1857,16 @@
   \end{scope}
   \begin{scope}[draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(91.44074,197.47563)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1032-6) {\scriptsize $c_1$=-.5k};
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(101.44074,197.47563)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1032-6) {\scriptsize $\triangleleft\,\overline{c}_{1,1}-\delta$};
 
 
 
-    \path[fill=black,line width=0.800pt] (87.7767,0) node[above right] (text1032-6-7) {\scriptsize $c_1$=-1k};
+    \path[fill=black,line width=0.800pt] (87.7767,-44) node[above right] (text1032-6-7) {\hspace*{-.4ex}\scriptsize $\triangleleft\,\underline{c}_{1,1}$};
 
 
 
-    \path[fill=black,line width=0.800pt] (-10.7540,106.2897) node[above right] (text1032-6-9) {\scriptsize $c_1$= 0};
+    \path[fill=black,line width=0.800pt] (-7.7540,92.2897) node[above right] (text1032-6-9) {\hspace{-.4ex}\scriptsize $\triangleleft\,\overline{c}_{1,1}$};
 
 
 
