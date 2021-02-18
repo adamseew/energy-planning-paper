@@ -925,31 +925,31 @@ where $r_i\in\mathbb{R}^n$ and $R_i\in\mathbb{R}^{n\times n}$ expresses the rela
 
 The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (see subfigures of Figure~\ref{fig:il-abs}). We collected these data flying Opterra, a fixed-wing UAV that we adapted for an agricultural scenario. The UAV was flying in standard atmospheric conditions in a pattern similar to the first ``non-adapted'' part of Figure~\ref{fig:il-abs}. We later extended the UAV to carry a companion computer, Nvidia Jetson Nano~\cite{nano}, running ROS. The companion computer implements two ROS nodes; one detects obstacles using PedNet, a Fully Convolutional Network~\cite{ullah2018pednet}, and the other communicates with a ground station.
 
-We implemented a realistic simulator to simulate the empirical data of a given plan and atmospheric conditions. We show the effects of different conditions in Figure~\ref{fig:trajs}. Both paths I and II are flying the same plan. Path I is flying with a constant wind speed of 5 meters per second and wind direction of 0 degrees. Path II is flying under the same conditions but a wind direction of 90 degrees. The energy evolutions of the paths are the top two subfigures of Figure~\ref{fig:ener}.
-
-We showcase the energy model from Section~\ref{sec:energy-model} in Figure~\ref{fig:model}. Left figures illustrate an initial slice of the model and period estimation (Definition~\ref{def:period}). We used order $r$ equal to 3. We motivate this choice again with Figure~\ref{fig:il-abs}, where the power spectrum plot shows that 3 frequencies are adequate. On the right of Figure~\ref{fig:model}, we show the states $\alpha_0,...,\beta_3$ in time, concluding that approximately 1 minute is sufficient to obtain a consistent state estimate. We performed some trials with non-periodic signals and observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
-
-\begin{figure}[t]
+\begin{figure}[h]
   \centering
   \footnotesize
-  \input{\figpath/results/new_physics/trajs.tikz}
-  \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In I, II the path is static. It is dynamically replanned with the algorithm in I.d. The algorithm adapts path parameter radius of the circle $c_1$ and computation parameter fps rate $c_2$.}
-  \label{fig:trajs}
-\end{figure}
-\begin{figure}[t]
-  \centering
-  \footnotesize
-  \input{\figpath/results/new_physics/model.tikz}
+  \input{\figpath/results/new_physics2/model.tikz}
   \caption[Energy estimation and evolution of the state]{Energy estimation for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right.}
   \label{fig:model}
 \end{figure}
 \begin{figure}[t]
   \centering
   \footnotesize
-  \input{\figpath/results/new_physics/ener.tikz}
+  \input{\figpath/results/new_physics2/trajs.tikz}
+  \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In I, II the path is static. It is dynamically replanned with the algorithm in I.d. The algorithm adapts path parameter radius of the circle $c_1$ and computation parameter fps rate $c_2$.}
+  \label{fig:trajs}
+\end{figure}
+\begin{figure}[t]
+  \centering
+  \footnotesize
+  \input{\figpath/results/new_physics2/ener.tikz}
   \caption[Energy models of different static and dynamic plans] {The energy models of the paths I, II in Figure~\ref{fig:trajs} after 200 seconds on top against the simulated data. Of the dynamic plan I.d which replans the path (when the final time and battery time do not match) and the computation (when the battery is discharged--the smaller plot on right) on bottom.}
   \label{fig:ener}
 \end{figure}
+
+We implemented a realistic simulator to simulate the empirical data of a given plan and atmospheric conditions. We show the effects of different conditions in Figure~\ref{fig:trajs}. Both paths I and II are flying the same plan. Path I is flying with a constant wind speed of 5 meters per second and wind direction of 0 degrees. Path II is flying under the same conditions but a wind direction of 90 degrees. The energy evolutions of the paths are the top two subfigures of Figure~\ref{fig:ener}.
+
+We showcase the energy model from Section~\ref{sec:energy-model} in Figure~\ref{fig:model}. Left figures illustrate an initial slice of the model and period estimation (Definition~\ref{def:period}). We used order $r$ equal to 3. We motivate this choice again with Figure~\ref{fig:il-abs}, where the power spectrum plot shows that 3 frequencies are adequate. On the right of Figure~\ref{fig:model}, we show the states $\alpha_0,...,\beta_3$ in time, concluding that approximately 1 minute is sufficient to obtain a consistent state estimate. We performed some trials with non-periodic signals and observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
 
 \subsection{Implementation of the Planning Strategy}
 

@@ -57,10 +57,9 @@ unset ylabel
 set xtics ('0' 0, '1' 60, '2' 120, '3' 180, '4' 240, '5' 300, '6' 360) scale .5 offset 0,.3
 set yrange [25.9:41]
 set ytics 27,4,41 scale .5
-set key left bottom
+set key right top
 set key spacing .5
 LABEL='I'
-set key left
 set obj 1 rect at graph 0.923,0.86 size char strlen(LABEL)+1.2, char 1
 set label 1 LABEL at graph 0.914,0.86
 plot '../../../../data/simulation3/raw5/new_physics/dynamic/energy_simulation3D_resized.csv' using 1:2 w l notitle ls 1 lw .6,\
@@ -78,6 +77,7 @@ set xtics ('0' 0, '2' 120, '4' 240, '6' 360, '8' 480, '10' 600) scale .5 offset 
 set xlabel offset 0.4,.9
 set yrange [25.9:41]
 set ytics 27,4,41 scale .5
+unset key
 LABEL='II'
 set obj 1 rect at graph 0.908,0.86 size char strlen(LABEL)+1.2, char 1
 set label 1 LABEL at graph 0.895,0.86
