@@ -1866,7 +1866,7 @@
 
 
 
-    \path[fill=black,line width=0.800pt] (-7.7540,92.2897) node[above right] (text1032-6-9) {\hspace{-.4ex}\scriptsize $\triangleleft\,\overline{c}_{1,1}$};
+    \path[fill=black,line width=0.800pt] (-17.7540,92.2897) node[above right] (text1032-6-9) {\hspace{-.4ex}\scriptsize $\triangleleft\,\overline{c}_{1,1}$};
 
 
 
