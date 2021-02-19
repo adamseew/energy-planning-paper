@@ -21,5 +21,6 @@
 *.d.*
 .*.*.swp
 .*.*.swo
-
+./pdf/iros-2021.pdf
+./sim_eq.pdf
 *.synctex.gz
