@@ -635,26 +635,30 @@ Let us assume that the path at stage $i$ can be altered with $\rho$ path paramet
 
 \begin{figure}[h]
   \center
-  \begin{tikzpicture}[shorten >=1pt,node distance=12ex,on grid,auto] 
-    \node        (q_dots0) {$\cdots$};
+  \begin{tikzpicture}[shorten >=.5pt,node distance=10.5ex,on grid,auto]
+    \footnotesize
+    \node[state,initial] (q_i) {$\Gamma_1$}; 
+    \node        [right=of q_i] (q_dots0) {$\cdots$};
     \node[state] (q_0) [right=of q_dots0] {$\Gamma_i$};
-    \node[state] (q_1) [right=of q_0] {$\Gamma_{i+1}$};
-    \node        (q_dots1) [right=of q_1] {$\cdots$};   
+    \node        (q_dots1) [right=of q_0] {$\cdots$};
+    \node[state,accepting] (q_f) [right=of q_dots1] {$\Gamma_f$};
     \path[->]
+    (q_i) edge node {$\mathbf{p}_{\Gamma_{1}}$} (q_dots0)
     (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}$} (q_0)
-    (q_0) edge node {$\mathbf{p}_{\Gamma_i}$} (q_1)    
-    (q_0) edge [loop above] node {$\mathbf{p}_{k_1}$} (q_0)
-    (q_1) edge node {$\mathbf{p}_{\Gamma_{i+1}}$} (q_dots1)
-    (q_1) edge [loop above] node {$\mathbf{p}_{k_2}$} (q_1)
+    (q_0) edge node {$\mathbf{p}_{\Gamma_i}$} (q_dots1)
+    (q_dots1) edge node {$\mathbf{p}_{\Gamma_{l}}$} (q_f)    
+    (q_i) edge [loop above] node {$\mathbf{p}_{k_1}$} (q_i)
+    (q_0) edge [loop above] node {$\mathbf{p}_{k_2}$} (q_0)
+    (q_f) edge [loop above] node {$\mathbf{p}_{k_3}$} (q_f)
     ; %end path 
     \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=10pt},yshift=0pt]
-    (q_dots0.south west) -- (q_dots1.south east) node [black,midway,yshift=-8ex]{$\Gamma$};
+    (q_i.south west) -- (q_f.south west) node [black,midway,yshift=-9ex]{$\Gamma$};
   \end{tikzpicture}
   \caption{The plan defined as a FSM}
   \label{fig:state-machine}
 \end{figure}
 
-A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_1}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point.
+A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_2}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. The stage $\Gamma_f$ is the accepting stage (it indicates that the UAV has completed the plan).
 
 %\begin{figure}[h]
 %  \center
