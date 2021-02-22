@@ -416,49 +416,67 @@ while true
                 dt = delta_T;
                 
                 opti = casadi.Opti(); % define opt problem
-                Q = opti.variable(7,hh);
+                S = opti.variable(7,hh);
                 U = opti.variable(2,hh-1);
                
-                initcon = Q(:,1) == qq0;
-                initcon = U(1,1) == c1;
-                initcon = U(2,1) == max_c2; % start with max param
+                initcon = S(:,1) == qq0;
+                initcon = U(1,:) == c1; % path param changed in 
+                                        % function of the battery t
+                                        % in the while loop
+                initcon = U(2,1) == mmax_c2; % start with max param
                 opti.subject_to(initcon);
-                opti.subject_to(U(2,:) >= min_c2);
-                opti.subject_to(U(2,:) <= mmax_c2);
-                opti.subject_to(U(1,:) == c1); % path param changed in 
-                                               % function of the battery t
+                
+                opti.subject_to(min_c2 <= U(2,:) <= mmax_c2);
+                
                 L = 0; % cost (l,Vf)
+                result_rk4 = [];
                 
                 for j=1:hh-1
                     eest_u_old = eeu;
                     eeu = est_u(c1,U(2,j));
                     
-                    result_rk4 = F_RK4(Q(:,j),u(eeu,eest_u_old),delta_T);
+                    result_rk4 = F_RK4(S(:,j),u(eeu,eest_u_old),delta_T);
                     
                     con{j+1} = ...
-                        Q(:,j+1) == F_RK4(result_rk4,... % state const
+                        S(:,j+1) == F_RK4(result_rk4,... % state const
                                           u(eeu,eest_u_old),delta_T); 
-                    b0 = b0+delta_T*b(C*result_rk4); 
-                    bcon{j+1} = C*result_rk4 <= b0*qc*int_v; % battery 
-                                                             % const
+                    b0 = b0-delta_T*b(C*result_rk4); % battery dynamics
+
                     opti.subject_to(con{j+1});
-                    opti.subject_to(bcon{j+1});
                     
                     L = L+.5*(result_rk4+B*u(eeu,eest_u_old)).'*diag(C)*...
                     (result_rk4+B*u(eeu,eest_u_old)); % cost update (l)
                 end
                 
-                result_rk4 = F_RK4(Q(:,j),[0;0],delta_T);
+                opti.subject_to(C*result_rk4 > b0*qc*int_v);% battery const 
+                
+                result_rk4 = F_RK4(S(:,j),[0;0],delta_T);
                 L = L+.5*(result_rk4).'*diag(C)*result_rk4; % (Vf)
-                L = L*-1; % from maximization to minimization (casadi wants
-                          % to minimize only)
                 
-                opti.minimize(L*delta_T);
+                opti.minimize(L);
                 opti.solver('ipopt');
-                sol = opti.solve();
+                try
+                    sol = opti.solve();
+                    c2 = sol.value(U); % optimal u on N
+                    c2 = c2(2,end); % getting c2
+                catch
+                    warning('battery');
+                    c2 = min_c2; % min value
+                end
                 
-                c2 = sol.value(U); % optimal u on N
-                c2 = c2(2,end); % getting c2
+                % rough discretization and transformation from minimiation
+                % to maximization!
+                if c2 <= min_c2
+                    c2 = mmax_c2;
+                elseif min_c2 < c2 <= min_c2+delta(2)
+                    c2 = min_c2+3*delta(2);
+                elseif min_c2+delta(2) < c2 <= min_c2+2*delta(2)
+                    c2 = min_c2+2*delta(2);
+                elseif min_c2+2*delta(2) < c2 <= min_c2+3*delta(2)
+                    c2 = min_c2+delta(2);
+                else
+                    c2 = min_c2;
+                end
                 
                 delta_T = delta_T/10;
                 Ad = A*delta_T+eye(2*r+1);
@@ -466,6 +484,7 @@ while true
             end
             
             bat_t = 0;
+            clear b0;
             b0 = soc(round(k*delta_T)+1);
             
             % estimating remaining time from c1
@@ -473,11 +492,14 @@ while true
             sim_t = sim_t(1); % remaining time if the param was changed
                               % at the beginning
             rem_t = (sim_t/max_t)*(max_t-k*delta_T); % at the current 
-                                                     % instant
+                                                     % instant                        
+            clear qq0 qq1 yy1;
+            qq0 = q0; % state
                                                      
-            while b0 > 0
+            while b0 > 0 % checking battery against plan time and changing 
+                         % the param accordingly
                 for jj=j+delta_T:delta_T:j+1
-                    qq1 = Ad*qq0+B*u(eeu,eest_u_old);
+                    qq1 = Ad*qq0;
                     yy1 = C*qq1;
                     b0 = b0+delta_T*b(yy1);
                     qq0 = qq1;
