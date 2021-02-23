@@ -4,6 +4,11 @@
 % simulation of the algorithm, path II, static
 
 
+%% cleaning
+
+clear
+clc
+
 
 %% init
 
@@ -13,22 +18,22 @@
 % prompts with data for input
 
 % asking data about the path
+% uncomment to manually change conditions
+%answer = inputdlg(...
+%    {'vehicle direction [deg]:','wind speed [m/s]:',...
+%     'wind direction [deg]:','start coordinate x [m]:','y [m]:',...
+%     'max power [W]:','min power [W]:','triggering point radius [m]'
+%    }, ...
+%    'path initialization',[1 40],...
+%    {'270','5','90','-100','220','36','16','20'});
 
-answer = inputdlg(...
-    {'vehicle direction [deg]:','wind speed [m/s]:',...
-     'wind direction [deg]:','start coordinate x [m]:','y [m]:',...
-     'max power [W]:','min power [W]:','triggering point radius [m]'
-    }, ...
-    'path initialization',[1 40],...
-    {'270','5','90','-100','220','36','16','20'});
+%if isempty(answer)
+strp = [270; 5; 90; -100; 220; 36; 16; 20];
+%else
+%    strp = str2double(answer);
+%end
 
-if isempty(answer)
-    strp = [270; 5; 90; -100; 220; 36; 16; 20];
-else
-    strp = str2double(answer);
-end
-
-clear answer;
+%clear answer;
 
 
 %%% physics data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

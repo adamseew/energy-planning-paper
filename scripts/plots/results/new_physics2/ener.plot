@@ -62,8 +62,8 @@ set key spacing .5
 LABEL='I'
 set obj 1 rect at graph 0.923,0.86 size char strlen(LABEL)+1.2, char 1
 set label 1 LABEL at graph 0.914,0.86
-plot '../../../../data/simulation3/raw5/new_physics/dynamic/energy_simulation3D_resized.csv' using 1:2 w l notitle ls 1 lw .6,\
-     '../../../../data/simulation3/raw5/new_physics/dynamic/bat_simulation3D.csv' using 1:3 w l title 'bat' ls 2 lw .6
+plot '../../../../data/simulation3/raw5/new_physics/dynamic_revised/energy_simulation3D_resized.csv' using 1:2 w l notitle ls 1 lw .6,\
+     '../../../../data/simulation3/raw5/new_physics/dynamic_revised/bat_simulation3D.csv' using 1:3 w l title 'bat' ls 2 lw .6
 
 set xrange [0:661.99]
 set tmargin at screen 0.35; set bmargin at screen 0.10; 
@@ -81,8 +81,8 @@ unset key
 LABEL='II'
 set obj 1 rect at graph 0.908,0.86 size char strlen(LABEL)+1.2, char 1
 set label 1 LABEL at graph 0.895,0.86
-plot '../../../../data/simulation3/raw1/new_physics/dynamic2/energy_simulation3_resized.csv' using 1:2 w l ls 1 lw .6,\
-     '../../../../data/simulation3/raw1/new_physics/dynamic2/bat_simulation3.csv' using 1:3 w l title 'bat' ls 2 lw .6
+plot '../../../../data/simulation3/raw1/new_physics/dynamic_revised/energy_simulation3_resized.csv' using 1:2 w l ls 1 lw .6,\
+     '../../../../data/simulation3/raw1/new_physics/dynamic_revised/bat_simulation3.csv' using 1:3 w l title 'bat' ls 2 lw .6
 
 pause -1 
 

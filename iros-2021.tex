@@ -885,14 +885,14 @@ The control constraint set is the path constraint set for the path parameters an
 \begin{algorithm}[t]
   \caption{Energy-Aware Dynamic Planning}\label{alg}
   \begin{algorithmic}[1]
-    \STATE $\mathbf{p}_{k-1}\gets \mathbf{p}_0, \mathbf{q}_{k-1}\gets \mathbf{q}_0$
-    \STATE $\mathbf{u}_{k-2},\mathbf{u}_{k-1}\gets \{\emptyset\}$\label{alg:init}
+    \STATE $\mathbf{p}_{k}\gets \mathbf{p}_0, \mathbf{q}_{k}\gets \mathbf{q}_0$
+    \STATE $\mathbf{u}_{k}\gets \overline{c}_i$\label{alg:init}
     \FOR{$i\in[l]^+$}\label{alg:stages-loop}
-      \WHILE{$\mathbf{p}_{k-1}\neq\mathbf{p}_{\Gamma_i}$}\label{alg:while}
-        \STATE $\mathbf{u}_k\gets\argmax_{\mathbf{u}}\hspace*{-1ex}{\displaystyle{\sum\limits_{j=k-1}^{k+N-2}}\hspace*{-1ex}{l(\mathbf{q}_j,\mathbf{u}_j)+V_f(\mathbf{q}_{k+N-1})}}$\label{alg:mpc}
-        \STATE $\hat{\mathbf{q}}_{k}\gets A\mathbf{q}_{k-1}+B\mathbf{u}$\label{alg:evolution}
-        \STATE $\mathbf{q}_{k}\gets$ the estimate of the state from $\hat{\mathbf{q}}_{k}$ and sensor data\label{alg:kalman_end}
-        \STATE $\mathbf{p}_{k}\gets\mathbf{p}_{k-1}\dot{\mathbf{p}}_d(\mathbf{p}_{k-1})/v$ \label{alg:pos}
+      \WHILE{$\mathbf{p}_{k}\neq\mathbf{p}_{\Gamma_i}$}\label{alg:while}
+        \STATE $\mathbf{u}_{k+1}\gets\argmax_{\mathbf{u}}\hspace*{-1ex}{\displaystyle{\sum\limits_{j=k+1}^{k+N-1}}\hspace*{-1ex}{l(\mathbf{q}_j,\mathbf{u}_j)+V_f(\mathbf{q}_{k+N})}}$\label{alg:mpc}
+        \STATE $\hat{\mathbf{q}}_{k+1}\gets A\mathbf{q}_{k}+B\mathbf{u}$\label{alg:evolution}
+        \STATE $\mathbf{q}_{k+1}\gets$ the estimate of the state from $\hat{\mathbf{q}}_{k_1}$ and sensor data\label{alg:kalman_end}
+        \STATE $\mathbf{p}_{k+1}\gets\mathbf{p}_{k}\dot{\mathbf{p}}_d(\mathbf{p}_{k})/v$ \label{alg:pos}
         \STATE $k\gets k+1$
       \ENDWHILE
     \ENDFOR
@@ -904,10 +904,9 @@ The algorithm first initializes the position, energy coefficients, and control (
 The energy coefficients are updated at line~\ref{alg:evolution}, using the expression from Equation~(\ref{eq:state-perf}). A priori state estimate $\hat{\mathbf{q}}_k$ is refined using a state estimator--such as Kalman filter (KF)~\cite{simon2006optimal}--and the data from an energy sensor (line~\ref{alg:kalman_end}).
 At line~\ref{alg:mpc}, the algorithm uses MPC to select the control $\mathbf{u}_k$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function (higher the horizon, higher the complexity and the robustness of the control to the output constraints)
 \begin{equation*}\label{eq:cost}\begin{split}
-  V_f(\mathbf{q}_k)&:=(1/2)\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k,\\
-  l(\mathbf{q}_k,\mathbf{u}_k)&:=(1/2)(\mathbf{q}_k+B\mathbf{u})^T\mathrm{diag}(C)(\mathbf{q}_k+B\mathbf{u}),\hspace*{-2.5ex}
+  V_f(\mathbf{q}_k)&=l(\mathbf{q}_k,\mathbf{u}_k)=(1/2)\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k,
 \end{split}\end{equation*}
-where $\mathrm{diag}(C)$ is a diagonal matrix with the items of $C$ from Equation~(\ref{eq:state-details}), and $B$, $\mathbf{u}$ are defined in Equation~(\ref{eq:state-control}).
+where $\mathrm{diag}(C)$ is a diagonal matrix with the items of $C$ from Equation~(\ref{eq:state-details}).
 
 We note that at every step of the sum on line~\ref{alg:mpc}, the algorithm evolves the state to check if the output satisfies the output constraint set, and if the control satisfies the control constraint set. In particular, it performs a subroutine
 \begin{algorithmic}
@@ -916,7 +915,7 @@ We note that at every step of the sum on line~\ref{alg:mpc}, the algorithm evolv
   \ENDWHILE
   \STATE $\mathbf{u}_k\gets\overline{c}_i$
 \end{algorithmic} 
-where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps. Both conditions of the loop have to be respected. The maximum values of path and computation parameters are reduced by the steps if they don't meet the constraints (or increased if with $\overline{c}_i+\delta$ the constraints are still respected).
+where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps. Both conditions of the loop have to be respected. The maximum values of path and computation parameters are reduced by the steps if they don't meet the constraints.
 
 We finally note that one can express the tradeoffs between parameters (e.g., a decrement in the distance between the lines in a survey scenario is related to a decrement in the number of detections per second) enriching the control constraint set with the constraints
 \begin{equation*}
@@ -938,14 +937,14 @@ The algorithm that we presented in this paper is motivated by a periodic behavio
 \begin{figure}[t]
   \centering
   \footnotesize
-  \input{\figpath/results/new_physics2/trajs.tikz}
+  \input{\figpath/results/new_physics2/trajs_revised.tikz}
   \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In \hyperref[fig:trajs-I-static]{5.I} and \hyperref[fig:trajs-II-static]{5.II} the path is static. It is dynamically replanned with the algorithm in \hyperref[fig:trajs-dyn-i]{5.i} and \hyperref[fig:trajs-dyn-ii]{5.ii}. The algorithm adapts path parameter radius of the circle $c_{1,1}$ and computation parameter fps rate $c_{1,2}$.}
   \label{fig:trajs}
 \end{figure}
 \begin{figure}[h]
   \centering
   \footnotesize
-  \input{\figpath/results/new_physics2/ener.tikz}
+  \input{\figpath/results/new_physics2/ener_revised.tikz}
   \caption[Energy models of different static and dynamic plans] {The energy models of the paths from Figure~\ref{fig:trajs} for 200 seconds against the simulated data (\hyperref[fig:ener:static-I]{6.I} and \hyperref[fig:ener:static-II]{6.II}). Below are the energy evolutions from the algorithm (\hyperref[fig:ener-dyn-i]{6.i} and \hyperref[fig:ener-dyn-ii]{6.ii}). It replans the path when the final time and battery time do not match, and the computation when the battery is discharged.}
   \label{fig:ener}
 \end{figure}
@@ -973,7 +972,7 @@ A variation of computations affects directly the power. We thus select the highe
 
 \subsubsection*{Dynamic adaptation of the path and computation parameters}
 
-We have tested the validity of the algorithm showing the dynamic adaptation in the subfigures \hyperref[fig:trajs-dyn-i]{5.i} and \hyperref[fig:trajs-dyn-ii]{5.ii} of Figure~\ref{fig:trajs} path-wise, and \hyperref[fig:ener-dyn-i]{6.i} and \hyperref[fig:ener-dyn-ii]{6.ii} of Figure~\ref{fig:ener} energy-wise. For the first path (Subfigure \hyperref[fig:trajs-I-static]{5.I}) the plan starts at the highest configuration of parameters. We simulated two unexpected battery drops at approximately 1 minute and a half and 4 minutes and a half. The algorithm optimizes the path in the proximity of the drops to ensure that the flight is completed. Moreover, it maximizes the parameter $c_{1,2}$ when the battery is discharging (green line) respecting the output constraint (Definition~\ref{def:const}). We simulated the opposite scenario for the second path (Subfigure \hyperref[fig:trajs-II-static]{5.II}). The plan starts at the lowest configuration of parameters and the battery behaves linearly. We note that the path parameter is increased as soon as the algorithm estimated enough data (two periods $T$) and the computation parameter is optimized for the battery discharge rate. For both cases, we used reductions $\delta$ of 500 and 2 for $c_{1,1}$ and $c_{1,2}$ respectively, and the horizon $N$ equal to the period $T$.
+We have tested the validity of the algorithm showing the dynamic adaptation in the subfigures \hyperref[fig:trajs-dyn-i]{5.i} and \hyperref[fig:trajs-dyn-ii]{5.ii} of Figure~\ref{fig:trajs} path-wise, and \hyperref[fig:ener-dyn-i]{6.i} and \hyperref[fig:ener-dyn-ii]{6.ii} of Figure~\ref{fig:ener} energy-wise. For the first path (Subfigure \hyperref[fig:trajs-I-static]{5.I}) the plan starts at the highest configuration of parameters. We simulated two unexpected battery drops at approximately 1 minute and a half and 4 minutes and a half. The algorithm optimizes the path in the proximity of the drops to ensure that the flight is completed. Moreover, it maximizes the parameter $c_{1,2}$ when the battery is discharging (green line) respecting the output constraint (Definition~\ref{def:const}). We simulated the opposite scenario for the second path (Subfigure \hyperref[fig:trajs-II-static]{5.II}). The plan starts at the lowest configuration of parameters and the battery behaves linearly. We note that the path parameter is increased as soon as the algorithm estimated enough data (two periods $T$) and the computation parameter is optimized for the battery discharge rate. For both cases, we used reductions $\delta$ of 500 and 2 for $c_{1,1}$ and $c_{1,2}$ respectively, and the horizon $N$ equal to 6 seconds.
 
 
 

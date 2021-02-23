@@ -52,7 +52,7 @@ set label 1 LABEL at graph 0.868,0.86
 unset xlabel 
 set yrange [-100:250]
 set ytics -100,100,200 right scale .5
-plot '../../../../data/simulation3/raw5/new_physics/dynamic/position_simulation3D_resized.csv' using 1:2 w l ls 1 lw .6
+plot '../../../../data/simulation3/raw5/new_physics/dynamic_revised/position_simulation3D_resized.csv' using 1:2 w l ls 1 lw .6
 
 unset label
 unset obj
@@ -68,7 +68,7 @@ unset xlabel
 set y2range [1:11]
 set y2tics 2,4,10 offset -.6,0 scale .2
 set y2label 'cn' offset -2,0
-plot '../../../../data/simulation3/raw5/new_physics/dynamic/ctl_simulation3D_resized.csv' using 1:3 w l axis x1y2 ls 1 lw .6 
+plot '../../../../data/simulation3/raw5/new_physics/dynamic_revised/ctl_simulation3D_resized.csv' using 1:3 w l axis x1y2 ls 1 lw .6 
 
 set tmargin at screen 0.54; set bmargin at screen 0.40; 
 set lmargin at screen 0.66; set rmargin at screen 0.88
@@ -81,7 +81,7 @@ unset ylabel
 set y2range [-1100:100]
 set y2tics ('0' 0, '-.5' -500, '-1' -1000) offset .1,0 scale .2
 set y2label 'cn' offset -2,0
-plot '../../../../data/simulation3/raw5/new_physics/dynamic/ctl_simulation3D_resized.csv' using 1:2 w l axis x1y2 ls 1 lw .6
+plot '../../../../data/simulation3/raw5/new_physics/dynamic_revised/ctl_simulation3D_resized.csv' using 1:2 w l axis x1y2 ls 1 lw .6
 
 
 
@@ -100,7 +100,7 @@ set xtics -150,100,150 scale .5
 set xlabel 'x (m)' offset .2,.9;
 set yrange [-100:250]
 set ytics ('-100' -100, '0' 0, '100' 100, '200' 200) right scale .5
-plot '../../../../data/simulation3/raw1/new_physics/dynamic2/position_simulation3_resized.csv' using 1:2 w l ls 1 lw .6
+plot '../../../../data/simulation3/raw1/new_physics/dynamic_revised/position_simulation3_resized.csv' using 1:2 w l ls 1 lw .6
 
 set tmargin at screen 0.34; set bmargin at screen 0.20; 
 set lmargin at screen 0.66; set rmargin at screen 0.88
@@ -116,7 +116,7 @@ unset xlabel
 set y2range [1:11]
 set y2tics 2,4,10 offset -.6,0 scale .2
 set y2label 'cn' offset -2,0
-plot '../../../../data/simulation3/raw1/new_physics/dynamic2/ctl_simulation3_resized.csv' using 1:3 w l axis x1y2 ls 1 lw .6 
+plot '../../../../data/simulation3/raw1/new_physics/dynamic_revised/ctl_simulation3_resized.csv' using 1:3 w l axis x1y2 ls 1 lw .6 
 
 set tmargin at screen 0.20; set bmargin at screen 0.06; 
 set lmargin at screen 0.66; set rmargin at screen 0.88
@@ -130,7 +130,7 @@ unset ylabel
 set y2range [-1100:100]
 set y2tics ('0' 0, '-.5' -500, '-1' -1000) offset .1,0 scale .2
 set y2label 'cn' offset -2,0
-plot '../../../../data/simulation3/raw1/new_physics/dynamic2/ctl_simulation3_resized.csv' using 1:2 w l axis x1y2 ls 1 lw .6
+plot '../../../../data/simulation3/raw1/new_physics/dynamic_revised/ctl_simulation3_resized.csv' using 1:2 w l axis x1y2 ls 1 lw .6
 
 
 
