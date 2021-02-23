@@ -23,7 +23,7 @@ For the static plan I with no dynamic replanning; an agricultural survey (path) 
 * all data: [data/simulation3/raw5/new_physics/static2](data/simulation3/raw5/new_physics/static2)
     * position: [position_simulation3Ds.csv](data/simulation3/raw5/new_physics/static2/position_simulation3Ds.csv)
     * energy: [energy_simulation3Ds.csv](data/simulation3/raw5/new_physics/static2/energy_simulation3Ds.csv)
-    * period: [perioddata_simulation3Ds.csv](data/simulation3/raw5/new_physics/static2/period_simulation3Ds.csv)
+    * period: [perioddata_simulation3Ds.csv](data/simulation3/raw5/new_physics/static2/perioddata_simulation3Ds.csv)
 
 To generate the data
 * simulator: [scripts/SIM11.m](scripts/SIM11.m)
@@ -36,7 +36,7 @@ For the static plan II, same as I but wind direction 90 degrees
 * all data: [data/simulation3/raw1/new_physics/static2](data/simulation3/raw1/new_physics/static2)
     * position: [position_simulation3s.csv](data/simulation3/raw1/new_physics/static2/position_simulation3s.csv)
     * energy: [energy_simulation3s.csv](data/simulation3/raw1/new_physics/static2/energy_simulation3s.csv)
-    * period: [perioddata_simulation3s.csv](data/simulation3/raw1/new_physics/static2/period_simulation3s.csv)
+    * period: [perioddata_simulation3s.csv](data/simulation3/raw1/new_physics/static2/perioddata_simulation3s.csv)
 
 To generate the data
 * simulator: [scripts/SIM10.m](scripts/SIM10.m)
