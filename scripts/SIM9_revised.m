@@ -39,7 +39,7 @@ strp = [270; 5; 90; -100; 220; 36; 16; 20];
 %%% physics data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % gains
-%       kp, kvv  kd,  ke1, ke2, ke3, ke4
+%       kp, kvv, kd,  ke1, ke2, ke3, ke4
 strp3 = [5   5  .001 .006  .1  .006  .1];
 %         
 
@@ -139,15 +139,11 @@ ke4 = strp3(7);
 
 min_c1 = -1000;
 max_c1 = 0;
-mmax_c1 = max_c1;
 c1 = min_c1; % trajectory parameter
 c1_old = c1;
 
 min_c2 = 2;
 max_c2 = 10;
-mmax_c2 = max_c2; % needs to be stored twice because the algorithm reduces
-                  % exactly the max_c2 and then if it wants to increase it,
-                  % it needs to know the original value
 c2 = min_c2; % computational parameter
 c2_old = c2;
 
@@ -308,7 +304,7 @@ while true
         if and(period < time,time > 1)
                    
             period = time;
-            log_period = [log_period; k period];
+            log_period = [log_period;k period];
             [A B C] = build_model(2*pi/period,r);
             Ad = A*delta_T+eye(2*r+1);
         end
@@ -351,7 +347,7 @@ while true
         
         %%% params controller %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-        if k*delta_T >= 85 % don't optimize for approx 2T
+        if k*delta_T >= 85 % don't optimize up to it estimated the period T
             
             c2_chain = []; % chain of predicted opt controls from MPC
             
