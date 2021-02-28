@@ -222,7 +222,6 @@ last_trig = [175;161]; % the last triggering point
 reached = 0; % reached the end of the simulation
 path_C = 1; % also just simulation utility
 get_optcotrol = 1; % inhibits the controller whenever the limit is reached
-ts_changed = 0; % used
 
                                                  
 %%% simulation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -351,14 +350,59 @@ while true
             
             c2_chain = []; % chain of predicted opt controls from MPC
             
-            if and(mod(k,1/delta_T) == 0,...  % MPC runs every second
-                   ts_changed+2 <= k*delta_T) % +2 check is for stability. 
-                                              % We change c2 after 2 sec of 
-                                              % the latest change
+            if mod(k,1/delta_T) == 0 % MPC runs every second
                 
                 [U{N-1:-1:1}] = ndgrid(min_c2:deltas(2):max_c2);
                 U = reshape(cat(N,U{:}),[],N-1);% all the possible controls
                 L = []; % performance index
+                
+                
+                state = MX.sym('state',7,1); % define the states
+                                             % model order is 3 (7 states)
+                input = MX.sym('input',1,1); % one input, the computation
+                                             % param (we replan the path
+                                             % param out of mpc checking
+                                             % the battery time, as in MPC 
+                                             % check for the horizon, not 
+                                             % total time needed to drain 
+                                             % battery)
+                qq1 = state(1,1); % model variables
+                qq2 = state(2,1);
+                qq3 = state(3,1);
+                qq4 = state(4,1);
+                qq5 = state(5,1);
+                qq6 = state(6,1);
+                qq7 = state(7,1);
+                qq = [qq1;qq2;qq3;qq4;qq5;qq6;qq7];
+                uu = [0;input(1,1)]; % control
+                
+                dq = Ad*qq+[1 0 0 0 0 0 0]*uu;
+                
+                fode = Function('fode',{state,input},{dq},...
+                    {'state','input'},{'d_state'});
+                STATE = MX.sym('STATE',size(state)); % for the casadi fun
+                INPUT = MX.sym('INPUT',size(input));
+                QF = MX.sym('QF',size(state)); % output of the integration
+                dt = MX.sym('dt');
+                
+                k1 = fode(STATE,INPUT);
+                k2 = fode(STATE+dt/2*k1,INPUT);
+                k3 = fode(STATE+dt/2*k2,INPUT);
+                k4 = fode(STATE+dt*k3,INPUT);
+                QF = STATE+dt/6*(k1+2*k2+2*k3+k4);
+                F_RK4 = Function('F_RK4',{STATE,INPUT,dt},{QF},...
+                    {'STATE','INPUT','dt'},{'QF'}); % rk4 fix step
+                
+                interval = k+1:k+N;
+                hh = length(interval);
+                
+                opti = casadi.Opti(); % define opt problem
+                Q = opti.variable(7,hh);
+                U = opti.variable(1,hh-1);
+                
+                opti.subject_to(Q(:,1) == q0);
+                opti.subject_to(U(2,1) == max_c2);
+                opti.subject_to(min_c2 <= U(2,:) <= mmax_c2);
                 
                 % MPC
                 for u_mpc = U.' % iterate all the controls
