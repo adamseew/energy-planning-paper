@@ -662,6 +662,7 @@ function [c2_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
     opti = casadi.Opti(); % define opt problem
     Q = opti.variable(7,hh);
     U = opti.variable(2,hh-1);
+    L = opti.variable(1,hh-1);
                 
     initq = q0;                
     initcon = Q(:,1) == initq;
@@ -669,7 +670,7 @@ function [c2_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
     opti.subject_to(initcon);
     opti.subject_to(battcon);
                 
-    opti.subject_to(U(2,1) == c2);
+    %opti.subject_to(U(2,1) == c2);
     opti.subject_to(U(1,:) == c1);
     opti.subject_to(min_c2 <= U(2,:) <= max_c2);
     opti.subject_to(min_c1 <= U(1,:) <= max_c1);
@@ -689,6 +690,11 @@ function [c2_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
                      
             if jj < hh
                 eeeu = est_u(U(1,jj),U(2,jj));
+                
+                L(jj) = .5*Q(:,jj).'*diag(C)*Q(:,jj)+...
+                    .5*u(eeeu(2),eeu(2))^2;
+            else
+                L(jj) = .5*Q(:,jj).'*diag(C)*Q(:,jj);
             end
                         
                 con{jj+1} = Q(:,jj+1) == F_RK4(result_rk4,...
@@ -696,16 +702,13 @@ function [c2_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
                         
                 btc{jj+1} = C*Q(:,jj+1) <= b0*qc*int_v; % battery const
                 opti.subject_to(con{jj+1});
-                opti.subject_to(btc{jj+1});
-                        
+                opti.subject_to(btc{jj+1});                        
         end                    
                                        
         eeu = eeeu;
     end
                 
-    L = sum(U(2,:).^2);
-                
-    opti.minimize(-L);
+    opti.minimize(-sum(L));
     opti.solver('ipopt');
                 
     try
