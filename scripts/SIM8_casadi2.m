@@ -364,7 +364,7 @@ while true
                     est_u,k,delta_T);
                 
                 old_c2 = c2;
-                c2 = c2_chain(2); % getting c2
+                c2 = c2_chain(1); % getting c2
                 
             end
                 
@@ -622,100 +622,65 @@ function [c2_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
                           qc,int_v,q0,Ad,B,C,u,est_u,k,delta_T)
 
     import casadi.* % import casadi for optimal control
-
-    state = MX.sym('state',7,1); % define the states
-                                 % model order is 3 (7 states)
-    input = MX.sym('input',2,1); % one input, the computation
-                                 % param (we replan the path
-                                 % param out of mpc checking
-                                 % the battery time, as in MPC 
-                                 % check for the horizon, not 
-                                 % total time needed to drain 
-                                 % battery)
-    qq = [state(1,1);state(2,1);state(3,1);state(4,1);...
-          state(5,1);state(6,1);state(7,1)]; % model variables
-    uu = [input(1,1);input(2,1)]; % control
                 
-    dq = Ad*qq+B*uu;
-                
-    fode = Function('fode',{state,input},{dq},...
-        {'state','input'},{'d_state'});
-    STATE = MX.sym('STATE',size(state)); % for the casadi fun
-    INPUT = MX.sym('INPUT',size(input));
-    QF = MX.sym('QF',size(state)); % output of the integration
-    dt = MX.sym('dt');
-                
-    k1 = fode(STATE,INPUT);
-    k2 = fode(STATE+dt/2*k1,INPUT);
-    k3 = fode(STATE+dt/2*k2,INPUT);
-    k4 = fode(STATE+dt*k3,INPUT);
-    QF = STATE+dt/6*(k1+2*k2+2*k3+k4);
-    F_RK4 = Function('F_RK4',{STATE,INPUT,dt},{QF},...
-        {'STATE','INPUT','dt'},{'QF'}); % rk4 fix step
-                
-    interval = k:k+N; % no k+1 in the formula as we add the 
+    interval = k+delta_T:delta_T:k+N; % no k+1 in the formula as we add the 
                       % initial condition implicitly
     hh = length(interval);
-    dt = delta_T;
-
                 
     opti = casadi.Opti(); % define opt problem
-    Q = opti.variable(7,hh);
-    U = opti.variable(2,hh-1);
-    L = opti.variable(1,hh-1);
-                
-    initq = q0;                
-    initcon = Q(:,1) == initq;
-    battcon = C*Q(:,1) <= b0*qc*int_v;
-    opti.subject_to(initcon);
-    opti.subject_to(battcon);
-                
-    %opti.subject_to(U(2,1) == c2);
+    Q = opti.variable(7,N);
+    U = opti.variable(2,N-1);
+    L = opti.variable(1,N);
+                    
+    opti.set_initial(Q(:,1),q0);
+    
+    %opti.subject_to(C*Q(:,1)-b0*qc*int_v <= 0);
     opti.subject_to(U(1,:) == c1);
-    opti.subject_to(min_c2 <= U(2,:) <= max_c2);
-    opti.subject_to(min_c1 <= U(1,:) <= max_c1);
-                
-    con = {initcon};
-    btc = {battcon};
+    opti.subject_to(min_c2 <= U(2,:)); 
+    opti.subject_to(U(2,:) <= max_c2);
+    opti.subject_to(min_c1 <= U(1,:));
+    opti.subject_to(U(1,:) <= max_c1);
                 
     eeu = eu; % control estimate (from model)
     eeeu =  est_u(c1,c2);
-                
+    
+    jjj = 1;
+    dQ = q0; % initial state
     for jj=1:hh-1
-        
-        result_rk4 = F_RK4(Q(:,jj),u(eeeu(2),eeu(2)),dt); % model dynamics
-        b0 = b0+dt*b(C*result_rk4); % battery dynamics
 
-        if mod(jj-1,1/dt) == 0 % every sum in the MPC
-                     
-            if jj < hh
-                eeeu = est_u(U(1,jj),U(2,jj));
-                
-                L(jj) = .5*Q(:,jj).'*diag(C)*Q(:,jj)+...
-                    .5*u(eeeu(2),eeu(2))^2;
-            else
-                L(jj) = .5*Q(:,jj).'*diag(C)*Q(:,jj);
-            end
-                        
-                con{jj+1} = Q(:,jj+1) == F_RK4(result_rk4,...
-                    u(eeeu(2),eeu(2)),dt); % state const
-                        
-                btc{jj+1} = C*Q(:,jj+1) <= b0*qc*int_v; % battery const
-                opti.subject_to(con{jj+1});
-                opti.subject_to(btc{jj+1});                        
-        end                    
-                                       
+        dQ = Ad*dQ+B*u(eeeu,eeu);
         eeu = eeeu;
+        b0 = b0+delta_T*b(C*dQ); % battery dynamics
+
+        if mod(jj,1/delta_T) == 0 % every sum in the MPC
+            
+            if (jjj < N)
+                eeeu = est_u(U(1,jjj),U(2,jjj));
+            end
+            
+            opti.subject_to(Q(:,jjj+1)-dQ == 0); % dynamics const
+            opti.subject_to(C*Q(:,jjj+1)-b0*qc*int_v <= 0); % battery const
+            
+            jjj = jjj+1;
+        end
+                                       
     end
                 
-    opti.minimize(-sum(L));
+    opti.minimize(-sum(U(2,:).^2));
     opti.solver('ipopt');
                 
     try
         sol = opti.solve();
+        
         c2_chain = sol.value(U); % optimal u on N
         c2_chain = c2_chain(2,:);
     catch
+                
+        d_c_chain = opti.debug.value(U);
+        d_q_chain = opti.debug.value(Q);
+        d_c_init = opti.debug.value(U,opti.initial());
+        d_q_init = opti.debug.value(Q,opti.initial());
+        
         c2_chain = ones(1,N)*min_c2; % there is no control 
                                      % which sattisfies consts
     end            
