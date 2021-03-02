@@ -363,7 +363,7 @@ while true
                 
                 [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,...
                     c2,N,eu,soc(round(k*delta_T)+1),b,qc,int_v,q0,Ad,B,...
-                    C,u,est_u,k,delta_T);
+                    C,u,est_u,k,delta_T,r);
                 
                 old_c2 = c2;
                 c2 = round(c_chain(2,1)); % getting c2
@@ -621,9 +621,8 @@ csvwrite(strcat('mpc_cs_simulation',strp5,'.csv'),log_c_chain);
 
 %% functions
 
-
 function [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
-                          qc,int_v,q0,Ad,B,C,u,est_u,k,delta_T)
+                          qc,int_v,q0,Ad,B,C,u,est_u,k,delta_T,r)
 
     import casadi.* % import casadi for optimal control
                 
@@ -632,9 +631,9 @@ function [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
     hh = length(interval);
                 
     opti = casadi.Opti(); % define opt problem
-    Q = opti.variable(7,N);
+    Q = opti.variable(2*r+1,N);
     U = opti.variable(2,N-1);
-    log_Q = opti.variable(7,hh);
+    log_Q = opti.variable(2*r+1,hh);
     log_b = opti.variable(1,hh);
                     
     opti.set_initial(Q(:,1),q0);
@@ -681,7 +680,8 @@ function [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
         c_chain = sol.value(U); % optimal control u on N
     catch
                      
-        c_chain = ones(1,N-1)*min_c2; % there is no control 
+        c_chain = [ones(1,N-1)*min_c1;...
+                   ones(1,N-1)*min_c2]; % there is no control 
                                       % which sattisfies consts
     end            
 

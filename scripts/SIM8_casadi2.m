@@ -113,7 +113,7 @@ P0 = ones(size(q0,1)); % covariance guess
 % process noise and sensor noise
 Q = ones(size(q,1));
 R = 1;
-N = 6; % MPC horizon (6 seconds)
+N = 10; % MPC horizon (6 seconds)
 
 % soc
 kb = .00183; % battery coefficient
@@ -209,6 +209,9 @@ log_pdot = pdot;
 
 log_c1 = [];
 log_c2 = [];
+
+log_q_chain = [];
+log_c_chain = [];
 
 strp4 = [m W cl cth th_nominal th_delta hd h vv delta_T]; % saving 
                                                           % parameters
@@ -359,12 +362,15 @@ while true
             
             if mod(k,1/delta_T) == 0 % MPC runs every second
                 
-                c2_chain = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,...
-                    soc(round(k*delta_T)+1),b,qc,int_v,q0,Ad,B,C,u,...
-                    est_u,k,delta_T);
+                [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,...
+                    c2,N,eu,soc(round(k*delta_T)+1),b,qc,int_v,q0,Ad,B,...
+                    C,u,est_u,k,delta_T,r);
                 
                 old_c2 = c2;
-                c2 = round(c2_chain(1)); % getting c2
+                c2 = round(c_chain(2,1)); % getting c2
+                
+                log_q_chain = [log_q_chain;k*delta_T  C*q_chain];
+                log_c_chain = [log_c_chain;k*delta_T  c_chain(2,:)];
                 
             end
                 
@@ -614,12 +620,15 @@ csvwrite(strcat('data_simulation',strp5,'.csv'),[strp.' strp2.' ...
 csvwrite(strcat('bat_simulation',strp5,'.csv'),log_b);
 csvwrite(strcat('ctl_simulation',strp5,'.csv'),[time_v.' log_c1 log_c2]);
 
+csvwrite(strcat('mpc_qs_simulation',strp5,'.csv'),log_q_chain);
+
+csvwrite(strcat('mpc_cs_simulation',strp5,'.csv'),log_c_chain);
+
 
 %% functions
 
-
-function [c2_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
-                          qc,int_v,q0,Ad,B,C,u,est_u,k,delta_T)
+function [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
+                          qc,int_v,q0,Ad,B,C,u,est_u,k,delta_T,r)
 
     import casadi.* % import casadi for optimal control
                 
@@ -628,9 +637,10 @@ function [c2_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
     hh = length(interval);
                 
     opti = casadi.Opti(); % define opt problem
-    Q = opti.variable(7,N);
+    Q = opti.variable(2*r+1,N);
     U = opti.variable(2,N-1);
-    L = opti.variable(1,N);
+    log_Q = opti.variable(2*r+1,hh);
+    log_b = opti.variable(1,hh);
                     
     opti.set_initial(Q(:,1),q0);
     
@@ -644,12 +654,16 @@ function [c2_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
     
     jjj = 1;
     dQ = q0; % initial state
+    log_Q(:,1) = dQ; 
     for jj=1:hh-1
 
         dQ = Ad*dQ+B*u(eeeu,eeu);
         eeu = eeeu;
         b0 = b0+delta_T*b(C*dQ); % battery dynamics
-
+        
+        log_Q(:,jj+1) = dQ;
+        log_b(jj+1) = b0; 
+        
         if mod(jj,1/delta_T) == 0 % every sum in the MPC
             
             if (jjj < N)                
@@ -669,20 +683,15 @@ function [c2_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
                 
     try
         sol = opti.solve();
-        
-        c2_chain = sol.value(U); % optimal u on N
-        c2_chain = c2_chain(2,:);
+        c_chain = sol.value(U); % optimal control u on N
     catch
-                
-        d_c_chain = opti.debug.value(U);
-        d_q_chain = opti.debug.value(Q);
-        d_c_init = opti.debug.value(U,opti.initial());
-        d_q_init = opti.debug.value(Q,opti.initial());
-        
-        c2_chain = ones(1,N)*min_c2; % there is no control 
-                                     % which sattisfies consts
+                     
+        c_chain = [ones(1,N-1)*min_c1;...
+                   ones(1,N-1)*min_c2]; % there is no control 
+                                      % which sattisfies consts
     end            
 
+    q_chain = opti.debug.value(Q);
 end
 
 function [u_theta] = gvf_control_2D(p,dot_p,ke,kd,path,grad,hess,dir)
