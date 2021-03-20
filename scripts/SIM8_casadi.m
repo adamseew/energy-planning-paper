@@ -19,21 +19,21 @@ import casadi.* % import casadi for optimal control
 
 % asking data about the path
 
-answer = inputdlg(...
-    {'vehicle direction [deg]:','wind speed [m/s]:',...
-     'wind direction [deg]:','start coordinate x [m]:','y [m]:',...
-     'max power [W]:','min power [W]:','triggering point radius [m]'
-    }, ...
-    'path initialization',[1 40],...
-    {'270','5','0','-100','220','36','16','20'});
+%answer = inputdlg(...
+%    {'vehicle direction [deg]:','wind speed [m/s]:',...
+%     'wind direction [deg]:','start coordinate x [m]:','y [m]:',...
+%     'max power [W]:','min power [W]:','triggering point radius [m]'
+%    }, ...
+%    'path initialization',[1 40],...
+%    {'270','5','0','-100','220','36','16','20'});
 
-if isempty(answer)
-    strp = [270; 5; 0; -100; 220; 36; 16; 20];
-else
-    strp = str2double(answer);
-end
+%if isempty(answer)
+strp = [270; 5; 0; -100; 220; 36; 16; 20];
+%else
+%    strp = str2double(answer);
+%end
 
-clear answer;
+%clear answer;
 
 
 %%% physics data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -107,6 +107,7 @@ P0 = ones(size(q0,1)); % covariance guess
 % process noise and sensor noise
 Q = ones(size(q,1));
 R = 1;
+N = 6; % MPC horizon (6 seconds)
 
 % soc
 kb = .00183; % battery coefficient
@@ -143,9 +144,6 @@ c1_old = c1;
 
 min_c2 = 2;
 max_c2 = 10;
-mmax_c2 = max_c2; % needs to be stored twice because the algorithm reduces
-                  % exactly the max_c2 and then if it wants to increase it,
-                  % it needs to know the original value
 c2 = max_c2; % computational parameter
 c2_old = c2;
 
@@ -223,15 +221,11 @@ syms x y;
 last_trig = [175;161]; % the last triggering point
 % next are just some simulation utilities
 reached = 0; % reached the end of the simulation
-
-                                                 
-%%% physics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 path_C = 1; % also just simulation utility
-
 get_optcotrol = 1; % inhibits the controller whenever the limit is reached
 
-ts_changed = 0; % used
+                                                 
+%%% simulation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 while true 
     
@@ -353,12 +347,13 @@ while true
         
         %%% params controller %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-        if get_optcotrol*k*delta_T >= 2*46.32
+        if and(get_optcotrol*k*delta_T >= 60,... % don't optimize for 1 min
+               get_optcotrol*k*delta_T >= 2*period) % for 2 periods anyways
             
                                           % let the model to estimate the 
                                           % parameters for 2 periods
             bat_success = 0; % we do expect this to be N, meaning all the 
-                             % controls in the sequence sattisfy the
+                             controls in the sequence sattisfy the
                              % output constraint
             eeu = eu; % control estimate
             eest_u_old = eu; % old control estimate (which will 
@@ -367,14 +362,15 @@ while true
             b0 = soc(round(k*delta_T)+1);
             qq0 = q0; % state
             
-            if ts_changed+2 <= k*delta_T % for stability
-                                         % change to c2 after 2 sec of
-                                         % latest change
-                delta_T = delta_T*10; % casadi takes vary long
+            if and(mod(k,1/delta_T) == 0,... % run MPC every second
+                   ts_changed+2 <= k*delta_T) % for stability
+                                              % change to c2 after 2 sec of
+                                              % latest change
+                
                 Ad = A*delta_T+eye(2*r+1);
                 state = MX.sym('state',7,1); % define the states
                                              % model order is 3 (7 states)
-                input = MX.sym('input',2,1); % one input, the computation
+                input = MX.sym('input',,1); % one input, the computation
                                              % param (we replan the path
                                              % param out of mpc checking
                                              % the battery time, as in MPC 
@@ -389,9 +385,7 @@ while true
                 qq6 = state(6,1);
                 qq7 = state(7,1);
                 qq = [qq1;qq2;qq3;qq4;qq5;qq6;qq7];
-                uu1 = input(1,1);
-                uu2 = input(2,1);
-                uu = [uu1;uu2]; % control
+                uu = input(1,1); % control
 
                 d_state = Ad*qq+B*uu; % dynamics
                 
@@ -427,60 +421,57 @@ while true
                 opti.subject_to(initcon);
                 
                 opti.subject_to(min_c2 <= U(2,:) <= mmax_c2);
+                opti.subject_to(min_pw <= C*S(:,1) <= max_pw);
                 
                 L = 0; % cost (l,Vf)
                 result_rk4 = [];
-                
+                             
                 for j=1:hh-1
                     eest_u_old = eeu;
                     eeu = est_u(c1,U(2,j));
                     
                     result_rk4 = F_RK4(S(:,j),u(eeu,eest_u_old),delta_T);
                     
-                    con{j+1} = ...
-                        S(:,j+1) == F_RK4(result_rk4,... % state const
-                                          u(eeu,eest_u_old),delta_T); 
-                    b0 = b0-delta_T*b(C*result_rk4); % battery dynamics
-
-                    opti.subject_to(con{j+1});
+                    if mod(j-1,1/delta_T) == 0 % every sum in the MPC
+                        opti.subject_to(...
+                            S(:,j+1) == F_RK4(result_rk4,...% state const
+                                              u(eeu,eest_u_old),delta_T)); 
+                        opti.subject_to(C*result_rk4 > b0*qc*int_v);
+                                                            % battery const 
                     
-                    L = L+.5*(result_rk4+B*u(eeu,eest_u_old)).'*diag(C)*...
-                    (result_rk4+B*u(eeu,eest_u_old)); % cost update (l)
+                        L = L+U(2,j)^2;  % simplified performance index 
+                                         % for casadi
+                    end
                 end
                 
-                opti.subject_to(C*result_rk4 > b0*qc*int_v);% battery const 
                 
-                result_rk4 = F_RK4(S(:,j),[0;0],delta_T);
-                L = L+.5*(result_rk4).'*diag(C)*result_rk4; % (Vf)
-                
-                opti.minimize(L);
+                opti.minimize(-L);
                 opti.solver('ipopt');
                 try
                     sol = opti.solve();
+                    old_c2 = c2;
                     c2 = sol.value(U); % optimal u on N
                     c2 = c2(2,end); % getting c2
+                    if old_c2 ~= c2 
+                        ts_changed = k*delta_T;
+                    end
                 catch
                     warning('battery');
                     c2 = min_c2; % min value
                 end
                 
-                % rough discretization and transformation from minimiation
-                % to maximization!
-                if c2 <= min_c2
-                    c2 = mmax_c2;
-                elseif min_c2 < c2 <= min_c2+delta(2)
-                    c2 = min_c2+3*delta(2);
-                elseif min_c2+delta(2) < c2 <= min_c2+2*delta(2)
-                    c2 = min_c2+2*delta(2);
-                elseif min_c2+2*delta(2) < c2 <= min_c2+3*delta(2)
-                    c2 = min_c2+delta(2);
+                % rough discretization
+                if c2 <= 2
+                    c2 = 2;
+                elseif 2 < c2 <= 4
+                    c2 = 4;
+                elseif 4 < c2 <= 6
+                    c2 = 6;
+                elseif 6 < c2 <= 8
+                    c2 = 8;
                 else
-                    c2 = min_c2;
-                end
-                
-                delta_T = delta_T/10;
-                Ad = A*delta_T+eye(2*r+1);
-            
+                    c2 = 10;
+                end            
             end
             
             bat_t = 0;

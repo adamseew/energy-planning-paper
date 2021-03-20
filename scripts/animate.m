@@ -3,7 +3,7 @@
 % load the data
 
 % change the following 2
-load('3casadi_4.mat'); % load the data
+load('new_data_to_sort/3casadi_4.mat'); % load the data
 filename = '3casadi_4';
 
 n_coefs = 2*r+1;
@@ -97,9 +97,8 @@ for j=1:1/delta_T:k % path
     if (j-1)*delta_T >= 85
         data_mpc_q = log_q_chain(log_q_chain(:,1) == (j-1)*delta_T,:);
         data_mpc_q = data_mpc_q(2:end);
-        data_mpc_q = imresize(data_mpc_q,[1 (1/delta_T)*N]);
         data_mpc_q = [linspace((j-1)*delta_T,(j-1+N*(1/delta_T))*...
-            delta_T,length(data_mpc_q)).' data_mpc_q.'];
+            delta_T,N).' data_mpc_q.'];
     end
     
     if ~isnan(data_mpc_q)
@@ -115,6 +114,7 @@ for j=1:1/delta_T:k % path
     
     grid on
     xlim([0 k*delta_T]);
+    ylim([25 50]);
     ax = gca;
     ax.FontName = 'Helvetica';
     ax.FontSize = 24;
@@ -161,6 +161,7 @@ for j=1:1/delta_T:k % path
     nexttile,plot(linspace(0,j*delta_T,length(c1_data)),c1_data,...
         'Color','k','LineWidth',1.2)
     grid on
+    ylim([-1000 0]);
     xlim([0 k*delta_T]);
     ax = gca;
     ax.FontName = 'Helvetica';
@@ -175,6 +176,7 @@ for j=1:1/delta_T:k % path
         'Color','k','LineWidth',1.2)
     hold off
     grid on
+    ylim([2 10]);
     xlim([0 k*delta_T]);
     ax = gca;
     ax.FontName = 'Helvetica';

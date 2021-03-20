@@ -1,6 +1,6 @@
 # Energy-Aware Dynamic Planning Algorithm for Autonomous UAVs
 
-This is the third draft version of the planning algorithm [paper](pdf/iros-2021.pdf) that we plan to submit to the [IROS 2021](https://www.iros2021.org/) conference. The paper is undergoing some polishing and internal reviews. It is not peer reviewed yet.
+This is the third draft version of the planning algorithm [paper](pdf/iros-2021.pdf) that we plan to submit soon. The paper is undergoing some polishing and internal reviews. It is not peer reviewed yet.
 
 The paper in the current shape is not for redistribution.
 

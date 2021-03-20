@@ -6,7 +6,7 @@
 
 %% casadi opt control
 
-addpath('../../../../../casadi-linux-matlabR2014b-v3.5.5/');
+addpath('../../../../../');
 % UPDATE THE PATH WITH CASADI SOURCE !
 
 
@@ -366,7 +366,7 @@ while true
                     C,u,est_u,k,delta_T,r);
                 
                 old_c2 = c2;
-                c2 = round(c_chain(2,1)); % getting c2
+                c2 = c_chain(2,1); % getting c2
                 
                 log_q_chain = [log_q_chain;k*delta_T  C*q_chain];
                 log_c_chain = [log_c_chain;k*delta_T  c_chain(2,:)];
@@ -633,6 +633,7 @@ function [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
     opti = casadi.Opti(); % define opt problem
     Q = opti.variable(2*r+1,N);
     U = opti.variable(2,N-1);
+    L = opti.variable(1,N);
     log_Q = opti.variable(2*r+1,hh);
     log_b = opti.variable(1,hh);
                     
@@ -660,6 +661,8 @@ function [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
         
         if mod(jj,1/delta_T) == 0 % every sum in the MPC
             
+            L(jjj) = C*dQ;
+            
             if (jjj < N)                
                 eeeu = est_u(U(1,jjj),U(2,jjj));
             end
@@ -672,7 +675,7 @@ function [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,...
                                        
     end
                 
-    opti.minimize(-sum(U(2,:).^2));
+    opti.minimize(-sum(L.^2));
     opti.solver('ipopt');
                 
     try

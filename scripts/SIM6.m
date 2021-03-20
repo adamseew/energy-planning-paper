@@ -472,8 +472,8 @@ csvwrite(strcat('evol_simulation',strp5,'.csv'),[...
 % this part takes the coefficients at 200 s estimated with KF above and
 % evolve them to see if the model match the data
 
-qq0 = log_q(:,200/delta_T);
-log_yy = [log_y(200/delta_T)];
+qq0 = log_q(:,22890);
+log_yy = [log_y(22890)];
 Ad = A*delta_T/10+eye(2*r+1);
 for ii=200+delta_T:delta_T/10:400
     qq0 = Ad*qq0;
