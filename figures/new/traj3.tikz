@@ -1,0 +1,264 @@
+
+
+
+\def \globalscale {.800000}
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=.96*\globalscale, inner sep=0pt, outer sep=0pt]
+\path[draw=black,line join=round,line width=0.512pt] (20.8642,24.8115) -- (118.7080,14.9592) -- (118.7080,74.3650) -- (20.8642,84.2173) -- (20.8642,24.8115) -- cycle;
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (23.2872,24.4960) -- (23.2868,79.6844);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (27.4231,24.1801) .. controls (27.4231,12.2018) and (37.1342,2.4907) .. (49.1125,2.4907) .. controls (61.0909,2.4907) and (70.8020,12.2018) .. (70.8020,24.1801);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (70.8020,79.1472) .. controls (70.8020,92.2682) and (60.1654,102.9050) .. (47.0447,102.9050) .. controls (33.9239,102.9050) and (23.2873,92.2682) .. (23.2873,79.1472);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (27.4062,24.1425) -- (27.4062,78.7861);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (70.8019,24.1163) -- (70.8020,70.1775);
+
+
+
+\path[draw=black,line join=round,line width=0.256pt] (70.8020,70.1107) -- (70.8020,79.2413);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (35.6779,23.2120) -- (35.6779,77.9830);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (39.8135,22.9055) -- (39.8136,77.5574);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (43.9493,22.5103) -- (43.9494,77.1626);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (48.0851,22.1465) -- (48.0851,81.3569);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (74.9207,23.6118) -- (74.9209,78.7368);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (31.5420,23.7911) .. controls (31.5420,11.8128) and (41.2531,2.1017) .. (53.2314,2.1017) .. controls (65.2098,2.1017) and (74.9209,11.8128) .. (74.9209,23.7911);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (31.5423,23.7650) -- (31.5420,78.4794);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (23.2872,24.4960) -- (23.2868,79.6844);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (79.0565,23.3177) -- (79.0567,78.4427);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (35.6778,23.4077) .. controls (35.6778,11.4293) and (45.3889,1.7182) .. (57.3672,1.7182) .. controls (69.3455,1.7182) and (79.0566,11.4293) .. (79.0566,23.4077);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (83.1923,22.8332) -- (83.1924,77.9583);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (39.8135,22.9506) .. controls (39.8135,10.9723) and (49.5246,1.2612) .. (61.5029,1.2612) .. controls (73.4812,1.2612) and (83.1924,10.9723) .. (83.1924,22.9506);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (79.0567,78.3999) .. controls (79.0567,91.5208) and (68.4202,102.1570) .. (55.2994,102.1570) .. controls (42.1786,102.1570) and (31.5421,91.5208) .. (31.5421,78.3999);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (83.1924,77.9265) .. controls (83.1924,91.0475) and (72.5559,101.6840) .. (59.4351,101.6840) .. controls (46.3143,101.6840) and (35.6778,91.0475) .. (35.6778,77.9265);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (85.7727,85.9816) .. controls (82.3601,94.9191) and (73.7067,101.2660) .. (63.5708,101.2660) .. controls (50.4501,101.2660) and (39.8135,90.6295) .. (39.8135,77.5085);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (87.3280,22.3917) -- (87.3282,77.5167);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (91.4639,77.1154) .. controls (91.4639,90.2362) and (80.8274,100.8730) .. (67.7066,100.8730) .. controls (54.5858,100.8730) and (43.9493,90.2362) .. (43.9493,77.1154);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (91.4639,21.9514) -- (91.4640,77.0764);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (172.6530,23.1022) -- (272.3070,13.0677) -- (272.3070,73.5725) -- (172.6530,83.6069) -- (172.6530,23.1022) -- cycle;
+
+
+
+\path[draw=black,fill=black,line join=round,line width=0.512pt] (172.6450,21.8970) .. controls (173.2860,21.8970) and (173.8060,22.4172) .. (173.8060,23.0587) .. controls (173.8060,23.7003) and (173.2860,24.2205) .. (172.6450,24.2205) .. controls (172.0030,24.2205) and (171.4830,23.7003) .. (171.4830,23.0587) .. controls (171.4830,22.4172) and (172.0030,21.8970) .. (172.6450,21.8970) -- cycle;
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(154.0,23.0)}}] (0.0000,0.0000) node[above right] () {$v_1$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(153.0,88.0)}}] (0.0000,0.0000) node[above right] () {$v_4$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(278.0,11.0)}}] (0.0000,0.0000) node[above right] () {$v_2$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(280.0,77.0)}}] (0.0000,0.0000) node[above right] () {$v_3$};
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (175.1210,22.7809) -- (175.1200,78.9904);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (183.1970,22.0352) .. controls (183.1970,10.9023) and (192.2230,1.8766) .. (203.3560,1.8766) .. controls (214.4890,1.8766) and (223.5150,10.9023) .. (223.5150,22.0352);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (223.5150,78.4434) .. controls (223.5150,91.8070) and (212.6810,102.6400) .. (199.3180,102.6400) .. controls (185.9540,102.6400) and (175.1210,91.8070) .. (175.1210,78.4434);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (223.5140,21.9733) -- (223.5150,69.3075);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (223.5150,69.2395) -- (223.5150,78.5389);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (183.1980,21.4732) -- (183.1980,77.7401);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (191.2740,21.2319) -- (191.2740,77.1984);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (175.1210,22.7809) -- (175.1200,78.9904);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (231.5910,21.0884) -- (231.5910,77.6542);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (231.5910,77.6230) .. controls (231.5910,90.9867) and (220.7580,101.8200) .. (207.3940,101.8200) .. controls (194.0310,101.8200) and (183.1980,90.9867) .. (183.1980,77.6230);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (191.2740,21.2576) .. controls (191.2740,10.1247) and (200.3000,1.0990) .. (211.4330,1.0990) .. controls (222.5660,1.0990) and (231.5910,10.1247) .. (231.5910,21.2576);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (239.6680,76.8666) .. controls (239.6680,90.2302) and (228.8350,101.0630) .. (215.4710,101.0630) .. controls (202.1070,101.0630) and (191.2740,90.2302) .. (191.2740,76.8666);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (239.6680,20.3473) -- (239.6680,76.9131);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (199.3510,20.3985) .. controls (199.3510,9.2656) and (208.3760,0.2399) .. (219.5090,0.2399) .. controls (230.6420,0.2399) and (239.6680,9.2656) .. (239.6680,20.3985);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (199.3510,20.5179) -- (199.3510,80.9456);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (74.9230,78.7915) .. controls (74.9230,91.9124) and (64.2864,102.5490) .. (51.1657,102.5490) .. controls (38.0449,102.5490) and (27.4083,91.9124) .. (27.4083,78.7915);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (87.3488,77.5084) .. controls (87.3488,90.6294) and (76.7122,101.2660) .. (63.5914,101.2660);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (43.9493,22.5457) .. controls (43.9493,10.5673) and (53.6604,0.8563) .. (65.6387,0.8563) .. controls (77.6171,0.8563) and (87.3282,10.5673) .. (87.3282,22.5457);
+
+
+
+\path[draw=black,line join=round,line width=0.384pt] (48.0851,22.1941) .. controls (48.0851,10.2158) and (57.7962,0.5047) .. (69.7745,0.5047) .. controls (81.7528,0.5047) and (91.4639,10.2158) .. (91.4639,22.1941);
+
+
+
+\path[draw=black,fill=black,line join=round,line width=0.512pt] (172.5900,82.3602) .. controls (173.2320,82.3602) and (173.7520,82.8804) .. (173.7520,83.5220) .. controls (173.7520,84.1636) and (173.2320,84.6837) .. (172.5900,84.6837) .. controls (171.9480,84.6837) and (171.4280,84.1636) .. (171.4280,83.5220) .. controls (171.4280,82.8804) and (171.9480,82.3602) .. (172.5900,82.3602) -- cycle;
+
+
+
+\path[draw=black,fill=black,line join=round,line width=0.512pt] (272.1850,72.3452) .. controls (272.8270,72.3452) and (273.3470,72.8654) .. (273.3470,73.5070) .. controls (273.3470,74.1486) and (272.8270,74.6687) .. (272.1850,74.6687) .. controls (271.5430,74.6687) and (271.0230,74.1486) .. (271.0230,73.5070) .. controls (271.0230,72.8654) and (271.5430,72.3452) .. (272.1850,72.3452) -- cycle;
+
+
+
+\path[draw=black,fill=black,line join=round,line width=0.512pt] (272.3250,12.1252) .. controls (272.9670,12.1252) and (273.4870,12.6453) .. (273.4870,13.2869) .. controls (273.4870,13.9285) and (272.9670,14.4487) .. (272.3250,14.4487) .. controls (271.6830,14.4487) and (271.1630,13.9285) .. (271.1630,13.2869) .. controls (271.1630,12.6453) and (271.6830,12.1252) .. (272.3250,12.1252) -- cycle;
+
+
+
+\path[draw=black,fill=black,line join=round,line width=0.512pt] (20.8596,23.6827) .. controls (21.5013,23.6827) and (22.0214,24.2028) .. (22.0214,24.8444) .. controls (22.0214,25.4860) and (21.5013,26.0061) .. (20.8596,26.0061) .. controls (20.2181,26.0061) and (19.6980,25.4860) .. (19.6980,24.8444) .. controls (19.6980,24.2028) and (20.2181,23.6827) .. (20.8596,23.6827) -- cycle;
+
+
+
+\path[draw=black,fill=black,line join=round,line width=0.512pt] (20.8363,82.8461) .. controls (21.4779,82.8461) and (21.9980,83.3662) .. (21.9980,84.0078) .. controls (21.9980,84.6494) and (21.4779,85.1696) .. (20.8363,85.1696) .. controls (20.1947,85.1696) and (19.6746,84.6494) .. (19.6746,84.0078) .. controls (19.6746,83.3662) and (20.1947,82.8461) .. (20.8363,82.8461) -- cycle;
+
+
+
+\path[draw=black,fill=black,line join=round,line width=0.512pt] (118.6260,13.9161) .. controls (119.2680,13.9161) and (119.7880,14.4362) .. (119.7880,15.0778) .. controls (119.7880,15.7194) and (119.2680,16.2396) .. (118.6260,16.2396) .. controls (117.9850,16.2396) and (117.4640,15.7194) .. (117.4640,15.0778) .. controls (117.4640,14.4362) and (117.9850,13.9161) .. (118.6260,13.9161) -- cycle;
+
+
+
+\path[draw=black,fill=black,line join=round,line width=0.512pt] (118.5960,73.2495) .. controls (119.2380,73.2495) and (119.7580,73.7697) .. (119.7580,74.4111) .. controls (119.7580,75.0527) and (119.2380,75.5729) .. (118.5960,75.5729) .. controls (117.9550,75.5729) and (117.4350,75.0527) .. (117.4350,74.4111) .. controls (117.4350,73.7697) and (117.9550,73.2495) .. (118.5960,73.2495) -- cycle;
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(1.0,24.0)}}] (0.0000,0.0000) node[above right] () {$v_1$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(0.0,88.0)}}] (0.0000,0.0000) node[above right] () {$v_4$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(125.0,11.0)}}] (0.0000,0.0000) node[above right] () {$v_2$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(127.0,78.0)}}] (0.0000,0.0000) node[above right] () {$v_3$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(142.0,54.0)}}] (0.0000,0.0000) node[above right] () {$\rightarrow$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(97.0,69.0)}}] (0.0000,0.0000) node[above right] () {$\overline{\Gamma}$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(248.0,68.0)}}] (0.0000,0.0000) node[above right] () {$\underline{\Gamma}$};
+
+
+
+
+\end{tikzpicture}
+

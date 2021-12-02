@@ -1,11 +1,10 @@
 
 %%
-%% 
-%% 
+%% Energy-Aware Planning-Scheduling for Autonomous Aerial Robots 
 %%
 
-\documentclass[letterpaper,10pt,conference]{ieeeconf}
-\IEEEoverridecommandlockouts 
+\documentclass[letterpaper,10pt,journal,twoside]{IEEEtran} 
+%\IEEEoverridecommandlockouts 
 
 \newcommand{\stt}[1]{{\small\tt #1}} %\small\tt too small here
 \newcommand{\powprof}{\stt{powprofiler}}
@@ -18,7 +17,7 @@
 \usepackage{flushend}
 \usepackage{tikz}
 \usetikzlibrary{automata,positioning,decorations.pathreplacing,backgrounds}
-\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry} 
+%\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry} 
 \usepackage{pifont}
 
 %% citation packege
@@ -41,10 +40,10 @@
 \usepackage{amsthm}
 
 %% pseudocode package
-\usepackage{algorithm,algorithmic}
+\usepackage{algorithm}
+\usepackage[noend]{algorithmic}
 
 % counter to mantain the line numbering
-\renewcommand\thealgorithm{}
 \newcommand{\setalglineno}[1]{%
   \setcounter{ALC@line}{\numexpr#1-1}}
 
@@ -55,7 +54,9 @@
 %\usepackage{eqparbox}
 
 %% packages for subfigures (eventually)
-\usepackage[tight,footnotesize]{subfigure}
+%\usepackage[tight,footnotesize]{subfigure}
+\usepackage[font=footnotesize]{caption}
+\usepackage[font=footnotesize]{subcaption}
 %\usepackage[caption=false]{caption}
 %\usepackage[font=footnotesize]{subfig}
 %\usepackage[caption=false,font=footnotesize]{subfig}
@@ -68,7 +69,7 @@
 \makeatletter
 \let\NAT@parse\undefined
 \makeatother
-\usepackage{hyperref}
+\usepackage[pagebackref=true,breaklinks=true,colorlinks,bookmarks=false]{hyperref}
 \makeatletter
 \newcommand*{\textlabel}[2]{%
   \edef\@currentlabel{#1}% Set target label
@@ -98,6 +99,7 @@
 \newtheorem{exmp}{Example}[section]
 \newtheorem{pb}{Problem}[section]
 \newtheorem{rem}{Remark}
+\newtheorem{obs}{Observation}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -112,443 +114,40 @@
 
 %% references (generates a bib file for bibtex)
 \begin{filecontents}{\jobname.bib}
-  @inproceedings{seewald2020mechanical,
-    title={Mechanical and Computational Energy Estimation of a Fixed-Wing Drone}, 
-    author={Seewald, Adam and Garcia de Marina, Hector and Midtiby, Henrik Skov and Schultz, Ulrik Pagh},
-    booktitle={2020 Fourth IEEE International Conference on Robotic Computing (IRC)},
-    pages={135--142},
-    year={2020},
-    organization={IEEE},
-    DOI={10.1109/IRC.2020.00028},
-    url={https://adamseewald.cc/short/mechanical2020}
-  }
 
-  @article{seewald2019coarse,
-    title={Coarse-Grained Computation-Oriented Energy Modeling for Heterogeneous Parallel Embedded Systems},
-    author={Seewald, Adam and Schultz, Ulrik Pagh and Ebeid, Emad and Midtiby, Henrik Skov},
-    journal={International Journal of Parallel Programming},
-    pages={1--22},
-    year={2019},
-    publisher={Springer},
-    DOI={10.1007/s10766-019-00645-y},
-    url={https://adamseewald.cc/short/coarse2019}
-  }
-  @inproceedings{seewald2019component,
-    title={Component-based computation-energy modeling for embedded systems},
-    author={Seewald, Adam and Schultz, Ulrik Pagh and Roeder, Julius and Rouxel, Benjamin and Grelck, Clemens},
-    booktitle={Proceedings Companion of the 2019 ACM SIGPLAN International Conference on Systems, Programming, Languages, and Applications: Software for Humanity},
-    pages={5--6},
-    year={2019},
-    organization={ACM},
-    DOI={10.1145/3359061.3362775},
-    url={https://adamseewald.cc/short/component2019}
-  }
-  @inproceedings{hajjaj2014review,
-    title={Review of research in the area of agriculture mobile robots},
-    author={Hajjaj, Sami Salama Hussen and Sahari, Khairul Salleh Mohamed},
-    booktitle={The 8th International Conference on Robotic, Vision, Signal Processing \& Power Applications},
-    pages={107--117},
-    year={2014},
-    organization={Springer}
-  }
-  @inproceedings{qingchun2012study,
-    title={Study on strawberry robotic harvesting system},
-    author={Qingchun, Feng and Wengang, Zheng and Quan, Qiu and Kai, Jiang and Rui, Guo},
-    booktitle={2012 IEEE International Conference on Computer Science and Automation Engineering (CSAE)},
-    volume={1},
-    pages={320--324},
-    year={2012},
-    organization={IEEE}
-  }
-  @article{edan2000robotic,
-    title={Robotic melon harvesting},
-    author={Edan, Yael and Rogozin, Dima and Flash, Tamar and Miles, Gaines E},
-    journal={IEEE Transactions on Robotics and Automation},
-    volume={16},
-    number={6},
-    pages={831--835},
-    year={2000},
-    publisher={IEEE}
-  }
-  @inproceedings{aljanobi2010setup,
-    title={A setup of mobile robotic unit for fruit harvesting},
-    author={Aljanobi, AA and Al-Hamed, SA and Al-Suhaibani, SA},
-    booktitle={19th International Workshop on Robotics in Alpe-Adria-Danube Region (RAAD 2010)},
-    pages={105--108},
-    year={2010},
-    organization={IEEE}
-  }
-  @article{de2011design,
-    title={Design and control of an apple harvesting robot},
-    author={De-An, Zhao and Jidong, Lv and Wei, Ji and Ying, Zhang and Yu, Chen},
-    journal={Biosystems engineering},
-    volume={110},
-    number={2},
-    pages={112--122},
-    year={2011},
-    publisher={Elsevier}
-  }
-  @article{dong2011development,
-    title={Development of a row guidance system for an autonomous robot for white asparagus harvesting},
-    author={Dong, Fuhong and Heinemann, Wolfgang and Kasper, Roland},
-    journal={Computers and Electronics in Agriculture},
-    volume={79},
-    number={2},
-    pages={216--225},
-    year={2011},
-    publisher={Elsevier}
-  }
-  @inproceedings{li2008analysis,
-    title={Analysis of workspace and kinematics for a tomato harvesting robot},
-    author={Li, Zhiguo and Liu, Jizhan and Li, Pingping and Li, Wei},
-    booktitle={2008 International Conference on Intelligent Computation Technology and Automation (ICICTA)},
-    volume={1},
-    pages={823--827},
-    year={2008},
-    organization={IEEE}
-  }
-  @article{puri2017agriculture,
-    title={Agriculture drones: A modern breakthrough in precision agriculture},
-    author={Puri, Vikram and Nayyar, Anand and Raja, Linesh},
-    journal={Journal of Statistics and Management Systems},
-    volume={20},
-    number={4},
-    pages={507--518},
-    year={2017},
-    publisher={Taylor \& Francis}
-  }
-  @inproceedings{mei2005case,
-    title={A case study of mobile robot's energy consumption and conservation techniques},
-    author={Mei, Yongguo and Lu, Yung-Hsiang and Hu, Y Charlie and Lee, CS George},
-    booktitle={ICAR'05. Proceedings., 12th International Conference on Advanced Robotics, 2005.},
-    pages={492--497},
-    year={2005},
-    organization={IEEE}
-  }
-  @inproceedings{mei2004energy,
-    title={Energy-efficient motion planning for mobile robots},
-    author={Mei, Yongguo and Lu, Yung-Hsiang and Hu, Y Charlie and Lee, CS George},
-    booktitle={IEEE International Conference on Robotics and Automation, 2004. Proceedings. ICRA'04. 2004},
-    volume={5},
-    pages={4344--4349},
-    year={2004},
-    organization={IEEE}
-  }
-  @article{mei2006deployment,
-    title={Deployment of mobile robots with energy and timing constraints},
-    author={Mei, Yongguo and Lu, Yung-Hsiang and Hu, Yu Charlie and Lee, CS George},
-    journal={IEEE Transactions on robotics},
-    volume={22},
-    number={3},
-    pages={507--522},
-    year={2006},
-    publisher={IEEE}
-  }
-  @inproceedings{kreciglowa2017energy,
-    title={Energy efficiency of trajectory generation methods for stop-and-go aerial robot navigation},
-    author={Kreciglowa, Nadia and Karydis, Konstantinos and Kumar, Vijay},
-    booktitle={2017 International Conference on Unmanned Aircraft Systems (ICUAS)},
-    pages={656--662},
-    year={2017},
-    organization={IEEE}
-  }
-  @article{sadrpour2013mission,
-    title={Mission Energy Prediction for Unmanned Ground Vehicles Using Real-time Measurements and Prior Knowledge},
-    author={Sadrpour, Amir and Jin, Jionghua and Ulsoy, A Galip},
-    journal={Journal of Field Robotics},
-    volume={30},
-    number={3},
-    pages={399--414},
-    year={2013},
-    publisher={Wiley Online Library}
-  }
-  @inproceedings{sadrpour2013experimental,
-    title={Experimental validation of mission energy prediction model for unmanned ground vehicles},
-    author={Sadrpour, Amir and Jin, Judy and Ulsoy, A Galip},
-    booktitle={2013 American Control Conference},
-    pages={5960--5965},
-    year={2013},
-    organization={IEEE}
-  }
-  @inproceedings{kim2005energy,
-    title={Energy-saving 3-step velocity control algorithm for battery-powered wheeled mobile robots},
-    author={Kim, Chong Hui and Kim, Byung Kook},
-    booktitle={Proceedings of the 2005 IEEE international conference on robotics and automation},
-    pages={2375--2380},
-    year={2005},
-    organization={IEEE}
-  }
-  @inproceedings{kim2008minimum,
-    title={Minimum-energy translational trajectory planning for battery-powered three-wheeled omni-directional mobile robots},
-    author={Kim, Hongjun and Kim, Byung-Kook},
-    booktitle={2008 10th International Conference on Control, Automation, Robotics and Vision},
-    pages={1730--1735},
-    year={2008},
-    organization={IEEE}
-  }
-  @book{wahab2015energy,
-    title={Energy modeling of differential drive robots},
-    author={Wahab, Mudasser and Rios-Gutierrez, Fernando and El Shahat, Adel},
-    year={2015},
-    publisher={IEEE}
-  }
-  @online{px4,
-    author={PX4},
-    title={{PX4} open-source autopilot},
-    url={https://px4.io/},
-    urldate={2016-09-01}
-  }
-  @online{papa,
-    author={Paparazzi},
-    title={{UAV} open-source project},
-    url={http://wiki.paparazziuav.org/},
-    urldate={2016-09-01}
-  }
-  @online{nano,
-    author={NVIDIA},
-    title={{NVIDIA Jetson Nano} developer kit},
-    url={https://developer.nvidia.com/embedded/jetson-nano-developer-kit},
-    urldate={2020-02-02}
-  }
-  @online{opterra,
-    author={Horizon Hobby},
-    title={{Opterra} 2m Wing BNF Basic},
-    url={https://www.horizonhobby.com/opterra-2m-wing-bnf-basic-p-efl11150},
-    urldate={2020-02-02}
-  }
-  @online{meier2013mavlink,
-    title={Mavlink: Micro air vehicle communication protocol},
-    author={Meier, Lorenz and Camacho, J and Godbolt, B and Goppert, J and Heng, L and Lizarraga, M and others},
-    url={https://mavlink.io/},
-    urldate={2020-02-02}
-  }
-  @article{ullah2018pednet,
-    title={Pednet: A spatio-temporal deep convolutional neural network for pedestrian segmentation},
-    author={Ullah, Mohib and Mohammed, Ahmed and Alaya Cheikh, Faouzi},
-    journal={Journal of Imaging},
-    volume={4},
-    number={9},
-    pages={107},
-    year={2018},
-    publisher={Multidisciplinary Digital Publishing Institute}
-  }
-  @inproceedings{sandler2018mobilenetv2,
-    title={Mobilenetv2: Inverted residuals and linear bottlenecks},
-    author={Sandler, Mark and Howard, Andrew and Zhu, Menglong and Zhmoginov, Andrey and Chen, Liang-Chieh},
-    booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
-    pages={4510--4520},
-    year={2018}
-  }
-  @inproceedings{quigley2009ros,
-    title={ROS: an open-source Robot Operating System},
-    author={Quigley, Morgan and Conley, Ken and Gerkey, Brian and Faust, Josh and Foote, Tully and Leibs, Jeremy and Wheeler, Rob and Ng, Andrew Y},
-    booktitle={ICRA workshop on open source software},
-    volume={3},
-    number={3.2},
-    pages={5},
-    year={2009}
-  }
-  @book{stengel1994optimal,
-    title={Optimal control and estimation},
-    author={Stengel, Robert F},
-    year={1994},
-    publisher={Courier Corporation}
-  }
-  @book{simon2006optimal,
-    title={Optimal state estimation: Kalman, H infinity, and nonlinear approaches},
-    author={Simon, Dan},
-    year={2006},
-    publisher={John Wiley \& Sons}
-  }
-  @inproceedings{de2017guidance,
-    title={Guidance algorithm for smooth trajectory tracking of a fixed wing UAV flying in wind flows},
-    author={De Marina, Hector Garcia and Kapitanyuk, Yuri A and Bronz, Murat and Hattenberger, Gautier and Cao, Ming},
-    booktitle={2017 IEEE international conference on robotics and automation (ICRA)},
-    pages={5740--5745},
-    year={2017},
-    organization={IEEE}
-  }
-  @book{rawlings2017model,
-    title={Model predictive control: theory, computation, and design},
-    author={Rawlings, James Blake and Mayne, David Q and Diehl, Moritz},
-    volume={2},
-    year={2017},
-    publisher={Nob Hill Publishing Madison, WI}
-  }
-  @inproceedings{morbidi2016minimum,
-    title={Minimum-energy path generation for a quadrotor UAV},
-    author={Morbidi, Fabio and Cano, Roel and Lara, David},
-    booktitle={2016 IEEE International Conference on Robotics and Automation (ICRA)},
-    pages={1492--1498},
-    year={2016},
-    organization={IEEE}
-  }
-  @inproceedings{daponte2019review,
-    title={A review on the use of drones for precision agriculture},
-    author={Daponte, Pasquale and De Vito, Luca and Glielmo, Luigi and Iannelli, Luigi and Liuzza, Davide and Picariello, Francesco and Silano, Giuseppe},
-    booktitle={IOP Conference Series: Earth and Environmental Science},
-    volume={275},
-    number={1},
-    pages={012022},
-    year={2019},
-    organization={IOP Publishing}
-  }
-  @inproceedings{zamanakos2020energy,
-    title={Energy-Aware Design of Vision-Based Autonomous Tracking and Landing of a UAV}, 
-    author={Zamanakos, Georgios and Seewald, Adam and Midtiby, Henrik Skov and Schultz, Ulrik Pagh},
-    booktitle={2020 Fourth IEEE International Conference on Robotic Computing (IRC)},
-    pages={294--297},
-    year={2020},
-    organization={IEEE},
-    DOI={10.1109/IRC.2020.00054},
-    url={https://adamseewald.cc/short/energy2020}
-  }
-  @inproceedings{seewald2020beyond,
-    title={Beyond Traditional Energy Planning: the Weight of Computations in Planetary Exploration}, 
-    author={Seewald, Adam},
-    booktitle={IROS Workshop on Planetary Exploration Robots: Challenges and Opportunities (PLANROBO20)},
-    pages={3},
-    year={2020},
-    publisher={ETH Zurich, Department of Mechanical and Process Engineering},
-    DOI={10.3929/ethz-b-000450120},
-    url={https://adamseewald.cc/short/beyond2020}
-  }
-  @inproceedings{lindemann2005smoothly,
-    title={Smoothly blending vector fields for global robot navigation},
-    author={Lindemann, Stephen R and LaValle, Steven M},
-    booktitle={Proceedings of the 44th IEEE Conference on Decision and Control},
-    pages={3553--3559},
-    year={2005},
-    organization={IEEE}
-  }
-  @article{gonccalves2010vector,
-    title={Vector fields for robot navigation along time-varying curves in $n$-dimensions},
-    author={Gon{\c{c}}alves, Vin{\'\i}cius M and Pimenta, Luciano CA and Maia, Carlos A and Dutra, Bruno CO and Pereira, Guilherme AS},
-    journal={IEEE Transactions on Robotics},
-    volume={26},
-    number={4},
-    pages={647--659},
-    year={2010},
-    publisher={IEEE}
-  }
-  @inproceedings{panagou2014motion,
-    title={Motion planning and collision avoidance using navigation vector fields},
-    author={Panagou, Dimitra},
-    booktitle={2014 IEEE International Conference on Robotics and Automation (ICRA)},
-    pages={2513--2518},
-    year={2014},
-    organization={IEEE}
-  }
-  @inproceedings{zhou2014vector,
-    title={Vector field following for quadrotors using differential flatness},
-    author={Zhou, Dingjiang and Schwager, Mac},
-    booktitle={2014 IEEE International Conference on Robotics and Automation (ICRA)},
-    pages={6567--6572},
-    year={2014},
-    organization={IEEE}
-  }
-  @article{kapitanyuk2017guiding,
-    title={A guiding vector-field algorithm for path-following control of nonholonomic mobile robots},
-    author={Kapitanyuk, Yuri A and Proskurnikov, Anton V and Cao, Ming},
-    journal={IEEE Transactions on Control Systems Technology},
-    volume={26},
-    number={4},
-    pages={1372--1385},
-    year={2017},
-    publisher={IEEE}
-  }
-  @book{kuo1967automatic,
-    title={Automatic Control Systems},
-    author={Kuo, B.C.},
-    isbn={9780130549730},
-    lccn={67016388},
-    series={Electrical engineering series},
-    year={1967},
-    publisher={Prentice-Hall}
-  }
-  @article{moler2003nineteen,
-    title={Nineteen dubious ways to compute the exponential of a matrix, twenty-five years later},
-    author={Moler, Cleve and Van Loan, Charles},
-    journal={SIAM review},
-    volume={45},
-    number={1},
-    pages={3--49},
-    year={2003},
-    publisher={SIAM}
-  }
-  @book{ogata2002modern,
-    title={Modern Control Engineering},
-    author={Ogata, K.},
-    isbn={9780130432452},
-    lccn={2001021683},
-    year={2002},
-    publisher={Prentice Hall}
-  }
-  @article{rizvi2017general,
-    title={A general-purpose graphics processing unit (gpgpu)-accelerated robotic controller using a low power mobile platform},
-    author={Rizvi, Syed Tahir Hussain and Cabodi, Gianpiero and Patti, Denis and Gulzar, Muhammad Majid},
-    journal={Journal of Low Power Electronics and Applications},
-    volume={7},
-    number={2},
-    pages={10},
-    year={2017},
-    publisher={Multidisciplinary Digital Publishing Institute}
-  }
-  @article{abramov2012real,
-    title={Real-time segmentation of stereo videos on a portable system with a mobile gpu},
-    author={Abramov, Alexey and Pauwels, Karl and Papon, Jeremie and Worgotter, Florentin and Dellen, Babette},
-    journal={IEEE Transactions on Circuits and Systems for Video Technology},
-    volume={22},
-    number={9},
-    pages={1292--1305},
-    year={2012},
-    publisher={IEEE}
-  }
-  @inproceedings{jaramillo2019visual,
-    title={Visual saliency with foveated images for fast object detection and recognition in mobile robots using low-power embedded GPUs},
-    author={Jaramillo-Avila, Uziel and Aitken, Jonathan M and Anderson, Sean R},
-    booktitle={2019 19th International Conference on Advanced Robotics (ICAR)},
-    pages={773--778},
-    year={2019},
-    organization={IEEE}
-  }
-  @inproceedings{satria2016real,
-    title={Real-time system-level implementation of a telepresence robot using an embedded GPU platform},
-    author={Satria, Muhammad Teguh and Gurumani, Swathi and Zheng, Wang and Tee, Keng Peng and Koh, Augustine and Yu, Pan and Rupnow, Kyle and Chen, Deming},
-    booktitle={2016 Design, Automation \& Test in Europe Conference \& Exhibition (DATE)},
-    pages={1445--1448},
-    year={2016},
-    organization={IEEE}
-  }
 \end{filecontents}
-
-\title{\LARGE \bf
-Energy-Aware Dynamic Planning Algorithm for Autonomous UAVs
-}
-
-%% author names and affiliations
-\author{
-  Adam Seewald$^{1}$, Hector Garcia de Marina$^{2}$, and Ulrik Pagh Schultz$^{1}$
-  \thanks{This work is supported and partly funded by the European Union's Horizon2020 research and innovation program under grant agreement No. 779882 (TeamPlay).
-  }
-  \thanks{$^{1}$Adam Seewald, Ulrik Pagh Schultz are with the SDU UAS Center, M{\ae}rsk Mc-Kinney M{\o}ller Institute, University of Southern Denmark, Odense, Denmark. Email: {\tt\small ads@mmmi.sdu.dk}.}
-  \thanks{$^{2}$Hector Garcia de Marina is with the Faculty of Physics, Department of Computer Architecture and Automatic Control, Universidad Computense de Madrid, Spain.}
-}
 
 \definecolor{c00FFFF}{RGB}{0,255,255}
 
 \begin{document}
 
+\title{Energy-Aware Planning-Scheduling for\\Autonomous Aerial Robots}
+
+%% author names and affiliations
+\author{
+  Adam Seewald$^{\text{1}}$, Hector Garcia de Marina$^{\text{2}}$, Henrik Skov Midtiby$^{\text{1}}$, and Ulrik Pagh Schultz$^{\text{1}}$
+  %\thanks{This work is supported and partly funded by the European Union's Horizon2020 research and innovation program under grant agreement No. 779882 (TeamPlay).}
+  \thanks{Manuscript received: Month, Day, Year; Revised Month, Day, Year; Accepted Month, Day, Year.}%Use only for final RAL version
+  \thanks{This paper was recommended for publication by Editor Editor A. Name upon evaluation of the Associate Editor and Reviewers' comments.} %Use only for final RAL version
+  \thanks{$^{\text{1}}$A. S., H. S. M., and U. P. S. are with the Unmanned Aerial Systems Center, M{\ae}rsk Mc-Kinney M{\o}ller Institute, University of Southern Denmark, Odense. Email: {\tt\footnotesize ads@mmmi.sdu.dk};} 
+  \thanks{$^{\text{2}}$H. G. is with the Faculty of Physics, Department of Computer Architecture and Automatic Control, Universidad Computense de Madrid, Spain.}
+  \thanks{Digital Object Identifier (DOI): see top of this page.}
+}
+
+\markboth{IEEE Robotics and Automation Letters. Preprint Version. Accepted Month, Year}
+{Seewald \MakeLowercase{\textit{et al.}}: Planning-Scheduling for Aerial Robots} 
+% Use only for final RAL version
 
 %% make the title area
 \maketitle
 
-\thispagestyle{empty}
-\pagestyle{empty}
-
 \begin{abstract}
   The paper presents a planning algorithm for autonomous UAVs with energy constraints and solves the problem of dynamic planning of the path and computations simultaneously. The planning strategy is based on a periodic energy model that is empirically motivated and formally proved. The model is enhanced with the time and energy contribution of the path and computations. The algorithm replans both in function of the battery state accounting for uncertainty. The dynamic planning allows to exploit all the available resources, yet avoid possible in-flight failure in case of unexpected battery drops due to, e.g., adverse atmospheric conditions.
 \end{abstract}
+
+\begin{IEEEkeywords}
+  Aerial Systems: Perception and Autonomy, Optimization and Optimal Control, Planning, Scheduling and Coordination, Planning under Uncertainty
+\end{IEEEkeywords}
 
 % For peer review papers, you can put extra information on the cover
 % page as needed:
@@ -565,102 +164,235 @@ Energy-Aware Dynamic Planning Algorithm for Autonomous UAVs
 \section{Introduction}  %
 \label{sec:intro}       %
                         %
-Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agriculture, search and rescue, and surveillance, require high autonomy but have limited energy budgets. A typical example of these scenarios is a UAV following a path and performing some on-board computational tasks. For instance, the UAV might detect ground patterns and notify other ground-based actors with little human interaction. We refer to such computational tasks that can be dynamically replanned and adapted as \emph{computations}. We are interested in the energy optimization of the path and computations under uncertainty (atmospheric interferences) and refer to it as energy-aware dynamic planning. Such planning would find optimal tradeoffs between the path, computations, and energy requirements. Current generic planning solutions for outdoor UAVs do not plan the path and computations dynamically, nor are they energy-aware. They are often semi-autonomous: the path and computations are static and usually defined using planning software~\cite{daponte2019review} (for instance~\cite{papa} and~\cite{px4}). Such a state of practice has prompted us to propose an \emph{energy-aware dynamic planning algorithm} for UAVs. The algorithm combines and generalizes some of the past body of knowledge on mobile robot planning problems and addresses the increasing \emph{computational demands} and their relation to energy consumption, path, and autonomy for the UAV planning problem.
+\IEEEPARstart{U}{se cases} involving aerial robots span broadly. They compromise diverse planning and scheduling strategies and often require high autonomy under strict energy budgets. A typical instance is an aerial robot visiting each point in a given space~\cite{cabreira2019survey}, running some on-board computational tasks, a problem in the literature under coverage path planning (CPP)~\cite{choset2001coverage,galceran2013survey}. Here, the aerial robot might detect ground patterns and notify other ground-based actors with little human interaction (see Figure~\ref{fig:il-abs}). Such use cases arise in, e.g., precision agriculture~\cite{hajjaj2014review}, where harvesting involves ground~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, damage prevention aerial robots~\cite{puri2017agriculture, daponte2019review}. In these and many others, the robot frequently mounts microcontroller and heterogeneous computing hardware~\cite{mei2005case} (i.e., with CPUs and GPUs) running power-demanding computational tasks~\cite{william2019aerial, peng2019evaluating,wang2020yolo,alexey2021autonomous}. We refer to computational tasks that can be scheduled with an energy impact as computations. We are interested in the simultaneous energy optimization of motion plans and computations schedules in-flight and refer to it as energy-aware planning-scheduling. Generic mobile robotics studies that deal with planning-scheduling energy awareness are scarce~\cite{brateman2006energy,sudhakar2020balancing,lahijanian2018resource,ondruska2015scheduled} and focused on ground-based robots~\cite{mei2005case,sadrpour2013mission,lahijanian2018resource,ondruska2015scheduled,ho2019learning}. Yet, aerial robots are particularly affected by various energy considerations. Indeed it would be generally required to land to recharge the battery~\cite{zamanakos2020energy}. Such a state of practice has prompted us to propose a planning-scheduling approach for autonomous aerial robots. It combines the past body of knowledge, addressing aerial robots' peculiarities such as the atmospheric, battery, and turning radius constraints. Numerical simulations and experimental data of both static and dynamic plans-schedules show improved power savings and fault tolerance with the aerial robots remedying in-flight failures. Figure~\ref{fig:il-abs} illustrates the intuition: an aerial robot flies full plan-schedule~(\ref{sth:i}), that is optimized w.r.t. the battery~(\ref{sth:ii}), and altered due to, e.g., unexpected battery defect~(\ref{sth:iii}).
 
 \begin{figure}[t]
   \centering
+  \vspace*{-6.5ex}
   \begin{tikzpicture}
     \node[inner sep=0pt] () at (0,0)
-        {\footnotesize \input{\figpath/il_abs.tikz}};
-    \node[inner sep=0pt] () at (-1.9,-5.5)
-        {\footnotesize \input{\figpath/il_abs_energy1.tikz}};
-    \node[inner sep=0pt] () at (1.9,-5.5)
-        {\footnotesize \input{\figpath/il_abs_spectrum1.tikz}};
+        {\scriptsize \input{\figpath/new/il_abs.tikz}};
+    \node[inner sep=0pt] () at (-2,-5.67)
+        {\scriptsize \input{\figpath/il_abs_energy1.tikz}};
+    \node[inner sep=0pt] () at (2.1,-5.67)
+        {\scriptsize \input{\figpath/il_abs_spectrum1.tikz}};
   \end{tikzpicture}
-  \caption{Dynamic replanning of an agricultural scenario in terms of the path and computations simultaneously. An initial plan~(in~\ref{sth:i}) is adapted computation-wise~(in~\ref{sth:ii}) and path-wise~(in~\ref{sth:iii}). In the bottom left, the collected energy data of a physical UAV (Opterra fixed-wing drone) flying the scenario is shown along its power spectrum.}
+  \caption{An illustrative example of planning-scheduling. An initial plan~(in~\ref{sth:i}) is re-planned in-flight computations-wise~(in~\ref{sth:ii}) and motion-wise~(in~\ref{sth:iii}). Follow the collected energy data of a physical aerial robot flying the use case.}
   \label{fig:il-abs}
+  \vspace*{-4.5ex}
 \end{figure}
 
-Planning algorithms literature for mobile robots includes topics such as trajectory generation and path planning. Generally, the algorithms select an energy-optimized trajectory~\cite{mei2004energy}, e.g., by maximizing the operational time~\cite{wahab2015energy}. However, they apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence for the energy consumption also being significantly influenced by computations~\cite{mei2005case}. Given the availability of powerful GPU-equipped mobile hardware~\cite{rizvi2017general}, the use of computations is expected to increase in the near future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. More complex planning, which includes a broader concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. For UAVs specifically, rotorcrafts have also gained interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. 
+There are numerous planning algorithms applied to a variety of robots. An instance is an algorithm selecting an energy-optimized trajectory~\cite{mei2004energy} by, e.g., maximizing the operational time~\cite{wahab2015energy}. Many apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite evidence of the energy influence of consumptions~\cite{mei2005case,ondruska2015scheduled,sudhakar2020balancing,brateman2006energy}. In view of the availability of powerful heterogeneous computing hardware~\cite{rizvi2017general}, the use of computations is further expected to increase in the foreseeable future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. In this context, planning-scheduling energy awareness is a recent research direction. Early studies (2000--2010) varied hardware-dependent aspects, e.g., frequency, voltage, along with motion aspects, e.g., motor and travel velocities~\cite{mei2005case,brateman2006energy,zhang2007low,sadrpour2013mission} whereas the literature from the past decade derives energy-aware plans-schedules in broader terms. These include simultaneous considerations for planning-scheduling in perception~\cite{ondruska2015scheduled}, localization~\cite{lahijanian2018resource}, navigation~\cite{ho2019learning,ho2019qos,ho2018towards}, and anytime planning~\cite{sudhakar2020balancing}. We extend the relevant literature to the case of CPP with aerial robots. 
+ 
+Our focus is on fixed wings, i.e., airborne robots where wings provide lift, propellers forward thrust, and control surfaces maneuvering. Here, motion and computations energies are within an order of magnitude from each other~\cite{seewald2020mechanical}. Indeed there are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations and vice-versa. The occurrence happens frequently with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.) and lighter-than-air aerial robots (e.g., blimps). It is a common theme with wider planning-scheduling literature, focusing on energy-efficient ground-based robots such as Pioneer~3DX~\cite{ho2018towards,ho2019learning,ho2019qos,mei2005case}, ARC~Q14~\cite{ondruska2015scheduled,lahijanian2018resource}, and Pack-Bot~UGV~\cite{sadrpour2013mission}.
 
-Unlike most of the past planning algorithms literature, our algorithm plans the path and computations simultaneously. To model the path we use multiple mathematical functions. In Figure~\ref{fig:il-abs}, the path contains multiple circles and lines. To model the computations we use \powprof{}, a profiling tool presented in previous work~\cite{seewald2019coarse}. To guide the UAV we use a vector field~\cite{de2017guidance} that converges to the path. The use of vector fields for guidance is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. 
+To guarantee energy awareness, our approach uses optimal control where both the paths and schedules variations are trajectories, varying between given bounds (e.g., physical constraints of the robot and computing hardware, the desired quality of the coverage, etc). Numerous past planning-scheduling studies also employ optimization techniques~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}, whereas some others greedy~\cite{mei2005case,sudhakar2020balancing,sadrpour2013mission} and reinforcement learning-based approaches~\cite{ho2019qos,ho2018towards,ho2019learning}. Both the variations trajectories are derived for future time instants employing computations and motion energies and battery models. The energy model for the computations uses regressional analysis from our earlier study on heterogeneous computing hardware energy modeling~\cite{seewald2019coarse,seewald2019component}, whereas the battery an equivalent circuit model (ECM) from the literature~\cite{he2011evaluation,hinz2019comparison,mousavi2014various}. The motion wraps the past two in a cohesive model that uses differential and periodic modeling to predict future energy behavior of various plans-schedules. In Figure~\ref{fig:il-abs}, collected energy data (bottom left) and spectrum analysis (right) of a fixed-wing aerial robot flying CPP motivates the motion energy model: the evolution is periodic, an observation we exploit in the energy models for the computations, motion, and battery models in Section~\ref{sec:energy-model}.
 
-To achieve the energy-aware dynamic planning, we further introduce and formally prove a periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\cite{seewald2020mechanical}. Indeed, UAV scenarios often iterate over a set of tasks and paths (e.g., monitoring or search and rescue). Given that the plan is periodic, we expect the energy consumption to approximately evolve periodically. In Figure~\ref{fig:il-abs}, some collected energy data from a UAV flying a survey scenario along its power spectrum motivates our choice.
-
-In the spirit of reducing costs and resources, we showcase the algorithm using dynamic planning for a precision agriculture fixed-wing UAV. Precision agriculture is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The plan is structured as follows. Path-wise, the UAV flies in circles and lines covering a polygon. Computation-wise, it detects hazards using a neural network and notifies grounded mobile robots employed for, e.g., harvesting. The algorithm alters the plan; it controls the processing rate and the radius of the circles (affecting the distance between the lines). Figure~\ref{fig:il-abs} shows such plan. 
-%We observe that not only the path but also the computations significantly impact the energy, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations in presence of a standard battery (see Section~\ref{sec:experimental}).
-
-The remainder of the paper is organized as follows. The overview of dynamic planning, some preliminaries, and problem definition are provided in Section~\ref{sec:prob}. We show a suitable model for the energy in Section~\ref{sec:energy-model}, and propose the algorithm in Section~\ref{sec:algo}. In Section~\ref{sec:experimental}, we present the results and showcases the performances. We then derive some conclusions in Section~\ref{sec:conclusion}. Finally, we provide some additional information in Appendix.
+The remaining sections of the letter are then organized as follows. Section~\ref{sec:prob} provides basic constructs. These include the concepts of %computations and motion energies, 
+plan, stages, triggering and final points, and path functions, as well as the problem formulation. Section~\ref{sec:algo} describes in detail the planning-scheduling. Section~\ref{sec:experimental} presents the results and showcases the performances, and Section~\ref{sec:conclusion} concludes and provides future perspectives. Appendices provide supplementary information.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Planning Overview}  %
-\label{sec:prob}             %
-                             %
-The algorithm inputs a user-specified initial plan that consist of different stages. At each stage the plan contains some parameters that allow to alter the path and computations along an energy budget. The alterations are bounded. There is one path constraint set which bounds the path and multiple computation constraint sets, one per each computation parameter, that bound computations. In Figure~\ref{fig:il-abs}, there are two parameters. One relative to the path (\ref{sth:ii}~has a shorter distance between the lines than~\ref{sth:iii}), and the other one to the computations (\ref{sth:i}~processes more images per second than~\ref{sth:ii}). 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Problem Formulation}  %
+\label{sec:prob}               %
+                               %
+\begin{figure}[t]
+  \footnotesize
+  \begin{minipage}[l]{0.35\columnwidth}
+    \caption{Definitions \ref{def:plan}--\ref{def:trigs} on a slice of the plan $\Gamma$. $\mathbf{p}_{\Gamma_1},\dots$ are triggering points, in which proximity happens change of stages $\Gamma_1,\dots$. Each contains a path function $\varphi_1,\dots$ and parameters to alter the path and schedule $c_{1,1},\dots$.}
+    \label{fig:traj1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.6\columnwidth}
+    \centering
+    \vspace*{-4.5ex}
+    \input{\figpath/new/traj1.tikz}
+  \end{minipage}
+  \vspace*{-3.5ex}
+\end{figure}
 
-The algorithm outputs the control (the parameters) using model predictive control (MPC)~\cite{rawlings2017model} where it checks the satisfaction of the battery constraints. The control is data-driven. Energy sensor data estimates some coefficients of an energy model used to predict future energy consumption in presence of uncertainty. The energy budget is the battery capacity and other battery parameters. These are fixed values that are not replanned by the algorithm. Our goal is to complete the plan with the highest possible parameters configuration as the UAV flies and its batteries drain. 
+Before defining the problem of energy-aware planning-scheduling in Section~\ref{sec:pbfor}, Section~\ref{sec:prelim} provides necessary preliminaries. For CPP and, e.g., pattern detections in the agricultural use case, we assume that aerial robot travels a \emph{plan} with information about the path and the schedule.
 
-\subsection{Plan definition}
+
+%---
+
+
+\subsection{Preliminaries}
 \label{sec:prelim}
 
-Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. Bold lower-case letters indicates vectors. $c_{i,j}$ the $j$-th parameter of the $i$-th parameters set $c_i$. $\underline{c}_{i,j},\overline{c}_{i,j}$ are the lower and upper bounds of the parameter $c_{i,j}$.
-
-Let us assume that the path at stage $i$ can be altered with $\rho$ path parameters $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$, and the computations with $\sigma$ computation parameters $c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}$. We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computation parameters. We discuss the concrete meaning of the value of path parameters in Subsection~\ref{sec:model}, and computation parameters in Subsection~\ref{sec:computations-model}.
-
-\begin{defn}[Stage, plan, triggering, and final point]\label{def:mission}
-  The $i$-th \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined
-  \begin{equation*}\begin{split}
-    \Gamma_i:=\{\varphi_i(\mathbf{p}_k,c_i^\rho),c_i^\sigma\mid
-    \,&\exists\,\,\mathbf{p}_k,\,\varphi_i(\mathbf{p}_k,c_i^\rho)\in\mathcal{C}_i,\,\\
-      &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathcal{S}_{i,j}\,\},
-  \end{split}\end{equation*}
-  where $\mathcal{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the path constraint set, and $\mathcal{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation constraint set. $\mathbf{p}_k$ is a point of a UAV flying at an altitude $h\in\mathbb{R}_{>0}$
-  %\footnote{The altitude might change at different flying phases and under different atmospheric conditions}
-  w.r.t. some inertial navigation frame $\mathcal{O}_W$. In Figure~\ref{fig:traj1}, $\varphi_1,\dots,\varphi_6$ are paths. $\varphi_1$ and $\varphi_5$ are circles, while $\varphi_2$, $\varphi_4$, and $\varphi_6$ are lines. They are all relative to different stages $\Gamma_1,\Gamma_2,\dots$. The constraints set $\mathcal{C}_1,\mathcal{C}_2,\dots$ forms the area where the paths $\varphi_1,\varphi_2,\dots$ can be altered with the parameters $c_{i,1},\dots,c_{i,\rho}$ (gray area in the figure). This area is bounded by $\underline{c}_i,\overline{c}_i$, and can be different per each stage (in Figure~\ref{fig:traj1}, the area relative to $\Gamma_4$ is bounded by $\underline{c}_4,\overline{c}_4$).
-
-  \begin{figure}[t]
-    \centering
-    \footnotesize
-    \input{\figpath/traj1.tikz}
-    \caption{Definition notation shown on an initial slice of the plan in Figure~\ref{fig:il-abs}.}
-    \label{fig:traj1}
-  \end{figure}
-
-  The \emph{plan} is a finite state machine (FSM) $\Gamma$ where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
-  \begin{equation*}s(\Gamma_i,\mathbf{p}_k):=\begin{cases}
-    \Gamma_{i+1} & \text{if }\mathbf{p}_k=\mathbf{p}_{\Gamma_i}\\
+\begin{defn}[Plan]\label{def:plan}
+  Given a generic point $\mathbf{p}(t)\in\mathbb{R}^2$ w.r.t. a reference frame $\mathcal{O}_W$ of the aerial robot flying at a given altitude $h\in\mathbb{R}_{>0}$, the \emph{plan} is a finite state machine (FSM) $\Gamma$, where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
+  \begin{equation*}s(\Gamma_i,\mathbf{p}(t)):=\begin{cases}
+    \Gamma_{i+j} & \exists j\in\mathbb{Z},\text{ if }\norm{\mathbf{p}(t)-\mathbf{p}_{\Gamma_i}}<\varepsilon_i\\
     \Gamma_i & \text{otherwise}
   \end{cases}.\end{equation*}
-  The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}. In Figure~\ref{fig:traj1}, $\mathbf{p}_{\Gamma_1}$ allows the transition between $\Gamma_1$ and $\Gamma_2$, $\mathbf{p}_{\Gamma_4}$ between $\Gamma_4$ and $\Gamma_5$, and $\mathbf{p}_{\Gamma_5}$ between $\Gamma_5$ and $\Gamma_6$. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called \emph{final point}.
 \end{defn}
 
-\begin{figure}[h]
+Here, $\Gamma_i$ are \emph{stages}, and $\mathbb{Z}$ indicates the set of integers. At each stage, the aerial robot travels a path and runs a schedule on the computing hardware. Both are to be altered in Section~\ref{sec:algo} within given boundaries with \emph{path}- and \emph{computations}-specific \emph{parameters}. $\varepsilon_i$ is a stage-dependent value detailed %along with $\mathbf{p}_{\Gamma_i}$ in and 
+after Definition~\ref{def:trigs}.
+
+\begin{defn}[Stage]\label{def:stage}
+  The $i$th \emph{stage} $\Gamma_i$ at time instant $t$ of a plan $\Gamma$ is
+  \begin{equation*}\begin{split}
+    \Gamma_i:=\{\varphi_i(\mathbf{p}(t),c_i^\rho),c_i^\sigma\mid
+    \,&\forall j\in\,[\rho]_{>0},\,c_{i,j}\,\,\,\,\,\,\,\in\mathcal{C}_{i,j},\,\\
+      &\forall k\in[\sigma]_{>0},\,c_{i,\rho+k}\in\mathcal{S}_{i,k}\,\},
+  \end{split}\end{equation*}
+  where $c_i^\rho$ and $c_i^\sigma$ are $\rho$ \emph{path} and $\sigma$ \emph{computations parameters}. $\mathcal{C}_{i,j}:=[\underline{c}_{i,j},\overline{c}_{i,j}]\subseteq\mathbb{R}$ is the $j$th path parameter constraint set, and $\mathcal{S}_{i,k}:=[\underline{c}_{i,\rho+k},\overline{c}_{i,\rho+k}]\subseteq\mathbb{Z}_{\geq 0}$ is the $k$th computation parameter constraint set.
+\end{defn}
+
+The notation $[\,\cdot\,]$ indicates positive naturals up to $\cdot$\,, i.e., $\{0,1,\dots,\,\cdot\,\}$.
+For a set $\mathbb{X}$, $\mathbb{X}_{\geq 0}$ then indicates it is positive, $\mathbb{X}_{> 0}$ strictly positive.
+
+The function $\varphi_i$ is the \emph{path function}, specifying the path. These are stage-dependent mathematical functions the aerial robot tracks as it travels the motion for the coverage. The notation $[\underline{\,\cdot\,},\overline{\,\cdot\,}]$ indicates the upper/lower bound of a parameter $\cdot\,$, i.e.,
+\begin{equation}
+  \underline{\,\cdot\,}\leq\,\cdot\,\leq\overline{\,\cdot\,}.
+\end{equation}
+
+\begin{defn}[Path functions]
+  \label{def:paths}
+  $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}%\,\forall i\in\{1,2,\dots\}
+  $ are \emph{path functions}, forming the path. They are a function of $\mathbf{p}(t)$ and path parameters $c_i^\rho(t)$ and are continuous and twice differentiable.
+\end{defn}
+
+The change of stages happens in the proximity of given points termed \emph{triggering points}, whereas the plan is complete at the occurrence of the \emph{final point}.
+
+\begin{defn}[Triggering and final points]
+  \label{def:trigs}
+  The \emph{triggering point} $\mathbf{p}_{\Gamma_{i}}$ allows the transition between stages. The \emph{final point} is the last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$.
+\end{defn}
+
+The stage-dependent value $\varepsilon_i\in\mathbb{R}_{\geq 0}$ in Definition~\ref{def:plan} expresses the radius of an imaginary circle over $\mathbf{p}_{\Gamma_i}$.
+
+Figure \ref{fig:traj1} illustrates the concepts in Definitions~\ref{def:plan}--\ref{def:trigs}. $\varphi_1,\dots,\varphi_6$ are path functions. $\varphi_1$ and $\varphi_5$ are circles, while $\varphi_2$, $\varphi_4$, and $\varphi_6$ are lines. They are all relative to different stages $\Gamma_1,\Gamma_2,\dots$. The constraint sets $\mathcal{C}_{1,1},\mathcal{C}_{2,1},\dots$ forms the area where it is possible to alter the paths $\varphi_1,\varphi_2,\dots$ with the parameters $c_{1,1},c_{2,1},\dots$; the gray area in the figure. The area relative to $\Gamma_5$ is bounded by $\underline{c}_{5,1}\overline{c}_{5,1}$.
+
+A convenient way of defining $\Gamma$ is specifying a set of stages, a shift, and a final point. The set is termed \emph{primitive stages} and iterated with the shift up to reaching the final point.
+
+\begin{defn}[Primitive stages]
+  \label{def:primitive}
+  Given the number of \emph{primitive stages} $n\in\mathbb{Z}_{>0}$, a \emph{shift} $\mathbf{d}\in\mathbb{R}^2$, and a final point $\mathbf{p}_{\Gamma_l}$, the stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ %with the path functions $\varphi_1,\dots\varphi_n$ and the parameters $c_1,c_2,\dots,c_n$ 
+  are primitive if they form the remainder of the plan with $\mathbf{d}$ up to $\mathbf{p}_{\Gamma_l}$. 
+\end{defn}
+
+Here, $c_i$ indicates a row vector that contains both the path and computations parameters in sequence, i.e., $c_i:=[\begin{matrix}\,c_i^\rho & c_i^\sigma\,\end{matrix}]'$, where $\,\cdot\,'$ is the transpose of $\cdot\,$. The path parameters in the definition have a constant distance per each value in $[n]_{>0}$, i.e., 
+\begin{equation}\label{eq:primitive}\begin{split}
+  &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
+\end{split}\end{equation}
+holds $\forall i\in[l/n-1]_{>0},j\in[n]_{>0}$ assuming the total number of stages is known and is $l\in\mathbb{Z}_{>0}$. $e_j\in\mathbb{R}$ given a shift $\mathbf{d}$, initial point $\mathbf{p}$, and initial value of path parameters $c_1^\rho$.
+
+\begin{figure}[h!]
   \center
-  \begin{tikzpicture}[shorten >=.5pt,node distance=10.5ex,on grid,auto]
+  \vspace*{-2.2ex}
+  \begin{tikzpicture}[shorten >=.5pt,node distance=12.5ex,on grid,auto,initial text=\hspace*{-3ex}\footnotesize{$\Gamma_0$}]
     \footnotesize
     \node[state,initial] (q_i) {$\Gamma_1$}; 
-    \node        [right=of q_i] (q_dots0) {$\cdots$};
-    \node[state] (q_0) [right=of q_dots0] {$\Gamma_i$};
-    \node        (q_dots1) [right=of q_0] {$\cdots$};
-    \node[state,accepting] (q_f) [right=of q_dots1] {$\Gamma_f$};
+    \node[state] (q_2) [right=of q_i] {$\Gamma_2$}; 
+    \node        [right=of q_2] (q_dots0) {$\cdots$};
+    \node[state] (q_0) [right=of q_dots0] {$\Gamma_n$};
+    \node[state,accepting] (q_f) [right=of q_0] {$\Gamma_f$};
     \path[->]
-    (q_i) edge node {$\mathbf{p}_{\Gamma_{1}}$} (q_dots0)
-    (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}$} (q_0)
-    (q_0) edge node {$\mathbf{p}_{\Gamma_i}$} (q_dots1)
-    (q_dots1) edge node {$\mathbf{p}_{\Gamma_{l}}$} (q_f)    
-    (q_i) edge [loop above] node {$\mathbf{p}_{k_1}$} (q_i)
-    (q_0) edge [loop above] node {$\mathbf{p}_{k_2}$} (q_0)
-    (q_f) edge [loop above] node {$\mathbf{p}_{k_3}$} (q_f)
+    (q_i) edge node {$\mathbf{p}_{\Gamma_{1}}$} (q_2)
+    (q_2) edge node {$\mathbf{p}_{\Gamma_{2}}$} (q_dots0)
+    (q_dots0) edge node{$\mathbf{p}_{\Gamma_{n-1}}$} (q_0)
+    (q_0) edge [bend right=65] node [above] {$\mathbf{p}_{\Gamma_n}$} (q_i)
+    (q_i) edge [bend left=-65] node [above] {$\mathbf{p}_{\Gamma_l}$} (q_f)
+    (q_2) edge [bend left=-45] node [above] {$\mathbf{p}_{\Gamma_l}$} (q_f)
+    (q_0) edge node {$\mathbf{p}_{\Gamma_{l}}$} (q_f)    
+    (q_i) edge [loop above] node {$\mathbf{p}(t_1)$} (q_i)
+    (q_2) edge [loop above] node {$\mathbf{p}(t_2)$} (q_2)
+    (q_0) edge [loop above] node {$\mathbf{p}(t_3)$} (q_0)
+    (q_f) edge [loop above] node {$\mathbf{p}(t_4)$} (q_f)
     ; %end path 
-    \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=10pt},yshift=0pt]
-    (q_i.south west) -- (q_f.south west) node [black,midway,yshift=-9ex]{$\Gamma$};
+    %\draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=47pt},yshift=0pt]
+    %(q_i.south west) -- (q_f.south west) node [black,midway,yshift=-19ex]{$\Gamma$};
   \end{tikzpicture}
-  \caption{The plan defined as a FSM}
-  \label{fig:state-machine}
+  \vspace*{-2.3ex}
+  \caption[Definition of a plan with a loop]{Definition of a plan $\Gamma$ with periodic patterns. Stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ are iterated with a shift $\mathbf{d}$.}
+  \vspace*{-1ex}
+  \label{fig:state-machine-loop}
 \end{figure}
 
-A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_2}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. The stage $\Gamma_f$ is the accepting stage (it indicates that the UAV has completed the plan).
+Figure \ref{fig:state-machine-loop} illustrates  the concepts in Definition~\ref{def:primitive}. A plan composed of $n$ stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ (containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$) is reiterated with the shift $\mathbf{d}$. $t_1<\dots<t_4$ are time instant $\in\mathbb{R}_{\geq 0}$. $\Gamma_f$ is the accepting stage, indicating the plan is completed, $\Gamma_0$ the initial stage where the aerial robot, e.g., awaits the starting command.
+
+
+\subsection{Problem formulation}
+\label{sec:pbfor}
+
+The problem of planning-scheduling is composed of two sub-problems. One is to form a static plan that visits each point in space, the other to re-plan and re-schedule the plan in-flight in an energy-aware way.
+
+\begin{pb}[Coverage problem]
+  \label{pb:cov-pb}
+  Consider a finite set of vertices of a polygon $v:=\{v_1,v_2,\dots\}$ where each vertex $v_i:=(x_{v_i},y_{v_i}),\forall i\in[|v|]_{>0}$
+  %,\,o_{j,k}:=(x_{o_{j,k}},y_{o_{j,k}}),\,\forall j\in|o|,k\in|o_j|$ 
+  is a point w.r.t. $\mathcal{O}_W$. Let $\underline{r}\in\mathbb{R}_{\geq 0}$, the minimum turning radius, and $\mathbf{p}(t_0)$, the starting point at the time instant $t_0$, be given. The \emph{coverage problem} is the problem of finding a plan $\Gamma$ that covers the polygon.
+\end{pb}    
+
+For a set $\mathbb{X}$, the notation $|\mathbb{X}|$ indicates the cardinality of $\mathbb{X}$%, i.e, $|\mathbb{X}|:=\sum_{x\in\mathbb{X}}1$
+.
+
+\begin{pb}[Planning problem]
+  \label{pb}
+  Consider an initial plan $\Gamma$ in Definition~\ref{def:plan}. The \emph{planning problem} is the problem of finding the optimal configuration of path and computations parameters $c_i(t),\,\forall i\in\{1,2,\dots\}$ under energy constraints and uncertainty at each time step $t$.
+\end{pb}
+
+
+%The algorithm inputs a user-specified initial plan that consist of different stages. At each stage the plan contains some parameters that allow to alter the path and computations along an energy budget. The alterations are bounded. There is one path constraint set which bounds the path and multiple computation constraint sets, one per each computation parameter, that bound computations. In Figure~\ref{fig:il-abs}, there are two parameters. One relative to the path (\ref{sth:ii}~has a shorter distance between the lines than~\ref{sth:iii}), and the other one to the computations (\ref{sth:i}~processes more images per second than~\ref{sth:ii}). 
+
+%The algorithm outputs the control (the parameters) using model predictive control (MPC)~\cite{rawlings2017model} where it checks the satisfaction of the battery constraints. The control is data-driven. Energy sensor data estimates some coefficients of an energy model used to predict future energy consumption in presence of uncertainty. The energy budget is the battery capacity and other battery parameters. These are fixed values that are not replanned by the algorithm. Our goal is to complete the plan with the highest possible parameters configuration as the UAV flies and its batteries drain. 
+
+%\subsection{Plan definition}
+%\label{sec:prelim}
+
+%Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. Bold lower-case letters indicates vectors. $c_{i,j}$ the $j$-th parameter of the $i$-th parameters set $c_i$. $\underline{c}_{i,j},\overline{c}_{i,j}$ are the lower and upper bounds of the parameter $c_{i,j}$.
+
+%Let us assume that the path at stage $i$ can be altered with $\rho$ path parameters $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$, and the computations with $\sigma$ computation parameters $c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}$. We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computation parameters. We discuss the concrete meaning of the value of path parameters in Subsection~\ref{sec:model}, and computation parameters in Subsection~\ref{sec:computations-model}.
+
+%\begin{defn}[Stage, plan, triggering, and final point]\label{def:mission}
+%  The $i$-th \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined
+%  \begin{equation*}\begin{split}
+%    \Gamma_i:=\{\varphi_i(\mathbf{p}_k,c_i^\rho),c_i^\sigma\mid
+%    \,&\exists\,\,\mathbf{p}_k,\,\varphi_i(\mathbf{p}_k,c_i^\rho)\in\mathcal{C}_i,\,\\
+%      &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathcal{S}_{i,j}\,\},
+%\end{split}\end{equation*}
+%where $\mathcal{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the path constraint set, and $\mathcal{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation constraint set. $\mathbf{p}_k$ is a point of a UAV flying at an altitude $h\in\mathbb{R}_{>0}$
+%\footnote{The altitude might change at different flying phases and under different atmospheric conditions}
+%w.r.t. some inertial navigation frame $\mathcal{O}_W$.   
+  
+%In Figure~\ref{fig:traj1}, $\varphi_1,\dots,\varphi_6$ are paths. $\varphi_1$ and $\varphi_5$ are circles, while $\varphi_2$, $\varphi_4$, and $\varphi_6$ are lines. They are all relative to different stages $\Gamma_1,\Gamma_2,\dots$. The constraints set $\mathcal{C}_1,\mathcal{C}_2,\dots$ forms the area where the paths $\varphi_1,\varphi_2,\dots$ can be altered with the parameters $c_{i,1},\dots,c_{i,\rho}$ (gray area in the figure). This area is bounded by $\underline{c}_i,\overline{c}_i$, and can be different per each stage (in Figure~\ref{fig:traj1}, the area relative to $\Gamma_4$ is bounded by $\underline{c}_4,\overline{c}_4$).
+
+%The \emph{plan} is a finite state machine (FSM) $\Gamma$ where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
+%\begin{equation*}s(\Gamma_i,\mathbf{p}_k):=\begin{cases}
+%  \Gamma_{i+1} & \text{if }\mathbf{p}_k=\mathbf{p}_{\Gamma_i}\\
+%  \Gamma_i & \text{otherwise}
+%\end{cases}.\end{equation*}
+%The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}. In Figure~\ref{fig:traj1}, $\mathbf{p}_{\Gamma_1}$ allows the transition between $\Gamma_1$ and $\Gamma_2$, $\mathbf{p}_{\Gamma_4}$ between $\Gamma_4$ and $\Gamma_5$, and $\mathbf{p}_{\Gamma_5}$ between $\Gamma_5$ and $\Gamma_6$. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called \emph{final point}.
+%\end{defn}
+
+%\begin{figure}[h]
+%  \center
+%  \begin{tikzpicture}[shorten >=.5pt,node distance=10.5ex,on grid,auto]
+%    \footnotesize
+%    \node[state,initial] (q_i) {$\Gamma_1$}; 
+%    \node        [right=of q_i] (q_dots0) {$\cdots$};
+%    \node[state] (q_0) [right=of q_dots0] {$\Gamma_i$};
+%    \node        (q_dots1) [right=of q_0] {$\cdots$};
+%    \node[state,accepting] (q_f) [right=of q_dots1] {$\Gamma_f$};
+%    \path[->]
+%    (q_i) edge node {$\mathbf{p}_{\Gamma_{1}}$} (q_dots0)
+%    (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}$} (q_0)
+%    (q_0) edge node {$\mathbf{p}_{\Gamma_i}$} (q_dots1)
+%    (q_dots1) edge node {$\mathbf{p}_{\Gamma_{l}}$} (q_f)    
+%    (q_i) edge [loop above] node {$\mathbf{p}_{k_1}$} (q_i)
+%    (q_0) edge [loop above] node {$\mathbf{p}_{k_2}$} (q_0)
+%    (q_f) edge [loop above] node {$\mathbf{p}_{k_3}$} (q_f)
+%    ; %end path 
+%    \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=10pt},yshift=0pt]
+%    (q_i.south west) -- (q_f.south west) node [black,midway,yshift=-9ex]{$\Gamma$};
+%  \end{tikzpicture}
+%  \caption{The plan defined as a FSM}
+%  \label{fig:state-machine}
+%\end{figure}
+
+%A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_2}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. The stage $\Gamma_f$ is the accepting stage (it indicates that the UAV has completed the plan).
 
 %\begin{figure}[h]
 %  \center
@@ -684,312 +416,639 @@ A slice of the plan in Figure~\ref{fig:state-machine} shows the transition betwe
 
 %We store the initial plan in the plan specification, the format is described in Appendix~\ref{app:plan-spec}. 
 
-\subsection{Problem formulation}
+%\subsection{Problem formulation}
 
-In order to simplify the problem formulation, we consider some primitive paths. All the other paths are built from these paths with a shift $\mathbf{d}:=(x_d,y_d)$.
+%In order to simplify the problem formulation, we consider some primitive paths. All the other paths are built from these paths with a shift $\mathbf{d}:=(x_d,y_d)$.
 
-Given $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) primitive paths $\varphi_1,\dots\varphi_n$, a generic starting point $\mathbf{p}$ and the current levels of the path parameters $c_1^\rho$, all the other paths $\varphi_{n+1},\dots,\varphi_l$ are built
-\begin{equation}\label{eq:primitive}\begin{split}
-  &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\\ &\,\,\,\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
-\end{split}\end{equation}
-$\forall i\in[l/n-1]^+,j\in[n]^+$, where $e_j\in\mathbb{R}$ is the $j$-th constant difference.
+%Given $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) primitive paths $\varphi_1,\dots\varphi_n$, a generic starting point $\mathbf{p}$ and the current levels of the path parameters $c_1^\rho$, all the other paths $\varphi_{n+1},\dots,\varphi_l$ are built
+%\begin{equation}\label{eq:primitive}\begin{split}
+%  &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\\ &\,\,\,\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
+%\end{split}\end{equation}
+%$\forall i\in[l/n-1]^+,j\in[n]^+$, where $e_j\in\mathbb{R}$ is the $j$-th constant difference.
 
-\begin{defn}[Period]\label{def:period}
-  The period $T\in\mathbb{R}_{> 0}$ is the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in Equation~(\ref{eq:primitive}).
-\end{defn} 
+%\begin{defn}[Period]\label{def:period}
+%  The period $T\in\mathbb{R}_{> 0}$ is the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in Equation~(\ref{eq:primitive}).
+%\end{defn} 
 
-The algorithm measures the time between the paths and assumes the initial period is one. The periods might be different for different $j$s due to atmospheric interferences.
+%The algorithm measures the time between the paths and assumes the initial period is one. The periods might be different for different $j$s due to atmospheric interferences.
 
-One can define the plan using primitive paths or define all the stages explicitly and find $n$ searching the value which satisfies the Equation~(\ref{eq:primitive}). If there is no such value, (e.g., when the plan is composed of only one stage), the period $T$ from Definition~\ref{def:period} can be determined empirically from energy data (such as these shown in Figure~\ref{fig:il-abs}).
+%One can define the plan using primitive paths or define all the stages explicitly and find $n$ searching the value which satisfies the Equation~(\ref{eq:primitive}). If there is no such value, (e.g., when the plan is composed of only one stage), the period $T$ from Definition~\ref{def:period} can be determined empirically from energy data (such as these shown in Figure~\ref{fig:il-abs}).
 
-\begin{pb}[UAV planning problem]\label{pb}
-  Consider an initial plan $\Gamma$ from Definition~\ref{def:mission}. We are interested in the planning of the parameters $c_i,\,\forall i\in[l]^+$ and energy constraints and in the guidance of the UAV to the path resulting from such plan.
-\end{pb}
+%\begin{pb}[UAV planning problem]\label{pb}
+%  Consider an initial plan $\Gamma$ from Definition~\ref{def:mission}. We are interested in the planning of the parameters $c_i,\,\forall i\in[l]^+$ and energy constraints and in the guidance of the UAV to the path resulting from such plan.
+%\end{pb}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                                  %
-\section{Periodic Energy Model}  %
+\section{Energy Models}  %
 \label{sec:energy-model}         %
                                  %
-We refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series) and estimated using a state estimator. %(Kalman filter); well, potentially here with simulated data one could use other estimators (least square filter would work I bet) 
+The solution to Problem~\ref{pb} requires accurate energy models, predicting the impact of given path and computations parameters on the battery at future time instants. To this end, Sections~\ref{sec:mod-mot}--\ref{sec:mod-bat} provide models for the motion and computations energies and battery.
 
-We prove a relation between the energy signal and the energy coefficients in Lemma~\ref{lem:eqv}. We show after the main results how this approach allows us variability in terms of non-periodic signals.
+\subsection{Energy model for the motion}
+\label{sec:mod-mot}
 
-After having illustrated the energy model, we enhance it with the energy contribution of the path in Subsection~\ref{sec:model}, and of the computations in Subsection~\ref{sec:computations-model}. 
+Let us return to the collected energy data and spectrum analysis in Figure~\ref{fig:il-abs}, illustrating the energy of a coverage plan $\Gamma$ with four primitive path functions iterated with a shift. Energy data exhibit periodic behavior, an observation further backed by the power spectrum analysis. It indicates that to model the energy, three frequencies are adequate.
 
-Let us consider a periodic energy signal of period $T$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the energy signal
+%We refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series) and estimated using a state estimator. %(Kalman filter); well, potentially here with simulated data one could use other estimators (least square filter would work I bet) 
+
+%We prove a relation between the energy signal and the energy coefficients in Lemma~\ref{lem:eqv}. We show after the main results how this approach allows us variability in terms of non-periodic signals.
+
+%After having illustrated the energy model, we enhance it with the energy contribution of the path in Subsection~\ref{sec:model}, and of the computations in Subsection~\ref{sec:computations-model}. 
+
+An intuitive way of modeling the energy data is thus a Fourier series of a given order $r\in\mathbb{Z}_{\geq 0}$ and period $T\in\mathbb{R}_{>0}$
 \begin{equation}\label{eq:fourier}
   h(t)=a_0/T+(2/T)\sum_{j=1}^{r}{\left(a_j\cos{\omega jt}+b_j\sin{\omega jt}\right)},
 \end{equation}
-where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
+where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the series coefficients.
 
-The energy signal can be modeled by Equation~(\ref{eq:fourier}) and by the output of a linear model
-\begin{equation}\label{eq:state-perf}\begin{split}
-  \dot{\mathbf{q}}&=A\mathbf{q}+B\mathbf{u},\\
-  y&=C\mathbf{q},
-\end{split}\end{equation}
-where $y\in\mathbb{R}$ is the instantaneous energy consumption. 
+The model in Equation~(\ref{eq:fourier}) does not the quantify the contribution of path and computations parameters $c_i$, where, e.g., different schedules results in different instantaneous energy. For this latter purpose, we use another model
+\begin{subequations}\label{eq:state-perf}\begin{align}
+  \dot{\mathbf{q}}(t)&=A\mathbf{q}(t)+B\mathbf{u}(t),\label{eq:state-perf-q}\\
+  y(t)&=C\mathbf{q}(t),\label{eq:state-perf-y}
+\end{align}\end{subequations}
+where $y(t)\in\mathbb{R}$ is the instantaneous energy consumption. The state $\mathbf{q}\in\mathbb{R}^m$ with $m:=2r+1$ contains energy coefficients
+\begin{equation}
+  \mathbf{q}(t)=\begin{bmatrix}
+    \alpha_0(t) & \alpha_1(t) & \beta_1(t) & \cdots & \alpha_r(t) & \beta_r(t)
+  \end{bmatrix}'.
+\end{equation}
 
-The state $\mathbf{q}$ contains the energy coefficients
-\begin{equation}\label{eq:state-details}\begin{split}
-  \mathbf{q}&=\left[\begin{array}{cccccc}
-    \alpha_0 & \alpha_1 & \beta_1 & \cdots & \alpha_r & \beta_r
-  \end{array}\right]^T,\\
-  A&=\left[\begin{array}{cccc}
-    0&                     &       & \makebox(-5,-5){*}  \\
-     & A_1                 &       &  \\
-     & \makebox(-25,-15){*}& \ddots&  \\
-     &                     &       & A_r 
-  \end{array}\right],\,A_j:=\begin{bmatrix}0 & \omega j \\ -\omega j & 0\end{bmatrix},\\
-  C&=(1/T)\left[\begin{array}{cccccc}
-    1 & 1 & 0 &\cdots & 1 & 0
-  \end{array}\right],
-\end{split}\end{equation}
-where $\mathbf{q}\in\mathbb{R}^m$ with $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transition matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is zero, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zeros (*).
+The state transition matrix
+\begin{equation}\label{eq:mat_A}
+  A=\begin{bmatrix}
+    0            & 0^{1\times 2}& \dots & 0^{1\times 2} \\
+    0^{2\times 1}& A_1          & \dots & 0^{2\times 2} \\
+    \vdots       & \vdots       & \ddots& \vdots        \\
+    0^{2\times 1}& 0^{2\times 2}& \dots & A_r 
+  \end{bmatrix},\,\,A_j:=\begin{bmatrix}0 & \omega j \\ -\omega j & 0\end{bmatrix},
+\end{equation}
+where $A\in\mathbb{R}^{m\times m}$ contains $r$ sub-matrices $A_j$ and $0^{i\times j}$ is a zero matrix of $i$ rows and $j$ columns. In matrix $A$, the top left entry is zero, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zeros.
 
-The linear model in Equation~(\ref{eq:state-perf}) allows us to include the control in the model of Equation~(\ref{eq:fourier}).
+The output matrix\vspace*{-2ex}
+\begin{equation}\label{eq:mat_C}
+  C=(1/T)\Big[1 \,\,\, \overbrace{\begin{matrix}1 & 0 &\cdots & 1 & 0\end{matrix}}^{2r}\Big],
+\end{equation}
+where $C\in\mathbb{R}^m$ (the first value in the first column is one, the pattern one--zero is then repeated $2r$ times).
 
-\begin{lem}[Signal, output equality]\label{lem:eqv}Suppose control $\mathbf{u}$ is a zero vector, matrices $A,C$ are described by Equation~(\ref{eq:state-details}), and the initial guess $\mathbf{q}_0$ is 
+
+%\begin{equation}\label{eq:state-details}\begin{split}
+%  A&=\left[\begin{array}{cccc}
+%    0&                     &       & \makebox(-5,-5){*}  \\
+%     & A_1                 &       &  \\
+%     & \makebox(-25,-15){*}& \ddots&  \\
+%     &                     &       & A_r 
+%  \end{array}\right],\,A_j:=\begin{bmatrix}0 & \omega j \\ -\omega j & 0\end{bmatrix},\\
+%  C&=(1/T)\left[\begin{array}{cccccc}
+%    1 & 1 & 0 &\cdots & 1 & 0
+%  \end{array}\right],
+%\end{split}\end{equation}
+%where $\mathbf{q}\in\mathbb{R}^m$ with $m=2r+1$, $A\in\mathbb{R}^{m\times m}$ is the state transition matrix, and $C\in\mathbb{R}^m$ is the output matrix. In matrix $A$, the top left entry is zero, the diagonal entries are $A_1,\dots,A_r$, the remaining entries are zeros (*).
+
+%The linear model in Equation~(\ref{eq:state-perf}) allows us to include the control in the model of Equation~(\ref{eq:fourier}).
+
+Under some conditions, the models in Equations~(\ref{eq:fourier}--\ref{eq:state-perf}) are equal.
+
+\begin{lem}[Signal, output equality]\label{lem:eqv}Given $\mathbf{u}$ a zero vector, matrices $A,C$ described by Equations~(\ref{eq:mat_A}--\ref{eq:mat_C}), and the initial guess $\mathbf{q}(t_0)=\mathbf{q}_0$ at initial time instant $t_0$
   \begin{equation*}
-  \mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}^T.
+  \mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}'.
   \end{equation*} 
-  Then, the signal $h$ in Equation~(\ref{eq:fourier}) is equal to the output $y$ in Equation~(\ref{eq:state-perf}).
+  $h$ in Equations~(\ref{eq:fourier}) is equal to $y$ in Equation~(\ref{eq:state-perf}).
 \end{lem}
-\begin{proof}
-The equality of the signal and output is achieved by a proper choice of the items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof, where we justify the choices of the items of the matrices and of the initial guess. 
-\end{proof}
+%\begin{proof}
+%The equality of the signal and output is achieved by a proper choice of the items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof, where we justify the choices of the items of the matrices and of the initial guess. 
+%\end{proof}
+%Appendix~\ref{app:proof-eqv} contains a proof of Lemma~\ref{lem:eqv}.
+
+To define the nominal control and the output matrix, we exploit the effect of variation of path and computations parameters on the energy. 
+%We assume a variation in computations parameters $c_i^\sigma$ affects the instantaneous energy, i.e., different schedules of power-demanding computational tasks have different power drains from the computing hardware.
+
+\begin{lem}[Parameters, energy relation]\label{lem:new}
+  Given $c_i(t)$ parameters at two following time instants $t\in\{t_j,t_{j+1}\}\subset\mathbb{R}_{\geq 0}$ s.t. $t_j<t_{j+1}$ for an arbitrary stage $\Gamma_i$, a change in parameters $c_i(t_j)\neq c_i(t_{j+1})$ results in different overall and instantaneous energies for path and computations parameters respectively.
+\end{lem}
+
+Appendices~\ref{app:proof-eqv}--\ref{app:proof-new} contains proofs of Lemmas~\ref{lem:eqv}--\ref{lem:new}.
+
+Using the same notation from Lemma~\ref{lem:new}, the nominal control in Equation~(\ref{eq:state-perf})
+\begin{equation}
+  \mathbf{u}(t_{j+1}):=\hat{\mathbf{u}}(t_{j+1})-\hat{\mathbf{u}}(t_j),
+\end{equation}
+for all time instants. $\hat{\mathbf{u}}$ is then a scale transformation
+\begin{equation}
+  \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)c_i(t)+\tau_i
+\end{equation}
+where $\mathrm{diag}(\,\cdot\,)$ is a diagonal matrix with items of a set $\cdot$ on the diagonal and zeros elsewhere. $\nu_i:=\begin{bmatrix}\nu_{i,1}&\cdots&\nu_{i,n}\end{bmatrix}'$ and $\tau_i:=\begin{bmatrix}\tau_{i,1}&\cdots&\tau_{i,n}\end{bmatrix}'$ are scaling factors with $n:=\rho+\sigma$ that transform parameters domain (see Definition~\ref{def:stage}) to time and power domains.
+
+Let us assume that the time evolves linearly. Path parameters $c_i^\rho$ can be transformed into a time measure with scaling factors\begin{subequations}\label{eq:scale-traj}\begin{align}
+  \nu_{i,j}&=\left((\overline{t}-\underline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
+  \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
+\end{align}\end{subequations} 
+$\forall j\in[\rho]_{>0}$ where $\overline{t},\underline{t}$ are time measures needed to complete the coverage with configurations $\underline{c}_i^\rho,\overline{c}_i^\rho$.
+
+Similarly to Equation~(\ref{eq:scale-traj}), computations parameters $c_i^\sigma$ can be transformed into an instantaneous energy measure with scaling factors
+\begin{subequations}\label{eq:scale-comp}\begin{align}
+  \nu_{i,j}&=(g(\overline{c}_{i,j})-g(\underline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j}),\\
+  \tau_{i,j}&=\underline{c}_{i,j}(g(\underline{c}_{i,j})-g(\overline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j})+g(\underline{c}_{i,j}),
+\end{align}\end{subequations}
+$\forall j\in[\rho+1,n]$. The function $g$ is detailed in Section~\ref{sec:mod-com} and quantifies the power of the computing hardware.
+
+The input matrix then includes the change in energy, i.e.,
+\begin{equation}\label{eq:mat_B}
+  B=\begin{bmatrix}
+      0^{1\times\rho} & 1      & \cdots & 1      \\
+      0^{1\times\rho} & 0      & \cdots & 0      \\ 
+      \vdots          & \vdots & \ddots & \vdots \\
+      0^{1\times\rho} & 0      & \cdots & 0   
+  \end{bmatrix},
+\end{equation}
+where $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row where the first $\rho$ columns are still zeros and the remaining $\sigma$ are ones. 
+
+\subsection{Energy model for the computations}
+\label{sec:mod-com}
+
+Models for heterogeneous computing hardware in the literature often rely on analytical expressions~\cite{marowka2017energy,goraczko2008energy,calore2015energy,yang2017designing} or different techniques including regressional analysis~\cite{bailey2014adaptive,ma2012holistic,seewald2019coarse}, aiding the selection of hardware or software specific parameters. This section summarizes an energy model from our early studies~\cite{seewald2019component,seewald2019coarse} that relies on regressional analysis aiding to quantify the computations energy of any combination of computations $c_i^\sigma$ withing the bounds (see Definition~\ref{def:stage}).  
+
+The model relies on an automatic modeling and profiling tool~\cite{seewald2019coarse} named \powprof{} distributed~\cite{powprofiler} under the open-source M.I.T. license. It is segmented into two layers. In the \emph{measurement layer} the tool measures a discrete set of computations parameters and infers the energy of the remaining in the \emph{predictive layer} via a piece-wise linear regression.
+
+Let us assume there is at least one measuring device, i.e., shunt or internal power resistor, multimeter, or amperometer, quantifying the power drain of a specific component, e.g., CPU, GPU, memory, etc., or of the entire computing hardware.
+
+\begin{defn}[Measurement layer]\label{def:meas}
+  Given a measuring device, computations parameters, and initial and final time instants, the \emph{measurement layer} is the function $\mathbf{g}:\mathbb{Z}_{>0}\times\mathbb{Z}^\sigma\times\mathcal{T}\rightarrow\mathbb{R}$ that returns an energy measure.
+\end{defn}
+
+Here, the notation $\mathcal{T}$ encloses all the time intervals from initial $t_0$ to final $t_f$, i.e., $\mathcal{T}:=[t_0,t_f]$.
+
+\begin{defn}[Predictive layer]\label{def:pred}
+  Given a measuring device and computations parameters the \emph{predictive layer} is the function $\mathbf{g}:\mathbb{Z}_{>0}\times\mathbb{Z}^\sigma\rightarrow\mathbb{R}$ that returns and energy measure.
+\end{defn}
+
+The energy measures in Definitions~\ref{def:meas}--\ref{def:pred} can be either average or overall energy. Additionally, the tool supports the measures of battery state of charge (SoC) detailed in Section~\ref{sec:mod-bat}. The function $g$ in Definition~\ref{def:pred} is contained in the computations scaling factors in Equation~(\ref{eq:scale-comp}) assuming the computations energy behaves linearly between $\underline{c}_i^\sigma$ and $\overline{c}_i^\sigma$, otherwise
+\begin{equation}\label{eq:piece-wise-reg}\begin{split}
+  g(c_i^\sigma)=(&\mathbf{g}(\lceil c_i^\sigma\rceil,\mathcal{T}_1)-\mathbf{g}(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2))\\(&c_i^\sigma-\lfloor c_i^\sigma\rfloor)/(\lceil c_i^\sigma\rceil-\lfloor c_i^\sigma\rfloor)+\mathbf{g}(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2),
+\end{split}\end{equation}
+where the notation $\lceil c_i^\sigma\rceil,\lfloor c_i^\sigma\rfloor$ indicates two adjacent measurement layers, and $\mathcal{T}_1,\mathcal{T}_2$ are the corresponding two time intervals. The measuring device in both $\mathbf{g}$ and $g$ is implicit.
+
+\subsection{Battery model}
+\label{sec:mod-bat}
+
+The battery model predicts the battery SoC in function of a given load for future time instants. There are multiple possible models in the literature~\cite{rao2003battery}, with varying accuracy, complexity, and easy of implementation ranging from accurate but costly physical models~\cite{moura2017battery,marcicki2013design}, to abstract models~\cite{xing2014state,he2011evaluation,hinz2019comparison,mousavi2014various} that have compelling trade-offs in terms of ease of implementation and accuracy. 
+
+We model a Li-ion battery of an aerial robot flying with an abstract model referred to as ``Rint'' equivalent circuit model (ECM) in the literature~\cite{he2011evaluation,hinz2019comparison,mousavi2014various}.
+
+\begin{lem}[Battery SoC]\label{lem:bat}
+  Given the internal battery voltage $V\in\mathbb{R}$ measured in volts, resistance $R_r$ in ohms, constant nominal capacity $Q_c$ in amperes per hour, and a battery coefficient $k_b$, the \emph{battery SoC} evolves
+  \begin{equation*}
+    \dot{b}(y(t))=-k_b\left(V-
+  \sqrt{
+    V^2-
+    4R_ry(t)}
+  \right)/(2R_rQ_c).
+  \end{equation*}
+\end{lem}
+
+Appendix~\ref{app:proof-bat} contains a proof of Lemma~\ref{lem:bat}. 
+
+Equation~(\ref{eq:state-perf}) states that the output $y$ evolves in $\mathbb{R}$. Let us re-evaluate the output constraint with Lemma~\ref{lem:bat}.
+
+\begin{defn}[Output constraint]
+  \label{def:const}
+  \begin{equation*}
+    \mathcal{Y}(t):=\{y\mid y\in[0,b(y(t))Q_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
+  \end{equation*}
+  is the \emph{output constraint}, where $b(y(t))Q_cV$ is the maximum instantaneous energy consumption.
+\end{defn}
 
 %Let us consider for practical reasons the discretized version of the system in Equation~\ref{eq:state-perf}. 
 
-Let us suppose that at time instant $k$ the plan reached the $i$-th stage $\Gamma_i$ and the control
-\begin{equation}\label{eq:state-control2}
-  \mathbf{u}_k=\begin{bmatrix}c_k^\rho & c_k^\sigma\end{bmatrix}^T,
-\end{equation}
-where $\mathbf{u}_k\in\mathbb{R}^n$ with $n=\rho+\sigma$ differs from the nominal control $\mathbf{u}$ in Equation~(\ref{eq:state-perf}). We include the control in the nominal control exploiting the following observation. 
+%Let us suppose that at time instant $k$ the plan reached the $i$-th stage $\Gamma_i$ and the control
+%\begin{equation}\label{eq:state-control2}
+%  \mathbf{u}_k=\begin{bmatrix}c_k^\rho & c_k^\sigma\end{bmatrix}^T,
+%\end{equation}
+%where $\mathbf{u}_k\in\mathbb{R}^n$ with $n=\rho+\sigma$ differs from the nominal control $\mathbf{u}$ in Equation~(\ref{eq:state-perf}). We include the control in the nominal control exploiting the following observation. 
 
-We observe that a change in path parameters affects the energy indirectly. It alters the time when the UAV reaches the final point $\mathbf{p}_{\Gamma_l}$. We use this information later in the algorithm to check that the battery discharge time is greater and replan the path parameters accordingly. A change in computation parameters affects the energy directly. It alters the instantaneous energy consumption as more computations require more power (and vice versa). We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
+%We observe that a change in path parameters affects the energy indirectly. It alters the time when the UAV reaches the final point $\mathbf{p}_{\Gamma_l}$. We use this information later in the algorithm to check that the battery discharge time is greater and replan the path parameters accordingly. A change in computation parameters affects the energy directly. It alters the instantaneous energy consumption as more computations require more power (and vice versa). We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
 
-The nominal control and the input matrix
-\begin{equation}\label{eq:state-control}\begin{split}
-  \mathbf{u}&=(\hat{\mathbf{u}}_k-\hat{\mathbf{u}}_{k-1}),\,\,\,\hat{\mathbf{u}}_k:=\mathrm{diag}(\nu_i)\mathbf{u}_k+\tau_i,\\
-  B&=\begin{bmatrix} 0 & \cdots & 0 & 1 & \cdots & 1 \\ 
-    & & & \makebox(-15,-3){*} & &\end{bmatrix}.
-\end{split}\end{equation}
-The matrix $B\in\mathbb{R}^{m\times n}$ contains zeros (*) except the first row where the first $\rho$ columns are still zeros and the remaining $\sigma$ are ones. $\hat{\mathbf{u}}_k$ is a scale transformation with $\nu_i=\begin{bmatrix}\nu_i^\rho & \nu_i^\sigma\end{bmatrix}^T$ and $\tau_i=\begin{bmatrix}\tau_i^\rho & \tau_i^\sigma\end{bmatrix}^T$ scaling factors quantifying the contribution to the plan of a given parameter in terms of time for the first $\rho$ parameters, and power for the remaining $\sigma$ (we use the same notation for the path and computation scaling factors as for the parameters). The nominal control $\mathbf{u}$ is then the difference of these contributions of two consecutive controls $\mathbf{u}_{k-1},\mathbf{u}_k$ applied to the system. $B\mathbf{u}$ merely includes the difference in power into the model in Equation~(\ref{eq:state-perf}).
+%The nominal control and the input matrix
+%\begin{equation}\label{eq:state-control}\begin{split}
+%  \mathbf{u}&=(\hat{\mathbf{u}}_k-\hat{\mathbf{u}}_{k-1}),\,\,\,\hat{\mathbf{u}}_k:=\mathrm{diag}(\nu_i)\mathbf{u}_k+\tau_i,\\
+%  B&=\begin{bmatrix} 0 & \cdots & 0 & 1 & \cdots & 1 \\ 
+%    & & & \makebox(-15,-3){*} & &\end{bmatrix}.
+%\end{split}\end{equation}
+%The matrix $B\in\mathbb{R}^{m\times n}$ contains zeros (*) except the first row where the first $\rho$ columns are still zeros and the remaining $\sigma$ are ones. $\hat{\mathbf{u}}_k$ is a scale transformation with $\nu_i=\begin{bmatrix}\nu_i^\rho & \nu_i^\sigma\end{bmatrix}^T$ and $\tau_i=\begin{bmatrix}\tau_i^\rho & \tau_i^\sigma\end{bmatrix}^T$ scaling factors quantifying the contribution to the plan of a given parameter in terms of time for the first $\rho$ parameters, and power for the remaining $\sigma$ (we use the same notation for the path and computation scaling factors as for the parameters). The nominal control $\mathbf{u}$ is then the difference of these contributions of two consecutive controls $\mathbf{u}_{k-1},\mathbf{u}_k$ applied to the system. $B\mathbf{u}$ merely includes the difference in power into the model in Equation~(\ref{eq:state-perf}).
  
 %Indeed an alteration of the path affects the overall flying time (and consequently the energy). An alteration the the computations affects the instantaneous energy consumption.
 
-We clarify how we derive the factors $\nu_i,\tau_i$ in the next two subsections.
+%We clarify how we derive the factors $\nu_i,\tau_i$ in the next two subsections.
 
-\subsection{Path parameters energy contribution}
-\label{sec:model}
-
-\begin{figure}[h]
-  \centering
-  \footnotesize
-  \input{\figpath/traj2.tikz}
-  \caption{The alteration of the path parameter $c_{1,1}$, the radius of the circle (it corresponds to the alteration of the plan in Figure~\ref{fig:il-abs}).}
-  \label{fig:tee1}
-\end{figure}
+%\subsection{Path parameters energy contribution}
+%\label{sec:model}
 
 %Equation~(\ref{eq:state-control}) accounts for the energy due to the change of parameters $\mathbf{u}_k-\mathbf{u}_{k-1}$. For instance, when the trajectory $\varphi_1$ is a circle (see Figure~\ref{fig:tee1}), a decrement in the trajectory parameter $c_{1,1}$--the radius of the circle--adds a negative contribution. It thus simulates the lowering of instantaneous energy consumption ($\nu_{1,1}c_{1,1}>\nu_{1,1}c_{1,1}^-$) for a given $\nu_{1,1}$, that is then summed to the first coefficient $\alpha_0$ in Equation~(\ref{eq:state-details}), shifting the modeled energy.
 
-The set
-\begin{equation}\label{eq:area}
-  \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i}^\rho)\in\mathcal{C}_i\},
-\end{equation}
-delimits the area where the $i$-th path $\varphi_i$ is free to evolve using the path parameters $c_i^\rho$ (the gray area in Figure~\ref{fig:tee1}). $\varphi_i$ is a function of the two coordinates and the path parameters, and is equal to zero when a point $\mathbf{p}_k$ is on the path. Physically, this means the UAV is flying exactly over the nominal trajectory. The path parameters allows to change the path. They are a way to alter the nominal trajectory in the initial plan and thus alter the energy by changing the flying time in the example in Figure~\ref{fig:il-abs}.
-In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the path parameters such that the plan consisting of flying $\varphi_i$ has the highest energy, while still respecting the constraints. In Figure~\ref{fig:tee1}, the parameter radius of the circle $c_{1,1}$ is replanned as, e.g., averse atmospheric conditions do not allow to terminate the plan.
+%The set
+%\begin{equation}\label{eq:area}
+%  \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i}^\rho)\in\mathcal{C}_i\},
+%\end{equation}
+%delimits the area where the $i$-th path $\varphi_i$ is free to evolve using the path parameters $c_i^\rho$ (the gray area in Figure~\ref{fig:tee1}). $\varphi_i$ is a function of the two coordinates and the path parameters, and is equal to zero when a point $\mathbf{p}_k$ is on the path. Physically, this means the UAV is flying exactly over the nominal trajectory. The path parameters allows to change the path. They are a way to alter the nominal trajectory in the initial plan and thus alter the energy by changing the flying time in the example in Figure~\ref{fig:il-abs}.
+%In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the path parameters such that the plan consisting of flying $\varphi_i$ has the highest energy, while still respecting the constraints. In Figure~\ref{fig:tee1}, the parameter radius of the circle $c_{1,1}$ is replanned as, e.g., averse atmospheric conditions do not allow to terminate the plan.
 
-We derive the new position $\mathbf{p}_{k+1}$ computing the vector field $\nabla\varphi_i:=\begin{bmatrix}\partial\varphi_i/\partial x & \partial\varphi_i/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector~\cite{de2017guidance}
-\begin{equation}\label{eq:pd}
-  \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varphi_i-k_e\varphi_i\nabla\varphi_i,\,\,\,E=\begin{bmatrix}
-    0&1\\-1&0
-  \end{bmatrix},
-\end{equation}
-where $E$ specifies the rotation (it influence the tracking direction), and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading $\dot{\mathbf{p}}$ due to the atmospheric interferences (wind $w\in\mathbb{R}$ in the top of Figure~\ref{fig:tee1}).
+%We derive the new position $\mathbf{p}_{k+1}$ computing the vector field $\nabla\varphi_i:=\begin{bmatrix}\partial\varphi_i/\partial x & \partial\varphi_i/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector~\cite{de2017guidance}
+%\begin{equation}\label{eq:pd}
+%  \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varphi_i-k_e\varphi_i\nabla\varphi_i,\,\,\,E=\begin{bmatrix}
+%    0&1\\-1&0
+%  \end{bmatrix},
+%\end{equation}
+%where $E$ specifies the rotation (it influence the tracking direction), and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading $\dot{\mathbf{p}}$ due to the atmospheric interferences (wind $w\in\mathbb{R}$ in the top of Figure~\ref{fig:tee1}).
 
-The scaling factors for the path parameters from Equation~(\ref{eq:state-control}) are derived empirically. For the example in Figure~\ref{fig:tee1}, we can obtain the scaling factor $\nu_{1,1}$ measuring the time needed to compute the path with the lowest configuration $\underline{c}_1$, $\underline{t}$ and the highest $\overline{t}$. The variation of the control hence results in an approximate measure of the plans' time variation with factors
-\begin{equation}\label{eq:scale-traj}\begin{split}
-  \nu_{i,j}&=\left((\overline{t}-\underline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
-  \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
-\end{split}\end{equation} 
+%The scaling factors for the path parameters from Equation~(\ref{eq:state-control}) are derived empirically. For the example in Figure~\ref{fig:tee1}, we can obtain the scaling factor $\nu_{1,1}$ measuring the time needed to compute the path with the lowest configuration $\underline{c}_1$, $\underline{t}$ and the highest $\overline{t}$. The variation of the control hence results in an approximate measure of the plans' time variation with factors
+%\begin{equation}\label{eq:scale-traj}\begin{split}
+%  \nu_{i,j}&=\left((\overline{t}-\underline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
+%  \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
+%\end{split}\end{equation} 
 %Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
-$\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
+%$\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
 
-\subsection{Computation parameters energy contribution}
-\label{sec:computations-model}
+%\subsection{Computation parameters energy contribution}
+%\label{sec:computations-model}
 
-Let us recall from Definition~\ref{def:mission} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computation parameters which characterize the computations. We estimate the energy cost of these computations using \powprof{}, the open-source modeling tool adapted from earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
+%Let us recall from Definition~\ref{def:mission} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computation parameters which characterize the computations. We estimate the energy cost of these computations using \powprof{}, the open-source modeling tool adapted from earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
 
-For this purpose, we assume the UAV carries an embedded board that runs the computations. Our tool measures the instantaneous energy consumption of a subset of possible computation parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per each computation. 
+%For this purpose, we assume the UAV carries an embedded board that runs the computations. Our tool measures the instantaneous energy consumption of a subset of possible computation parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per each computation. 
 
-The computations are implemented by software components, e.g., Robot Operating System (ROS) nodes in a ROS-based system~\cite{quigley2009ros}. The user implements these nodes such that they change the computational load according to node-specific ROS parameters--the computation parameters. In a generic software component system, the user maps the computational load to the arguments~\cite{seewald2019component}. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is an object detector, a computation parameter $c_{1,2}$ might correspond to frames-per-second (fps) rate. The tool then measures power according to the detection frequency.
+%The computations are implemented by software components, e.g., Robot Operating System (ROS) nodes in a ROS-based system~\cite{quigley2009ros}. The user implements these nodes such that they change the computational load according to node-specific ROS parameters--the computation parameters. In a generic software component system, the user maps the computational load to the arguments~\cite{seewald2019component}. In both cases, with ROS~\cite{zamanakos2020energy} or with generic software components system~\cite{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is an object detector, a computation parameter $c_{1,2}$ might correspond to frames-per-second (fps) rate. The tool then measures power according to the detection frequency.
 
-We note that while the path can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
+%We note that while the path can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
 
-Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the tool.
+%Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the tool.
 
-The scaling factors add the computational energy component to the model in Equation~(\ref{eq:state-perf}). They are derived similarly to Equation~(\ref{eq:scale-traj})
-\begin{equation*}\begin{split}
-  \nu_{i,j}&=(g(\overline{c}_{i,j})-g(\underline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j}),\\
-  \tau_{i,j}&=\underline{c}_{i,j}(g(\underline{c}_{i,j})-g(\overline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j})+g(\underline{c}_{i,j}),
-\end{split}\end{equation*}
-$\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let the factors be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
+%The scaling factors add the computational energy component to the model in Equation~(\ref{eq:state-perf}). They are derived similarly to Equation~(\ref{eq:scale-traj})
+%\begin{equation*}\begin{split}
+%  \nu_{i,j}&=(g(\overline{c}_{i,j})-g(\underline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j}),\\
+%  \tau_{i,j}&=\underline{c}_{i,j}(g(\underline{c}_{i,j})-g(\overline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j})+g(\underline{c}_{i,j}),
+%\end{split}\end{equation*}
+%$\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let the factors be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%
-\section{Algorithm}  %
-\label{sec:algo}     %
-                     %
-The main purpose of the algorithm is to output a valid control sequence $\mathbf{u}:=\{\mathbf{u}_0,\mathbf{u}_1,\dots\}$ at each time step given an initial plan $\Gamma$ and to guide the UAV on the path resulting from such sequence--to solve Problem~\ref{pb}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Planning-Scheduling}  %
+\label{sec:algo}               %
+                               %
+This section solves Problems~\ref{pb:cov-pb}--\ref{pb}, i.e., derives a plan in Section~\ref{sec:cov-algo}, and re-plans the plan energy-wise in Section~\ref{sec:repla-algo}.
 
-A valid control sequence has to respect the energy constraints. We consider some realistic constraints to the energy of a flying UAV in the following subsection.
+\subsection{Coverage path planning}
+\label{sec:cov-algo}
 
-\subsection{Output and control constraint sets}
+There are various approaches in the literature to solve CPP problems, such as Problem~\ref{pb:cov-pb}. Approaches that ensure the completeness of the cover are NP-hard~\cite{arkin2000approximation} and use cellular decomposition, dividing the free-space into sub-regions to be easily covered~\cite{choset2001coverage,galceran2013survey}.
 
-We stated earlier the output $y$--the instantaneous energy consumption--evolves in $\mathbb{R}$. This is generally untrue. Physical UAVs are bounded by strict energy budgets due to battery limitations.
+An intuitive way to solve the problem is with a back-and-forth motion, sweeping the space delimited by $v$ we term $\mathcal{Q}^v$. Although abundant in both mobile ground-based~\cite{choset2001coverage,choset2005principles,lavalle2006planning} and aerial~\cite{araujo2013multiple,artemenko2016energy,cabreira2018energy,difranco2015energy} robotics literature, the motion, called \emph{boustrophedon motion}~\cite{choset2001coverage}, is unsuitable for aerial robots broadly, especially for fixed-wing aerial robots. These robots have reduced maneuverability~\cite{dille2013efficient,mannadiar2010optimal,xu2011optimal,xu2014efficient} and are generally unable to fly quick turns~\cite{wang2017curvature}.
 
-Let us hence consider the state of charge (SoC) $b$ of a UAV battery with a simplistic difference equation~\cite{seewald2020mechanical}
-\begin{equation}\label{eq:bat}
-  b_k=b_{k-1}-k_b\left(V-
-  \sqrt{
-    V^2-
-    4R_ry_k}
-  \right)/(2R_rQ_c),
-\end{equation}
-where $k_b$ is the battery coefficient determined experimentally,  $V\in\mathbb{R}$ is the internal battery 
-% and $\tilde{V}\in\mathbb{R}$ the stabilized 
-voltage measured in volts, $R_r\in\mathbb{R}$ the resistance measured in ohms, and $Q_c\in\mathbb{R}$ the constant nominal capacity measured in amperes per hour. 
+To address fixed wings and aerial robots generally, this section details a different motion with a wide turning radius. It is similar to another motion in the literature termed \emph{Zamboni motion}~\cite{araujo2013multiple},
+but additionally allows variable CPP at the very core of this work. The motion, termed \emph{Zamboni-like motion}, is composed of four primitive paths (see Definition~\ref{def:primitive}): two lines $\varphi_1,\varphi_2$ and two circles $\varphi_3,\varphi_4$ (see Figure~\ref{fig:zambo}). Let us assume the vertices $v_1,v_2,\dots$ are ordered from the top-left-most vertex in clockwise order, the aerial robot can overfly the edges formed by the vertices, and ${}^{v_x}|_{v_y}$ indicates an edge formed by vertices $v_x,v_y$. 
 
-\begin{defn}[Output, control constrain sets]\label{def:const}
-The output constrain set is then the set
-\begin{equation*}
-  \mathcal{Y}_k:=\{y_k\mid y_k\in[0,b_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
-\end{equation*}
-and $b_kQ_cV$ is the maximum instantaneous energy consumption.
-
-The control constraint set is the path constraint set for the path parameters and computation constraint sets for the computation parameters (Definition~\ref{def:mission})
-\begin{equation*}
-  \mathcal{U}_k:=\begin{cases}
-    \mathcal{C}_i & \text{for } c_{i,j} \text{ with } j\leq\rho\\
-    \mathcal{S}_{i,j-\rho} & \text{for } c_{i,j} \text{ with } \rho<j\leq\sigma
-  \end{cases}.
-\end{equation*}
-\end{defn}
-
-\subsection{Deployment algorithm}
-
-\begin{algorithm}[t]
-  \caption{Energy-Aware Dynamic Planning}\label{alg}
+\begin{algorithm}[h]
   \begin{algorithmic}[1]
-    \STATE $\mathbf{p}_{k}\gets \mathbf{p}_0, \mathbf{q}_{k}\gets \mathbf{q}_0$
-    \STATE $\mathbf{u}_{k}\gets \overline{c}_i$\label{alg:init}
-    \FOR{$i\in[l]^+$}\label{alg:stages-loop}
-      \WHILE{$\mathbf{p}_{k}\neq\mathbf{p}_{\Gamma_i}$}\label{alg:while}
-        \STATE $\mathbf{u}_{k+1}\gets\argmax_{\mathbf{u}}\hspace*{-1ex}{\displaystyle{\sum\limits_{j=k+1}^{k+N-1}}\hspace*{-1ex}{l(\mathbf{q}_j,\mathbf{u}_j)+V_f(\mathbf{q}_{k+N})}}$\label{alg:mpc}
-        \STATE $\hat{\mathbf{q}}_{k+1}\gets A\mathbf{q}_{k}+B\mathbf{u}$\label{alg:evolution}
-        \STATE $\mathbf{q}_{k+1}\gets$ the estimate of the state from $\hat{\mathbf{q}}_{k_1}$ and sensor data\label{alg:kalman_end}
-        \STATE $\mathbf{p}_{k+1}\gets\mathbf{p}_{k}\dot{\mathbf{p}}_d(\mathbf{p}_{k})/v$ \label{alg:pos}
-        \STATE $k\gets k+1$
-      \ENDWHILE
+    \small
+    %\STATE $j\gets-1$
+
+    \FORALL{$i\in\mathcal{T}$}
+      \STATE \textbf{if} $\mathbf{p}(i)=\mathbf{p}_{\Gamma_l}${ in Def.~\ref{def:trigs}} \textbf{then return }$\Gamma$\vspace*{.3ex}
+
+%      \IF{$\mathbf{p}(i)=\mathbf{p}_{\Gamma_l}${ in Def.~\ref{def:trigs}}}
+        
+%        \RETURN{$\Gamma$}\vspace*{.3ex}
+%      \ENDIF
+
+      \vspace*{.8ex}
+      \IF{$\mathbf{p}(i)=\mathbf{p}_{\Gamma_j}$}
+        \STATE $j\gets j+1$\vspace*{.3ex}
+        \IF{$j\notin[n]_{>0}$}
+          \STATE $j\gets 1$\vspace*{.3ex}
+          \STATE $\varphi_{|\Gamma|+1}\gets$ line in Def.~\ref{def:paths} %in Eq.~(\ref{eq:v1}) 
+          parallel to ${}^{v_1}|_{v_{|v|}}$ that inter-\vspace*{.5ex} \hspace*{1em}sects $\mathbf{p}_{|\Gamma|}$\vspace*{.3ex}
+
+          \STATE $\mathbf{p}_{|\Gamma|+1}\gets$ other intersection %in Eq.~(\ref{eq:t1}) 
+          of $\varphi_{|\Gamma|+1}$ and $v$\vspace*{.3ex}
+
+          \STATE $\varphi_{|\Gamma|+2}\gets$ circle %in Eq.~(\ref{eq:v2}) 
+          whose left most point lays on $\mathbf{p}_{|\Gamma|+1}$\vspace*{.3ex}\label{alg2:circ1}
+          
+          \STATE $\mathbf{p}_{|\Gamma|+2}\gets$ other inter. %in Eq~(\ref{eq:t2}) 
+          of $\varphi_{|\Gamma|+2}$ and $v$\vspace*{.3ex}
+
+          \STATE $\varphi_{|\Gamma|+3}\gets$ line %in Eq.~(\ref{eq:v3}) 
+          par. to $\varphi_{|\Gamma|+1}$ that inter. $\mathbf{p}_{|\Gamma|+2}$\vspace*{.3ex}
+
+          \STATE $\mathbf{p}_{|\Gamma|+3}\gets$ other inter. %in Eq~(\ref{eq:t3})
+          of $\varphi_{|\Gamma|+3}$ and $v$\vspace*{.3ex}
+
+          \STATE $\varphi_{|\Gamma|+4}\gets$ circle in Eq.\hspace*{.7ex}(\ref{eq:second-circ-gene}) 
+          whose right most point lays\vspace*{.3ex} \hspace*{1em}on $\mathbf{p}_{|\Gamma|+3}$\vspace*{.3ex}\label{alg2:circ2}
+
+          \STATE $\mathbf{p}_{|\Gamma|+4}\gets$ other inter. %in Eq~(\ref{eq:last-trig-gene}) 
+          of $\varphi_{|\Gamma|+4}$ and $v$\vspace*{.3ex}\label{alg2:trig4}
+
+          \vspace*{.8ex}
+          \STATE $\Gamma\gets\Gamma\cup\{\Gamma_{|\Gamma|+1},\dots,\Gamma_{|\Gamma|+4}\}${ in Defs.~\ref{def:plan}--\ref{def:stage}}\label{alg2:last}
+
+        \ENDIF
+      \ENDIF
     \ENDFOR
-  \end{algorithmic} 
+  \end{algorithmic}
+  \caption{Zamboni-like motion for CPP}\label{alg2}
 \end{algorithm}
 
-The algorithm first initializes the position, energy coefficients, and control (line~\ref{alg:init}). It updates the position at line~\ref{alg:pos}, using the expression from Equation~(\ref{eq:pd}) and the velocity $v\in\mathbb{R}_{\geq 0}$. The expression depends on the path $\varphi_i$ from stage $\Gamma_i$. The algorithm iterates all the stages in the plan $\Gamma$ (line~\ref{alg:stages-loop}), and enters the next stage $\Gamma_{i+1}$ when the UAV reaches the triggering point $\mathbf{p}_{\Gamma_i}$ (FSM in Definition~\ref{def:mission}).
+Algorithm~\ref{alg2} illustrates the procedure to generate the plan $\Gamma$ that covers $\mathcal{Q}^v$ per each discretized time step, i.e., $\mathcal{T}:=\{t_0,t_0+h,\dots,t_f\}$ for a given step $h\in\mathbb{R}_{>0}$.
 
-The energy coefficients are updated at line~\ref{alg:evolution}, using the expression from Equation~(\ref{eq:state-perf}). A priori state estimate $\hat{\mathbf{q}}_k$ is refined using a state estimator--such as Kalman filter (KF)~\cite{simon2006optimal}--and the data from an energy sensor (line~\ref{alg:kalman_end}).
-At line~\ref{alg:mpc}, the algorithm uses MPC to select the control $\mathbf{u}_k$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function (higher the horizon, higher the complexity and the robustness of the control to the output constraints)
-\begin{equation*}\label{eq:cost}\begin{split}
-  V_f(\mathbf{q}_k)&=l(\mathbf{q}_k,\mathbf{u}_k)=(1/2)\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k,
-\end{split}\end{equation*}
-where $\mathrm{diag}(C)$ is a diagonal matrix with the items of $C$ from Equation~(\ref{eq:state-details}).
+%\begin{enumerate*}[label={(\alph*)},font={\textit}]
+%  \item place a line $\varphi_i$ parallel to ${}^{v_1}|_{v_{|v|}}$ that intersects edges ${}^{v_{|v|}}|_{v_{|v-1|}},{}^{v_1}|_{v_2}$ (i.e., first and last),
+%  \item place a circle $\varphi_{i+1}$ whose left most point lays at $\mathbf{p}_{\Gamma_i}$, the intersection of $\varphi_i$ and the edge ${}^{v_{|v|}}|_{v_{|v-1|}}$. $\varphi_{i+1}$ intersects $v$ again at $\mathbf{p}_{\Gamma_{i+1}}$,
+%  \item place a line $\varphi_{i+2}$ parallel to $\varphi_i$ that intersects $v$ at $\mathbf{p}_{\Gamma_{i+1}},\mathbf{p}_{\Gamma_{i+2}}$,
+%  \item finally, place a circle $\varphi_{i+3}$ whose right most point lays at $\mathbf{p}_{\Gamma_{i+2}}$ and intersects $v$ again at $\mathbf{p}_{\Gamma_{i+3}}$.
+%\end{enumerate*}
 
-We note that at every step of the sum on line~\ref{alg:mpc}, the algorithm evolves the state to check if the output satisfies the output constraint set, and if the control satisfies the control constraint set. In particular, it performs a subroutine
-\begin{algorithmic}
-  \WHILE{$\overline{c}_i\notin\mathcal{U}_k,\, y_k\notin\mathcal{Y}_k$}\label{alg2:while}
-    \STATE $\overline{c}_i\gets\overline{c}_i-\delta$
-  \ENDWHILE
-  \STATE $\mathbf{u}_k\gets\overline{c}_i$
-\end{algorithmic} 
-where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps. Both conditions of the loop have to be respected. The maximum values of path and computation parameters are reduced by the steps if they don't meet the constraints.
+%For ease of notation, the procedure assume that the polygon $v$ is constructed in such a way that the lines $\varphi_{k+1},\varphi_{k+3}$ are never disconnected. %These are
+%\begin{subequations}\label{eq:line-gene}\begin{align}
+%  \varphi_{k+1}&:=x-x_{\Gamma_1}-\lfloor i/4\rfloor x_\mathbf{d},\label{eq:v1}\\
+%  \varphi_{k+3}&:=x-x_{\Gamma_2}-\lfloor i/4\rfloor x_\mathbf{d}\label{eq:v3},
+%\end{align}
+%\end{subequations}
+%where $(x_\mathbf{p},y_\mathbf{p})=:\mathbf{p}$ for any point $\mathbf{p}$, and $\lfloor\,\cdot\,\rfloor$ is the integer division (it has a different meaning with parameters set $c_i$, see Equation~\ref{eq:piece-wise-reg}). The circles are
+%\begin{subequations}\label{eq:circ-gene}\begin{align}
+%  \begin{split}\varphi_{i+1}:=(&x-x_{\Gamma_1}-r_1-\lfloor i/4\rfloor x_\mathbf{d})^2+\\ (&y-y_{\Gamma_1}-\lfloor i/4\rfloor y_\mathbf{d})^2-r_1^2,\end{split}\label{eq:v2}\\
+%  \begin{split}\varphi_{i+3}:=(&x-x_{\Gamma_2}+r_2-\lfloor i/4\rfloor x_\mathbf{d})^2+\\ (&y-y_{\Gamma_3}-\lfloor i/4\rfloor y_\mathbf{d})^2-r_2^2,\label{eq:second-circ-gene}\end{split}
+%\end{align}
+%\end{subequations}
+%where $r_1,r_2\in\mathbb{R}_{>0}$ s.t. $r_1>r_2>\underline{r}$ are radiuses. $r_1=r_2+x_\mathbf{d}/2$, whereas $r_2$ is in Equation~(\ref{eq:r2}).
 
-We finally note that one can express the tradeoffs between parameters (e.g., a decrement in the distance between the lines in a survey scenario is related to a decrement in the number of detections per second) enriching the control constraint set with the constraints
-\begin{equation*}
-  R_i\mathbf{u}_k-r_i\geq 0,
-\end{equation*}
-where $r_i\in\mathbb{R}^n$ and $R_i\in\mathbb{R}^{n\times n}$ expresses the relation between the parameters (if $R_i$ is the identity matrix, there is no relation between the parameters).
+%Similarly, the triggering points are
+%\begin{subequations}\label{eq:trigs-gene}\begin{align}
+%  \mathbf{p}_{\Gamma_i}&\hspace*{-.35ex}:=(x_{\Gamma_1}\hspace*{-.35ex}+\hspace*{-.35ex}\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}\hspace*{-.35ex}+\hspace*{-.35ex}\lfloor i/4\rfloor y_\mathbf{d}),\label{eq:t1}\\
+%  \mathbf{p}_{\Gamma_{i+1}}&\hspace*{-.35ex}:=(x_{\Gamma_1}\hspace*{-.35ex}+\hspace*{-.35ex}2r_1+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}\hspace*{-.35ex}+\hspace*{-.35ex}\lfloor i/4\rfloor y_\mathbf{d}),\label{eq:t2}\\
+%  \mathbf{p}_{\Gamma_{i+2}}&\hspace*{-.35ex}:=(x_{\Gamma_1}\hspace*{-.35ex}+\hspace*{-.35ex}2r_1+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}\hspace*{-.35ex}+\hspace*{-.35ex}\lfloor i/4\rfloor y_\mathbf{d}),\label{eq:t3}\\
+%  \mathbf{p}_{\Gamma_{i+3}}&\hspace*{-.35ex}:=(x_{\Gamma_1}\hspace*{-.35ex}+\hspace*{-.35ex}2(r_1\hspace*{-.35ex}-\hspace*{-.35ex}r_2)+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}\hspace*{-.35ex}+\hspace*{-.35ex}\lfloor i/4\rfloor y_\mathbf{d})\label{eq:last-trig-gene}.
+%\end{align}
+%\end{subequations}
 
+\begin{figure}[t]
+  \footnotesize
+  \begin{minipage}[l]{0.25\columnwidth}
+    \caption{The alteration of the path parameter $c_{1,1}$, the radius of the circle (it corresponds to the alteration of the plan in Figure~\ref{fig:il-abs}).}
+    \label{fig:tee1}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.7\columnwidth}
+    \centering
+    \vspace*{-4.5ex}
+    \input{\figpath/new/traj2.tikz}
+  \end{minipage}
+  \vspace*{-4.5ex}
+\end{figure}
+\begin{figure}[t]
+  \footnotesize
+  \begin{minipage}[l]{0.73\columnwidth}
+    \centering
+    \vspace*{-2ex}
+    \input{\figpath/new/traj3.tikz}
+  \end{minipage}\hfill
+  \begin{minipage}[l]{0.25\columnwidth}
+    \caption{Zamboni-like motion: ($\overline{\Gamma}$) with four primitive paths (Lines~\ref{alg2:circ1}--\ref{alg2:trig4} in Alg.~\ref{alg2}) can be (re)planned ($\underline{\Gamma}$) with $r_2$ in Eq.~(\ref{eq:r2}).}
+    \label{fig:zambo}
+  \end{minipage}
+  \vspace*{-4.5ex}
+\end{figure}
+
+To implement the variable CPP, the radius $r_2$ of the second circle $\varphi_{|\Gamma|+4}$ on Line~\ref{alg2:circ2}
+\begin{equation}\label{eq:r2}
+  r_2(c_{i,1}):=\sqrt{r^2+c_{i,1}},
+\end{equation}
+is in function of a path parameter $c_{i,1}\in(\underline{r}^2-r^2,0]$ and $r$ is a given ideal turning radius along with the minimum radius (see Problem~\ref{pb:cov-pb}). The center than also changes
+\begin{equation}\label{eq:second-circ-gene}
+  \varphi_{|\Gamma|+4}:=(x-x_{\mathbf{p}_{|\Gamma|+3}}+r_2)^2+(y-y_{\mathbf{p}_{|\Gamma|+3}})^2-r_2^2,
+\end{equation}
+where $(x_\mathbf{p},y_\mathbf{p})=:\mathbf{p}$ for any point $\mathbf{p}$. Figure~\ref{fig:tee1} illustrates the concept of $c_{i,1}$ altering the CPP. The radius of the first circle on Line~\ref{alg2:circ1} is then $r_1:=r+x_\mathbf{d}/2$ (i.e., the radiuses of the two circles ensure that the primitive paths are shifted of $\mathbf{d}$ in Definition~\ref{def:primitive}).
+
+Algorithm~\ref{alg2} initialize $j$ to minus one and builds the first four primitive functions $\varphi_1,\dots,\varphi_4$. The remaining $\Gamma$ is built with the shift $\mathbf{d}$ up to the given final point $\mathbf{p}_{\Gamma_l}$. Initial point is $\mathbf{p}_{\Gamma_1}$, placed s.t. the line $\varphi_1$ is at the same distance from an eventual previous line, e.g., $x_{\mathbf{p}_{\Gamma_1}}=x_{v_1}+x_{\mathbf{d}}/2$ in Figure~\ref{fig:zambo}.
+
+\subsection{Coverage (re)planning-scheduling}
+\label{sec:repla-algo}
+
+Past literature in planning-scheduling often relies on optimal control and optimization related approaches~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}. We similarly derive an optimal control problem returning the trajectory of parameters $c_i(\mathcal{T})$ with $\mathcal{T}:=[t_0,t_f]$ (see Definition~\ref{def:meas}). Since the final time instant and the exact value of the state $\mathbf{q}$ are not known, we use a technique in the literature named output model predictive control (MPC) that derives the configuration for a finite horizon on an estimated state $\hat{\mathbf{q}}$, i.e., $t_f:=t_0+N$ for a given $N\in\mathbb{R}_{>0}$.
+
+An optimal control problem (OCP) that selects the highest configuration of $c_i$ and respects the constraints, with $\mathbf{q}(t)$ and $c_i(t)$ the state and parameters trajectories, $l:\mathbb{R}^m\times\mathcal{C}_i\times\mathcal{S}_i\times\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ and $l_f:\mathbb{R}^m\times\mathbb{R}_{> 0}\rightarrow\mathbb{R}$ given initial and final cost functions
+\begin{subequations}\label{eq:ocp-output-mpc}\begin{align}
+  \max_{\mathbf{q}(t),c_i(t)}&{l_f(\mathbf{q}(t_f),t_f)+\int_{t_0}^{t_f}{l(\mathbf{q}(t),c_i(t),t)\,dt}},\label{eq:ocp-costs}\\
+  \text{s.t. }\dot{\mathbf{q}}&=f(\mathbf{q}(t),c_i(t),t),\label{eq:dyn-evol}\\
+  c_{i,j}(t)&\hspace*{-.2ex}\in\hspace*{-.2ex}\mathcal{C}_{i,j},\,c_{i,\rho+k}(t)\hspace*{-.2ex}\in\hspace*{-.2ex}\mathcal{S}_{i,k}\,\forall j\hspace*{-.2ex}\in\hspace*{-.2ex}[\rho]_{>0},\,k\hspace*{-.2ex}\in\hspace*{-.2ex}[\sigma]_{>0},\label{eq:state-cont-const-mpc}\\
+  \mathbf{q}(t)&\hspace*{-.2ex}\in\hspace*{-.2ex}\mathbb{R}^m,\,y(t)\hspace*{-.2ex}\in\hspace*{-.2ex}\mathcal{Y}(t),\label{eq:batt-const-mpc}\\
+  \mathbf{q}(t_0)&=\hat{\mathbf{q}}_0\,\,\,\text{given (last estimated state)},\text{ and}\label{eq:ocp-outp-mpc-state-est}\\
+  b(y(t_0))&=b_0\,\,\,\text{given}\label{eq:ocp-outp-bat}.
+\end{align}\end{subequations}
+
+Here, Equation~(\ref{eq:dyn-evol}) is the differential periodic energy model in Equation~(\ref{eq:state-perf}). Equation~(\ref{eq:state-cont-const-mpc}) are the parameters constraints sets in Definition~\ref{def:stage}. Equation~(\ref{eq:batt-const-mpc}) is the state and output constraints in Lemma~\ref{lem:bat} that requires to evolve the battery model. Equation~(\ref{eq:ocp-outp-mpc-state-est}) is the state guess estimated via state estimation% (e.g., linear Kalman filter)
+with the very first estimate given. Equation~(\ref{eq:ocp-outp-bat}) is the battery SoC, estimated via a flight controller.
+
+\begin{algorithm}[t]
+  \begin{algorithmic}[1]
+    \small
+    \FORALL{$i\in\mathcal{T}$}
+      \makeatletter
+      \setcounter{ALC@line}{15}
+      \makeatother
+      \STATE $\mathbf{q}(\mathcal{K}\setminus\{i+N\}),c_j(\mathcal{K})\gets${ \vspace*{.3ex}solve NLP }$\argmax_{\mathbf{q}(k),c_j(k)}$ \vspace*{.7ex}\hspace*{1em}${l_f(\mathbf{q}(i+\hspace*{-.1ex}N),i+\hspace*{-.1ex}N)}+\hspace*{-.2ex}{\sum_{k\in\mathcal{K}}{l_d(\mathbf{q}(k),c_j(k),k)}}${ in Eq.~(\ref{eq:ocp-output-mpc}) \hspace*{1em}on }$\mathcal{K}=\{i,i+h,\dots,i+N\}$\vspace*{.3ex}\label{alg:mpc}
+      
+      \vspace*{.8ex}
+      \STATE $k\gets i$\vspace*{.3ex}\label{alg:bat1}
+      \WHILE{$b_d(C\mathbf{q}(k))>0$}\vspace*{.3ex}
+        \IF{$k\in\mathcal{K}$}
+          \STATE $\mathbf{q}(k+h)\gets${ solve model in Eq.~(\ref{eq:state-perf-q})}\vspace*{.3ex}\label{alg:evol}
+        \ENDIF
+        \STATE $b_d(C\mathbf{q}(k+h))\gets${ solve model in Lem.~\ref{lem:bat}}\vspace*{.3ex}
+        \STATE $k\gets k+h$\vspace*{.3ex}
+      \ENDWHILE
+      \STATE $t_b\gets k-i$\vspace*{.3ex}\label{alg:bat2}
+      \STATE $t_s\gets(\mathrm{diag}(\nu_j^\rho)\vspace*{.3ex}c_j^\rho(i)+\tau_j^\rho)[\overbrace{\begin{matrix}1&1&\cdots&1\end{matrix}}^{\rho}]$\vspace*{.3ex}\label{alg:traj1}
+      \STATE $t_r\gets(t_s/\overline{t})(\overline{t}-i)$\vspace*{.3ex}
+      \IF{$t_r<t_b$}
+        \STATE $c_j^{\rho}(i)\gets${ find }$c_j^{\rho}${ with }$t_c\in[0,t_b]${, otherwise take }$\underline{c}_j^\rho$\vspace*{.3ex}\label{alg:traj2}
+      \ENDIF
+
+      \vspace*{.8ex}
+      \STATE $\hat{\mathbf{q}}(i+h)\gets${ estimate }$\mathbf{q}${ in Eq.~(\ref{eq:state-perf-q}) with energy sensor }$y(i)$\vspace*{.3ex}\label{alg:klm1}
+      \STATE $\hat{y}(i+h)\gets${ derive }$y${ from Eq.~(\ref{eq:state-perf-y}) with est. state }$\hat{\mathbf{q}}(i+h)$\vspace*{.3ex}\label{alg:klm2}
+    \ENDFOR
+  \end{algorithmic}
+  \caption{Coverage (re)planning-scheduling}\label{alg}
+\end{algorithm}
+
+Algorithm~\ref{alg} implements Equation~(\ref{eq:ocp-output-mpc}) for the purpose of energy-aware (re)planning-scheduling of $\Gamma$ from Algorithm~\ref{alg2}, i.e, Lines~\ref{alg:mpc}--\ref{alg:klm2} continue after Line~\ref{alg2:last} in Algorithm~\ref{alg2}. 
+
+Line~\ref{alg:mpc} in Algorithm~\ref{alg} contains a transformed version of the OCP in Equation~(\ref{eq:ocp-output-mpc}) into a non-linear program (NLP) that can be easily solved with available NLP solvers~\cite{rawlings2017model}. Its solution leads to both trajectories of parameters and states for future $N$ instants. Here, the sets $\mathcal{K},\mathcal{T}$ have possibly a different step $h$, tuning the precision. The functions $l_d,b_d$ are merely the discretized versions of Equation~(\ref{eq:ocp-costs}) and Lemma~\ref{lem:bat}, with, e.g., Runge-Kutta methods, Euler method, etc~\cite{iserles2009first}.
+
+Lines~\ref{alg:bat1}--\ref{alg:bat2} estimate the time needed to completely drain the battery, exploiting the SoC already predicted previously on Line~\ref{alg:mpc}. The coverage is then replanned accordingly on Lines~\ref{alg:traj1}--\ref{alg:traj2} using Lemma~\ref{lem:new} and scaling factors from Equation~(\ref{eq:scale-traj}). Lines~\ref{alg:klm1}--\ref{alg:klm2} estimate the energy model's state with current energy sensors readings $y$ (e.g., linear Kalman filter~\cite{kalman1960new}).
+
+%The main purpose of the algorithm is to output a valid control sequence $\mathbf{u}:=\{\mathbf{u}_0,\mathbf{u}_1,\dots\}$ at each time step given an initial plan $\Gamma$ and to guide the UAV on the path resulting from such sequence--to solve Problem~\ref{pb}.
+
+%A valid control sequence has to respect the energy constraints. We consider some realistic constraints to the energy of a flying UAV in the following subsection.
+
+%\subsection{Output and control constraint sets}
+
+%We stated earlier the output $y$--the instantaneous energy consumption--evolves in $\mathbb{R}$. This is generally untrue. Physical UAVs are bounded by strict energy budgets due to battery limitations.
+
+%Let us hence consider the state of charge (SoC) $b$ of a UAV battery with a simplistic difference equation~\cite{seewald2020mechanical}
+%\begin{equation}\label{eq:bat}
+%  b_k=b_{k-1}-k_b\left(V-
+%  \sqrt{
+%    V^2-
+%    4R_ry_k}
+%  \right)/(2R_rQ_c),
+%\end{equation}
+%where $k_b$ is the battery coefficient determined experimentally,  $V\in\mathbb{R}$ is the internal battery 
+% and $\tilde{V}\in\mathbb{R}$ the stabilized 
+%voltage measured in volts, $R_r\in\mathbb{R}$ the resistance measured in ohms, and $Q_c\in\mathbb{R}$ the constant nominal capacity measured in amperes per hour. 
+
+%\begin{defn}[Output, control constrain sets]\label{def:const}
+%The output constrain set is then the set
+%\begin{equation*}
+%  \mathcal{Y}_k:=\{y_k\mid y_k\in[0,b_kQ_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
+%\end{equation*}
+%and $b_kQ_cV$ is the maximum instantaneous energy consumption.
+
+%The control constraint set is the path constraint set for the path parameters and computation constraint sets for the computation parameters (Definition~\ref{def:mission})
+%\begin{equation*}
+%  \mathcal{U}_k:=\begin{cases}
+%    \mathcal{C}_i & \text{for } c_{i,j} \text{ with } j\leq\rho\\
+%    \mathcal{S}_{i,j-\rho} & \text{for } c_{i,j} \text{ with } \rho<j\leq\sigma
+%  \end{cases}.
+%\end{equation*}
+%\end{defn}
+
+%\subsection{Deployment algorithm}
+
+%The algorithm first initializes the position, energy coefficients, and control (line~\ref{alg:init}). It updates the position at line~\ref{alg:pos}, using the expression from Equation~(\ref{eq:pd}) and the velocity $v\in\mathbb{R}_{\geq 0}$. The expression depends on the path $\varphi_i$ from stage $\Gamma_i$. The algorithm iterates all the stages in the plan $\Gamma$ (line~\ref{alg:stages-loop}), and enters the next stage $\Gamma_{i+1}$ when the UAV reaches the triggering point $\mathbf{p}_{\Gamma_i}$ (FSM in Definition~\ref{def:mission}).
+
+%The energy coefficients are updated at line~\ref{alg:evolution}, using the expression from Equation~(\ref{eq:state-perf}). A priori state estimate $\hat{\mathbf{q}}_k$ is refined using a state estimator--such as Kalman filter (KF)~\cite{simon2006optimal}--and the data from an energy sensor (line~\ref{alg:kalman_end}).
+%At line~\ref{alg:mpc}, the algorithm uses MPC to select the control $\mathbf{u}_k$ for a given horizon $N\in\mathbb{Z}_{>0}$ from the cost function (higher the horizon, higher the complexity and the robustness of the control to the output constraints)
+%\begin{equation*}\label{eq:cost}\begin{split}
+%  V_f(\mathbf{q}_k)&=l(\mathbf{q}_k,\mathbf{u}_k)=(1/2)\mathbf{q}_k^T\mathrm{diag}(C)\mathbf{q}_k,
+%\end{split}\end{equation*}
+%where $\mathrm{diag}(C)$ is a diagonal matrix with the items of $C$ from Equation~(\ref{eq:state-details}).
+
+%We note that at every step of the sum on line~\ref{alg:mpc}, the algorithm evolves the state to check if the output satisfies the output constraint set, and if the control satisfies the control constraint set. In particular, it performs a subroutine
+%\begin{algorithmic}
+%  \WHILE{$\overline{c}_i\notin\mathcal{U}_k,\, y_k\notin\mathcal{Y}_k$}\label{alg2:while}
+%    \STATE $\overline{c}_i\gets\overline{c}_i-\delta$
+%  \ENDWHILE
+%  \STATE $\mathbf{u}_k\gets\overline{c}_i$
+%\end{algorithmic} 
+%where $\delta\in\mathbb{R}^\rho\times\mathbb{Z}_{\geq 0}^\sigma$ are reduction steps. Both conditions of the loop have to be respected. The maximum values of path and computation parameters are reduced by the steps if they don't meet the constraints.
+
+%We finally note that one can express the tradeoffs between parameters (e.g., a decrement in the distance between the lines in a survey scenario is related to a decrement in the number of detections per second) enriching the control constraint set with the constraints
+%\begin{equation*}
+%  R_i\mathbf{u}_k-r_i\geq 0,
+%\end{equation*}
+%where $r_i\in\mathbb{R}^n$ and $R_i\in\mathbb{R}^{n\times n}$ expresses the relation between the parameters (if $R_i$ is the identity matrix, there is no relation between the parameters).
+
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}{.4\textwidth}
+    \centering
+    \footnotesize
+    \input{\figpath/results/new_physics2/trajs2.tikz}
+    \caption{Path, parameters ($c_{i,1},c_{i,2}$) evolutions}
+    \label{fig:trajs}
+  \end{subfigure}\hspace*{3ex}
+  \begin{subfigure}{.54\textwidth}
+    \centering
+    \footnotesize
+    \input{\figpath/results/new_physics2/ener2.tikz}
+    \caption{Energies, model states ($\alpha_0,\dots\in\mathbf{q}$) and parameters ($T,b_0$) evolutions}
+    \label{fig:ener}
+  \end{subfigure}
+  \footnotesize
+  \caption{CPP with novel Zamboni-like motion (\hyperref[fig:trajs-I-static]{I},\hyperref[fig:trajs-II-static]{II}) and Planning-scheduling of CPP and ground hazards detections with PedNet CNN (\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-dyn-ii]{ii}) in terms of the path, energies, and plans-schedules under different conditions (\hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii}), i.e., wind speed and direction, battery behavior, and parameters initial values.}
+  \label{fig:res}
+\end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}         %
 \label{sec:experimental}  %
 
-In this section, we discuss our experimental setup, the implementation strategy, and the results.
+%$\subsection{Experimental setup}
 
-\subsection{Experimental setup}
-
-The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (see the subfigures of Figure~\ref{fig:il-abs}). We collected these data flying Opterra, a fixed-wing UAV that we adapted for an agricultural scenario. The UAV was flying in standard atmospheric conditions like the path \hyperref[fig:trajs-I-static]{5.I} in Figure~\ref{fig:trajs}, or the first ``non-adapted'' part of Figure~\ref{fig:il-abs}. We later extended the UAV to carry a companion computer, NVIDIA Jetson Nano~\cite{nano}, running ROS. The companion computer has two ROS nodes; one detects hazards using PedNet, a Fully Convolutional Neural Network~\cite{ullah2018pednet}, and the other communicates with a ground station.
-
-\begin{figure}[t]
-  \centering
-  \footnotesize
-  \input{\figpath/results/new_physics2/trajs_revised.tikz}
-  \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In \hyperref[fig:trajs-I-static]{5.I} and \hyperref[fig:trajs-II-static]{5.II} the path is static. It is dynamically replanned with the algorithm in \hyperref[fig:trajs-dyn-i]{5.i} and \hyperref[fig:trajs-dyn-ii]{5.ii}. The algorithm adapts path parameter radius of the circle $c_{1,1}$ and computation parameter fps rate $c_{1,2}$.}
-  \label{fig:trajs}
-\end{figure}
-\begin{figure}[h]
-  \centering
-  \footnotesize
-  \input{\figpath/results/new_physics2/ener_revised.tikz}
-  \caption[Energy models of different static and dynamic plans] {The energy models of the paths from Figure~\ref{fig:trajs} for 200 seconds against the simulated data (\hyperref[fig:ener:static-I]{6.I} and \hyperref[fig:ener:static-II]{6.II}). Below are the energy evolutions from the algorithm (\hyperref[fig:ener-dyn-i]{6.i} and \hyperref[fig:ener-dyn-ii]{6.ii}). It replans the path when the final time and battery time do not match, and the computation when the battery is discharged.}
-  \label{fig:ener}
-\end{figure}
-\begin{figure}[h!]
-  \centering
-  \footnotesize
-  \input{\figpath/results/new_physics2/model.tikz}
-  \caption[Energy estimation and evolution of the state]{Energy estimation for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right.}
-  \label{fig:model}
-\end{figure}
-
-We implemented a realistic simulator to simulate the empirical data of a given plan and atmospheric conditions. We show the effects of different conditions in Figure~\ref{fig:trajs}. Both paths \hyperref[fig:trajs-I-static]{5.I} and \hyperref[fig:trajs-II-static]{5.II} are flying the same plan with different initial parameters values. Path \hyperref[fig:trajs-I-static]{5.I} is flying with a constant wind speed of 5 meters per second, wind direction of 0 degrees, and an initial path parameter $c_{1,1}$ value of 0. Path  \hyperref[fig:trajs-II-static]{5.II} is flying under the same conditions but a wind direction of 90 degrees and the initial path parameter value of -1000. The energy evolutions of these two paths are the top two subfigures \hyperref[fig:ener:static-I]{6.I} and \hyperref[fig:ener:static-II]{6.II} of Figure~\ref{fig:ener}. The simulated energy data are in black, the model evolution in red.
-
-\subsection{Algorithm evaluation}
-
-\subsubsection*{Periodic energy model}
-
-We showcase the energy model from Section~\ref{sec:energy-model} in Figure~\ref{fig:model}. Left figures illustrate an initial slice of the model and period estimation (Definition~\ref{def:period}). We used order $r$ equal to 3. We motivate this choice again with Figure~\ref{fig:il-abs}, where the power spectrum subfigure shows that 3 frequencies are adequate. On the right of Figure~\ref{fig:model}, we show the states $\alpha_0,...,\beta_3$ in time, concluding that approximately 2 periods are sufficient to obtain a consistent state estimate. With non-periodic signals, we observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
-
-\subsubsection*{Implementation of the planning strategy}
-
-The practical implementation is based on observations of different variations of paths and computations. A variation of path alters the overall flying time, which we reflect in the factors $\nu_{1,1},\tau_{1,1}$ from Equation~(\ref{eq:scale-traj}). We compare the remaining flight time with the time needed to completely deplete the battery from Equation~(\ref{eq:bat}). We reduce or increase the parameter to optimize the battery time. The path parameter $c_{1,1}$ is equal for all the stages and it changes the radius of the first circle in the current period and therefore shifts the other paths accordingly (the change is illustrated in Figure~\ref{fig:tee1}). It results in a shorter or longer distance between the survey lines and in an increment or reduction of the flying time respectively. The path constraint set is set to $\underline{c}_{1,1}=$ -1000 and $\overline{c}_{1,1}=$ 0 equal for all the stages.
-
-A variation of computations affects directly the power. We thus select the highest computation which satisfies the constraints from Definition~\ref{def:const} in the line~\ref{alg:mpc} of the algorithm. We observed a low effect on the power of the communication ROS node. Nevertheless, the detection node varies between 5 and 10 watts for the lowest and highest fps. We implemented fps rate parameter $c_{1,2}$ with factors  $\nu_{1,2},\tau_{1,2}$ mapping $c_{1,2}$ to the data from \powprof{}. The computation constraint set is set to $\underline{c}_{1,2}=$ 2 and $\overline{c}_{1,2}=$ 10 equal for all the stages.
-
-\subsubsection*{Dynamic adaptation of the path and computation parameters}
-
-We have tested the validity of the algorithm showing the dynamic adaptation in the subfigures \hyperref[fig:trajs-dyn-i]{5.i} and \hyperref[fig:trajs-dyn-ii]{5.ii} of Figure~\ref{fig:trajs} path-wise, and \hyperref[fig:ener-dyn-i]{6.i} and \hyperref[fig:ener-dyn-ii]{6.ii} of Figure~\ref{fig:ener} energy-wise. For the first path (Subfigure \hyperref[fig:trajs-I-static]{5.I}) the plan starts at the highest configuration of parameters. We simulated two unexpected battery drops at approximately 1 minute and a half and 4 minutes and a half. The algorithm optimizes the path in the proximity of the drops to ensure that the flight is completed. Moreover, it maximizes the parameter $c_{1,2}$ when the battery is discharging (green line) respecting the output constraint (Definition~\ref{def:const}). We simulated the opposite scenario for the second path (Subfigure \hyperref[fig:trajs-II-static]{5.II}). The plan starts at the lowest configuration of parameters and the battery behaves linearly. We note that the path parameter is increased as soon as the algorithm estimated enough data (two periods $T$) and the computation parameter is optimized for the battery discharge rate. For both cases, we used reductions $\delta$ of 500 and 2 for $c_{1,1}$ and $c_{1,2}$ respectively, and the horizon $N$ equal to 6 seconds.
+%The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (see the subfigures of Figure~\ref{fig:il-abs}). 
+Figure~\ref{fig:il-abs} details the data of a physical flight  
+%We collected these data flying Opterra, a fixed-wing UAV that we adapted for an agricultural scenario. The UAV was flying 
+in standard atmospheric conditions. 
+Figure~\ref{fig:res} extends the flight with NVIDIA\hspace{.5ex}(R) Jetson Nano heterogeneous computing hardware aided by a flight simulation implemented in \textsc{Matlab}\hspace{.5ex}(R). 
+Upper-case roman numerals I,II indicate the plans are static (i.e., solely Algorithm~\ref{alg2}), lower-case i,ii exploit planning-scheduling in the letter.
+The computing hardware caries a camera as a peripheral and is evaluated independently of the aerial robot with \powprof{} (see Section~\ref{sec:mod-com}). The scheduler varies a computation parameter $c_{i,2}$ relative to ground hazards detection rate from two to ten frames-per-second (FPS). The detection uses PedNet, a Convolutional Neural Network (CNN)~\cite{ullah2018pednet}, implemented through Robot Operating System (ROS) middleware~\cite{quigley2009ros} as well as the scheduler itself. The planner varies the path parameter $c_{i,1}$ in Equation~(\ref{eq:r2}) between zero and -1000 (i.e., the planner-scheduler is the concrete implementation of Algorithms~\ref{alg2}--\ref{alg}).
 
 
+%We later extended these UAV to carry a companion computer, NVIDIA Jetson Nano~\cite{nano}, running ROS. The companion computer has two ROS nodes; one detects hazards using PedNet, a Fully Convolutional Neural Network~\cite{ullah2018pednet}, and the other communicates with a ground station.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion and Future Work}  %
-\label{sec:conclusion}                %
-                                      %
-In this paper, we presented a planning algorithm for autonomous UAVs with a limited power source. The algorithm plans the path with computations dynamically and simultaneously. We collected empirical data of a fixed-wing UAV flying an agricultural scenario and built a simulator to test the algorithm in different conditions. The algorithm estimates the energy with a KF and optimizes the path and computations using MPC. It evolves the state to verify the satisfaction of battery and time constraints. It uses a plan where at each stage the UAV flies a path and does some computations. It guides the UAV using a vector field. Finally, it exploits the computational energy model varying the level of computations in the function of the current battery level.
+%\begin{figure}[t]
+%  \centering
+%  \footnotesize
+%  \input{\figpath/results/new_physics2/trajs_revised.tikz}
+%  \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In \hyperref[fig:trajs-I-static]{5.I} and \hyperref[fig:trajs-II-static]{5.II} the path is static. It is dynamically replanned with the algorithm in \hyperref[fig:trajs-dyn-i]{5.i} and \hyperref[fig:trajs-dyn-ii]{5.ii}. The algorithm adapts path parameter radius of the circle $c_{1,1}$ and computation parameter fps rate $c_{1,2}$.}
+%  \label{fig:trajs}
+%\end{figure}
+%\begin{figure}[h]
+%  \centering
+%  \footnotesize
+%  \input{\figpath/results/new_physics2/ener_revised.tikz}
+%  \caption[Energy models of different static and dynamic plans] {The energy models of the paths from Figure~\ref{fig:trajs} for 200 seconds against the simulated data (\hyperref[fig:ener:static-I]{6.I} and \hyperref[fig:ener:static-II]{6.II}). Below are the energy evolutions from the algorithm (\hyperref[fig:ener-dyn-i]{6.i} and \hyperref[fig:ener-dyn-ii]{6.ii}). It replans the path when the final time and battery time do not match, and the computation when the battery is discharged.}
+%  \label{fig:ener}
+%\end{figure}
+%\begin{figure}[h!]
+%  \centering
+%  \footnotesize
+%  \input{\figpath/results/new_physics2/model.tikz}
+%  \caption[Energy estimation and evolution of the state]{Energy estimation for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right.}
+%  \label{fig:model}
+%\end{figure}
 
-We are currently extending the results of this paper to work with a standard flight controller. We are further investigating the validity of the algorithm on other energy-critical mobile robots. Such as on planetary exploration rovers in~\cite{seewald2020beyond}.
+%We implemented a realistic simulator to simulate the empirical data of a given plan and atmospheric conditions. We show the effects of different conditions in Figure~\ref{fig:trajs}. 
+
+Figure~\ref{fig:trajs} illustrate same plan $\Gamma$ under different conditions. Flights \hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i} have a constant wind speed of five meters per second, wind direction of zero degrees, and an initial parameters $c_{i,1},c_{i,2}$ values of zero and ten (i.e., full $r_2$ and detection). Flights \hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii} (see added gray background for clarity) the same but a wind direction of 90 degrees and the initial parameters values of -1000 and two (i.e., minimum $r_2$ and detection). 
+
+Figure~\ref{fig:ener} %~\hyperref[fig:ener:static-I]{6.I}--\hyperref[fig:ener:static-II]{6.II} 
+illustrate the power ($y(i)$ on Line~\ref{alg:klm1} in Algorithm~\ref{alg}), and the energy model ($C\mathbf{q}(i)$ on Line~\ref{alg:evol}).
+Flight~\hyperref[fig:ener-dyn-i]{i} simulates a battery (green line) drop at approximately one minute and a half and four minutes and a half. Planner-scheduler optimizes the path in the proximity of the drops to ensure that the flight is completed, whereas it maximizes the parameter $c_{i,2}$ when the battery is discharging, respecting the output constraint (Definition~\ref{def:const}). Flight~\hyperref[fig:ener-dyn-ii]{ii} simulates the opposite scenario. The lowest configuration of parameters and no battery defects. The path parameter increases as soon as the algorithm estimated enough data (two periods $T$) and the computation parameter decreases mapping the battery discharge rate. For both cases scaling factors are derived empirically, the horizon $N$ is set to six seconds similarly to relevant literature, oder $r$ is three (see Figure~\ref{fig:il-abs}) and the costs $l_d,l_f$ are merely squared controls.
+%\subsection{Algorithm evaluation}
+%\subsubsection*{Periodic energy model}
+The figure further details the energy model (see detail view for \hyperref[fig:ener:static-I]{I}--\hyperref[fig:ener:static-II]{II}) on an initial slice of the model ($C\hat{\mathbf{q}}(i)$), power ($y(i)$), and period ($T$).% We motivate this choice again with Figure~\ref{fig:il-abs}, where the power spectrum subfigure shows that 3 frequencies are adequate. 
+The bottom detail of \hyperref[fig:ener:static-I]{I} illustrates the evolutions of the state $\mathbf{q}$ in time, concluding that approximately two periods are sufficient to obtain a consistent state estimate. %With non-periodic signals, we observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
+
+%\subsubsection*{Implementation of the planning strategy}
+
+%The practical implementation is based on observations of different variations of paths and computations. A variation of path alters the overall flying time, which we reflect in the factors $\nu_{1,1},\tau_{1,1}$ from Equation~(\ref{eq:scale-traj}). We compare the remaining flight time with the time needed to completely deplete the battery from Equation~(\ref{eq:bat}). We reduce or increase the parameter to optimize the battery time. The path parameter $c_{1,1}$ is equal for all the stages and it changes the radius of the first circle in the current period and therefore shifts the other paths accordingly (the change is illustrated in Figure~\ref{fig:tee1}). It results in a shorter or longer distance between the survey lines and in an increment or reduction of the flying time respectively. The path constraint set is set to $\underline{c}_{1,1}=$ -1000 and $\overline{c}_{1,1}=$ 0 equal for all the stages.
+
+%A variation of computations affects directly the power. We thus select the highest computation which satisfies the constraints from Definition~\ref{def:const} in the line~\ref{alg:mpc} of the algorithm. We observed a low effect on the power of the communication ROS node. Nevertheless, the detection node varies between 5 and 10 watts for the lowest and highest fps. We implemented fps rate parameter $c_{1,2}$ with factors  $\nu_{1,2},\tau_{1,2}$ mapping $c_{1,2}$ to the data from \powprof{}. The computation constraint set is set to $\underline{c}_{1,2}=$ 2 and $\overline{c}_{1,2}=$ 10 equal for all the stages.
+
+%\subsubsection*{Dynamic adaptation of the path and computation parameters}
+
+%Subfigures \hyperref[fig:trajs-dyn-i]{5.i}--\hyperref[fig:trajs-dyn-ii]{5.ii} in Figure~\ref{fig:trajs} path-wise, and \hyperref[fig:ener-dyn-i]{6.i} and \hyperref[fig:ener-dyn-ii]{6.ii} of Figure~\ref{fig:ener} energy-wise. For the first path (Subfigure \hyperref[fig:trajs-I-static]{5.I}) the plan starts at the highest configuration of parameters. 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bibliographystyle{IEEEtran}  %
-\bibliography{\jobname}       %
-                              %
-\leavevmode\thispagestyle{empty}\newpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions and Future Directions}  %
+\label{sec:conclusion}                       %
+                                             %
+The letter provides a planning-scheduling approach for autonomous aerial robots powered by a limited power source, extending relevant past literature. It proposes a novel coverage motion for variable CPP robust to aerial robots constraints such as the turning radius of fixed wings. Energy modeling in the letter exploits collected empirical data of the fixed-wing aerial robot flying static CPP and further incorporates energy of the computing hardware via the \powprof{} tool. The approach compromises two algorithms: one derives a static coverage plan, whereas the other (re)plans-schedules the plan on a finite horizon via MPC. It evolves the state of the energy model while optimizing the battery usage. The plan compromise multiple stages, where at each the aerial robot flies a path and does some computations, allowing further extensibility in terms of constructs and approaches.
+
+Indeed, we are currently extending the results to a standard flight controller. The guidance on the coverage needs alike further investigation, as well as the study of the implications of planning-scheduling on other energy-critical mobile robots. Here, our initial investigation led to possible savings~\cite{seewald2020beyond}, in line with relevant literature~\cite{ondruska2015scheduled,lahijanian2018resource}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\small\bibliographystyle{IEEEtran}  %
+\bibliography{../../books/phd-thesis/backmatter/references}}             %
+                                     %
+%\leavevmode\thispagestyle{empty}\newpage
 
 \appendices
 
@@ -1042,6 +1101,21 @@ The initial guess is build such that the sum of the coefficients is the same in 
 \qed
 
 We note for practical reasons that the signal would still be periodic with another linear combination of coefficients (for instance, $C=d\begin{bmatrix}1 & 0 & 1 & \cdots & 0 & 1\end{bmatrix}$, or $d\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ for a constant value $d\in\mathbb{R}$).
+
+
+\section{Proof of Lemma~\ref{lem:new}}
+\label{app:proof-new}
+
+\section{Proof of Lemma~\ref{lem:bat}}
+\label{app:proof-bat}
+
+%The battery SoC changes according to~\cite{hasan2018exogenous,zhang2018online}
+%\begin{equation}
+%  \dot{b}(y(t))=-I(y(t))/Q_c
+%\end{equation}
+%where  $y(t)\in\mathbb{R}_{\geq 0}$ is a power drain, $I(y(t))\in\mathbb{R}$ the internal current, and $Q_c\in\mathbb{R}$ the battery constant nominal capacity measured in amperes per hour. The ``Rint'' circuit models the battery as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ measured in ohms representing the battery resistance. The voltage on the extremes of ECM respects $V_e=V-R_rI$, where $V_e,V\in\mathbb{R}$ the the external and internal battery voltages measured in volts. The latter can be retrieved from the battery data sheet~\cite{hinz2019comparison} and depends on SoC~\cite{hasan2018exogenous}.
+
+%Using simply 
 
 
 \end{document}

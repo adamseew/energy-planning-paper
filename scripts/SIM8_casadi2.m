@@ -6,7 +6,7 @@
 
 %% casadi opt control
 
-addpath('../../../../../casadi-linux-matlabR2014b-v3.5.5/');
+addpath('../../../../../');
 % UPDATE THE PATH WITH CASADI SOURCE !
 
 

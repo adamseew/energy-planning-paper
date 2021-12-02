@@ -2,8 +2,8 @@
 \definecolor{ca0a0a4}{RGB}{160,160,164}
 
 
-\def \globalscale {0.950000}
-\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
+\def \globalscale {1.35000}
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=.95, inner sep=0pt, outer sep=0pt]
 \begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
 \begin{scope}[scale=1.012,draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
@@ -26,7 +26,7 @@
 \end{scope}
 \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
-\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,97.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \path[fill=black] (0.0000,0.0000) node[above right] (text32) {-2};
 
 
@@ -54,7 +54,7 @@
 \end{scope}
 \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
-\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,97.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \path[fill=black] (0.0000,0.0000) node[above right] (text60) {0};
 
 
@@ -82,7 +82,7 @@
 \end{scope}
 \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
-\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,97.225)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \path[fill=black] (0.0000,0.0000) node[above right] (text88) {2};
 
 
@@ -116,7 +116,7 @@
 \end{scope}
 \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
-\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(120.462,89.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \path[fill=black] (0.0000,0.0000) node[above right] (text116) {0};
 
 
@@ -144,7 +144,7 @@
 \end{scope}
 \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
-\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(120.462,70.9)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \path[fill=black] (0.0000,0.0000) node[above right] (text144) {2};
 
 
@@ -172,12 +172,12 @@
 \end{scope}
 \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
-\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(120.969,51.0625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \path[fill=black] (0.0000,0.0000) node[above right] (text172) {4};
 
 
 
-  \path[fill=black,even odd rule,line width=0.800pt] (-0.0065,-27.8667) node[above right] (text172-3) {4000};
+  \path[fill=black,even odd rule,line width=0.800pt] (-0.0065,-25.8667) node[above right] (text172-3) {4 000};
 
 
 
@@ -198,8 +198,8 @@
 \end{scope}
 \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
-\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(144.162,100.625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
-  \path[fill=black] (0.0000,0.0000) node[above right] (text196) {\rotatebox{90}{Spectrum ($10^2$\hspace*{.2ex}dB)}};
+\begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.162,80.625)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \path[fill=black] (0.0000,0.0000) node[above right] (text196) {\rotatebox{90}{Spectrum ($\text{10}^\text{2}$\hspace*{.2ex}dB)}};
 
 
 
@@ -216,7 +216,7 @@
 \end{scope}
 \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
 \end{scope}
-\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(17.8187,114.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+\begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(17.8187,108.412)}},draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \path[fill=black] (0.0000,0.0000) node[above right] (text212) {Frequency ($10^{-2}$\hspace*{.2ex}Hz)};
 
 
