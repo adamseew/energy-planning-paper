@@ -1733,7 +1733,7 @@
 
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(53.80585,28.67025)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text360) {$\mathbf{p}(i)$};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text360) {$\mathbf{p}(t)$};
 
 
 

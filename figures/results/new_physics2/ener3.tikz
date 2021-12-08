@@ -1278,7 +1278,7 @@
 
       \end{scope}
       \begin{scope}[cm={{1.05023,0.0,0.0,1.00798,(-44.63034,-287.23447)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-        \path[fill=black] (0.0000,0.0000) node[above right] (text276) {\scriptsize $\Upsilon(i)$};
+        \path[fill=black] (0.0000,0.0000) node[above right] (text276) {\scriptsize $\Upsilon(t)$};
 
 
 
@@ -1296,7 +1296,7 @@
 
       \end{scope}
       \begin{scope}[cm={{1.05023,0.0,0.0,1.00798,(-42.24248,-276.60724)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-        \path[fill=black] (0.0000,0.0000) node[above right] (text312) {\scriptsize $\hat{y}(i)$};
+        \path[fill=black] (0.0000,0.0000) node[above right] (text312) {\scriptsize $\hat{y}(t)$};
 
 
 
@@ -2702,7 +2702,7 @@
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(197.153,129.759)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-144.59319,129.10182)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1032) {\scriptsize $b_0(i)$};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1032) {\scriptsize $b_0(t)$};
 
 
 
@@ -3310,7 +3310,7 @@
 
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-272.27196,19.63437)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,-1.4912) node[above right] (text290) {\scriptsize $\Upsilon(i)$};
+    \path[fill=black] (0.0000,-1.4912) node[above right] (text290) {\scriptsize $\Upsilon(t)$};
 
 
 
@@ -3328,7 +3328,7 @@
 
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-270.14713,27.68147)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text326) {\scriptsize $y(i)$};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text326) {\scriptsize $y(t)$};
 
 
 
