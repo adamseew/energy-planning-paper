@@ -106,11 +106,11 @@
 
 % for blank page
 
-\usepackage{afterpage}
+%\usepackage{afterpage}
 
 % for bibliography (double column balances)
 
-\usepackage{balance}
+%\usepackage{balance}
 
 %% references (generates a bib file for bibtex)
 \begin{filecontents}{\jobname.bib}
@@ -125,13 +125,11 @@
 
 %% author names and affiliations
 \author{
-  Adam Seewald$^{\text{1}}$, H\'ector Garc\'ia de Marina$^{\text{2}}$, %Henrik Skov Midtiby$^{\text{1}}$, 
-  and Ulrik Pagh Schultz$^{\text{1}}$
+  Adam Seewald$^{\text{1}}$, H\'ector Garc\'ia de Marina$^{\text{2}}$, Henrik Skov Midtiby$^{\text{1}}$, and Ulrik Pagh Schultz$^{\text{1}}$
   %\thanks{This work is supported and partly funded by the European Union's Horizon2020 research and innovation program under grant agreement No. 779882 (TeamPlay).}
   \thanks{Manuscript received: Month, Day, Year; Revised Month, Day, Year; Accepted Month, Day, Year.}%Use only for final RAL version
   \thanks{This paper was recommended for publication by Editor Editor A. Name upon evaluation of the Associate Editor and Reviewers' comments.} %Use only for final RAL version
-  \thanks{$^{\text{1}}$A. S. %, H. S. M.,
-  and U. P. S. are with the Unmanned Aerial Systems Center, M{\ae}rsk Mc-Kinney M{\o}ller Institute, University of Southern Denmark, Odense. Email: {\tt\footnotesize ads@mmmi.sdu.dk};} 
+  \thanks{$^{\text{1}}$A. S., H. S. M.,  and U. P. S. are with the Unmanned Aerial Systems Center, M{\ae}rsk Mc-Kinney M{\o}ller Institute, University of Southern Denmark, Odense. Email: {\tt\footnotesize ads@mmmi.sdu.dk};} 
   \thanks{$^{\text{2}}$H. G. is with the Faculty of Physics, Department of Computer Architecture and Automatic Control, Universidad Complutense de Madrid, Spain.}
   \thanks{Digital Object Identifier (DOI): see top of this page.}
 }
@@ -566,7 +564,7 @@ To define the nominal control and the output matrix, we exploit the effect of va
   Given $c_i(t)$ parameters at two following time instants $t\in\{t_j,t_{j+1}\}\subset\mathbb{R}_{\geq 0}$ s.t. $t_j<t_{j+1}$ for an arbitrary stage $\Gamma_i$, a change in parameters $c_i(t_j)\neq c_i(t_{j+1})$ results in different overall and instantaneous energies for path and computations parameters respectively.
 \end{lem}
 
-Appendices~\ref{app:proof-eqv}--\ref{app:proof-new} contains the proofs of Lemmas.~\ref{lem:eqv}--\hyperref[lem:new]{2}.
+Appendices~\ref{app:proof-eqv}--\ref{app:proof-new} contain the proofs of Lemmas~\ref{lem:eqv}--\hyperref[lem:new]{2}.
 
 Using the same notation from Lem.~\ref{lem:new}, the nominal control in Eq.~(\ref{eq:state-perf})
 \begin{equation}
@@ -574,7 +572,7 @@ Using the same notation from Lem.~\ref{lem:new}, the nominal control in Eq.~(\re
 \end{equation}
 for all time instants. $\hat{\mathbf{u}}$ is then a scale transformation
 \begin{equation}
-  \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)c_i(t)+\tau_i
+  \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)c_i(t)+\tau_i,
 \end{equation}
 where $\mathrm{diag}(\,\cdot\,)$ is a diagonal matrix with items of a set $\cdot$ on the diagonal and zeros elsewhere. $\nu_i:=\begin{bmatrix}\nu_{i,1}&\cdots&\nu_{i,n}\end{bmatrix}'$ and $\tau_i:=\begin{bmatrix}\tau_{i,1}&\cdots&\tau_{i,n}\end{bmatrix}'$ are scaling factors with $n:=\rho+\sigma$ that transform parameters domain (see Def.~\ref{def:stage}) to time and power domains.
 
@@ -1010,7 +1008,7 @@ Alg.~\ref{alg} implements Eq.~(\ref{eq:ocp-output-mpc}) for the purpose of energ
     \label{fig:ener}
   \end{subfigure}
   \footnotesize
-  \caption{CPP with novel Zamboni-like motion (\hyperref[fig:trajs-I-static]{I},\hyperref[fig:trajs-II-static]{II}) and Planning-scheduling of CPP and ground hazards detections with PedNet CNN (\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-dyn-ii]{ii}) in terms of the path, energies, and plans-schedules under different conditions (\hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii}), i.e., wind speed and direction, battery behavior, and parameters initial values.}
+  \caption{CPP with novel Zamboni-like motion (\hyperref[fig:trajs-I-static]{I},\hyperref[fig:trajs-II-static]{II}) and Planning-scheduling of CPP and ground patterns detections with PedNet CNN (\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-dyn-ii]{ii}) in terms of the path, energies, and plans-schedules under different conditions (\hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii}), i.e., wind speed and direction, battery behavior, and parameters initial values.}
   \label{fig:res}
 \end{figure*}
 
@@ -1027,7 +1025,7 @@ Fig.~\ref{fig:il-abs} details the data of a physical flight
 in standard atmospheric conditions. 
 Fig.~\ref{fig:res} extends the flight with NVIDIA\hspace{.5ex}(R) Jetson Nano\hspace{.5ex}(TM) heterogeneous computing hardware aided by a flight simulation implemented in \textsc{Matlab}\hspace{.5ex}(R). 
 Upper-case roman numerals I,II indicate the plans are static (i.e., solely Alg.~\ref{alg2}), lower-case i,ii exploit planning-scheduling in the letter.
-The computing hardware caries a camera as a peripheral and is evaluated independently of the aerial robot with the \powprof{} (see Sec.~\ref{sec:mod-com}). The scheduler varies a computation parameter $c_{i,2}$ relative to the ground hazards detection rate from two to ten frames-per-second (FPS). The detection uses PedNet, a Convolutional Neural Network (CNN)~\cite{ullah2018pednet}, implemented through Robot Operating System (ROS) middleware~\cite{quigley2009ros} as well as the scheduler itself. The planner varies the path parameter $c_{i,1}$ in Eq.~(\ref{eq:r2}) between zero and -1000 (i.e., the planner-scheduler is the concrete implementation of Algs.~\ref{alg2}--\ref{alg}). The set of parameters is unaltered through the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i$.
+The computing hardware caries a camera as a peripheral and is evaluated independently of the aerial robot with the \powprof{} (see Sec.~\ref{sec:mod-com}). The scheduler varies a computation parameter $c_{i,2}$ relative to the ground patterns detection rate from two to ten frames-per-second (FPS). The detection uses PedNet, a Convolutional Neural Network (CNN)~\cite{ullah2018pednet}, implemented through Robot Operating System (ROS) middleware~\cite{quigley2009ros} as well as the scheduler itself. The planner varies the path parameter $c_{i,1}$ in Eq.~(\ref{eq:r2}) between zero and -1000 (i.e., the planner-scheduler is the concrete implementation of Algs.~\ref{alg2}--\ref{alg}). The set of parameters is unaltered through the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i$.
 
 
 %We later extended these UAV to carry a companion computer, NVIDIA Jetson Nano~\cite{nano}, running ROS. The companion computer has two ROS nodes; one detects hazards using PedNet, a Fully Convolutional Neural Network~\cite{ullah2018pednet}, and the other communicates with a ground station.
@@ -1105,70 +1103,99 @@ and distributed planning-scheduling merits alike further investigation, as well 
 
 \appendices
 
+% appendix, title all on one line
+\renewcommand{\thesectiondis}[2]{\Alph{section}:}
+
+\vspace*{-1ex}
 \section{Proof of Lem.~\ref{lem:eqv}}
-\label{app:proof-eqv}
+\label{app:proof-eqv}{\small
 
-We propose a formal proof of Lem.~\ref{lem:eqv}. The proof justifies the choice of the items of the matrices $A,C$ and of the initial guess $\mathbf{q}_0$ in Eq.~(\ref{eq:state-details}). We write these elements such that the coefficients of the series $a_0,\dots,b_r$ are the same as the coefficients of the state $\alpha_0,\dots,\beta_r$.
+The proof justifies the items of $A, C,$ and $\mathbf{q}_0$ in Lem.~(\ref{lem:eqv}), s.t. the coefficients of the series $a_0,\dots,b_r$ equal the coefficients $\alpha_0,\dots,\beta_r$ of the state $\mathbf{q}$.
 
-Let us re-write the Fourier series expression in Eq.~(\ref{eq:fourier}) in its complex form with the well-known Euler's formula $e^{it}=\cos{t}+i\sin{t}$. With $t=\omega jt$, we find the expression for $\cos{\omega jt}=(e^{i\omega jt}+e^{-i\omega jt})/2$ and $\sin{\omega jt}=(e^{i\omega jt}-e^{-i\omega jt})/(2i)$ by substitution of $\sin{\omega jt}$ and $\cos{\omega jt}$ respectively. This leads~\cite{kuo1967automatic}
-\begin{equation}\begin{split}\label{eq:proof-complex}
-  h(t)=a_0/T+&(1/T)\sum_{j=1}^{r}{e^{i\omega jt}(a_j-ib_j)}+\\&(1/T)\sum_{j=1}^{r}{e^{-i\omega jt}(a_j+ib_j)},
- \end{split}\end{equation}
-where $i$ is the imaginary unit. 
+Firstly, it is convenient to re-write Eq.~(\ref{eq:fourier}) in complex form, with, e.g., $e^{it}=\cos{t}+i\sin{t}$. Given $t=\omega jt$, $\cos{\omega jt}=(e^{i\omega jt}+e^{-i\omega jt})/2$ and $\sin{\omega jt}=(e^{i\omega jt}-e^{-i\omega jt})/(2i)$ by substitution of $\sin{\omega jt}$ and $\cos{\omega jt}$ respectively~\cite{kuo1967automatic}. Then
+\vspace*{-.8ex}\begin{equation}\label{eq:proof-complex}\vspace*{-.8ex}
+  h(t)\hspace*{-.4ex}=\hspace*{-.4ex}a_0/T\hspace*{-.4ex}+\hspace*{-.4ex}(1/T)\sum_{j=1}^{r}{e^{i\omega jt}\hspace*{-.3ex}(a_j\hspace*{-.4ex}-\hspace*{-.4ex}ib_j)}\hspace*{-.4ex}+\hspace*{-.4ex}(1/T)\sum_{j=1}^{r}{e^{-i\omega jt}\hspace*{-.3ex}(a_j\hspace*{-.4ex}+\hspace*{-.4ex}ib_j)},\vspace*{-.8ex}
+\end{equation}
+where $i$ is this time the imaginary unit. 
 
-The solution at time $t$ can be expressed $\mathbf{q}=e^{At}\mathbf{q}_0$. Both the solution and the system in Eq.~(\ref{eq:state-perf}) are well established expressions derived using standard textbooks~\cite{kuo1967automatic, ogata2002modern}. To solve the matrix exponential $e^{At}$, we use the eigenvectors matrix decomposition method~\cite{moler2003nineteen}.
+Secondly, the solution at $t$ of Eq.~(\ref{eq:state-perf}) can be expressed $\mathbf{q}=e^{At}\mathbf{q}_0$~\cite{ogata2002modern}. %Both the solution and the system in Eq.~(\ref{eq:state-perf}) are well established expressions derived using standard textbooks~\cite{kuo1967automatic, ogata2002modern}.
+Here, a method to solve the matrix exponential $e^{At}$ is the eigenvectors matrix decomposition method~\cite{moler2003nineteen} by exploiting the similarity transformation $A=VDV^{-1}$. The power series definition of $e^{At}$ implies $e^{At}=Ve^{Dt}V^{-1}$~\cite{moler2003nineteen}. 
 
-The method works on the similarity transformation $A=VDV^{-1}$. The power series definition of $e^{At}$ implies $e^{At}=Ve^{Dt}V^{-1}$~\cite{moler2003nineteen}. We consider the non-singular matrix $V$, whose columns are eigenvectors of $A$; $V:=\begin{bmatrix}v_0 & v_1^0 & v_1^1 & \dots & v_r^0 & v_r^1\end{bmatrix}$. We then consider the diagonal matrix of eigenvalues $D=\mathrm{diag}{(\lambda_0,\lambda_1^0,\lambda_1^1,\dots,\lambda_r^0,\lambda_r^1)}$. $\lambda_0$ is the eigenvalue associated to the first item of $A$. $\lambda_j^0,\lambda_j^1$ are the two eigenvalues associated with the block $A_j$. We can write $Av_j=\lambda_jv_j\,\,\,\forall j=\{1,\dots,m\}$, and $AV=VD$. 
+Within this expression, we consider the non-singular matrix $V$, whose columns are eigenvectors of $A$, $V:=[\begin{matrix}v_0 & v_1^0 & v_1^1 & \dots\end{matrix}$ $\begin{matrix}v_r^0 & v_r^1\end{matrix}]$, and the diagonal matrix of eigenvalues, $D=\mathrm{diag}(\lambda_0,\lambda_1^0,$ $\lambda_1^1,\dots,\lambda_r^0,\lambda_r^1)$. $V$ is built s.t. $\lambda_0$ is the eigenvalue associated with the first item of $A$. $\lambda_j^0,\lambda_j^1$ are the two eigenvalues associated with the block $A_j$. $Av_j=\lambda_jv_j\,,\forall j\in[m]_{>0}$, and so $AV=VD$.
 
-We apply the approach in terms of Eq.~(\ref{eq:state-perf}), under the assumptions made in the lemma (the control is a zero vector); $\dot{\mathbf{q}}=A\mathbf{q}$. The linear combination of the initial guess and the generic solution
-\begin{equation}\label{eq:proof-comb}\begin{split}
-  F\mathbf{q}(0)&=\gamma_0 v_0+\sum_{k=0}^{1}{\sum_{j=1}^{r}{\gamma_j v_j^k}}\\
-  F\mathbf{q}(t)&=\gamma_0 e^{\lambda_0 t} v_0+\sum_{k=0}^{1}{\sum_{j=1}^{r}{\gamma_j e^{\lambda_j t} v_j^k}}
-\end{split}\end{equation}
-where $F=\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ is a properly sized vector of ones. 
+%The approach in terms of Eq.~(\ref{eq:state-perf}) %, under the assumptions made in the lemma (the control is a zero vector);
+%is $\dot{\mathbf{q}}=A\mathbf{q}$.
+The linear combination of the initial guess in Lem.~\ref{lem:new} and the generic solution of Eq.~(\ref{eq:state-perf})
+\vspace*{-1.6ex}\begin{subequations}\label{eq:proof-comb}\begin{align}
+  F\mathbf{q}(0)&=\gamma_0 v_0+\sum_{k=0}^{1}{\sum_{j=1}^{r}{\gamma_j v_j^k}},\\\vspace*{-.8ex}
+  F\mathbf{q}(t)&=\gamma_0 e^{\lambda_0 t} v_0+\sum_{k=0}^{1}{\sum_{j=1}^{r}{\gamma_j e^{\lambda_j t} v_j^k}},\vspace*{-.8ex}
+\end{align}\end{subequations}
+where $F:=\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ is simply a properly sized vector of ones. 
 
-Let us consider the second expression in Eq.~(\ref{eq:proof-comb}). It represents the linear combination of all the coefficients of the state at time $t$. It can also be expressed in the following form
-\begin{equation}\label{eq:proof-output}\begin{split}
-  F\mathbf{q}(t)/T=\gamma_0 e^{\lambda_0t}v_0/T+&(1/T)\sum_{j=1}^r{\gamma_j e^{\lambda_j^0t}v_j^0}+\\&(1/T)\sum_{j=1}^r{\gamma_j e^{\lambda_j^1t}v_j^1}.
-\end{split}\end{equation}
+The second expression in Eq.~(\ref{eq:proof-comb}) is the linear combination of all the coefficients of the state at time $t$. By dividing the expression with the period
+\vspace*{-1.6ex}\begin{equation}\label{eq:proof-output}
+  F\mathbf{q}(t)/T\hspace*{-.4ex}=\hspace*{-.4ex}\gamma_0 e^{\lambda_0t}v_0/T+(1/T)\sum_{j=1}^r{\gamma_j e^{\lambda_j^0t}v_j^0}+(1/T)\sum_{j=1}^r{\gamma_j e^{\lambda_j^1t}v_j^1}.
+\end{equation}
 
-We proof that the eigenvalues $\mathbf{\lambda}$ and eigenvectors $V$ are such that Eq.~(\ref{eq:proof-output}) is equivalent to Eq.~(\ref{eq:proof-complex}).
+Finally, we prove that the eigenvalues $\lambda_0,\lambda_1^0,\lambda_1^1,\dots$ and eigenvectors in $v_0,v_1^0,v_1^1,\dots$ are such that Eq.~(\ref{eq:proof-output}) is equivalent to Eq.~(\ref{eq:proof-complex}).
 
-The matrix $A$ is a block diagonal matrix, so we can express its determinant as the multiplication of the determinants of its blocks $\det{(A)}=\det{(0)}\times\det{(A_1)}\times\cdots\times\det{(A_r)}$. We proof the first determinant and the others separately.
+The matrix $A$ is a block diagonal matrix, s.t. its determinant is the multiplication of the determinants of its blocks $\det{(A)}=\det{(0)}\times\det{(A_1)}\times\cdots\times\det{(A_r)}$.
 
-Thereby we start by proofing that the first terms of the Eq.~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) match. We find the eigenvalue from $\det(0)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily $(0-\lambda_0)v_0=\begin{bmatrix} 0 & \cdots & 0 \end{bmatrix}\,\,\,\forall v_0$, thus we choose $v_0=\begin{bmatrix}1 & 0 & \cdots & 0\end{bmatrix}$. We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal, $\gamma_0=\begin{bmatrix}a_0 & 0 & \cdots & 0\end{bmatrix}$. 
+The first terms of the Eq.~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) match. The eigenvalue from $\det(0)=0$ is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily $(0-\lambda_0)v_0=\begin{bmatrix} 0 & \cdots & 0 \end{bmatrix}\,\,\,\forall v_0$, e.g., $v_0=\begin{bmatrix}1 & 0 & \cdots & 0\end{bmatrix}$. We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal, e.g., $\gamma_0=\begin{bmatrix}a_0 & 0 & \cdots & 0\end{bmatrix}$. 
 
-Then, we proof that all the terms in the sum of both the Eqs.~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) match. 
-
-For the first block $A_1$, we find the eigenvalues from $\det(A_1-\lambda I)=0$. The polynomial $\lambda^2+\omega^2$, gives two complex roots--the two eigenvalues $\lambda_1^0=i\omega$ and $\lambda_1^1=-i\omega$. The eigenvector associated with the eigenvalue $\lambda_1^0$ is $v_1^0=\begin{bmatrix}0 & -i&1&0&\cdots&0\end{bmatrix}^T$. The eigenvector associated with the eigenvalue $\lambda_1^1$ is $v_1^1=\begin{bmatrix}0&i&1&0&\cdots&0\end{bmatrix}^T$. Again, we find the values $\gamma_1$ of the vector $\gamma$ such that the equivalences 
-\begin{equation*}\begin{cases}
+All the terms in the sum of both the Eq.~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) match. For the first block $A_1$, the eigenvalues are found by $\det(A_1-\lambda I)=0$. The polynomial $\lambda^2+\omega^2$, gives two complex roots, the two eigenvalues $\lambda_1^0=i\omega$ and $\lambda_1^1=-i\omega$. The eigenvector associated with the eigenvalue $\lambda_1^0$ is $v_1^0=\begin{bmatrix}0 & -i&1&0&\cdots&0\end{bmatrix}'$. The eigenvector associated with the eigenvalue $\lambda_1^1$ is $v_1^1=\begin{bmatrix}0&i&1&0&\cdots&0\end{bmatrix}'$. Again, we find the values $\gamma_1$ of the vector $\gamma$ such that the equivalences 
+\begin{equation}\begin{cases}
   e^{i\omega t}(a_1-ib_1)&=\gamma_1 e^{i\omega t}v_1^0\\
   e^{-i\omega t}(a_1+ib_1)&=\gamma_1 e^{i\omega t}v_1^1
-\end{cases}\end{equation*}
-hold. They hold for $\gamma_1=\begin{bmatrix}b_1&a_1\end{bmatrix}$. 
+\end{cases},\end{equation}
+hold, e.g., $\gamma_1=\begin{bmatrix}b_1&a_1\end{bmatrix}$. 
 
 The proof for the remaining $r-1$ blocks is equivalent.
 
-The initial guess is build such that the sum of the coefficients is the same in both the signals. In the output matrix, the frequency $1/T$ accounts for the period in Eq.~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) and~(\ref{eq:fourier}). At time instant zero, the coefficients $b_j$ are not present and the coefficients $a_j$ are doubled for each $j=1,2,\dots,r$ (thus we multiply by a half the corresponding coefficients in $\mathbf{q}_0$). To match the outputs $h(t)=y(t)$--or equivalently $F\mathbf{q}(t)/T=C\mathbf{q}(t)$--we define $C=(1/T)\begin{bmatrix}1 & 1 & 0 & \cdots & 1 & 0\end{bmatrix}$. We thus conclude that the signal and the output are equal, hence the lemma holds.
+The initial guess is constructed s.t. the sum of the coefficients is the same in both Eq.~(\ref{eq:proof-output}) and~(\ref{eq:proof-complex}). In the output matrix, the frequency $1/T$ accounts for the period% in Eq.~(\ref{eq:proof-complex}) and~(\ref{eq:proof-output}) and~(\ref{eq:fourier})
+. At time instant zero, the coefficients $b_j$ are not present, and the coefficients $a_j$ are doubled for each $j=[r]_{>0}$ (thus we multiply by one-half the corresponding coefficients in $\mathbf{q}_0$). To match the outputs $h(t)=y(t)$, or equivalently $F\mathbf{q}(t)/T=C\mathbf{q}(t)$, $C=(1/T)\begin{bmatrix}1 & 1 & 0 & \cdots & 1 & 0\end{bmatrix}$. Eq.~(\ref{eq:proof-output}) and Eq.~(\ref{eq:proof-complex}) are thus equal. Eq.~(\ref{eq:proof-complex}) is merely the complex form of Eq.~(\ref{eq:fourier}).
 
-\qed
+%\qed
+%Periodicity is preserved with other linear combination of coefficients (for instance, $C=d\begin{bmatrix}1 & 0 & 1 & \cdots & 0 & 1\end{bmatrix}$, or $d\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ for a constant value $d\in\mathbb{R}$).
+}
 
-We note for practical reasons that the signal would still be periodic with another linear combination of coefficients (for instance, $C=d\begin{bmatrix}1 & 0 & 1 & \cdots & 0 & 1\end{bmatrix}$, or $d\begin{bmatrix}1 & \cdots & 1\end{bmatrix}$ for a constant value $d\in\mathbb{R}$).
-
-
+\vspace*{-1ex}
 \section{Proof of Lem.~\ref{lem:new}}
-\label{app:proof-new}
+\label{app:proof-new}{\small
 
+A change in computations parameters in Lem.~\ref{lem:new} results in different schedules on the computing hardware, which we assumed in Sec.~\ref{sec:intro} affects the instantaneous energy, i.e., computations are energy expensive computational tasks.
+
+A change in the path parameters in Lem.~\ref{lem:new} alters the flight time, and consequently, the energy. The proof quantifies this time: consider the plan $\overline{\Gamma}$ in Fig.~\ref{fig:zambo}. It is composed of four primitive paths and the highest configuration of path parameter $c_{i,1}$. Let assume that the time to travel $\varphi_4(\overline{c}_{i,1})$ is $t_3\in\mathbb{R}_{>0}$, $\varphi_1,\varphi_3$, the two lines, is $2t_1\in\mathbb{R}_{>0}$, and $\varphi_2$ is $t_2\in\mathbb{R}_{>0}$. Further, assume that $v$ is covered merely by the set of primitive paths in Fig.~\ref{fig:zambo}. The coverage time is $t_{\overline{\Gamma}}=7(2t_1+t_2+t_3)+t_1$. 
+
+Conversely, assume the time needed to travel $\varphi_4(\underline{c}_{i,1})$ is $t_4\in\mathbb{R}_{>0}$. Then $t_{\underline{\Gamma}}=3(2t_1+t_2+t_4)+t_1$, and $t_{\overline{\Gamma}}>t_{\underline{\Gamma}}$ even under the unrealistic assumption $t_3\approxeq t_4$.
+
+%\qed
+}
+
+\vspace*{-1ex}
 \section{Proof of Lem.~\ref{lem:bat}}
-\label{app:proof-bat}
+\label{app:proof-bat}{\small
 
-%The battery SoC changes according to~\cite{hasan2018exogenous,zhang2018online}
-%\begin{equation}
-%  \dot{b}(y(t))=-I(y(t))/Q_c
-%\end{equation}
-%where  $y(t)\in\mathbb{R}_{\geq 0}$ is a power drain, $I(y(t))\in\mathbb{R}$ the internal current, and $Q_c\in\mathbb{R}$ the battery constant nominal capacity measured in amperes per hour. The ``Rint'' circuit models the battery as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ measured in ohms representing the battery resistance. The voltage on the extremes of ECM respects $V_e=V-R_rI$, where $V_e,V\in\mathbb{R}$ the the external and internal battery voltages measured in volts. The latter can be retrieved from the battery data sheet~\cite{hinz2019comparison} and depends on SoC~\cite{hasan2018exogenous}.
+The proof justifies the expression in Lem.~\ref{lem:bat}.
 
-%Using simply 
+The battery SoC changes according to~\cite{hasan2018exogenous,zhang2018online}, i.e.,
+\begin{equation}
+  \dot{b}(y(t))=-I(y(t))/Q_c,
+\end{equation}
+where $I(y(t))\in\mathbb{R}$ is the internal current measured in amperes, $y(t)\in\mathbb{R}_{\geq 0}$ the power drain, and $Q_c\in\mathbb{R}$ the battery constant nominal capacity in Lem.~\ref{lem:bat}. The ``Rint'' circuit models the battery as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ in Lem.~\ref{lem:bat}, representing the battery resistance. The voltage on the extremes of ECM respects $V_e=V-R_rI$, where $V,V_e\in\mathbb{R}$ are the internal and external battery voltages measured in volts. The former can be retrieved from the battery data sheet~\cite{hinz2019comparison} and depends on SoC~\cite{hasan2018exogenous}.
+
+If the voltage of the power drain is stable, Kirchhoff's circuit laws lead to $V_sI_l=V_eI$, where $I_l$ is the current required by the load measured in amperes. Combining $V_e,V_sI_l$ results in the quadratic expression $R_rI^2-VI+V_sI_l=0$. Solving the expression utilizing the negative solution (when $I_l$ is zero, $I$ should also be zero)% results in 
+\begin{equation}
+I(y)=(V-\sqrt{V^2-4R_ry(t)})/(2R_r),
+\end{equation} 
+as in Lem.~\ref{lem:bat}. 
+
+%\qed
+
+}
+
+\leavevmode\thispagestyle{empty}\newpage
+\leavevmode\thispagestyle{empty}\newpage
 
 
 \end{document}
