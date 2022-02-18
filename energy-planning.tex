@@ -804,7 +804,8 @@ and re-plans-schedules such plan energy-wise. %respectively
 \subsection{Coverage}
 \label{sec:cov-algo}
 
-There are various approaches in the literature to solve CPP problems (e.g., Section~\ref{sec:pbfor}). Those that ensure the completeness %of the cover 
+There are various approaches in the literature to solve CPP problems (e.g., Section~\ref{sec:pbfor}). Those that ensure %the 
+completeness %of the cover 
 are NP-hard~\cite{arkin2000approximation} and use cellular decomposition, dividing the free-space into sub-regions to be easily covered~\cite{choset2001coverage,galceran2013survey}.
 
 An intuitive way to solve the problem is with a back-and-forth motion, sweeping the space delimited by $v$ we term $\mathcal{Q}^v$. Although abundant in both mobile ground-based~\cite{choset2001coverage,choset2005principles,lavalle2006planning} and aerial~\cite{araujo2013multiple,artemenko2016energy,cabreira2018energy,difranco2015energy} robotics literature, the motion, called \emph{boustrophedon motion}~\cite{choset2001coverage}, is unsuitable for aerial robots broadly, especially for fixed-wing aerial robots. These robots have reduced maneuverability~\cite{dille2013efficient,mannadiar2010optimal,xu2011optimal,xu2014efficient} and are generally unable to fly quick turns~\cite{wang2017curvature}.
@@ -1087,7 +1088,7 @@ Algorithm~\ref{alg} implements Eq.~(\ref{eq:ocp-output-mpc}) for the purpose of 
                                 %
 %$\subsection{Experimental setup}
 
-Numerical simulations of Algorithms~\ref{alg2}--\ref{alg} in this section are implemented in \textsc{Matlab}\hspace{.5ex}(R), and are extended with the computations energy model on NVIDIA\hspace{.5ex}(R) Jetson Nano\hspace{.5ex}(TM) heterogeneous computing hardware. These simulations complement early data of physical flights of a static coverage plan with the open-source Paparazzi flight controller~\cite{papa}.
+Numerical simulations of Algorithms~\ref{alg2}--\ref{alg} in this section are implemented in \textsc{Matlab}\hspace{.5ex}(R) and are extended with the computations energy model on NVIDIA\hspace{.5ex}(R) Jetson Nano\hspace{.5ex}(TM) heterogeneous computing hardware. These simulations complement early data of physical flights of a static coverage plan with the open-source Paparazzi flight controller~\cite{papa}.
 The computing hardware carries a camera as a peripheral and is evaluated independently of the aerial robot with \powprof{} (see Section~\ref{sec:mod-com}). The scheduler, implemented using the Robot Operating System (ROS) middleware~\cite{quigley2009ros}, varies a computation parameter $c_{i,2}$ relative to the ground patterns detection rate from two to ten frames per second (FPS). The detection uses PedNet, a Convolutional Neural Network (CNN)~\cite{ullah2018pednet}, also implemented using ROS. The planner varies the path parameter $c_{i,1}$ in Eq.~(\ref{eq:r2}) between zero and -1000 (i.e., the planner-scheduler is the concrete implementation of Algorithms~\ref{alg2}--\ref{alg}). The set of parameters is unaltered through the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i$.
 
 %The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (see the subfigures of Fig.~\ref{fig:il-abs}). 
