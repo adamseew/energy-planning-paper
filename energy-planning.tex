@@ -114,9 +114,9 @@
 %\usepackage{balance}
 
 %% references (generates a bib file for bibtex)
-\begin{filecontents}{\jobname.bib}
+%\begin{filecontents}{\jobname.bib}
 
-\end{filecontents}
+%\end{filecontents}
 
 \definecolor{c00FFFF}{RGB}{0,255,255}
 
@@ -149,9 +149,11 @@
 \end{abstract}
 
 \begin{IEEEkeywords}
-  Aerial Systems: Perception and Autonomy, %Optimization and Optimal Control, 
-  Planning, %Scheduling and Coordination, 
-  Planning under Uncertainty
+  %Aerial Systems: Perception and Autonomy, %Optimization and Optimal Control, 
+  %Planning, %Scheduling and Coordination, 
+  %Planning under Uncertainty
+  Motion and Path Planning, 
+  Energy and Environ- ment-Aware Automation
 \end{IEEEkeywords}
 
 % For peer review papers, you can put extra information on the cover
@@ -171,11 +173,17 @@
                         %
 \IEEEPARstart{U}{se cases} involving aerial robots span broadly. They comprise diverse planning and scheduling strategies and often require high autonomy under strict energy budgets. 
 One such use case is coverage path planning (CPP)~\cite{choset2001coverage,galceran2013survey}, which consists of, e.g., an aerial robot visiting every point in a given space~\cite{cabreira2019survey} while running assigned computational tasks. Here, the aerial robot might detect ground patterns and notify other ground-based actors. %with little human interaction. 
-Such use cases arise in, e.g., precision agriculture~\cite{hajjaj2014review}, where harvesting involves ground vehicles~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, information collection prior to an operation as well as damage prevention during the operation involve aerial robots~\cite{puri2017agriculture, daponte2019review}.
-Microcontrollers and heterogeneous computing hardware~\cite{mei2005case} (i.e., with CPUs and GPUs) running power-demanding computational tasks are frequently mounted onto the robots in these and many other scenarios~\cite{william2019aerial, peng2019evaluating,wang2020yolo,alexey2021autonomous}.
+Such use cases arise in, e.g., precision agriculture~\cite{hajjaj2014review}, where harvesting involves ground vehicles~\cite{%qingchun2012study,
+dong2011development, de2011design%,aljanobi2010setup, 
+%li2008analysis, 
+%edan2000robotic
+}, information collection prior to an operation as well as damage prevention during the operation involve aerial robots~\cite{puri2017agriculture, daponte2019review}.
+Microcontrollers and heterogeneous computing hardware~\cite{mei2005case} (i.e., with CPUs and GPUs) running power-demanding computational tasks are frequently mounted onto the robots in these and many other scenarios~\cite{william2019aerial%, peng2019evaluating,
+%wang2020yolo
+,alexey2021autonomous}.
 %In these and many others, the robot frequently mounts microcontroller and heterogeneous computing hardware~\cite{mei2005case} (i.e., with CPUs and GPUs) running power-demanding computational tasks~\cite{william2019aerial, peng2019evaluating,wang2020yolo,alexey2021autonomous}. 
 We refer to onboard computational tasks that can be scheduled with an energy impact as \emph{computations}. We are interested in the energy optimization of motion plans and computations schedules in-flight and refer to it as energy-aware \emph{planning-scheduling}. 
-The energy optimization of computations schedules can be achieved by, e.g., varying the quality of service between specific bounds~\cite{ho2018towards,ho2019learning,ho2019qos} and frequency and voltage of the computing hardware~\cite{mei2005case,brateman2006energy,zhang2007low}. We focus on the former aspect and schedule the onboard computations altering their quality while simultaneously changing the quality of the coverage. Fig.~\ref{fig:il-abs} illustrates the intuition: an aerial robot flies a plan with maximal coverage and schedule~(\ref{sth:i}), that is optimized during flight to respect the battery state~(\ref{sth:ii}), and altered due to, e.g., unexpected battery defects~(\ref{sth:iii}).
+The energy optimization of computations schedules can be achieved by, e.g., varying the quality of service between specific bounds~\cite{ho2019qos} and frequency and voltage of the computing hardware~\cite{mei2005case,brateman2006energy,zhang2007low}. We focus on the former aspect and schedule the onboard computations altering their quality while simultaneously changing the quality of the coverage. Fig.~\ref{fig:il-abs} illustrates the intuition: an aerial robot flies a plan with maximal coverage and schedule~(\ref{sth:i}), that is optimized during flight to respect the battery state~(\ref{sth:ii}), and altered due to, e.g., unexpected battery defects~(\ref{sth:iii}).
 
 \begin{figure}[t]
   \centering
@@ -197,16 +205,21 @@ The energy optimization of computations schedules can be achieved by, e.g., vary
   \vspace*{-4ex}
 \end{figure}
 
-There are numerous planning approaches applied to a variety of robots. An instance is an algorithm selecting an energy-optimized trajectory~\cite{mei2004energy} by, e.g., maximizing the operational time~\cite{wahab2015energy}. Many approaches apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence of the energy influence of onboard consumptions~\cite{mei2005case,ondruska2015scheduled,sudhakar2020balancing,brateman2006energy}. In view of the availability of powerful heterogeneous computing hardware~\cite{rizvi2017general}, the use of onboard computations is further expected to increase in the foreseeable future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. In this context, planning-scheduling energy awareness is a recent research direction% energy awareness for mobile robots are scarce
-~\cite{brateman2006energy,sudhakar2020balancing,lahijanian2018resource,ondruska2015scheduled}. Early studies (2000--2010) varied hardware-dependent aspects, e.g., frequency, voltage, along with motion aspects, e.g., motor and travel velocities~\cite{mei2005case,brateman2006energy,zhang2007low,sadrpour2013mission} whereas the literature from the past decade derives energy-aware plans-schedules in broader terms. These include simultaneous considerations for planning-scheduling in perception~\cite{ondruska2015scheduled}, localization~\cite{lahijanian2018resource}, navigation~\cite{ho2019learning,ho2019qos,ho2018towards}, and anytime planning~\cite{sudhakar2020balancing}.
-These studies are focused on ground-based robots~\cite{mei2005case,sadrpour2013mission,lahijanian2018resource,ondruska2015scheduled,ho2019learning}, yet, aerial robots are particularly affected by energy considerations, as it would be generally required to land to recharge the battery. Such a state of practice has prompted us to propose the planning-scheduling approach for autonomous aerial robots, combining the past body of knowledge but addressing aerial robots' peculiarities such as the atmospheric, battery, and turning radius constraints. Numerical simulations and experimental data of both static and dynamic plans and schedules show improved power savings and fault tolerance with the aerial robots remedying in-flight failures. 
+There are numerous planning approaches applied to a variety of robots. An instance is an algorithm selecting an energy-optimized trajectory~\cite{mei2004energy} by, e.g., maximizing the operational time~\cite{wahab2015energy}. Many approaches apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence of the energy influence of onboard consumptions~\cite{mei2005case,ondruska2015scheduled,sudhakar2020balancing,brateman2006energy}. In view of the availability of powerful heterogeneous computing hardware~\cite{rizvi2017general}, the use of onboard computations is further expected to increase in the foreseeable future~\cite{%abramov2012real,
+%satria2016real,
+jaramillo2019visual}. In this context, planning-scheduling energy awareness is a recent research direction% energy awareness for mobile robots are scarce
+~\cite{brateman2006energy,sudhakar2020balancing,lahijanian2018resource,ondruska2015scheduled}. Early studies (2000--2010) varied hardware-dependent aspects, e.g., frequency, voltage, along with motion aspects, e.g., motor and travel velocities~\cite{mei2005case,brateman2006energy,zhang2007low,sadrpour2013mission} whereas the literature from the past decade derives energy-aware plans-schedules in broader terms. These include simultaneous considerations for planning-scheduling in perception~\cite{ondruska2015scheduled}, localization~\cite{lahijanian2018resource}, navigation~\cite{ho2019qos}, and anytime planning~\cite{sudhakar2020balancing}.
+These studies are focused on ground-based robots~\cite{mei2005case,sadrpour2013mission,lahijanian2018resource,ondruska2015scheduled}, yet, aerial robots are particularly affected by energy considerations, as it would be generally required to land to recharge the battery. Such a state of practice has prompted us to propose the planning-scheduling approach for autonomous aerial robots, combining the past body of knowledge but addressing aerial robots' peculiarities such as the atmospheric, battery, and turning radius constraints. Numerical simulations and experimental data of both static and dynamic plans and schedules show improved power savings and fault tolerance with the %aerial 
+robot%s
+ remedying in-flight failures. 
  
-Our focus is on fixed wings, i.e., airborne robots where wings provide lift, propellers provide forward thrust, and control surfaces perform maneuvering. Here, motion and computations energies are within an order of magnitude from each other~\cite{seewald2020mechanical}. Indeed there are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The occurrence frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.) and lighter-than-air aerial robots (e.g., blimps). It is a common theme with wider planning-scheduling literature, focusing on energy-efficient ground-based robots such as Pioneer~3DX~\cite{ho2018towards,ho2019learning,ho2019qos,mei2005case}, ARC~Q14~\cite{ondruska2015scheduled,lahijanian2018resource}, and Pack-Bot~UGV~\cite{sadrpour2013mission}.
+Our focus is on fixed wings, i.e., airborne robots where wings provide lift, propellers provide forward thrust, and control surfaces perform maneuvering. Here, motion and computations energies are within an order of magnitude from each other~\cite{seewald2020mechanical}. Indeed there are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The occurrence frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.) and lighter-than-air aerial robots (e.g., blimps). It is a common theme with wider planning-scheduling literature, focusing on energy-efficient ground-based robots such as Pioneer~3DX~\cite{ho2019qos,mei2005case}, ARC~Q14~\cite{ondruska2015scheduled,lahijanian2018resource}, and Pack-Bot~UGV~\cite{sadrpour2013mission}.
 \begin{ctb}
   We extend the literature on planning-schedu- ling to CPP with aerial robots, model the overall and computations energies and battery evolution, and derive a variable coverage motion for constrained systems, e.g., fixed wings.
 \end{ctb}
 
-To guarantee energy awareness, our approach uses optimal control where both the paths and schedules variations are trajectories, varying between given bounds (i.e., physical constraints of the robot and computing hardware, quality of service, desired quality of the coverage, etc.). Past planning-scheduling studies also employ optimization techniques~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}; some use a greedy approach~\cite{mei2005case,sudhakar2020balancing,sadrpour2013mission}; whereas others use reinforcement learning-based approaches~\cite{ho2019qos,ho2018towards,ho2019learning}. Both the path and schedules variations trajectories are derived for future time instants employing computations and overall energies and battery models. The energy model for the computations uses regressional analysis from our earlier study on heterogeneous computing hardware energy modeling~\cite{seewald2019coarse,seewald2019component}, whereas the battery uses an equivalent circuit model (ECM) from the literature~\cite{he2011evaluation,hinz2019comparison,mousavi2014various}. The overall model wraps these two aspects in a cohesive model that uses dynamics modeling to predict the energy behavior of future plans and schedules. In Fig.~\ref{fig:il-abs}, collected energy data (bottom left) and spectrum analysis (right) of a fixed wing %aerial robot 
+To guarantee energy awareness, our approach uses optimal control where both the paths and schedules variations are trajectories, varying between given bounds (i.e., physical constraints of the robot and computing hardware, quality of service, desired quality of the coverage, etc.). Past planning-scheduling studies also employ optimization techniques~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}; some use a greedy approach~\cite{mei2005case,sudhakar2020balancing,sadrpour2013mission}; whereas others use reinforcement learning-based approaches~\cite{ho2019qos,ho2018towards}. Both the path and schedules variations trajectories are derived for future time instants employing computations and overall energies and battery models. The energy model for the computations uses regressional analysis from our earlier study on heterogeneous computing hardware energy modeling~\cite{seewald2019coarse,seewald2019component}, whereas the battery uses an equivalent circuit model (ECM) from the literature~\cite{%he2011evaluation,
+hinz2019comparison,mousavi2014various}. The overall model wraps these two aspects in a cohesive model that uses dynamics modeling to predict the energy behavior of future plans and schedules. In Fig.~\ref{fig:il-abs}, collected energy data (bottom left) and spectrum analysis (right) of a fixed wing %aerial robot 
 flying CPP motivates the overall energy model: the evolution is periodic--CPP often involves repetitive motions to cover the space~\cite{choset2001coverage,galceran2013survey}--an observation exploited in Section~\ref{sec:energy-model}.% for the computations and motion energies and battery models.
 
 The remaining sections of the letter are then organized as follows. Section~\ref{sec:prob} provides basic constructs, such as the concepts of the stages, path functions, triggering and final points, and plan, as well as the problem formulation. Section~\ref{sec:algo} describes in detail the methodology of planning-scheduling. Section~\ref{sec:experimental} presents the results, %and showcases the performances, 
@@ -233,7 +246,7 @@ and Section~\ref{sec:conclusion} concludes and provides future perspectives. %Ap
 
 Before defining the problem of energy-aware planning-scheduling in Section~\ref{sec:pbfor}, Section~\ref{sec:prelim} provides necessary preliminaries. For CPP and, e.g., pattern detections in precision agriculture, we assume that aerial robot travels a \emph{plan} composed of \emph{stages}. At each stage, the aerial robot travels a path and runs a schedule on the computing hardware. Both are to be altered in Section~\ref{sec:algo} within given boundaries with \emph{path}- and \emph{computations}-specific \emph{parameters}.%with information about the path and the schedule.
 
-\vspace*{-1ex}
+\vspace*{-2ex}
 \subsection{Preliminaries}
 \label{sec:prelim}
 
@@ -641,7 +654,8 @@ $\forall j\in[\rho+1,n]$. The function $g$ is detailed in Section~\ref{sec:mod-c
 \subsection{Energy model for the computations}
 \label{sec:mod-com}
 
-Models for heterogeneous computing hardware in the literature often rely on analytical expressions~\cite{marowka2017energy,goraczko2008energy,calore2015energy,yang2017designing} or different techniques, such as regressional analysis~\cite{bailey2014adaptive,ma2012holistic,seewald2019coarse}, aiding the selection of hardware- or software-specific parameters. This section presents an energy model based on our early studies~\cite{seewald2019component,seewald2019coarse} that relies on regressional analysis to quantify the computations energy of any configuration of computations $c_i^\sigma$ within the bounds (see Definition~\ref{def:stage}).
+Models for heterogeneous computing hardware in the literature often rely on analytical expressions~\cite{marowka2017energy,%goraczko2008energy%calore2015energy,
+yang2017designing} or different techniques, such as regressional analysis~\cite{bailey2014adaptive,ma2012holistic,seewald2019coarse}, aiding the selection of hardware- or software-specific parameters. This section presents an energy model based on our early studies~\cite{seewald2019component,seewald2019coarse} that relies on regressional analysis to quantify the computations energy of any configuration of computations $c_i^\sigma$ within the bounds (see Definition~\ref{def:stage}).
 
 The model compromises an automatic modeling and profiling tool~\cite{seewald2019coarse} named \powprof{} distributed~\cite{powprofiler} under the open-source MIT license. It is segmented into two layers. In the \emph{measurement layer}, the tool measures a discrete set of computations parameters and infers the energy of the remaining in the \emph{predictive layer} via a piecewise linear regression.
 
@@ -663,17 +677,24 @@ The energy measures in Definitions~\ref{def:meas}--\hyperref[def:pred]{2} can be
 \end{split}\end{equation}
 where notation $\lceil c_i^\sigma\rceil,\lfloor c_i^\sigma\rfloor$ indicates two adjacent measurement layers, and $\mathcal{T}_1,\mathcal{T}_2$ are the corresponding two time intervals. The measuring device in both $\mathbf{g}$ and $g$ is implicit.
 
+\vspace*{-1.4ex}
 \subsection{Battery model}
 \label{sec:mod-bat}
 
-The battery model predicts the battery SoC in the function of a given load at future time instants. There are multiple models in the literature~\cite{rao2003battery} with varying complexity, accuracy, and ease of implementation ranging from accurate but costly physical models~\cite{moura2017battery,marcicki2013design}, to abstract models~\cite{xing2014state,he2011evaluation,hinz2019comparison,mousavi2014various} that have compelling trade-offs in terms of the latter two. 
-We model a Li-ion battery of an aerial robot in-flight with an abstract ``Rint'' ECM in the literature~\cite{he2011evaluation,hinz2019comparison,mousavi2014various}.
+The battery model predicts the battery SoC in the function of a given load at future time instants. There are multiple models in the literature~\cite{rao2003battery} with varying complexity, accuracy, and ease of implementation ranging from accurate but costly physical models~\cite{%moura2017battery,
+marcicki2013design}, to abstract models~\cite{%xing2014state,
+%he2011evaluation,
+hinz2019comparison,mousavi2014various} that have compelling trade-offs in terms of the latter two. 
+We model a Li-ion battery of an aerial robot in-flight with an abstract ``Rint'' ECM in the literature~\cite{%he2011evaluation,
+hinz2019comparison,mousavi2014various}.
 
-The battery SoC changes according to~\cite{hasan2018exogenous,zhang2018online}, i.e.,
+The battery SoC changes according to~\cite{hasan2018exogenous%,zhang2018online
+}, i.e.,
 \begin{equation}\label{eq:batdyn}
   \dot{b}(y(t))=-k_bI(y(t))/Q_c,
 \end{equation}
-where $I(y(t))\in\mathbb{R}$ is the internal current measured in amperes, $y(t)\in\mathbb{R}_{\geq 0}$ the power drain, and $Q_c\in\mathbb{R}$ the battery constant nominal capacity measured in amperes per hour. $k_b$ is a battery coefficient added to~\cite{hasan2018exogenous,zhang2018online} and derived experimentally. The ``Rint'' circuit models the battery as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ measured in ohm, representing the battery resistance. The voltage on the extremes of ECM respects $V_e=V-R_rI$, where $V,V_e\in\mathbb{R}$ are the internal and external battery voltages measured in volts. The former can be retrieved from the battery data sheet~\cite{hinz2019comparison} and depends on the SoC~\cite{hasan2018exogenous}.
+where $I(y(t))\in\mathbb{R}$ is the internal current measured in amperes, $y(t)\in\mathbb{R}_{\geq 0}$ the power drain, and $Q_c\in\mathbb{R}$ the battery constant nominal capacity measured in amperes per hour. $k_b$ is a battery coefficient added to~\cite{hasan2018exogenous%,zhang2018online
+} and derived experimentally. The ``Rint'' circuit models the battery as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ measured in ohm, representing the battery resistance. The voltage on the extremes of ECM respects $V_e=V-R_rI$, where $V,V_e\in\mathbb{R}$ are the internal and external battery voltages measured in volts. The former can be retrieved from the battery data sheet~\cite{hinz2019comparison} and depends on the SoC~\cite{hasan2018exogenous}.
 
 If the voltage of the power drain is stable, Kirchhoff's circuit laws lead to $V_sI_l=V_eI$, where $I_l$ is the current required by the load measured in amperes. Combining $V_e,V_sI_l$ results in the quadratic expression $R_rI^2-VI+V_sI_l=0$. Solving the expression utilizing the negative solution (when $I_l$ is zero, $I$ should also be zero) %leads to% 
 results in 
@@ -778,6 +799,7 @@ where $b\,Q_cV$, the maximum instantaneous energy consumption measured in watts,
 %$\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let the factors be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
 
 
+\vspace*{-1.4ex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Planning-Scheduling}  %
 \label{sec:algo}               %
@@ -801,6 +823,7 @@ This section solves the problem described in Section~\ref{sec:pbfor}. It provide
 and re-plans-schedules such plan energy-wise. %respectively
 %in Sections~\ref{sec:cov-algo}--\hyperref[sec:repla-algo]{B}.
 
+\vspace*{-1.4ex}
 \subsection{Coverage}
 \label{sec:cov-algo}
 
@@ -808,7 +831,10 @@ There are various approaches in the literature to solve CPP problems (e.g., Sect
 completeness %of the cover 
 are NP-hard~\cite{arkin2000approximation} and use cellular decomposition, dividing the free-space into sub-regions to be easily covered~\cite{choset2001coverage,galceran2013survey}.
 
-An intuitive way to solve the problem is with a back-and-forth motion, sweeping the space delimited by $v$ we term $\mathcal{Q}^v$. Although abundant in both mobile ground-based~\cite{choset2001coverage,choset2005principles,lavalle2006planning} and aerial~\cite{araujo2013multiple,artemenko2016energy,cabreira2018energy,difranco2015energy} robotics literature, the motion, called \emph{boustrophedon motion}~\cite{choset2001coverage}, is unsuitable for aerial robots broadly, especially for fixed-wing aerial robots. These robots have reduced maneuverability~\cite{dille2013efficient,mannadiar2010optimal,xu2011optimal,xu2014efficient} and are generally unable to fly quick turns~\cite{wang2017curvature}.
+An intuitive way to solve the problem is with a back-and-forth motion, sweeping the space delimited by $v$ we term $\mathcal{Q}^v$. Although abundant in both mobile ground-based~\cite{choset2001coverage,%choset2005principles,
+lavalle2006planning} and aerial~\cite{araujo2013multiple,%artemenko2016energy,
+cabreira2018energy,difranco2015energy} robotics literature, the motion, called \emph{boustrophedon motion}~\cite{choset2001coverage}, is unsuitable for aerial robots broadly, especially for fixed-wing aerial robots. These robots have reduced maneuverability~\cite{dille2013efficient,mannadiar2010optimal,%xu2011optimal,
+xu2014efficient} and are generally unable to fly quick turns~\cite{wang2017curvature}.
 
 To address fixed wings and aerial robots generally, this section details a different motion with a wide turning radius. It is similar to another motion in the literature, the \emph{Zamboni motion}~\cite{araujo2013multiple}, but additionally allows variable CPP at the very core of this work. The novel motion is termed \emph{Zamboni-like motion} and is composed of four primitive paths (see Definition~\ref{def:primitive}): two lines $\varphi_1,\varphi_2$ and two circles $\varphi_3,\varphi_4$.% (see Fig.~\ref{fig:zambo}). 
 
@@ -923,6 +949,7 @@ where $(x_\mathbf{p},y_\mathbf{p})=:\mathbf{p}$ for any point $\mathbf{p}$. Fig.
 
 Algorithm~\ref{alg2} initializes $i$ to minus one and builds the first four primitive functions $\varphi_1,\dots,\varphi_4$. The remaining $\Gamma$ is built with the shift $\mathbf{d}$ up to the final point $\mathbf{p}_{\Gamma_l}$. The initial point is $\mathbf{p}_{\Gamma_1}$, placed s.t. the line $\varphi_1$ is at the same distance from an eventual previous line, e.g., $x_{\mathbf{p}_{\Gamma_1}}=x_{v_1}+x_{\mathbf{d}}/2$ in Fig.~\ref{fig:zambo}.
 
+\vspace*{-1.4ex}
 \subsection{Re-planning-scheduling}
 \label{sec:repla-algo}
 
@@ -988,11 +1015,13 @@ Furthermore, Eq.~(\ref{eq:dyn-evol}) is the differential periodic energy model i
 Eq.~(\ref{eq:state-cont-const-mpc}) are the parameters constraints sets in Definition~\ref{def:stage}. Eq.~(\ref{eq:batt-const-mpc}) are the state and output constraints in Eq.~(\ref{eq:output-const}) that evolve the battery model in Eq.~(\ref{eq:batdyn}). Eq.~(\ref{eq:ocp-outp-mpc-state-est}) is the state guess estimated via state estimation % (e.g., linear Kalman filter)
 (the very first estimate is given). Eq.~(\ref{eq:ocp-outp-bat}) is the initial battery SoC from, e.g., flight controller.
 
-Line~\ref{alg:mpc} in Algorithm~\ref{alg} contains a transcribed version of the OCP in Eq.~(\ref{eq:ocp-output-mpc}) into a nonlinear program (NLP) that can be easily solved with available NLP solvers~\cite{rawlings2017model}. Its solution leads to both trajectories of parameters and states for future $N$ instants. Here, the sets $\mathcal{K},\mathcal{T}$ have possibly different steps $h$ (not to be confused with the altitude), tuning the precision. The functions $l_d,b_d$ are the discretized versions of Eq.~(\ref{eq:insta-cost-mpc}) and Eq.~(\ref{eq:batdyn}), with, e.g., Runge-Kutta or Euler methods~\cite{iserles2009first}.
+Line~\ref{alg:mpc} in Algorithm~\ref{alg} contains a transcribed version of the OCP in Eq.~(\ref{eq:ocp-output-mpc}) into a nonlinear program (NLP) that can be easily solved with available NLP solvers~\cite{rawlings2017model}. Its solution leads to both trajectories of parameters and states for future $N$ instants. Here, the sets $\mathcal{K},\mathcal{T}$ have possibly different steps $h$ (not to be confused with the altitude), tuning the precision. The functions $l_d,b_d$ are the discretized versions of Eq.~(\ref{eq:insta-cost-mpc}) and Eq.~(\ref{eq:batdyn}), with, e.g., Runge-Kutta or Euler methods%~\cite{iserles2009first}
+.
 
 Lines~\ref{alg:bat1}--\ref{alg:bat2} estimate the time needed to completely drain the battery, exploiting the SoC already predicted previously on Line~\ref{alg:mpc}. The coverage is then replanned accordingly on Lines~\ref{alg:traj1}--\ref{alg:traj2} using %Lem.~\ref{lem:new} and 
 scaling factors from Eq.~(\ref{eq:scale-traj}). Lines~\ref{alg:klm1}--\ref{alg:klm2} estimate the energy model's state with current energy sensor reading $\Upsilon$, with, e.g., %linear 
-Kalman filter~\cite{kalman1960new}.
+Kalman filter%~\cite{kalman1960new}
+.
 
 Algorithm~\ref{alg} implements Eq.~(\ref{eq:ocp-output-mpc}) for the purpose of energy-aware re-planning-scheduling of $\Gamma$ from Algorithm~\ref{alg2}, i.e, Lines~\ref{alg:mpc}--\ref{alg:klm2} continue after Line~\ref{alg2:last} in Algorithm~\ref{alg2}.
 
@@ -1060,6 +1089,7 @@ Algorithm~\ref{alg} implements Eq.~(\ref{eq:ocp-output-mpc}) for the purpose of 
 
 \begin{figure*}
   \centering
+  \vspace*{-4ex}
   \begin{subfigure}{.4\textwidth}
     \centering
     \footnotesize
@@ -1087,9 +1117,12 @@ Algorithm~\ref{alg} implements Eq.~(\ref{eq:ocp-output-mpc}) for the purpose of 
 \label{sec:experimental}        %
                                 %
 %$\subsection{Experimental setup}
+\vspace*{-.2ex}
 
-Numerical simulations of Algorithms~\ref{alg2}--\ref{alg} in this section are implemented in \textsc{Matlab}\hspace{.5ex}(R) and are extended with the computations energy model on NVIDIA\hspace{.5ex}(R) Jetson Nano\hspace{.5ex}(TM) heterogeneous computing hardware. These simulations complement early data of physical flights of a static coverage plan with the open-source Paparazzi flight controller~\cite{papa}.
-The computing hardware carries a camera as a peripheral and is evaluated independently of the aerial robot with \powprof{} (see Section~\ref{sec:mod-com}). The scheduler, implemented using the Robot Operating System (ROS) middleware~\cite{quigley2009ros}, varies a computation parameter $c_{i,2}$ relative to the ground patterns detection rate from two to ten frames per second (FPS). The detection uses PedNet, a Convolutional Neural Network (CNN)~\cite{ullah2018pednet}, also implemented using ROS. The planner varies the path parameter $c_{i,1}$ in Eq.~(\ref{eq:r2}) between zero and -1000 (i.e., the planner-scheduler is the concrete implementation of Algorithms~\ref{alg2}--\ref{alg}). The set of parameters is unaltered through the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i$.
+Numerical simulations of Algorithms~\ref{alg2}--\ref{alg} in this section are implemented in \textsc{Matlab}\hspace{.5ex}(R) and are extended with the computations energy model on NVIDIA\hspace{.5ex}(R) Jetson Nano\hspace{.5ex}(TM) heterogeneous computing hardware. These simulations complement early data of physical flights of a static coverage plan with the open-source Paparazzi flight controller%~\cite{papa}
+.
+The computing hardware carries a camera as a peripheral and is evaluated independently of the aerial robot with \powprof{} (see Section~\ref{sec:mod-com}). The scheduler, implemented using the Robot Operating System (ROS) middleware%~\cite{quigley2009ros}
+, varies a computation parameter $c_{i,2}$ relative to the ground patterns detection rate from two to ten frames per second (FPS). The detection uses PedNet, a Convolutional Neural Network (CNN)~\cite{ullah2018pednet}, also implemented using ROS. The planner varies the path parameter $c_{i,1}$ in Eq.~(\ref{eq:r2}) between zero and -1000 (i.e., the planner-scheduler is the concrete implementation of Algorithms~\ref{alg2}--\ref{alg}). The set of parameters is unaltered through the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i$.
 
 %The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (see the subfigures of Fig.~\ref{fig:il-abs}). 
 Fig.~\ref{fig:il-abs} details the data of the physical flight  
@@ -1128,14 +1161,17 @@ Fig.~\ref{fig:trajs} illustrates the same plan $\Gamma$ under different conditio
 
 Fig.~\ref{fig:ener} %~\hyperref[fig:ener:static-I]{6.I}--\hyperref[fig:ener:static-II]{6.II} 
 illustrates first the power ($\Upsilon$ on Line~\ref{alg:klm1} in Algorithm~\ref{alg}), and then the energy model ($y$ on Line~\ref{alg:evol}).
-Flight~\hyperref[fig:ener-dyn-i]{i} simulates a battery (green line, the battery behavior $b_0$) drop at approximately one minute and a half and four minutes and a half. Planner-scheduler optimizes the path in the proximity of the drops to ensure that the flight is completed, whereas it maximizes the parameter $c_{i,2}$ when the battery is discharging, respecting the output constraint (Eq.~(\ref{eq:output-const})). Flight~\hyperref[fig:ener-dyn-ii]{ii} simulates the opposite scenario: the lowest configuration of parameters and no battery defects. The path parameter increases as soon as the algorithm has estimated enough data (two periods $T$) and the computation parameter decreases matching the battery discharge rate. For both cases, scaling factors are derived empirically, the horizon $N$ is set to six seconds similarly to relevant literature~\cite{gavilan2015iterative,kang2009linear,stastny2018nonlinear,chao2011collision}, order $r$ is three (see Fig.~\ref{fig:il-abs}), and the matrices $Q,R,Q_f$ are chosen such that the cost is merely squared control.
+Flight~\hyperref[fig:ener-dyn-i]{i} simulates a battery (green line, the battery behavior $b_0$) drop at approximately one minute and a half and four minutes and a half. Planner-scheduler optimizes the path in the proximity of the drops to ensure that the flight is completed, whereas it maximizes the parameter $c_{i,2}$ when the battery is discharging, respecting the output constraint (Eq.~(\ref{eq:output-const})). Flight~\hyperref[fig:ener-dyn-ii]{ii} simulates the opposite scenario: the lowest configuration of parameters and no battery defects. The path parameter increases as soon as the algorithm has estimated enough data (two periods $T$) and the computation parameter decreases matching the battery discharge rate. For both cases, scaling factors are derived empirically, the horizon $N$ is set to six seconds similarly to relevant literature~\cite{gavilan2015iterative,%kang2009linear,
+stastny2018nonlinear%,chao2011collision
+}, order $r$ is three (see Fig.~\ref{fig:il-abs}), and the matrices $Q,R,Q_f$ are chosen such that the cost is merely squared control.
 %\subsection{Algorithm evaluation}
 %\subsubsection*{Periodic energy model}
 The figure further details the energy model's estimate (see detail view for \hyperref[fig:ener:static-I]{I}--\hyperref[fig:ener:static-II]{II}) on an initial slice of the model (${\hat{y}}$), power ($\Upsilon$), and period ($T$). % We motivate this choice again with Fig.~\ref{fig:il-abs}, where the power spectrum subfigure shows that 3 frequencies are adequate. 
 The bottom detail of \hyperref[fig:ener:static-I]{I} illustrates the evolutions of the state $\mathbf{q}$ in time, concluding that approximately two periods suffice for a consistent %state 
 estimate. %With non-periodic signals, we observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
 
-Output MPC on Line~\ref{alg:mpc} relies on a software framework for nonlinear optimization called CasADi~\cite{andersson2012casadi,andersson2012bcasadi,andersson2019casadi}, and the popular NLP solver IPOPT~\cite{wachter2006implementation}.
+Output MPC on Line~\ref{alg:mpc} relies on a software framework for nonlinear optimization called CasADi~\cite{andersson2012casadi%,andersson2012bcasadi,andersson2019casadi
+}, and the popular NLP solver IPOPT~\cite{wachter2006implementation}.
 
 %\subsubsection*{Implementation of the planning strategy}
 
@@ -1161,10 +1197,12 @@ and distributed planning-scheduling merit additional investigation, as well as t
 Further future directions include the study of different energy models. Amongst others, these include aperiodic energy models, different linear combinations of the variations of parameters, and stage-dependent energy models.% In an unconventional setting with, e.g., multiple agents utilized for overall coverage, an agent-dependent model might be employed to achieve energy awareness.
 
 
+\vspace*{-2ex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {\small\bibliographystyle{IEEEtran}  %
-\bibliography{../../books/phd-thesis/backmatter/references}}             %
-                                     %
+%\bibliography{../../books/phd-thesis/backmatter/references}}
+\bibliography{energy-planning}}             %
+                                     %      
 %\leavevmode\thispagestyle{empty}\newpage
 
 %\appendices
