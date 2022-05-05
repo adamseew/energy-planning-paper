@@ -1,0 +1,365 @@
+
+\documentclass[10pt]{letter}
+\usepackage[utf8]{inputenc}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{xcolor}
+\definecolor{foo}{RGB}{0,51,102}
+\usepackage[colorlinks=true,linkcolor=foo,urlcolor=foo]{hyperref}
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\usepackage{cleveref}
+\usepackage{tabto}
+\usepackage{graphicx}
+\usepackage[left=1.1in,right=1.1in,top=.9in,bottom=.9in,%
+            footskip=.25in]{geometry}
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+    \fancyfoot[C]{%\fontfamily{phv}\selectfont\small\thepage
+    }%
+    \renewcommand{\headrulewidth}{0pt} % line at the header
+    \renewcommand{\footrulewidth}{0pt} % line at the footer (both not visible)
+}
+\renewcommand\familydefault{\sfdefault}
+\renewcommand\sfdefault{phv}
+\normalfont
+\usepackage{endnotes}
+
+\usepackage{hyperendnotes}
+\let\footnote=\endnote
+\makeatletter
+\def\enoteheading{
+  \mbox{}\par\vskip-2.3\baselineskip\noindent\rule{.5\textwidth}{0.4pt}\par\vskip\baselineskip}
+\makeatother
+\renewcommand\enoteformat{%
+  \raggedright
+  \leftskip=1.8em
+  \vspace{-1.8em}
+  \makebox[0pt][r]{\theenmark. \rule{0pt}{\dimexpr\ht\strutbox+\baselineskip}}%
+}
+
+\interfootnotelinepenalty=10000
+
+
+\makeatletter
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+\makeatother
+
+
+\usepackage{advdate}
+\newcommand{\yesterday}{{\AdvanceDate[-1]\today}}
+
+%% pseudocode package
+\usepackage{algorithm}
+\usepackage[noend]{algorithmic}
+
+% counter to maintain the line numbering
+\newcommand{\setalglineno}[1]{%
+  \setcounter{ALC@line}{\numexpr#1-1}}
+
+
+% for adjustwidth environment
+\usepackage[strict]{changepage}
+
+% for formal definitions
+\usepackage{framed}
+
+% environment derived from framed.sty: see leftbar environment definition
+\definecolor{formalshade}{rgb}{0.95,0.95,1}
+
+\newenvironment{formal}{%
+  \def\FrameCommand{%
+    \hspace{1pt}%
+    {\color{blue}\vrule width 2pt}%
+    {\color{formalshade}\vrule width 4pt}%
+    \colorbox{formalshade}%
+  }%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  \noindent\hspace{-4.55pt}% disable indenting first paragraph
+  \begin{adjustwidth}{}{7pt}%
+  \vspace{2pt}\vspace{2pt}%
+}
+{%
+  \vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\pagestyle{plain}
+\fancyhf{}
+
+\rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+
+\begin{document}
+\pagestyle{plain}
+\fontfamily{phv}\selectfont
+
+
+%\vspace{4em}
+%{\center{Adam Seewald \\Dept. \\University of Southern Denmark \\Campusvej 55 \\5230 Odense \\Denmark %\\\href{https://adamseewald.cc}{adamseewald.cc}, \href{mailto:adam@seewald.email}{adam@seewald.email}, \href{tel:+4527849313}{+45 2784 9313}\\
+%}}
+
+%\vspace{3em}
+
+%\begin{flushright}Odense, Denmark, \yesterday\end{flushright}
+
+%\vspace{2em}
+
+%Dr. Hanna Kurniawati \\
+%Reliable Robot Control (R2C) Lab, Cognitive Robotics Department\\
+%Delft University of Technology\\
+%Mekelweg 2 \\
+%2628 CD Delft \\
+%The Netherlands
+
+{\centering Response to the editor and the referees}
+
+\vspace{5em}
+
+Dear Referees, Dr. Kurniawati:
+
+\vspace{1em}
+
+We greatly appreciate your time and effort in providing us with an invaluable assessment of our work, helping us to improve both the quality and presentation of our energy-aware planning-scheduling for the aerial robotics domain. We have been able to address all your comments and questions in a revised version that we have attached once again for your kind consideration. 
+
+The document is then split into two sections, each for one review. The referees' comments are in black, and our response is highlighted in blue, similarly to the edits in the attached revised version. The quotes from the revised version are incorporated here in a box with a gray background and a thick blue left border.
+
+Thank you for your time and consideration. 
+
+\vspace{1em}
+
+
+\noindent Kind regards, 
+
+\begin{flushright}
+Authors of the manuscript 22-0795\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\\
+%\includegraphics[scale=.35]{seewald_sig}
+\end{flushright}
+
+\vspace{5em}
+
+{First review}
+
+\vspace{1em}
+
+The paper addresses the problem of planning-scheduling for aerial robots with energy awareness for coverage path planning, in which a robot follows a path to cover a polygon. The objective is to maximize the configuration of parameters and satisfy constraints. The authors pose the optimization problem as an MPC and solve for the optimal parameters. They also present an energy model and propose a solution that adjusts the flight path and computational tasks online to deal with energy limitations. This approach extends the energy-aware planning-scheduling to UAVs.
+
+Overall, the paper addresses a very interesting problem and the proposed solution is well-structured.
+Related work is well reviewed in this letter. Below are some detailed comments and questions.
+
+{\color{blue}We would like to thank the first referee for assessing our work with great detail, proposing edits, and posing important questions. These helped us to strengthen our contribution and clarify aspects we did not consider in the first version.}
+
+Major Comments:
+
+1. By definition, $t_s$ is the estimated time to complete the coverage, and $t_r$ is the remaining time to complete coverage at time instant $t$. Shouldn't we have $t_r=t_s-t$? However, in line 25 of
+algorithm 2, $t_r=(t_s/\overline{t})(\overline{t}-t)$. Let's assume that $t_s=\underline{t}$. At time instant $t=\underline{t}$, by line 25, $t_r=(\underline{t}/\overline{t})(\overline{t}-\underline{t})=\underline{t}-\underline{t}^2/\overline{t}>0$. This does not make sense since the remaining time $t_r$ should equal to $0$. Could you clarify this?
+
+{\color{blue}Thank you for underlying this issue. It is indeed an incorrect transcription of the algorithm, which we have corrected in the revised version. For the sake of clarity, we have further merged line 24 with 25.
+
+\begin{formal}
+  \begin{algorithmic}[1]
+    \small
+      \makeatletter
+      \setcounter{ALC@line}{23}
+      \makeatother
+      \color{blue}\STATE $t_r\gets (\mathrm{diag}(\nu_i^\rho)\vspace*{.3ex}c_i^\rho(t)+\tau_i^\rho)[\overbrace{\begin{matrix}1&1&\cdots&1\end{matrix}}^{\rho}]-t$\vspace*{.3ex}\label{alg:traj1}
+        
+      \vspace*{.8ex}
+    \end{algorithmic}
+  \end{formal}  
+
+}
+
+2. Line 24-27 of algorithm 2 only re-plans $c_i^\rho$. What about $c_i^\sigma$? Since the re-planning is conducted after solving the MPC, optimality can not be claimed for the re-planning. It's possible that there are multiple options to adjust the parameters during re-planning: 1. simultaneously adjusting both $c_i^\rho$ and $c_i^\sigma$; 2. only adjust $c_i^\rho$; 3. only adjust $c_i^\sigma$. It might be useful to consider all of these cases and discuss how they affect optimality.
+
+{\color{blue} Thank you for the comment as well as for proposing a way to address the issue. It is correct that in Lines 24--27 we re-plan solely $c_i^\rho$, i.e., the parameters related to the path. The remaining parameters $c_i^\sigma$ related to the computations are then re-planned utilizing the model predictive controller (MPC) in Line 16. The reason why we do not use MPC to plan both the parameters is due to the practical feasibility of re-planning in flight, %While an initial version of the algorithm optimized both via MPC, to assess the satisfaction of the battery constraint w.r.t. the path parameters, in the worst case, we would have to increase the MPC horizon up to the end of the flight.
+and due to the different effects of the computation and path parameters on the energy consumption. While the computation parameters have an immediate effect, i.e., they affect the instantaneous energy consumption, the path parameters affect the flight time and thus the overall energy consumption. Concretely and by assumption, a change in the computations alters the schedule, hence the power drained by the computing hardware on the aerial robot, whereas a change in the path parameters alters the time when the aerial robot terminates the coverage.
+
+We have thus decided to utilize a hybrid approach. We employ MPC for the schedule (computations parameters $c_i^\sigma$) and a greedy approach for the coverage (path parameters $c_i^\rho$). Similar combination of techniques has been investigated in the past planning-scheduling literature by Ondr\'{u}\v{s}ka et al.~(reference [{\color{green}19}] in the revised manuscript).
+Nonetheless, as underlined in your observation, this was not clear from the text. We have updated the algorithm in Line 16.
+
+\begin{formal}
+\begin{algorithmic}[1]
+  \small
+    \makeatletter
+    \setcounter{ALC@line}{15}
+    \makeatother
+    \color{blue}\STATE $\mathbf{q}(\mathcal{K}\setminus\{t+N\}),c_i^\sigma(\mathcal{K})\gets${ \vspace*{.3ex}solve NLP }$\argmax_{\mathbf{q}(k),c_i(k)}$\newline \vspace*{.7ex}\hspace*{1em}${l_f(\mathbf{q}(t+\hspace*{-.1ex}N),t+\hspace*{-.1ex}N)}+\hspace*{-.2ex}{\sum_{k\in\mathcal{K}}{l_d(\mathbf{q}(k),c_i(k),k)}}${ in Eq.~({\color{red}18})\newline \hspace*{1em}on }$\mathcal{K}=\{t,t+h,\dots,t+N\}$\vspace*{.3ex}
+      
+    \vspace*{.8ex}
+  \end{algorithmic}
+\end{formal}
+
+  We have altered the introduction and the problem formulation in Section II to address the observation. We have further added an explanatory text in Section IV.B as well as in the conclusion. In the introduction we have stated explicitly that we utilize both the heuristics and optimal control.
+
+  \begin{formal}
+  {\color{black} [...] our approach uses optimal control {\color{blue} and heuristics} where both the paths and schedules variations are trajectories, varying between given bounds [...]} Hybrid approaches~[{\color{green}18}] are also available, where the techniques are mixed.
+  \vspace*{1ex}
+  \end{formal}
+
+  We have altered the problem formulation, clearly stating that the objective is to find energy-aware trajectory of parameters rather than optimal.
+
+  \begin{formal}
+    {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time.}
+    \vspace*{1ex}
+  \end{formal}
+
+  We have then altered Section IV.B.
+
+  \begin{formal}
+  \color{black}
+  Past literature on planning-scheduling often relies on %optimal control and 
+  optimization {\color{blue} as well as heuristics-}related approaches~[{\color{green}13}],~[{\color{green}14}],~[{\color{green}19}],~[{\color{green}23}]. We similarly derive an optimal control problem {\color{blue}and a greedy approach} returning the trajectory of parameters [...] {\color{blue} We utilize MPC to derive the trajectory of the computations parameters and the greedy approach with heuristics remaining coverage time for the path parameters.}
+
+  An optimal control problem (OCP) that selects the highest configuration of {\color{blue} $c_i^\rho$} and respects the constraints [...]
+
+  Line~{\color{red}16} in Algorithm~{\color{red}2} contains [...] a nonlinear program (NLP) that can be solved with available NLP solvers~[{\color{green}47}]. Its solution leads to both trajectories of {\color{blue} computation} parameters and states [...]
+  
+  Lines~{\color{red}17}--{\color{red}23} estimate the time [...] to [...] drain the battery, [...] The {\color{blue}path parameters and thus the} coverage is then re{\color{blue}-}planned accordingly on Lines~{\color{red}24}--{\color{red}26} using {\color{blue} the heuristics with the} %Lem.~\ref{lem:new} and 
+  scaling factors from Eq.~({\color{red}10}) [...]
+
+  \vspace*{1ex}
+  \end{formal}
+
+  Finally, we have altered the conclusion.
+
+  \begin{formal}
+  \color{black}
+  Further directions include {\color{blue}the use of a purely optimization-based technique, e.g., MPC derives both the path and computation parameters trajectories and} the study of different energy models.
+  \vspace*{1ex}
+  \end{formal}
+}
+
+3. It is not clear how the parameters of the initial path are obtained. Do the authors use random parameters from the constraint set, or use the highest configuration of parameters? Could you explain the reason for not using the energy-aware planning for the initial trajectory?
+
+{\color{blue}
+Thank you for observing this omission. We have utilized the highest and the lowest configurations of parameters for the experiments denoted with roman numerals i, I and ii, II respectively, simulating planning-scheduling in the best- and worst-case scenario. Nonetheless, we do agree it might be advantageous to utilize the algorithm in an 'ideal' simulation first, hence estimate the initial parameters. 
+
+We have explicitly stated how we obtain the initial configurations in Section V.
+
+\begin{formal}
+  \color{black} [...] {\color{blue} The initial values of path and computations parameters are chosen to represent the highest and lowest configurations in the search space in {\color{red}I}--{\color{red}i} and {\color{red}II}--{\color{red}ii} respectively, modeling the behavior of the best- and worst-case scenario. Different search strategies are possible by, e.g., running an ideal instance of planning-scheduling prior to the flight.}
+  \vspace*{1ex}
+\end{formal}
+
+}
+
+4. The simulation shows some promising results. However, the organization of Fig.~6 makes it difficult to read. For example, what is the top right plot in Fig.~6(b) showing? I understand that there are a number of figures to present and the space is limited, but I would suggest adding legends and axis titles to the plots if possible. You could also consider rewriting the caption of Fig.~6 to make it descriptive enough to be understood. Otherwise, readers have to repeatedly refer to the main text to understand what a specific plot is presenting.
+
+{\color{blue} [!]}
+
+5. In line 26, shouldn’t the re-planning take place when $t_r>t_b$? In line 27, it is unclear how
+re-planning is performed. I would suggest having more discussion on this.
+
+{\color{blue} Thank you for noting the issue as well as for suggesting more discussion. The former is a typo, and we have fixed the if statement in Algorithm 2.
+
+\begin{formal}
+  \begin{algorithmic}[1]
+    \small
+      \makeatletter
+      \setcounter{ALC@line}{24}
+      \makeatother
+      \IF{$t_r>t_b$}
+        \color{blue}\STATE $c_i^{\rho}(t)\gets${ find }$c_i^{\rho}${ with }$t_r\in[0,t_b]${, otherwise take }$\underline{c}_i^\rho$\vspace*{.3ex}\label{alg:traj2}
+      \color{black}\ENDIF
+      \vspace*{.8ex}
+    \end{algorithmic}
+  \end{formal}  
+
+  To clarify the re-planning of the path parameters, we have added explanatory text in Section IV-B.
+
+  \begin{formal}
+    \color{black} [...] The {\color{blue}path parameters and thus the} coverage is then re{\color{blue}-}planned [...] on Lines~{\color{red}24}--{\color{red}26} [...] {\color{blue}Concretely, these lines implement the greedy approach by decreasing the path parameters of a given value $\delta_i$ or similarly increasing the parameters when $t_r\leq t_b$ within the bounds (this latter analogous case is not shown explicitly in Algorithm~{\color{red}2} but implemented in Sec.~{\color{red}V})}.
+    \vspace*{1ex}
+  \end{formal}
+
+  We have then detailed the actual value of $\delta_i$ in Section~V.
+
+  \begin{formal}
+    \color{black} [...] The set of parameters is unaltered through the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i${\color{blue}, along $\delta_i$ %utilized 
+    in the greedy approach}.
+    
+    [...] scaling factors are derived empirically %, 
+    {\color{blue}similarly to $\delta_i$ set to two hundred fifty}
+    \vspace*{1ex}
+  \end{formal}
+}
+
+
+
+6. The following paper is related to this letter and the authors could consider referencing it.
+\begin{itemize}
+  \item Di Franco, Carmelo, and Giorgio Buttazzo. ``Coverage path planning for UAVs photogrammetry with energy and resolution constraints.'' Journal of Intelligent Robotic Systems 83, no. 3 (2016): 445-462.
+\end{itemize}
+
+{\color{blue} [!]}
+
+
+Minor Comments:
+
+1. In Definition II.1, it would be useful to clarify the use of $j$ and $k$ in the formula of $\Gamma_i$. I assume the authors are saying $c^\rho_i=[c_{i,1},c_{i,2},\dots,c_{i,\rho}]$ and $c^\sigma_i=[c_{i,1},c_{i,2},\dots,c_{i,\sigma}]$, but the definition of $\Gamma_i$ is not quite clear.
+
+{\color{blue} [!]}
+
+
+
+2. By definition $[\rho]=\{0,1,2,...,\rho\}$ is a $\rho+1$ tuple, implying that $c^\rho_i$, as the second variable of the path function, is a $\rho+1$ vector in Definition II.1. However, in Definition II.2, it is claimed that the
+second variable of the path function is a $\rho$-vector.
+
+
+{\color{blue} [!]}
+
+3. I noticed a typo under Definition II.1. ``\dots is the $j$th path parameter $c_{i,j}$ constraint set'', should $c_{i,j}$ be removed?
+
+{\color{blue} [!]}
+
+4. In Definition II.1, the use of $\mathbf{p}(t)$ is confusing. I assume $\mathbf{p}$ is an arbitrary point on the path, but $\mathbf{p}(t)$ usually refers to a trajectory.
+
+{\color{blue} [!]}
+
+5. I noticed a typo ``computations parameters'', I think it should be ``computation parameters''
+
+
+{\color{blue} [!]}
+
+6. Could you please explain how you obtain matrix $A$ and $C$ in (6) and (7), or put some reference?
+
+{\color{blue} [!]}
+
+7. In line 16 of Algorithm 2, $\mathcal{K}={t,t+h,\dots,t+N}$. It should be ${t,t+1,\dots,t+N}$?
+
+
+{\color{blue} [!]}
+
+8. The definition of $h$ in algorithm 2 is not clear with ``the sets $\mathcal{K},\mathcal{T}$ have possibly different steps $h$''. Could you clarify how $h$ is obtained? Is $h$ set to 1, or specified by users?
+
+{\color{blue} [!]}
+
+9. By Definition III.2, $g(\cdot)$ has two variables, but equation (12) only has one variable. I assume a time variable is missing
+
+{\color{blue} [!]}
+
+10. There is a typo in the axis title of parameters in Fig. 6(a). The title should be $c_{i,1}$ instead of k$c_{i,1}$
+
+{\color{blue} [!]}
+
+11. The way that the authors define $\tau_{i,j}$ and $\nu_{i,j}$ in (10a) and (10b) implies path parameter
+$c_{i,j}$, $j\in\{1,2,\dots,\rho\}$ contributes equally to $t_s$ (defined in line 24 in Algorithm 2). It is difficult to determine if this assumption is reasonable, since $\rho=1$ in the numerical simulations.
+
+{\color{blue} [!]}
+
+
+\vspace{2em}
+
+{Second reviwew}
+
+\vspace{1em}
+
+
+
+\vspace{2em}
+
+
+\end{document}
+
