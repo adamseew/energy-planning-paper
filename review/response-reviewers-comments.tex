@@ -6,6 +6,7 @@
 \definecolor{foo}{RGB}{0,51,102}
 \usepackage[colorlinks=true,linkcolor=foo,urlcolor=foo]{hyperref}
 \usepackage{amsmath}
+\usepackage{amsfonts}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \usepackage{cleveref}
 \usepackage{tabto}
@@ -65,12 +66,12 @@
 \usepackage{framed}
 
 % environment derived from framed.sty: see leftbar environment definition
-\definecolor{formalshade}{rgb}{0.95,0.95,1}
+\definecolor{formalshade}{rgb}{1,0.95,0.95}
 
 \newenvironment{formal}{%
   \def\FrameCommand{%
     \hspace{1pt}%
-    {\color{blue}\vrule width 2pt}%
+    {\color{red}\vrule width 2pt}%
     {\color{formalshade}\vrule width 4pt}%
     \colorbox{formalshade}%
   }%
@@ -90,6 +91,10 @@
 \fancyhf{}
 
 \rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+
 
 \begin{document}
 \pagestyle{plain}
@@ -123,7 +128,7 @@ Dear Referees, Dr. Kurniawati:
 
 We greatly appreciate your time and effort in providing us with an invaluable assessment of our work, helping us to improve both the quality and presentation of our energy-aware planning-scheduling for the aerial robotics domain. We have been able to address all your comments and questions in a revised version that we have attached once again for your kind consideration. 
 
-The document is then split into two sections, each for one review. The referees' comments are in black, and our response is highlighted in blue, similarly to the edits in the attached revised version. The quotes from the revised version are incorporated here in a box with a gray background and a thick blue left border.
+The document is then split into two sections, each for one review. The referees' comments are in black, and our response is highlighted in blue, similarly to the edits in the attached revised version. The quotes from the revised version are incorporated here in a box with a light red background and a thick red left border.
 
 Thank you for your time and consideration. 
 
@@ -139,23 +144,39 @@ Authors of the manuscript 22-0795\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\\
 
 \vspace{5em}
 
+\newpage 
+
 {First review}
 
-\vspace{1em}
+\vspace{3em}
+
+{\hspace*{-4.5em}\textbf{[R1]}\vspace*{-1.9em}}
 
 The paper addresses the problem of planning-scheduling for aerial robots with energy awareness for coverage path planning, in which a robot follows a path to cover a polygon. The objective is to maximize the configuration of parameters and satisfy constraints. The authors pose the optimization problem as an MPC and solve for the optimal parameters. They also present an energy model and propose a solution that adjusts the flight path and computational tasks online to deal with energy limitations. This approach extends the energy-aware planning-scheduling to UAVs.
 
 Overall, the paper addresses a very interesting problem and the proposed solution is well-structured.
 Related work is well reviewed in this letter. Below are some detailed comments and questions.
 
-{\color{blue}We would like to thank the first referee for assessing our work with great detail, proposing edits, and posing important questions. These helped us to strengthen our contribution and clarify aspects we did not consider in the first version.}
+{\color{blue}
+
+{\hspace*{-4.5em}{[R1]}\vspace*{-1.9em}}
+
+We would like to thank the first referee for assessing our work with great detail, proposing edits, and posing important questions. These helped us to strengthen our contribution and clarify aspects we did not consider in the first version.}
+
+\vspace{2em}
 
 Major Comments:
+
+{\hspace*{-4.5em}\textbf{[R1:1]}\vspace*{-1.9em}}
 
 1. By definition, $t_s$ is the estimated time to complete the coverage, and $t_r$ is the remaining time to complete coverage at time instant $t$. Shouldn't we have $t_r=t_s-t$? However, in line 25 of
 algorithm 2, $t_r=(t_s/\overline{t})(\overline{t}-t)$. Let's assume that $t_s=\underline{t}$. At time instant $t=\underline{t}$, by line 25, $t_r=(\underline{t}/\overline{t})(\overline{t}-\underline{t})=\underline{t}-\underline{t}^2/\overline{t}>0$. This does not make sense since the remaining time $t_r$ should equal to $0$. Could you clarify this?
 
-{\color{blue}Thank you for underlying this issue. It is indeed an incorrect transcription of the algorithm, which we have corrected in the revised version. For the sake of clarity, we have further merged line 24 with 25.
+{\color{blue}
+
+{\hspace*{-4.5em}{[R1:1]}\vspace*{-1.9em}}
+
+Thank you for underlying this issue. It is indeed an incorrect transcription of the algorithm, which we have corrected in the revised version. For the sake of clarity, we have further merged line 24 with 25.
 
 \begin{formal}
   \begin{algorithmic}[1]
@@ -171,12 +192,18 @@ algorithm 2, $t_r=(t_s/\overline{t})(\overline{t}-t)$. Let's assume that $t_s=\u
 
 }
 
+{\hspace*{-4.5em}\textbf{[R1:2]}\vspace*{-1.9em}}
+
 2. Line 24-27 of algorithm 2 only re-plans $c_i^\rho$. What about $c_i^\sigma$? Since the re-planning is conducted after solving the MPC, optimality can not be claimed for the re-planning. It's possible that there are multiple options to adjust the parameters during re-planning: 1. simultaneously adjusting both $c_i^\rho$ and $c_i^\sigma$; 2. only adjust $c_i^\rho$; 3. only adjust $c_i^\sigma$. It might be useful to consider all of these cases and discuss how they affect optimality.
 
-{\color{blue} Thank you for the comment as well as for proposing a way to address the issue. It is correct that in Lines 24--27 we re-plan solely $c_i^\rho$, i.e., the parameters related to the path. The remaining parameters $c_i^\sigma$ related to the computations are then re-planned utilizing the model predictive controller (MPC) in Line 16. The reason why we do not use MPC to plan both the parameters is due to the practical feasibility of re-planning in flight, %While an initial version of the algorithm optimized both via MPC, to assess the satisfaction of the battery constraint w.r.t. the path parameters, in the worst case, we would have to increase the MPC horizon up to the end of the flight.
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:2]}\vspace*{-1.9em}}
+
+Thank you for the comment as well as for proposing a way to address the issue. It is correct that in Lines 24--27 we re-plan solely $c_i^\rho$, i.e., the parameters related to the path. The remaining parameters $c_i^\sigma$ related to the computations are then re-planned utilizing the model predictive controller (MPC) in Line 16. The reason why we do not use MPC to plan both the parameters is due to the practical feasibility of re-planning in flight, %While an initial version of the algorithm optimized both via MPC, to assess the satisfaction of the battery constraint w.r.t. the path parameters, in the worst case, we would have to increase the MPC horizon up to the end of the flight.
 and due to the different effects of the computation and path parameters on the energy consumption. While the computation parameters have an immediate effect, i.e., they affect the instantaneous energy consumption, the path parameters affect the flight time and thus the overall energy consumption. Concretely and by assumption, a change in the computations alters the schedule, hence the power drained by the computing hardware on the aerial robot, whereas a change in the path parameters alters the time when the aerial robot terminates the coverage.
 
-We have thus decided to utilize a hybrid approach. We employ MPC for the schedule (computations parameters $c_i^\sigma$) and a greedy approach for the coverage (path parameters $c_i^\rho$). Similar combination of techniques has been investigated in the past planning-scheduling literature by Ondr\'{u}\v{s}ka et al.~(reference [{\color{green}19}] in the revised manuscript).
+We have thus decided to utilize a hybrid approach. We employ MPC for the schedule (computation parameters $c_i^\sigma$) and a greedy approach for the coverage (path parameters $c_i^\rho$). Similar combination of techniques has been investigated in the past planning-scheduling literature by Ondr\'{u}\v{s}ka et al.~(reference [{\color{green}19}] in the revised manuscript).
 Nonetheless, as underlined in your observation, this was not clear from the text. We have updated the algorithm in Line 16.
 
 \begin{formal}
@@ -210,14 +237,14 @@ Nonetheless, as underlined in your observation, this was not clear from the text
   \begin{formal}
   \color{black}
   Past literature on planning-scheduling often relies on %optimal control and 
-  optimization {\color{blue} as well as heuristics-}related approaches~[{\color{green}13}],~[{\color{green}14}],~[{\color{green}19}],~[{\color{green}23}]. We similarly derive an optimal control problem {\color{blue}and a greedy approach} returning the trajectory of parameters [...] {\color{blue} We utilize MPC to derive the trajectory of the computations parameters and the greedy approach with heuristics remaining coverage time for the path parameters.}
+  optimization {\color{blue} as well as heuristics-}related approaches~[{\color{green}13}],~[{\color{green}14}],~[{\color{green}19}],~[{\color{green}23}]. We similarly derive an optimal control problem {\color{blue}and a greedy approach} returning the trajectory of parameters [...] {\color{blue} We utilize MPC to derive the trajectory of the computation parameters and the greedy approach with heuristics remaining coverage time for the path parameters.}
 
   An optimal control problem (OCP) that selects the highest configuration of {\color{blue} $c_i^\rho$} and respects the constraints [...]
 
   Line~{\color{red}16} in Algorithm~{\color{red}2} contains [...] a nonlinear program (NLP) that can be solved with available NLP solvers~[{\color{green}47}]. Its solution leads to both trajectories of {\color{blue} computation} parameters and states [...]
   
   Lines~{\color{red}17}--{\color{red}23} estimate the time [...] to [...] drain the battery, [...] The {\color{blue}path parameters and thus the} coverage is then re{\color{blue}-}planned accordingly on Lines~{\color{red}24}--{\color{red}26} using {\color{blue} the heuristics with the} %Lem.~\ref{lem:new} and 
-  scaling factors from Eq.~({\color{red}10}) [...]
+  scaling factors from Eq.~({\color{red}11}) [...]
 
   \vspace*{1ex}
   \end{formal}
@@ -231,28 +258,48 @@ Nonetheless, as underlined in your observation, this was not clear from the text
   \end{formal}
 }
 
+{\hspace*{-4.5em}\textbf{[R1:3]}\vspace*{-1.9em}}
+
 3. It is not clear how the parameters of the initial path are obtained. Do the authors use random parameters from the constraint set, or use the highest configuration of parameters? Could you explain the reason for not using the energy-aware planning for the initial trajectory?
 
 {\color{blue}
-Thank you for observing this omission. We have utilized the highest and the lowest configurations of parameters for the experiments denoted with roman numerals i, I and ii, II respectively, simulating planning-scheduling in the best- and worst-case scenario. Nonetheless, we do agree it might be advantageous to utilize the algorithm in an 'ideal' simulation first, hence estimate the initial parameters. 
 
-We have explicitly stated how we obtain the initial configurations in Section V.
+{\hspace*{-4.5em}{[R1:3]}\vspace*{-1.9em}}
+
+Thank you for observing this omission. We have utilized the highest and the lowest configurations of parameters for the experiments denoted with roman numerals i, I and ii, II respectively, simulating planning-scheduling in the best- and worst-case scenarios. Nonetheless, we do agree it might be advantageous to utilize the algorithm in an 'ideal' simulation first, to estimate the initial parameters.
+
+We have explicitly stated how we obtain the initial configurations in Section V and outlined the possibility of utilizing the methodology to estimate the initial parameters.
 
 \begin{formal}
-  \color{black} [...] {\color{blue} The initial values of path and computations parameters are chosen to represent the highest and lowest configurations in the search space in {\color{red}I}--{\color{red}i} and {\color{red}II}--{\color{red}ii} respectively, modeling the behavior of the best- and worst-case scenario. Different search strategies are possible by, e.g., running an ideal instance of planning-scheduling prior to the flight.}
+  \color{black} [...] {\color{blue} The initial values of path and computation parameters are chosen to represent the highest and lowest configurations in the search space in {\color{red}I}--{\color{red}i} and {\color{red}II}--{\color{red}ii} respectively, modeling the behavior of the best- and worst-case scenario. Different search strategies are possible by, e.g., running an ideal instance of planning-scheduling prior to the flight.}
   \vspace*{1ex}
 \end{formal}
 
 }
 
+{\hspace*{-4.5em}\textbf{[R1:4]}\vspace*{-1.9em}}
+
+
 4. The simulation shows some promising results. However, the organization of Fig.~6 makes it difficult to read. For example, what is the top right plot in Fig.~6(b) showing? I understand that there are a number of figures to present and the space is limited, but I would suggest adding legends and axis titles to the plots if possible. You could also consider rewriting the caption of Fig.~6 to make it descriptive enough to be understood. Otherwise, readers have to repeatedly refer to the main text to understand what a specific plot is presenting.
 
-{\color{blue} [!]}
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:4]}\vspace*{-1.9em}}
+
+[!]}
+
+{\hspace*{-4.5em}\textbf{[R1:5]}\vspace*{-1.9em}}
 
 5. In line 26, shouldn’t the re-planning take place when $t_r>t_b$? In line 27, it is unclear how
 re-planning is performed. I would suggest having more discussion on this.
 
-{\color{blue} Thank you for noting the issue as well as for suggesting more discussion. The former is a typo, and we have fixed the if statement in Algorithm 2.
+{\hspace*{-4.5em}{[R1:5]}\vspace*{-1.9em}}
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:5]}\vspace*{-1.9em}}
+
+Thank you for noting the issue as well as for suggesting more discussion. The former is a typo, and we have fixed the if statement in Algorithm 2.
 
 \begin{formal}
   \begin{algorithmic}[1]
@@ -286,73 +333,432 @@ re-planning is performed. I would suggest having more discussion on this.
   \end{formal}
 }
 
-
+{\hspace*{-4.5em}\textbf{[R1:6]}\vspace*{-1.9em}}
 
 6. The following paper is related to this letter and the authors could consider referencing it.
 \begin{itemize}
   \item Di Franco, Carmelo, and Giorgio Buttazzo. ``Coverage path planning for UAVs photogrammetry with energy and resolution constraints.'' Journal of Intelligent Robotic Systems 83, no. 3 (2016): 445-462.
 \end{itemize}
 
-{\color{blue} [!]}
+{\color{blue} 
 
+{\hspace*{-4.5em}{[R1:6]}\vspace*{-1.9em}}
 
-Minor Comments:
+Thank you for proposing Di Franco and Buttazzo's past work to our attention. We have considered another past study by the authors ``Energy-aware coverage path planning of UAVs'' from 2015, and the proposed work appears to be an extension. Both studies do not account for the energy contribution of the computations but interestingly propose the variability of the cover by changing the distance of the survey lines in the boustrophedon motion. Whilst similar to our Zamboni-like motion, the cover variability is not achieved in flight nor applies to constrained aerial robots such as fixed wings--which we consider due to a narrower computation-motion energy difference--but rather rotary wings (they utilize boustrophedon motion).
 
-1. In Definition II.1, it would be useful to clarify the use of $j$ and $k$ in the formula of $\Gamma_i$. I assume the authors are saying $c^\rho_i=[c_{i,1},c_{i,2},\dots,c_{i,\rho}]$ and $c^\sigma_i=[c_{i,1},c_{i,2},\dots,c_{i,\sigma}]$, but the definition of $\Gamma_i$ is not quite clear.
+We have updated the introductory section to include the work comparing both the studies to ours.
 
-{\color{blue} [!]}
+\begin{formal}
+  \color{black} [...] {\color{blue}In terms of aerial coverage, past work considers criteria including the completeness of the coverage and resolution [{\color{green}25}], and deals with aspects such as the quality of the cover [{\color{green}26}], but neglects the energy expenditure of computations and favors rotary-wing aerial robots rather than aerial robots broadly.} Such a state of practice has prompted us to propose the planning-scheduling approach for autonomous aerial robots [...]
+  \vspace*{1ex}
+\end{formal}
 
+We have also updated Section IV-A to explicitly state that the variability of the cover is already considered for rotary wings utilizing the boustrophedon motion.
 
-
-2. By definition $[\rho]=\{0,1,2,...,\rho\}$ is a $\rho+1$ tuple, implying that $c^\rho_i$, as the second variable of the path function, is a $\rho+1$ vector in Definition II.1. However, in Definition II.2, it is claimed that the
-second variable of the path function is a $\rho$-vector.
-
-
-{\color{blue} [!]}
-
-3. I noticed a typo under Definition II.1. ``\dots is the $j$th path parameter $c_{i,j}$ constraint set'', should $c_{i,j}$ be removed?
-
-{\color{blue} [!]}
-
-4. In Definition II.1, the use of $\mathbf{p}(t)$ is confusing. I assume $\mathbf{p}$ is an arbitrary point on the path, but $\mathbf{p}(t)$ usually refers to a trajectory.
-
-{\color{blue} [!]}
-
-5. I noticed a typo ``computations parameters'', I think it should be ``computation parameters''
-
-
-{\color{blue} [!]}
-
-6. Could you please explain how you obtain matrix $A$ and $C$ in (6) and (7), or put some reference?
-
-{\color{blue} [!]}
-
-7. In line 16 of Algorithm 2, $\mathcal{K}={t,t+h,\dots,t+N}$. It should be ${t,t+1,\dots,t+N}$?
-
-
-{\color{blue} [!]}
-
-8. The definition of $h$ in algorithm 2 is not clear with ``the sets $\mathcal{K},\mathcal{T}$ have possibly different steps $h$''. Could you clarify how $h$ is obtained? Is $h$ set to 1, or specified by users?
-
-{\color{blue} [!]}
-
-9. By Definition III.2, $g(\cdot)$ has two variables, but equation (12) only has one variable. I assume a time variable is missing
-
-{\color{blue} [!]}
-
-10. There is a typo in the axis title of parameters in Fig. 6(a). The title should be $c_{i,1}$ instead of k$c_{i,1}$
-
-{\color{blue} [!]}
-
-11. The way that the authors define $\tau_{i,j}$ and $\nu_{i,j}$ in (10a) and (10b) implies path parameter
-$c_{i,j}$, $j\in\{1,2,\dots,\rho\}$ contributes equally to $t_s$ (defined in line 24 in Algorithm 2). It is difficult to determine if this assumption is reasonable, since $\rho=1$ in the numerical simulations.
-
-{\color{blue} [!]}
+\begin{formal}
+  \color{black} [...] this section details a [...] motion with a wide turning radius. It is similar to another motion in the literature, the Zamboni
+  motion [{\color{green}42}], but additionally allows variable CPP [...] {\color{blue} Although cover variability is already considered in the literature [{\color{green}25}], it is limited to boustrophedon motion for rotary wings.} The novel motion is termed Zamboni-like motion [...]
+  \vspace*{1ex}
+\end{formal}
+}
 
 
 \vspace{2em}
 
+
+Minor Comments:
+
+{\hspace*{-4.5em}\textbf{[R1:7]}\vspace*{-1.9em}}
+
+1. In Definition II.1, it would be useful to clarify the use of $j$ and $k$ in the formula of $\Gamma_i$. I assume the authors are saying $c^\rho_i=[c_{i,1},c_{i,2},\dots,c_{i,\rho}]$ and $c^\sigma_i=[c_{i,1},c_{i,2},\dots,c_{i,\sigma}]$, but the definition of $\Gamma_i$ is not quite clear.
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:7]}\vspace*{-1.9em}}
+
+Thank you for underlying this issue regarding the definition of stage. We are using the indices $j$ and $k$ to indicate that there might be a different constraint per each parameter and the numbers of parameters $\rho$ and $\sigma$ to indicate that there might be a different number of parameters. Nonetheless, we acknowledge the necessity to exemplify these in a better manner.
+
+We have altered the definition for this purpose.
+
+\begin{formal}
+  \color{black} 
+  \textbf{Definition}~II.1~(Stage)\textbf{.}~[...] the $i$th \emph{stage} $\Gamma_i$ %at time instant $t$ %of a plan $\Gamma$ 
+    is
+  \begin{equation*}\begin{split}
+      \Gamma_i:=\{{\color{blue}\varphi_i(\mathbf{p}%(t)
+      ,c_i^\rho)},c_i^\sigma\mid
+      \,&\forall j\in\,[\rho]_{>0},\,c_{i,j}\,\,\,\,\,\,\,\in\mathcal{C}_{i,j},\,\\
+        &\forall k\in[\sigma]_{>0},\,c_{i,\rho+k}\in\mathcal{S}_{i,k}\,\},
+  \end{split}\end{equation*}
+  where $c_i^\rho${\color{blue}$:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$} and $c_i^\sigma${\color{blue}$:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,$ $c_{i,\rho+\sigma}\}$} are $\rho$ \emph{path} and $\sigma$ \emph{computation parameters}. $\mathcal{C}_{i,j}:=[\underline{c}_{i,j},\overline{c}_{i,j}]\subseteq\mathbb{R}$ is the $j$th path parameter %$c_{i,j}$ 
+  constraint set, and $\mathcal{S}_{i,k}:=[\underline{c}_{i,\rho+k},\overline{c}_{i,\rho+k}]\subseteq\mathbb{Z}_{\geq 0}$ is the $k$th computation parameter constraint set. {\color{blue}Indices $j$ and $k$ serves to differentiate path and computation parameters constraints and to indicate that each parameter can have a different constraint set.}
+  \vspace*{1ex}
+\end{formal}
+
+}
+
+{\hspace*{-4.5em}\textbf{[R1:8]}\vspace*{-1.9em}}
+
+2. By definition $[\rho]=\{0,1,2,...,\rho\}$ is a $\rho+1$ tuple, implying that $c^\rho_i$, as the second variable of the path function, is a $\rho+1$ vector in Definition II.1. However, in Definition II.2, it is claimed that the second variable of the path function is a $\rho$-vector.
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:8]}\vspace*{-1.9em}}
+
+Thank you for noticing this inconsistency in the notation. We have utilized $[\rho]_{>0}$ with the subscript to indicate a $\rho$ tuple. We have updated the explanatory text after the definition of the stage accordingly.
+
+\begin{formal}
+  \color{black}
+  [...] The notation $[x]$ denotes positive naturals up to $x$, i.e., $\{0,1,\dots,x\}$, {\color{blue}$[x]_{>0}$ strictly positive naturals, i.e., $\{1,2,\dots,x\}$,} [...]
+  \vspace*{1ex}
+\end{formal}
+}
+
+{\hspace*{-4.5em}\textbf{[R1:9]}\vspace*{-1.9em}}
+
+3. I noticed a typo under Definition II.1. ``\dots is the $j$th path parameter $c_{i,j}$ constraint set'', should $c_{i,j}$ be removed?
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:9]}\vspace*{-1.9em}}
+
+Thank you for noticing the typo. We have removed $c_{i,j}$ from Definition II.1.}
+
+{\hspace*{-4.5em}\textbf{[R1:10]}\vspace*{-1.9em}}
+
+4. In Definition II.1, the use of $\mathbf{p}(t)$ is confusing. I assume $\mathbf{p}$ is an arbitrary point on the path, but $\mathbf{p}(t)$ usually refers to a trajectory.
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:10]}\vspace*{-1.9em}}
+
+Thank you for underlying the issue. We have not realized this possible source of additional confusion and decided to utilize only $\mathbf{p}$ to designate a point. We have altered the occurrence in the remainder of the work, for consistency. Apart from Definition II.1 that we showed in point 7, the occurrence was in the definition of path functions.
+
+\begin{formal}
+  \color{black}
+  \textbf{Definition~II.2~}(Path~functions)\textbf{.}~$\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R},\,\forall i\in\{1,2,\dots\}
+  $ are \emph{path functions}, forming the path. They are a function of {\color{blue}$\mathbf{p}%(t)
+  $} and path parameters $c_i^\rho%(t)
+  $ and are continuous and twice differentiable.
+  \vspace*{1ex}
+\end{formal}
+
+In the state-transition function.
+
+\begin{formal}
+  \color{black}
+  [...] the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
+  \begin{equation*}{\color{blue}s(\Gamma_i,\mathbf{p}%(t)
+    )}:=\begin{cases}
+    \Gamma_{i+j} & {\color{blue}\text{if }\norm{\mathbf{p}%(t)
+    -\mathbf{p}_{\Gamma_i}}<\varepsilon_i,\,\exists j\in\mathbb{Z},}\\
+    \Gamma_i & \text{otherwise}.
+  \end{cases}\end{equation*}
+\end{formal}
+
+Finally in Algorithm 1 in lines 2 and 3.
+
+\begin{formal}
+  \begin{algorithmic}[1]
+    \small
+      \makeatletter
+      \setcounter{ALC@line}{1}
+      \makeatother
+      \STATE \textbf{if} $\mathbf{p}%(t)
+      =\mathbf{p}_{\Gamma_l}${ in Definition~{\color{red}II.3}} \textbf{then return }$\Gamma$\vspace*{.3ex}
+      \vspace*{.8ex}
+      \STATE \textbf{if} $\mathbf{p}%(t)
+      =\mathbf{p}_{\Gamma_i}$ \textbf{then}
+    \end{algorithmic}
+  \end{formal}  
+
+}
+
+
+
+{\hspace*{-4.5em}\textbf{[R1:11]}\vspace*{-1.9em}}
+
+5. I noticed a typo ``computations parameters'', I think it should be ``computation parameters''
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:11]}\vspace*{-1.9em}}
+
+Thank you once again for noticing the typo. We have changed the occurrences of ``computations parameters'' with ``computation parameters'', whilst keeping computations when the occurrence indicates multiple computations or when we utilize it to underline, e.g., the energy or schedule of multiple computations.}
+
+{\hspace*{-4.5em}\textbf{[R1:12]}\vspace*{-1.9em}}
+
+6. Could you please explain how you obtain matrix $A$ and $C$ in (6) and (7), or put some reference?
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:12]}\vspace*{-1.9em}}
+
+Thank you for noticing that a citation and clarification are missing regarding the energy models. The items of matrices $A$ and $C$ are constructed so that the two periodic models, the model in Equation ({\color{red}3}) and Equation ({\color{red}4}) are equal under some conditions (the value of the initial guess is described by Equation ({\color{red}9}) and the model is not perturbed by the control).
+
+We have elaborated further in Section III-A to reflect the observation and added a reference to the corresponding author's previous work.
+
+\begin{formal}
+  {\color{black}
+  [...] {\color{blue}Matrices $A$ and $C$ are constructed such that t}he %Under favorable conditions, %the 
+  models in Eqs.~({\color{red}3}--{\color{red}4}) {\color{black}are equal when $\mathbf{u}$ is a {\color{black}zero vector %, matrices $A,C$ described by Eqs.~(\ref{eq:mat_A}--\ref{eq:mat_C}), 
+  and an initial guess $\mathbf{q}(t_0)=\mathbf{q}_0$ at initial time instant $t_0$}}
+    {\color{blue}\begin{equation}\tag{9}
+    {\color{black}\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}',}
+    \end{equation}}
+    %$h$ in Eq.~(\ref{eq:fourier}) is equal to $y$ in Eq.~(\ref{eq:state-perf}).
+  %\end{lem}
+  %\begin{proof}
+  %The equality of the signal and output is achieved by a proper choice of the items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof, where we justify the choices of the items of the matrices and of the initial guess. 
+  %\end{proof}
+  %Appendix~\ref{app:proof-eqv} contains a proof of Lem.~\ref{lem:eqv}.
+  \color{black}i.e., $h,y$ are both harmonic signals with the same frequencies{\color{blue}~[{\color{green}33}]}.}
+  \vspace*{1ex}
+\end{formal}
+}
+
+{\hspace*{-4.5em}\textbf{[R1:13]}\vspace*{-1.9em}}
+
+7. In line 16 of Algorithm 2, $\mathcal{K}={t,t+h,\dots,t+N}$. It should be ${t,t+1,\dots,t+N}$?
+
+8. The definition of $h$ in algorithm 2 is not clear with ``the sets $\mathcal{K},\mathcal{T}$ have possibly different steps $h$''. Could you clarify how $h$ is obtained? Is $h$ set to 1, or specified by users?
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:13]}\vspace*{-1.9em}}
+
+Thank you for underlying the necessity of further explanation for the steps in $\mathcal{K},\mathcal{T}$ in both the points 7 and 8. The step for $\mathcal{T}$ is utilized to decide the granularity of re-planning, i.e., how often does the aerial robot finds the configurations of path and computations parameters, whereas the step in $\mathcal{K}$ denotes the integration step for the models in MPC.
+
+Practically, we use a step of one for $\mathcal{T}$, running the re-planning every second, and an integration step of 1/100 fraction of a second, since we express $t_f$ and $N$ both in seconds. We find the parameters so that the re-planning is feasible in real-time and that the numerical simulation does not diverge.
+
+This was not clear in the text, so we have updated Section IV-B according to the observation.
+
+\begin{formal}
+  \color{black} [...] Here, the sets $\mathcal{K},\mathcal{T}$ have possibly different steps $h$ (not to be confused with the altitude){\color{blue}: 
+  the set $\mathcal{K}$ is used for the numerical simulation, whereas $\mathcal{T}$ is for re-planning, meaning that $h$ tunes the precision and the frequency of re-planning in $\mathcal{K}$, $\mathcal{T}$ respectively.}
+  \vspace*{1ex}
+\end{formal}
+
+We have then updated Section V.
+
+
+\begin{formal}
+  \color{black} [...] {\color{blue} $h$ is set to one-hundredth of a second and to one second in $\mathcal{K}, \mathcal{T}$ respectively to allow sufficient precision and re-planning online.}
+  \vspace*{1ex}
+\end{formal}
+
+
+}
+
+{\hspace*{-4.5em}\textbf{[R1:14]}\vspace*{-1.9em}}
+
+9. By Definition III.2, $g(\cdot)$ has two variables, but equation (12) only has one variable. I assume a time variable is missing
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:14]}\vspace*{-1.9em}}
+
+[!]}
+
+{\hspace*{-4.5em}\textbf{[R1:15]}\vspace*{-1.9em}}
+
+10. There is a typo in the axis title of parameters in Fig. 6(a). The title should be $c_{i,1}$ instead of k$c_{i,1}$
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:15]}\vspace*{-1.9em}}
+
+[!]}
+
+{\hspace*{-4.5em}\textbf{[R1:16]}\vspace*{-1.9em}}
+
+11. The way that the authors define $\tau_{i,j}$ and $\nu_{i,j}$ in (10a) and (10b) implies path parameter $c_{i,j}$, $j\in\{1,2,\dots,\rho\}$ contributes equally to $t_s$ (defined in line 24 in Algorithm 2). It is difficult to determine if this assumption is reasonable, since $\rho=1$ in the numerical simulations.
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R1:16]}\vspace*{-1.9em}}
+
+[!]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
 {Second reviwew}
+
+\vspace{3em}
+
+{\hspace*{-4.5em}\textbf{[R2]}\vspace*{-1.9em}}
+
+Contributions:
+
+The contributions of this paper are 1) an energy model that predicts the impact of the effect of changes to the path or computation energy on the battery in the future 2) introduction of Zamboni-like motion patterns that can be replanned while on the path itself 3) an optimal control problem and solution to solve the re-planning coverage problem to decide how to change the computations and the path to optimize the energy usage
+
+{\color{blue} 
+
+
+{\hspace*{-4.5em}{[R2]}\vspace*{-1.9em}}
+
+[!]
+}
+
+Related work:
+
+- Good and varied connections made to situate this work in the field. 
+
+{\hspace*{-4.5em}\textbf{[R2:1]}\vspace*{-1.9em}}
+
+- Not made clear how this is different from other relevant works such as work cited ``C. Di Franco and G. Buttazzo, ``Energy-aware coverage path planning of UAVs,'' in Int. Conf. on Autonomous Robot Syst. and Competitions. IEEE, 2015, pp. 111–117''; especially when stating ``These studies are focused on ground-based robots [9], [19], [23], [24], yet, aerial robots are particularly affected by energy considerations, as it would be generally required to land to recharge the battery''; since this is not the first with aerial robots, what about this research is different from other work on energy aware CPP? Summarize clearly differences in related work in UAV literature.
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R2:1]}\vspace*{-1.9em}}
+
+[!]
+}
+
+Strengths:
+
+- This paper addresses a very interesting and practical issue when using UAVs: how to change the behavior of the fixed-wing UAV computations and path w.r.t. to how much battery is left to optimize energy usage.
+
+- Clear preliminaries section helps with understanding technical detail.
+
+- Synthesizes techniques and ideas from various different topics/domains into the challenging replanning coverage problem.
+
+- Technical solution of optimal control problem to manage both computing workloads and path plan interesting and relevant contribution.
+  
+- Good simulations with modeling different wind speeds/directions.
+
+Weaknesses:
+
+  
+{\hspace*{-4.5em}\textbf{[R2:2]}\vspace*{-1.9em}}
+  
+- High-level comment: the paper would benefit from restructuring for clarity to better convey the interesting technical ideas. At present, difficult to understand the insights behind the main contributions. For example, ``the re-planning-scheduling problem is finding the optimal trajectory of parameters $c_i$ in time.'' -- optimal w.r.t. what objective function? Total energy? Mission duration? Make this clear in the problem definition section. 
+  
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R2:2]}\vspace*{-1.9em}}
+
+[!]
+}
+  
+  {\hspace*{-4.5em}\textbf{[R2:3]}\vspace*{-1.9em}}
+
+  Also, ``The energy optimization of computations schedules can be achieved by, e.g., varying the quality of service between specific bounds [12] and frequency and voltage of the computing hardware [9], [13], [14]. We focus on the former aspect and schedule the onboard computations altering their quality while simultaneously changing the quality of the coverage'' --$>$ What are the actual computation inputs that can be changed? It is unclear throughout the paper what $c_i^\sigma$ is. 
+  
+  {\color{blue} 
+  
+  {\hspace*{-4.5em}{[R2:3]}\vspace*{-1.9em}}
+  
+  [!]}
+
+  {\hspace*{-4.5em}\textbf{[R2:4]}\vspace*{-1.9em}}
+
+  In addition, what is the performance metric we want to observe improving using the algorithm 2 in the numerical experiments (comparing i, ii to I, II baselines)? 
+  
+  {\color{blue} 
+  
+  {\hspace*{-4.5em}{[R2:4]}\vspace*{-1.9em}}
+
+  [!]}
+
+{\hspace*{-4.5em}\textbf{[R2:5]}\vspace*{-1.9em}}
+
+- Paper would benefit from clear indication of what the performance metric we want to see improve. 
+  
+{\color{blue} 
+  
+{\hspace*{-4.5em}{[R2:5]}\vspace*{-1.9em}}
+  
+[!]}
+
+  {\hspace*{-4.5em}\textbf{[R2:6]}\vspace*{-1.9em}}
+
+  Average results from more numeric experiments (e.g., average flights competed on baseline vs. with new algorithm) would also really benefit the paper. Paper would also be greatly strengthened by actual physical experiments on UAV.
+  
+  {\color{blue} 
+  
+  {\hspace*{-4.5em}{[R2:6]}\vspace*{-1.9em}}
+  
+  [!]}
+
+{\hspace*{-4.5em}\textbf{[R2:7]}\vspace*{-1.9em}}
+
+- ``the Zamboni motion [40], but additionally allows variable CPP at the very core of this work.'' -- need to clarify more why Algorithm 1/Zamboni-like motion is different from Zamboni motion. What is the   insight that allows the Zamboni motion to be recalculated/replanned at each stage that isn't possible with regular Zamboni motion in reference [40]? 
+
+{\color{blue} 
+  
+{\hspace*{-4.5em}{[R2:7]}\vspace*{-1.9em}}
+  
+[!]}
+
+
+Specific edits/typos: 
+
+{\hspace*{-4.5em}\textbf{[R2:8]}\vspace*{-1.9em}}
+
+- ``Such use cases arise in, e.g., precision agriculture [4], where harvesting involves ground vehicles [5], [6], information collection prior to an operation as well as damage prevention during the operation involve aerial robots'' is unclear/grammatically incorrect. --$>$	``Such use cases arise in precision agriculture [4] where information collection prior to an harvesting operation and damage prevention during the operation involve aerial robots''
+  
+{\color{blue}
+
+{\hspace*{-4.5em}{[R2:8]}\vspace*{-1.9em}}
+
+[!]
+}
+
+{\hspace*{-4.5em}\textbf{[R2:9]}\vspace*{-1.9em}}
+
+- Figure 1 not clear; are we supposed to be able to differentiate between i, ii, and iii paths? Not able to differentiate currently, so unable to understand key takeaway of figure. What is the meaning of the colors (green for i, red for ii/iii)?
+  
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R2:9]}\vspace*{-1.9em}}
+
+[!]}
+
+{\hspace*{-4.5em}\textbf{[R2:10]}\vspace*{-1.9em}}
+
+- ``i.e., when the motion energy contribution far outreaches the computations or vice-versa. The occurrence frequently happens with rotary-wing aerial robots (e.g., quadrotors or quad-copters, hexacopters, etc.) and lighter-than-air aerial robots (e.g., blimps).'' --$>$ clarify which example is to which case (motion energy $>$ computing energy for quadrotor, motion energy $<$ computing energy for lighter-than-air)
+  
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R2:10]}\vspace*{-1.9em}}
+
+[!]}
+
+{\hspace*{-4.5em}\textbf{[R2:11]}\vspace*{-1.9em}}
+
+- ordering of figures in Figure 6 is confusing. Consider lumping each case in a separate row (I, i, II, ii). 
+  
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R2:11]}\vspace*{-1.9em}}
+
+[!]
+}
+
+
+{\hspace*{-4.5em}\textbf{[R2:12]}\vspace*{-1.9em}}
+
+Overall, the paper addresses a very interesting topic and brings together many different techniques to solve a challenging problem. It could be strengthened with more attention to clarity to convey the technical insights and more experiments showing an improvement in a performance metric of interest.
+
+{\color{blue} 
+
+{\hspace*{-4.5em}{[R2:12]}\vspace*{-1.9em}}
+
+[!]}
+
 
 \vspace{1em}
 
