@@ -107,9 +107,10 @@
 
 %\vspace{3em}
 
-%\begin{flushright}Odense, Denmark, \yesterday\end{flushright}
+\begin{flushright}%Odense, Denmark, 
+  \yesterday\end{flushright}
 
-%\vspace{2em}
+\vspace{2em}
 
 %Dr. Hanna Kurniawati \\
 %Reliable Robot Control (R2C) Lab, Cognitive Robotics Department\\
@@ -118,7 +119,7 @@
 %2628 CD Delft \\
 %The Netherlands
 
-{\centering Response to the editor and the referees}
+{\centering Response letter to the editor and the referees}
 
 \vspace{5em}
 
@@ -126,9 +127,9 @@ Dear Referees, Dr. Kurniawati:
 
 \vspace{1em}
 
-We greatly appreciate your time and effort in providing us with an invaluable assessment of our work, helping us to improve both the quality and presentation of our energy-aware planning-scheduling for the aerial robotics domain. We have been able to address all your comments and questions in a revised version that we have attached once again for your kind consideration. 
+We greatly appreciate your time and effort in providing us with an invaluable assessment of our work, helping us to significantly improve both the quality and presentation of our energy-aware planning-scheduling for the aerial robotics domain. We have been able to address all your comments and questions in a revised version that we have attached once again for your kind consideration. 
 
-The document is then split into two sections, each for one review. The referees' comments are in black, and our response is highlighted in blue, similarly to the edits in the attached revised version. The quotes from the revised version are incorporated here in a box with a light red background and a thick red left border.
+The response letter is split into two sections, each for one review. The referees' comments are in black, and our response is highlighted in blue, similarly to the edits in the attached revised version. The quotes from the revised version are incorporated here in a box with a light red background and a thick red left border.
 
 Thank you for your time and consideration. 
 
@@ -161,7 +162,9 @@ Related work is well reviewed in this letter. Below are some detailed comments a
 
 {\hspace*{-4.5em}{[R1]}\vspace*{-1.9em}}
 
-We would like to thank the first referee for assessing our work with great detail, proposing edits, and posing important questions. These helped us to strengthen our contribution and clarify aspects we did not consider in the first version.}
+We would like to thank the first referee for assessing our work with great detail, proposing edits, and posing important questions. These helped us to strengthen our contribution and clarify aspects we did not consider in the first version.
+
+In this work, we choose to leverage planning-scheduling to aerial robotics, as we believe this is a relevant application and advantageous system for our devised approach. We are thus excited to see the referee sharing similar findings while bringing up numerous important points.}
 
 \vspace{2em}
 
@@ -266,7 +269,7 @@ Nonetheless, as underlined in your observation, this was not clear from the text
 
 {\hspace*{-4.5em}{[R1:3]}\vspace*{-1.9em}}
 
-Thank you for observing this omission. We have utilized the highest and the lowest configurations of parameters for the experiments denoted with roman numerals i, I and ii, II respectively, simulating planning-scheduling in the best- and worst-case scenarios. Nonetheless, we do agree it might be advantageous to utilize the algorithm in an 'ideal' simulation first, to estimate the initial parameters.
+Thank you for observing this omission. We have utilized the highest and the lowest configurations of parameters for the experiments denoted with roman numerals i, I and ii, II respectively, simulating planning-scheduling in the best- and worst-case scenarios. Nonetheless, we do agree it might be advantageous to utilize the algorithm in an ideal simulation first, to estimate the initial parameters.
 
 We have explicitly stated how we obtain the initial configurations in Section V and outlined the possibility of utilizing the methodology to estimate the initial parameters.
 
@@ -609,8 +612,12 @@ The contributions of this paper are 1) an energy model that predicts the impact 
 
 {\hspace*{-4.5em}{[R2]}\vspace*{-1.9em}}
 
-[!]
+We would like to thank the second referee, especially for the summary of our work and the kind commentary on the relevance and difficulty of accounting for both motion and computations energies in planning for aerial robots. Indeed, we believe that planning-scheduling as a sub-topic of motion planning is still very nascent for aerial robots and hope that this work continues to build upon previous successes in planning-scheduling for mobile robots broadly. To that end, we are excited to comment on and alter the manuscript as necessary, as the second referee brings up a lot of great points.
+
+
 }
+
+\vspace{2em}
 
 Related work:
 
@@ -624,8 +631,25 @@ Related work:
 
 {\hspace*{-4.5em}{[R2:1]}\vspace*{-1.9em}}
 
-[!]
+Thank you for proposing Di Franco and Buttazzo's past study to our attention. We have considered the work in the original manuscript in terms of the coverage algorithm in Section IV-A, utilizing it as a reference for aerial coverage. We have not included it in the introductory material as the work does not account for the energy expenditure of computations, nonetheless, we agree on the necessity to clarify this in the introduction. To this end, we have added explanatory text in the introduction that--aside the proposed work--includes the follow-up work by the same set of authors proposed by the first referee.
+
+\begin{formal}
+  \color{black} [...] {\color{blue}In terms of aerial coverage, past work considers criteria including the completeness of the coverage and resolution [{\color{green}25}], and deals with aspects such as the quality of the cover [{\color{green}26}], but neglects the energy expenditure of computations and favors rotary-wing aerial robots rather than aerial robots broadly.} Such a state of practice has prompted us to propose the planning-scheduling approach for autonomous aerial robots [...]
+  \vspace*{1ex}
+\end{formal}
+
+We have then explicitly stated the work in Section~IV-A
+in terms of the variability of the cover.
+
+\begin{formal}
+  \color{black} [...] this section details a [...] motion with a wide turning radius. It is similar to another motion in the literature, the Zamboni
+  motion [{\color{green}42}], but additionally allows variable CPP [...] {\color{blue} Although cover variability is already considered in the literature [{\color{green}25}], it is limited to boustrophedon motion for rotary wings.} The novel motion is termed Zamboni-like motion [...]
+  \vspace*{1ex}
+\end{formal}
+
 }
+
+\vspace{2em}
 
 Strengths:
 
@@ -638,6 +662,8 @@ Strengths:
 - Technical solution of optimal control problem to manage both computing workloads and path plan interesting and relevant contribution.
   
 - Good simulations with modeling different wind speeds/directions.
+
+\vspace{2em}
 
 Weaknesses:
 
@@ -704,6 +730,8 @@ Weaknesses:
 [!]}
 
 
+\vspace{2em}
+
 Specific edits/typos: 
 
 {\hspace*{-4.5em}\textbf{[R2:8]}\vspace*{-1.9em}}
@@ -714,7 +742,14 @@ Specific edits/typos:
 
 {\hspace*{-4.5em}{[R2:8]}\vspace*{-1.9em}}
 
-[!]
+Thank you for spotting the issue in the introductory section. We have corrected the sentence.
+
+\begin{formal}
+  \color{black} [...] Such use cases arise in precision agriculture~[{\color{green}4}] where {\color{blue}information collection prior to an harvesting operation and} damage prevention during the operation involve aerial robots~[{\color{green}5}],~[{\color{green}6}].
+
+  \vspace*{1ex}
+\end{formal}
+
 }
 
 {\hspace*{-4.5em}\textbf{[R2:9]}\vspace*{-1.9em}}
