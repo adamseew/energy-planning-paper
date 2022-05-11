@@ -393,7 +393,7 @@ We have altered the definition for this purpose.
       \,&\forall j\in\,[\rho]_{>0},\,c_{i,j}\,\,\,\,\,\,\,\in\mathcal{C}_{i,j},\,\\
         &\forall k\in[\sigma]_{>0},\,c_{i,\rho+k}\in\mathcal{S}_{i,k}\,\},
   \end{split}\end{equation*}
-  where $c_i^\rho${\color{blue}$:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$} and $c_i^\sigma${\color{blue}$:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,$ $c_{i,\rho+\sigma}\}$} are $\rho$ \emph{path} and $\sigma$ \emph{computation parameters}. $\mathcal{C}_{i,j}:=[\underline{c}_{i,j},\overline{c}_{i,j}]\subseteq\mathbb{R}$ is the $j$th path parameter %$c_{i,j}$ 
+  where $c_i^\rho${\color{blue}$:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$} and $c_i^\sigma${\color{blue}$:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,$ $c_{i,\rho+\sigma}\}$} are $\rho$ \emph{path} and $\sigma$ \emph{computation parameters}{\color{blue}, e.g., $c_i^\rho:=\{c_{i,1}\}$ is a value that changes the distance of the coverage lines and $c^\sigma_i:=\{c_{i,2}\}$ the detection rate with $\rho$ and $\sigma$ being one (see Section~{\color{red}V})}. $\mathcal{C}_{i,j}:=[\underline{c}_{i,j},\overline{c}_{i,j}]\subseteq\mathbb{R}$ is the $j$th path parameter %$c_{i,j}$ 
   constraint set, and $\mathcal{S}_{i,k}:=[\underline{c}_{i,\rho+k},\overline{c}_{i,\rho+k}]\subseteq\mathbb{Z}_{\geq 0}$ is the $k$th computation parameter constraint set. {\color{blue}Indices $j$ and $k$ serves to differentiate path and computation parameters constraints and to indicate that each parameter can have a different constraint set.}
   \vspace*{1ex}
 \end{formal}
@@ -687,7 +687,37 @@ Weaknesses:
   
   {\hspace*{-4.5em}{[R2:3]}\vspace*{-1.9em}}
   
-  [!]}
+  Thank you for underlying the need to state clearly what the computations parameters refer to. We have not realized this point was not stated explicitly in the original version earlier than in the experimental setup. Our purpose is to alter the granularity at which different computations run so that the energy consumption required by the computing hardware onboard the aerial robot increases or decreases.
+
+  In our experimental setup, these are the detection rate--meaning we vary the frequency at which a convolutional neural network trained to detect specific hazards runs from two to ten frames per second. These two values are determined empirically, by sampling different boundary configurations and their energy consumption via the modeling tool we describe in Section III-B. We have varied other parameters as well, such as the encryption, utilizing a binary value simply indicating whether the encryption is or is not enabled, and the size of the key in a variable key-size encryption algorithm. However, we have not observed a significant energy drain changing these parameters, conversely to the parameter detection rate. Thus we utilized merely the computation parameter 'detection rate' in our current experimental setup. 
+
+  We have updated the introductory material to state concretely what computational input is being varied.
+
+  \begin{formal}\color{black}
+    [...] The energy optimization of computations schedules can be achieved by, e.g., varying the quality of service between specific bounds~[{\color{green}10}] and frequency and voltage of the computing hardware~[{\color{green}7}], [{\color{green}11}], [{\color{green}12}]. We focus on the former aspect and schedule the onboard computations altering their quality while simultaneously changing the quality of the coverage.
+    {\color{blue} Concretely, we alter how often the aerial robot detects ground patterns along with the distance of the lines that form the coverage.} [...]
+    \vspace*{1ex}
+  \end{formal}
+
+  We have further included the concrete meaning of parameters in Section II.
+
+  \begin{formal}
+    \color{black} 
+    \textbf{Definition}~II.1~(Stage)\textbf{.}~[...] the $i$th \emph{stage} $\Gamma_i$ %at time instant $t$ %of a plan $\Gamma$ 
+      is
+    \begin{equation*}\begin{split}
+        \Gamma_i:=\{{\color{blue}\varphi_i(\mathbf{p}%(t)
+        ,c_i^\rho)},c_i^\sigma\mid
+        \,&\forall j\in\,[\rho]_{>0},\,c_{i,j}\,\,\,\,\,\,\,\in\mathcal{C}_{i,j},\,\\
+          &\forall k\in[\sigma]_{>0},\,c_{i,\rho+k}\in\mathcal{S}_{i,k}\,\},
+    \end{split}\end{equation*}
+    where $c_i^\rho${\color{blue}$:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$} and $c_i^\sigma${\color{blue}$:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,$ $c_{i,\rho+\sigma}\}$} are $\rho$ \emph{path} and $\sigma$ \emph{computation parameters}{\color{blue}, e.g., $c_i^\rho:=\{c_{i,1}\}$ is a value that changes the distance of the coverage lines and $c^\sigma_i:=\{c_{i,2}\}$ the detection rate with $\rho$ and $\sigma$ being one (see Section~{\color{red}V})}. [...]
+    \vspace*{1ex}
+  \end{formal}
+
+
+
+  }
 
   {\hspace*{-4.5em}\textbf{[R2:4]}\vspace*{-1.9em}}
 
@@ -770,7 +800,12 @@ Thank you for spotting the issue in the introductory section. We have corrected 
 
 {\hspace*{-4.5em}{[R2:10]}\vspace*{-1.9em}}
 
-[!]}
+Thank you for underlying this possible source of confusion. We have fixed the text to clearly state whether the category is in the former or latter occurrence.
+
+\begin{formal}
+  \color{black} [...] there are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The {\color{blue}former} occurrence frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.){\color{blue}, whereas the latter with} lighter-than-air aerial robots (e.g., blimps). [...]
+  \vspace*{1ex}
+\end{formal}}
 
 {\hspace*{-4.5em}\textbf{[R2:11]}\vspace*{-1.9em}}
 
@@ -783,6 +818,7 @@ Thank you for spotting the issue in the introductory section. We have corrected 
 [!]
 }
 
+\vspace*{2em}
 
 {\hspace*{-4.5em}\textbf{[R2:12]}\vspace*{-1.9em}}
 
