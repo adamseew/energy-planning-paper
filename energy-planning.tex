@@ -222,7 +222,7 @@ Such a state of practice has prompted us to propose the planning-scheduling appr
 robot %s
 remedying in-flight failures. 
  
-Our focus is on fixed wings, i.e., airborne robots where wings provide lift, propellers provide forward thrust, and control surfaces perform maneuvering. Here, motion and computations energies are within an order of magnitude from each other~\cite{seewald2020mechanical}. Indeed there are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The {\color{blue}former} occurrence frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.){\color{blue}, whereas the latter with} lighter-than-air aerial robots (e.g., blimps). It is a common theme with wider planning-scheduling literature, focusing on energy-efficient ground-based robots such as Pioneer~3DX~\cite{ho2019qos,mei2005case}, ARC~Q14~\cite{ondruska2015scheduled,lahijanian2018resource}, and Pack-Bot~UGV~\cite{sadrpour2013mission}.
+Our focus is on fixed wings, i.e., airborne robots where wings provide lift, propellers provide forward thrust, and control surfaces perform maneuvering. Here, motion and computations energies are within an order of magnitude from each other~\cite{seewald2020mechanical}. Indeed there are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The {\color{blue}motion outreaching computation energy} frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.){\color{blue}, whereas the opposite occurs with} lighter-than-air aerial robots (e.g., blimps). It is a common theme with wider planning-scheduling literature, focusing on energy-efficient ground-based robots such as Pioneer~3DX~\cite{ho2019qos,mei2005case}, ARC~Q14~\cite{ondruska2015scheduled,lahijanian2018resource}, and Pack-Bot~UGV~\cite{sadrpour2013mission}.
 \begin{ctb}
   We extend the literature on planning-schedu- ling to CPP with aerial robots, model the overall and computations energies and battery evolution, and derive a variable coverage motion for constrained systems, e.g., fixed wings.
 \end{ctb}
@@ -1133,6 +1133,32 @@ Algorithm~\ref{alg} implements Eq.~(\ref{eq:ocp-output-mpc}) for the purpose of 
   \footnotesize
   \caption{CPP with novel Zamboni-like motion (\hyperref[fig:trajs-I-static]{I},\hyperref[fig:trajs-II-static]{II}) and Planning-scheduling of CPP and ground patterns detections with PedNet CNN (\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-dyn-ii]{ii}) in terms of the path, energies, and plans-schedules under different conditions (\hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii}): wind speed and direction, battery behavior, and parameters initial values.}
   \label{fig:res}
+  \vspace*{-3ex}
+\end{figure*}
+
+
+
+
+
+
+
+\begin{figure*}
+  %\vspace*{-4ex}
+  \centering
+  \footnotesize
+  \input{\figpath/results/new_physics2/new_trajs-ener_I-II.tikz}
+  \label{fig:1}
+  \caption{.}
+  \vspace*{-3ex}
+\end{figure*}
+
+\begin{figure*}
+  %\vspace*{-4ex}
+  \centering
+  \footnotesize
+  \input{\figpath/results/new_physics2/new_trajs-ener_LOWER_i-ii.tikz}
+  \label{fig:2}
+  \caption{.}
   \vspace*{-3ex}
 \end{figure*}
 
