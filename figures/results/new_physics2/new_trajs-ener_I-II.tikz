@@ -8,7 +8,7 @@
 
 
 \def \globalscale {1.000000}
-\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1.03*\globalscale, xscale=1.18*\globalscale, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1*\globalscale, xscale=1.18*\globalscale, inner sep=0pt, outer sep=0pt]
 \color{blue}
 \begin{scope}[shift={(598.26327,165.72719)},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \path[draw=cd9d9d9,line cap=butt,line join=miter,line width=1.440pt,miter limit=4.00] (-302.5903,-136.2302) -- (-281.2030,-152.5408);
@@ -3130,11 +3130,11 @@
 
 
 
-    \path[fill=blue] (326.5506,-237.2505) node[above right] (text344-6-3-1-1-9) {(a) States $(\alpha_0,\dots)$ evol. for I};
+    \path[fill=blue] (320.5506,-237.2505) node[above right] (text344-6-3-1-1-9) {(c) State $(\alpha_0\dots\in\mathbf{q})$ evol. for {\hyperref[fig:trajs-I-static]{\color{red}I}}};
 
 
 
-    \path[fill=blue] (95.2713,-237.2505) node[above right] (text344-6-3-1-6) {(b) Energies, detail for first instants, period $T$ evolutions};
+    \path[fill=blue] (90.2713,-237.2505) node[above right] (text344-6-3-1-6) {(b) Energies, detail for the first instants, periods $T$ evolutions};
 
 
 
@@ -3218,13 +3218,13 @@
 
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-605.35515,-93.86128)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text154-9) {\Large{I}};
+    \path[fill=blue] (0.0000,0.0000) node[above right] (text154-9) {\Large{\label{fig:ener:static-I}\label{fig:trajs-I-static}I}};
 
 
 
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-607.8469,20.77248)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (2.4954,0.0000) node[above right] (text154-9-0) {\Large{II}};
+    \path[fill=blue] (2.4954,0.0000) node[above right] (text154-9-0) {\Large{\label{fig:ener:static-II}\label{fig:trajs-II-static}II}};
 
 
 

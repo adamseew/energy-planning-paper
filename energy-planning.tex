@@ -405,7 +405,16 @@ Fig.~\ref{fig:state-machine-loop} illustrates  the concepts in Definition~\ref{d
 \subsection{Energy-aware planning-scheduling problem}
 \label{sec:pbfor}
 
-The problem of planning-scheduling is composed of two sub-problems. One is to form a static plan that visits every point in space, the other to re-plan and re-schedule the plan in-flight in an energy-aware way.
+The problem %of planning-scheduling 
+is composed of two sub-problems{\color{blue}: }%. One is 
+to form a %static 
+plan that visits every point in space, {\color{blue}and }%the other to
+re-plan and re-schedule the plan in-flight in an energy-aware way. %{\color{blue}, whereas }
+{\color{blue} The performance metric the re-planning-scheduling %in the letter 
+improves is %then
+the quality of the plan-schedule against battery SoC, e.g., weighted average value of parameters divided by remaining %battery 
+SoC.% at the end of the flight.
+}
 
 \begin{pb}[Coverage and re-planning-scheduling problem]
   \label{pb:cov-pb}
@@ -413,7 +422,7 @@ The problem of planning-scheduling is composed of two sub-problems. One is to fo
   %,\,o_{j,k}:=(x_{o_{j,k}},y_{o_{j,k}}),\,\forall j\in|o|,k\in|o_j|$ 
   is a point w.r.t. $\mathcal{O}_W$. 
   Let $\underline{r}\in\mathbb{R}_{\geq 0}$, the vehicle's turning radius, and $\mathbf{p}(t_0)$, the starting point at the time instant $t_0$, be given. 
-  The \emph{coverage problem} is the problem of finding a plan $\Gamma$ to cover the polygon, whereas the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time.
+  The \emph{coverage problem} is the problem of finding a plan $\Gamma$ to cover the polygon, whereas the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery state of charge (SoC)}.
 \end{pb}    
 
 %, i.e, $|\mathbb{X}|:=\sum_{x\in\mathbb{X}}1$
@@ -687,7 +696,7 @@ Here, the notation $\mathcal{T}$ encloses all the time intervals from initial $t
   Given a measuring device and computation parameters, the \emph{predictive layer} is the function $g:\mathbb{Z}_{>0}\times\mathbb{Z}^\sigma\rightarrow\mathbb{R}$ that returns an energy measure.
 \end{defn}
 
-The energy measures in Definitions~\ref{def:meas}--\hyperref[def:pred]{2} can be either average expressed in watts or overall expressed in joules. Additionally, the \powprof{} tool supports the battery state of charge (SoC) detailed in Section~\ref{sec:mod-bat}. The function $g$ in Definition~\ref{def:pred} is contained in the computations scaling factors in Eq.~(\ref{eq:scale-comp}), assuming the computations energy behaves linearly between $\underline{c}_i^\sigma$ and $\overline{c}_i^\sigma$, otherwise
+The energy measures in Definitions~\ref{def:meas}--\hyperref[def:pred]{2} can be either average expressed in watts or overall expressed in joules. Additionally, the \powprof{} tool supports the battery SoC detailed in Section~\ref{sec:mod-bat}. The function $g$ in Definition~\ref{def:pred} is contained in the computations scaling factors in Eq.~(\ref{eq:scale-comp}), assuming the computations energy behaves linearly between $\underline{c}_i^\sigma$ and $\overline{c}_i^\sigma$, otherwise
 \begin{equation}\label{eq:piece-wise-reg}\begin{split}
   g(c_i^\sigma)=(&\mathbf{g}(\lceil c_i^\sigma\rceil,\mathcal{T}_1)-\mathbf{g}(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2))\\(&c_i^\sigma-\lfloor c_i^\sigma\rfloor)/(\lceil c_i^\sigma\rceil-\lfloor c_i^\sigma\rfloor)+\mathbf{g}(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2),
 \end{split}\end{equation}
@@ -1113,53 +1122,52 @@ Algorithm~\ref{alg} implements Eq.~(\ref{eq:ocp-output-mpc}) for the purpose of 
 %\end{equation*}
 %where $r_i\in\mathbb{R}^n$ and $R_i\in\mathbb{R}^{n\times n}$ expresses the relation between the parameters (if $R_i$ is the identity matrix, there is no relation between the parameters).
 
+%\begin{figure*}
+%  \centering
+%  \vspace*{-4ex}
+%  \begin{subfigure}{.4\textwidth}
+%    \centering
+%    \footnotesize
+%    \input{\figpath/results/new_physics2/trajs3.tikz}
+%    \caption{Path, parameters ($c_{i,1},c_{i,2}$) evolutions}
+%    \label{fig:trajs}
+%  \end{subfigure}\hspace*{3ex}
+%  \begin{subfigure}{.54\textwidth}
+%    \centering
+%    \footnotesize
+%    \input{\figpath/results/new_physics2/ener3.tikz}
+%    \caption{Energies, model states ($\alpha_0,\dots\in\mathbf{q}$), and parameters ($T,b_0$) evolutions}
+%    \label{fig:ener}
+%  \end{subfigure}
+%  \footnotesize
+%  \caption{CPP with novel Zamboni-like motion (\hyperref[fig:trajs-I-static]{I},\hyperref[fig:trajs-II-static]{II}) and Planning-scheduling of CPP and ground patterns detections with PedNet CNN (\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-dyn-ii]{ii}) in terms of the path, energies, and plans-schedules under different conditions (\hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii}): wind speed and direction, battery behavior, and parameters initial values.}
+%  \label{fig:res}
+%  \vspace*{-3ex}
+%\end{figure*}
 \begin{figure*}
-  \centering
   \vspace*{-4ex}
-  \begin{subfigure}{.4\textwidth}
-    \centering
-    \footnotesize
-    \input{\figpath/results/new_physics2/trajs3.tikz}
-    \caption{Path, parameters ($c_{i,1},c_{i,2}$) evolutions}
-    \label{fig:trajs}
-  \end{subfigure}\hspace*{3ex}
-  \begin{subfigure}{.54\textwidth}
-    \centering
-    \footnotesize
-    \input{\figpath/results/new_physics2/ener3.tikz}
-    \caption{Energies, model states ($\alpha_0,\dots\in\mathbf{q}$), and parameters ($T,b_0$) evolutions}
-    \label{fig:ener}
-  \end{subfigure}
-  \footnotesize
-  \caption{CPP with novel Zamboni-like motion (\hyperref[fig:trajs-I-static]{I},\hyperref[fig:trajs-II-static]{II}) and Planning-scheduling of CPP and ground patterns detections with PedNet CNN (\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-dyn-ii]{ii}) in terms of the path, energies, and plans-schedules under different conditions (\hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i},\hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii}): wind speed and direction, battery behavior, and parameters initial values.}
-  \label{fig:res}
-  \vspace*{-3ex}
-\end{figure*}
-
-
-
-
-
-
-
-\begin{figure*}
-  %\vspace*{-4ex}
   \centering
   \footnotesize
   \input{\figpath/results/new_physics2/new_trajs-ener_I-II.tikz}
-  \label{fig:1}
-  \caption{.}
+  \captionsetup{labelfont={color=blue}}
+  \vspace*{-.6ex}
+  \caption{\color{blue}CPP with Zamboni-like motion using two boundary configurations. In \hyperref[fig:stat]{a} are the trajectories of the coverage--the highest in \hyperref[fig:trajs-I-static]{I} and the lowest in \hyperref[fig:trajs-II-static]{II}. In \hyperref[fig:stat]{b} are the energy and the period evolutions for both \hyperref[fig:trajs-I-static]{I} and \hyperref[fig:trajs-II-static]{II} with different atmospheric conditions. In \hyperref[fig:stat]{c} are the states that compose the energy model for \hyperref[fig:trajs-I-static]{I}.}
+  \label{fig:stat}
   \vspace*{-3ex}
 \end{figure*}
-
 \begin{figure*}
   %\vspace*{-4ex}
   \centering
   \footnotesize
   \input{\figpath/results/new_physics2/new_trajs-ener_LOWER_i-ii.tikz}
-  \label{fig:2}
-  \caption{.}
-  \vspace*{-3ex}
+  \captionsetup{labelfont={color=blue}}
+  \vspace*{-.6ex}
+  \caption{\color{blue}
+  Planning-scheduling of CPP and ground patterns detections% with PedNet CNN
+  , utilizing the lowest configuration \hyperref[fig:trajs-I-static]{I} as a starting point in \hyperref[fig:trajs-dyn-i]{i} and the highest \hyperref[fig:trajs-II-static]{II} in \hyperref[fig:trajs-dyn-ii]{ii} while varying atmospheric (same as Fig.~\ref{fig:stat}) and battery conditions. In \hyperref[fig:dyn]{a} are the re-planned trajectories, in \hyperref[fig:dyn]{b} the parameters, and in \hyperref[fig:dyn]{c} the energy w.r.t. the battery.
+  }
+  \label{fig:dyn}
+  \vspace*{-4ex}
 \end{figure*}
 
 
@@ -1181,7 +1189,7 @@ in the greedy approach}.
 Fig.~\ref{fig:il-abs} details the data of the physical flight  
 %We collected these data flying Opterra, a fixed-wing UAV that we adapted for an agricultural scenario. The UAV was flying 
 in standard atmospheric conditions. 
-Fig.~\ref{fig:res} extends the flight with the computing hardware aided by a flight simulation implemented in \textsc{Matlab}\hspace{.5ex}(R). 
+Fig.~\ref{fig:stat}{\color{blue}--\ref{fig:dyn}} extends the flight with the computing hardware aided by a flight simulation implemented in \textsc{Matlab}\hspace{.5ex}(R). 
 Upper-case roman numerals I,II indicate the plans are static (i.e., solely Algorithm~\ref{alg2}), lower-case i,ii exploit planning-scheduling as described in this letter.
 
 %We later extended these UAV to carry a companion computer, NVIDIA Jetson Nano~\cite{nano}, running ROS. The companion computer has two ROS nodes; one detects hazards using PedNet, a Fully Convolutional Neural Network~\cite{ullah2018pednet}, and the other communicates with a ground station.
@@ -1210,13 +1218,15 @@ Upper-case roman numerals I,II indicate the plans are static (i.e., solely Algor
 
 %We implemented a realistic simulator to simulate the empirical data of a given plan and atmospheric conditions. We show the effects of different conditions in Fig.~\ref{fig:trajs}. 
 
-Fig.~\ref{fig:trajs} illustrates the same plan $\Gamma$ under different conditions. Flights \hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i} have a constant wind speed of five meters per second, a wind direction of zero degrees, and initial parameters $c_{i,1},c_{i,2}$ values of zero and ten (i.e., full $r_2$ and detection). Flights \hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii} (see added gray background for clarity) are the same but a wind direction of 90 degrees and the initial parameters values of -1000 and two (i.e., minimum $r_2$ and detection). 
+Fig.~{\color{blue}\hyperref[fig:stat]{6a}--\hyperref[fig:dyn]{7a}} 
+illustrate the same plan $\Gamma$ under different conditions. Flights \hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i} have a constant wind speed of five meters per second, a wind direction of zero degrees, and initial parameters $c_{i,1},c_{i,2}$ values of zero and ten (i.e., full $r_2$ and detection). Flights \hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii} (see added gray background for clarity) are the same but a wind direction of 90 degrees and the initial parameters values of -1000 and two (i.e., minimum $r_2$ and detection). 
 {\color{blue} The initial values of path and computation parameters are chosen to represent the highest and lowest configurations in the search space in \hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i} and \hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii} respectively, modeling the behavior of the best- and worst-case scenario.
 Different search strategies are possible by, e.g., running an ideal instance of planning-scheduling prior to the flight.}
 
-Fig.~\ref{fig:ener} %~\hyperref[fig:ener:static-I]{6.I}--\hyperref[fig:ener:static-II]{6.II} 
+Fig.~%\ref{fig:ener}
+{\color{blue}\hyperref[fig:stat]{6b}--\hyperref[fig:dyn]{7c}} %~\hyperref[fig:ener:static-I]{6.I}--\hyperref[fig:ener:static-II]{6.II} 
 illustrates first the power ($\Upsilon$ on Line~\ref{alg:klm1} in Algorithm~\ref{alg}), and then the energy model ($y$ on Line~\ref{alg:evol}).
-Flight~\hyperref[fig:ener-dyn-i]{i} simulates a battery (green line, the battery behavior $b_0$) drop at approximately one minute and a half and four minutes and a half. Planner-scheduler optimizes the path in the proximity of the drops to ensure that the flight is completed, whereas it maximizes the parameter $c_{i,2}$ when the battery is discharging, respecting the output constraint (Eq.~(\ref{eq:output-const})). Flight~\hyperref[fig:ener-dyn-ii]{ii} simulates the opposite scenario: the lowest configuration of parameters and no battery defects. The path parameter increases as soon as the algorithm has estimated enough data %(two periods $T$) 
+Flight~\hyperref[fig:ener-dyn-i]{i} simulates a battery ({\color{blue}see} green line {\color{blue}in Fig.~\hyperref[fig:dyn]{7c}}, the battery behavior $b_0$) drop at approximately one minute and a half and four minutes and a half. Planner-scheduler optimizes the path in the proximity of the drops to ensure that the flight is completed, whereas it maximizes the parameter $c_{i,2}$ {\color{blue}(see Fig.~\hyperref[fig:dyn]{7b})} when the battery is discharging, respecting the output constraint (Eq.~(\ref{eq:output-const})). Flight~\hyperref[fig:ener-dyn-ii]{ii} simulates the opposite scenario: the lowest configuration of parameters and no battery defects. The path parameter increases as soon as the algorithm has estimated enough data %(two periods $T$) 
 and the computation parameter decreases matching the battery discharge rate. For both cases, scaling factors are derived empirically %, 
 {\color{blue}similarly to $\delta_i$ set to two hundred fifty}, 
 the horizon $N$ is set to six seconds {\color{blue} as in} relevant literature~\cite{gavilan2015iterative,%kang2009linear,
@@ -1224,8 +1234,10 @@ stastny2018nonlinear%,chao2011collision
 }, order $r$ is three (see Fig.~\ref{fig:il-abs}), and the matrices $Q,R,Q_f$ are chosen such that the cost is merely squared control. {\color{blue} $h$ is set to one-hundredth of a second and to one second in $\mathcal{K}, \mathcal{T}$ respectively to allow sufficient precision and re-planning online.}
 %\subsection{Algorithm evaluation}
 %\subsubsection*{Periodic energy model}
-The figure further details the energy model's estimate (see detail view for \hyperref[fig:ener:static-I]{I}--\hyperref[fig:ener:static-II]{II}) on an initial slice of the model (${\hat{y}}$), power ($\Upsilon$), and period ($T$). % We motivate this choice again with Fig.~\ref{fig:il-abs}, where the power spectrum subfigure shows that 3 frequencies are adequate. 
-The bottom detail of \hyperref[fig:ener:static-I]{I} illustrates the evolutions of the state $\mathbf{q}$ in time, concluding that approximately two periods suffice for a consistent %state 
+%The figure
+{\color{blue} Fig.~\hyperref[fig:stat]{6c}} %further 
+details the energy model's estimate (see detail view for \hyperref[fig:ener:static-I]{I}--\hyperref[fig:ener:static-II]{II}) on an initial slice of the model (${\hat{y}}$), power ($\Upsilon$), and period ($T$). % We motivate this choice again with Fig.~\ref{fig:il-abs}, where the power spectrum subfigure shows that 3 frequencies are adequate. 
+The {\color{blue} right} detail of \hyperref[fig:ener:static-I]{I} illustrates the evolutions of the state $\mathbf{q}$ in time, concluding that approximately two periods suffice for a consistent %state 
 estimate. %With non-periodic signals, we observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
 
 Output MPC on Line~\ref{alg:mpc} relies on a software framework for nonlinear optimization called CasADi~\cite{andersson2012casadi%,andersson2012bcasadi,andersson2019casadi

@@ -11,6 +11,7 @@
 \usepackage{cleveref}
 \usepackage{tabto}
 \usepackage{graphicx}
+\usepackage{tikz}
 \usepackage[left=1.1in,right=1.1in,top=.9in,bottom=.9in,%
             footskip=.25in]{geometry}
 \usepackage{fancyhdr}
@@ -25,7 +26,7 @@
 \renewcommand\sfdefault{phv}
 \normalfont
 \usepackage{endnotes}
-
+\usepackage{float,graphicx}
 \usepackage{hyperendnotes}
 \let\footnote=\endnote
 \makeatletter
@@ -231,7 +232,7 @@ Nonetheless, as underlined in your observation, this was not clear from the text
   We have altered the problem formulation, clearly stating that the objective is to find energy-aware trajectory of parameters rather than optimal.
 
   \begin{formal}
-    {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time.}
+    {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery state of charge (SoC)}.}
     \vspace*{1ex}
   \end{formal}
 
@@ -287,9 +288,24 @@ We have explicitly stated how we obtain the initial configurations in Section V 
 
 {\color{blue} 
 
+
 {\hspace*{-4.5em}{[R1:4]}\vspace*{-1.9em}}
 
-[!]}
+Thank you for the concern regarding the readability of the figure. We have split the figure to address the concern into two Figures, 6 and 7. Subfigures that are related are then on a separate row, each for one case. I,II in Figure 6 are related to CPP at boundary values of path parameters and varying atmospheric conditions, and i,ii Figure 7 are related to planning-scheduling of I,II with varying battery conditions. We have rewritten the captions, adding additional commentary to ease the understanding.
+
+\begin{formal}
+  \footnotesize
+  \input{../figures/results/new_physics2/new_trajs-ener_I-II.tikz}
+  {\color{blue}Fig.~6:~\color{blue}CPP with Zamboni-like motion using two boundary configurations. In \hyperref[fig:stat]{a} are the trajectories of the coverage--the highest in {\color{red}I} and the lowest in {\color{red}II}. In {\color{red}b} are the energy and the period evolutions for both {\color{red}I} and {\color{red}II} with different atmospheric conditions. In {\color{red}c} are the states that compose the energy model for {\color{red}I}.}
+
+  \input{../figures/results/new_physics2/new_trajs-ener_LOWER_i-ii.tikz}
+  \vspace*{-.6ex}
+  {\color{blue}
+  Fig.~7:~Planning-scheduling of CPP and ground patterns detections% with PedNet CNN
+  , utilizing the lowest configuration {\color{red}I} as a starting point in {\color{red}i} and the highest {\color{red}II} in {\color{red}ii} while varying atmospheric (same as Fig.~{\color{red}6}) and battery conditions. In {\color{red}a} are the re-planned trajectories, in {\color{red}b} the parameters, and in {\color{red}c} the energy w.r.t. the battery.}
+  \vspace*{1ex}
+\end{formal}
+}
 
 {\hspace*{-4.5em}\textbf{[R1:5]}\vspace*{-1.9em}}
 
@@ -571,7 +587,8 @@ We have then updated Section V.
 
 {\hspace*{-4.5em}{[R1:15]}\vspace*{-1.9em}}
 
-[!]}
+Thank you for noticing the typo. We have fixed the axis title.
+}
 
 {\hspace*{-4.5em}\textbf{[R1:16]}\vspace*{-1.9em}}
 
@@ -676,7 +693,12 @@ Weaknesses:
 
 {\hspace*{-4.5em}{[R2:2]}\vspace*{-1.9em}}
 
-[!]
+Thank you for the high-level comment and for proposing to state clearly the objective function. Regarding the objective function, we have integrated the problem definition accordingly, whereas we have altered the text in the manuscript by both implementing the specific comments and rewriting some technical details or adding further explanatory commentary. 
+
+\begin{formal}
+  {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery state of charge (SoC)}.}
+  \vspace*{1ex}
+\end{formal}
 }
   
   {\hspace*{-4.5em}\textbf{[R2:3]}\vspace*{-1.9em}}
@@ -737,7 +759,22 @@ Weaknesses:
   
 {\hspace*{-4.5em}{[R2:5]}\vspace*{-1.9em}}
   
-[!]}
+Thank you for suggesting adding a clear indication of what performance metrics are being utilized. Indeed this information was missing in the original manuscript. We have added explanatory text in Problem Formulation to address the point.
+
+\begin{formal}\color{black}
+  The problem %of planning-scheduling 
+is composed of two sub-problems{\color{blue}: }%. One is 
+to form a %static 
+plan that visits every point in space, {\color{blue}and }%the other to
+re-plan and re-schedule the plan in-flight in an energy-aware way. %{\color{blue}, whereas }
+{\color{blue} The performance metric the re-planning-scheduling %in the letter 
+improves is %then
+the quality of the plan-schedule against battery SoC, e.g., the weighted average value of parameters divided by remaining %battery 
+SoC.% at the end of the flight.
+\vspace*{1ex}
+}
+\end{formal}
+}
 
   {\hspace*{-4.5em}\textbf{[R2:6]}\vspace*{-1.9em}}
 
@@ -815,7 +852,26 @@ Thank you for underlying this possible source of confusion. We have fixed the te
 
 {\hspace*{-4.5em}{[R2:11]}\vspace*{-1.9em}}
 
-[!]
+Thank you for underlying the issue. We have attempted to optimize the space but overloaded the figure and significantly reduced its readability. We have reordered Figure 6 to address the issue. We have first split the figure into two Figures, 6 and 7. In both, we utilize one row per case. Figure 6 contains cases I and II related to static coverage at the two boundary configurations under varying wind speeds and directions.
+
+
+\begin{formal}
+  \footnotesize
+  \input{../figures/results/new_physics2/new_trajs-ener_I-II.tikz}
+  {\color{blue}Fig.~6:~\color{blue}CPP with Zamboni-like motion using two boundary configurations. In \hyperref[fig:stat]{a} are the trajectories of the coverage--the highest in {\color{red}I} and the lowest in {\color{red}II}. In {\color{red}b} are the energy and the period evolutions for both {\color{red}I} and {\color{red}II} with different atmospheric conditions. In {\color{red}c} are the states that compose the energy model for {\color{red}I}.}
+\end{formal}
+
+Figure 7 contains cases i and ii that start from I and II but employ the planning-scheduling in the letter varying battery conditions. 
+
+\begin{formal}
+  \footnotesize
+  \input{../figures/results/new_physics2/new_trajs-ener_LOWER_i-ii.tikz}
+  \vspace*{-.6ex}
+  {\color{blue}
+  Fig.~7:~Planning-scheduling of CPP and ground patterns detections% with PedNet CNN
+  , utilizing the lowest configuration {\color{red}I} as a starting point in {\color{red}i} and the highest {\color{red}II} in {\color{red}ii} while varying atmospheric (same as Fig.~{\color{red}6}) and battery conditions. In {\color{red}a} are the re-planned trajectories, in {\color{red}b} the parameters, and in {\color{red}c} the energy w.r.t. the battery.}
+  \vspace*{1ex}
+\end{formal}
 }
 
 \vspace*{2em}

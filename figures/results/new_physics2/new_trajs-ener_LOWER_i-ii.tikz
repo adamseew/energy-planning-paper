@@ -6,7 +6,7 @@
 
 
 \def \globalscale {1.000000}
-\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1.03*\globalscale, xscale=1.18*\globalscale, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1*\globalscale, xscale=1.18*\globalscale, inner sep=0pt, outer sep=0pt]
 \color{blue}
 \begin{scope}[shift={(598.44106,-141.22792)},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \begin{scope}[cm={{0.84173,0.0,0.0,0.84173,(-603.85556,69.88496)}},draw=ca0a0a4,dash pattern=on 2.14pt off 2.14pt,line cap=round,line join=round,line width=0.356pt,miter limit=4.00]
@@ -2128,13 +2128,13 @@
 
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-605.07343,207.04185)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text154-9-8) {\Large i};
+    \path[fill=blue] (0.0000,0.0000) node[above right] (text154-9-8) {\Large \label{fig:ener-dyn-i}\label{fig:trajs-dyn-i}i};
 
 
 
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-607.56518,325.40947)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (2.4954,0.0000) node[above right] (text154-9-0-0) {\Large ii};
+    \path[fill=blue] (2.4954,0.0000) node[above right] (text154-9-0-0) {\Large \label{fig:ener-dyn-ii}\label{fig:trajs-dyn-ii}ii};
 
 
 
