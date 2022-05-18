@@ -126,13 +126,15 @@
 
 %% author names and affiliations
 \author{
-  Adam Seewald$^{\text{1}}$, H\'ector Garc\'ia de Marina$^{\text{2}}$, Henrik Skov Midtiby$^{\text{1}}$, and Ulrik Pagh Schultz$^{\text{1}}$
-  %\thanks{This work is supported and partly funded by the European Union's Horizon2020 research and innovation program under grant agreement No. 779882 (TeamPlay).}
-  \thanks{Manuscript received: Month, Day, Year; Revised Month, Day, Year; Accepted Month, Day, Year.}%Use only for final RAL version
-  \thanks{This paper was recommended for publication by Editor Editor A. Name upon evaluation of the Associate Editor and Reviewers' comments.} %Use only for final RAL version
-  \thanks{$^{\text{1}}$A. S., H. S. M.,  and U. P. S. are with the Unmanned Aerial Systems Center, M{\ae}rsk Mc-Kinney M{\o}ller Institute, University of Southern Denmark, Odense. Email: {\tt\footnotesize ads@mmmi.sdu.dk};} 
-  \thanks{$^{\text{2}}$H. G. is with the Faculty of Physics, Department of Computer Architecture and Automatic Control, Universidad Complutense de Madrid, Spain.}
-  \thanks{Digital Object Identifier (DOI): see top of this page.}
+  Adam Seewald$^{\text{1}}$, H\'ector Garc\'ia de Marina$^{\text{2}}$, Henrik Skov Midtiby$^{\text{3}}$, and Ulrik Pagh Schultz$^{\text{3}}$
+  \thanks{The work was partly funded by E.U. grant No. 779882 (TeamPlay); H. G. work is supported by Ramon y Cajal grant No. RYC2020-030090-I.}
+  %\thanks{Manuscript received: Month, Day, Year; Revised Month, Day, Year; Accepted Month, Day, Year.}%Use only for final RAL version
+  %\thanks{This paper was recommended for publication by Editor Editor A. Name upon evaluation of the Associate Editor and Reviewers' comments.} %Use only for final RAL version
+  \thanks{$^{\text{1}}$A. S. is with the Dept. of Mech. Eng. and Mater. Science, Yale University, CT, USA, but the work was performed while affiliated with the SDU UAS. Email: {\tt\footnotesize \href{mailto:adam.seewald@yale.edu}{adam.seewald@yale.edu}};}
+  \thanks{$^{\text{2}}$H. G. is with the Dept. of Comput. Archit. and Technol., University of Granada, Spain;} 
+  \thanks{$^{\text{3}}$H. S. M.,  U. P. S. are with the SDU UAS, %M{\ae}rsk Mc-Kinney M{\o}ller Institute, 
+  University of Southern Denmark.}
+  %\thanks{Digital Object Identifier (DOI): see top of this page.}
 }
 
 \markboth{IEEE Robotics and Automation Letters. Preprint Version. Accepted Month, Year}
@@ -194,18 +196,21 @@ Fig.~\ref{fig:il-abs} illustrates the intuition: an aerial robot flies a plan wi
 
 \begin{figure}[t]
   \centering
-  \vspace*{-6.8ex}
-  \begin{tikzpicture}
-    \node[inner sep=0pt] () at (0,0)
-        {\scriptsize \input{\figpath/new/il_abs.tikz}};
-    \node[inner sep=0pt] () at (-2,-5.67)
-        {\scriptsize \input{\figpath/il_abs_energy1.tikz}};
-    \node[inner sep=0pt] () at (2.1,-5.67)
-        {\scriptsize \input{\figpath/il_abs_spectrum1.tikz}};
-  \end{tikzpicture}
+  \vspace*{-9.8ex}
+ %\begin{tikzpicture}
+ %  \node[inner sep=0pt] () at (0,0)
+        {\color{blue}\scriptsize \input{\figpath/il_abs_new.tikz}}
+ %  \node[inner sep=0pt] () at (-2,-5.67)
+ %      {\scriptsize \input{\figpath/il_abs_energy1.tikz}};
+ %  \node[inner sep=0pt] () at (2.1,-5.67)
+ %      {\scriptsize \input{\figpath/il_abs_spectrum1.tikz}};
+ %\end{tikzpicture}
   \caption{%Illustrative example of planning-scheduling. 
-  The figure shows an initial plan~(in~\ref{sth:i}) re-planned online, changing the resolution, detection rate, or other computational aspects~(in~\ref{sth:ii}) and changing the number of fly-byes or other motion aspects~(in~\ref{sth:iii}). 
-  Bottom-left shows the energy data of a physical fixed-wing aerial robot flying a static coverage plan similar to the one illustrated here. Bottom-right shows a spectrum analysis of the energy data, revealing the periodicity of the data exploited in the overall energy model.
+  The figure shows an initial plan~(in~\ref{sth:i}) re-planned online, changing the resolution, detection rate, or other computational aspects~(in~\ref{sth:ii}) and changing the number of fly-bys or other motion aspects~(in~\ref{sth:iii}). 
+  {\color{blue}Top-right} shows the energy data of a physical fixed-wing aerial robot flying a static coverage plan similar to the one illustrated here{\color{blue}; below is }%. Bottom-right shows 
+  the spectrum analysis of the energy data, revealing the periodicity %of the data 
+  exploited in the %overall 
+  energy model.
   %Follow the collected energy data of a physical aerial robot flying the static coverage.
   }
   \label{fig:il-abs}
@@ -223,9 +228,9 @@ robot %s
 remedying in-flight failures. 
  
 Our focus is on fixed wings, i.e., airborne robots where wings provide lift, propellers provide forward thrust, and control surfaces perform maneuvering. Here, motion and computations energies are within an order of magnitude from each other~\cite{seewald2020mechanical}. Indeed there are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The {\color{blue}motion outreaching computation energy} frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.){\color{blue}, whereas the opposite occurs with} lighter-than-air aerial robots (e.g., blimps). It is a common theme with wider planning-scheduling literature, focusing on energy-efficient ground-based robots such as Pioneer~3DX~\cite{ho2019qos,mei2005case}, ARC~Q14~\cite{ondruska2015scheduled,lahijanian2018resource}, and Pack-Bot~UGV~\cite{sadrpour2013mission}.
-\begin{ctb}
-  We extend the literature on planning-schedu- ling to CPP with aerial robots, model the overall and computations energies and battery evolution, and derive a variable coverage motion for constrained systems, e.g., fixed wings.
-\end{ctb}
+%\begin{ctb}
+%  We extend the literature on planning-schedu- ling to CPP with aerial robots, model the overall and computations energies and battery evolution, and derive a variable coverage motion for constrained systems, e.g., fixed wings.
+%\end{ctb}
 
 To guarantee energy awareness, our approach uses optimal control {\color{blue} and heuristics} where both the paths and schedules variations are trajectories, varying between given bounds (i.e., physical constraints of the robot and computing hardware, quality of service, desired quality of the coverage, etc.). Past planning-scheduling studies also employ optimization techniques~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}; some use a greedy approach~\cite{mei2005case,sudhakar2020balancing,sadrpour2013mission}; whereas others use reinforcement learning-based approaches~\cite{ho2019qos,ho2018towards}. {\color{blue}Hybrid approaches~\cite{ondruska2015scheduled} are also available, where the techniques are mixed.} Both the path and schedules variations trajectories are derived for future time instants employing computations and overall energies and battery models. The energy model for the computations uses regressional analysis from our earlier study on heterogeneous computing hardware energy modeling~\cite{seewald2019coarse,seewald2019component}, whereas the battery uses an equivalent circuit model (ECM) from the literature~\cite{%he2011evaluation,
 hinz2019comparison,mousavi2014various}. The overall model wraps these two aspects in a cohesive model that uses dynamics modeling to predict the energy behavior of future plans and schedules. In Fig.~\ref{fig:il-abs}, collected energy data (bottom-left) and spectrum analysis (right) of a fixed wing %aerial robot 
@@ -654,7 +659,8 @@ and an initial guess $\mathbf{q}(t_0)=\mathbf{q}_0$ at initial time instant $t_0
 %The equality of the signal and output is achieved by a proper choice of the items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof, where we justify the choices of the items of the matrices and of the initial guess. 
 %\end{proof}
 %Appendix~\ref{app:proof-eqv} contains a proof of Lem.~\ref{lem:eqv}.
-i.e., $h,y$ are both harmonic signals with the same frequencies{\color{blue}~\cite{seewaldphdthesis}}.
+i.e., $h,y$ are %both 
+harmonic signals with the same frequencies{\color{blue}. Further details are proposed in the first author's Ph.D. thesis~\cite{seewaldphdthesis}}.
 
 $\hat{\mathbf{u}}$ in Eq.~(\ref{eq:mat_B}) is then a scale transformation
 \begin{equation}
@@ -662,7 +668,8 @@ $\hat{\mathbf{u}}$ in Eq.~(\ref{eq:mat_B}) is then a scale transformation
 \end{equation}
 where $\mathrm{diag}(x)$ is a diagonal matrix with items of a set $x$ on the diagonal and zeros elsewhere. $\nu_i:=\begin{bmatrix}\nu_{i,1}&\cdots&\nu_{i,n}\end{bmatrix}'$ and $\tau_i:=\begin{bmatrix}\tau_{i,1}&\cdots&\tau_{i,n}\end{bmatrix}'$ are scaling factors that transform parameters domain (see Definition~\ref{def:stage}) to time and power domains.
 
-For ease of notation, we assume that the coverage time evolves linearly. Path parameters $c_i^\rho$ can be transformed into a time measure with scaling factors\begin{subequations}\label{eq:scale-traj}\begin{align}
+%For ease of notation, 
+{\color{blue}W}e assume that the coverage time evolves linearly{ \color{blue}and that the }path parameters{ \color{blue}contribute to it equally.} $c_i^\rho$ can be {\color{blue}then} transformed into a time measure with scaling factors\begin{subequations}\label{eq:scale-traj}\begin{align}
   \nu_{i,j}&=\left((\overline{t}-\underline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
   \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
 \end{align}\end{subequations} 
@@ -687,7 +694,7 @@ under the open-source MIT license. It is segmented into two layers. In the \emph
 We assume there is at least one measuring device, i.e., shunt or internal power resistor, multimeter, or amperemeter, quantifying the power drain of a specific component, e.g., CPU, GPU, memory, etc., or of the entire computing hardware.
 
 \begin{defn}[Measurement layer]\label{def:meas}
-  Given a measuring device, computation parameters, and initial and final time instants, the \emph{measurement layer} is the function $\mathbf{g}:\mathbb{Z}_{>0}\times\mathbb{Z}^\sigma\times\mathcal{T}\rightarrow\mathbb{R}$ that returns an energy measure.
+  Given a measuring device, computation parameters, and initial and final time instants, the \emph{measurement layer} is the function $\gamma:\mathbb{Z}_{>0}\times\mathbb{Z}^\sigma\times\mathcal{T}\rightarrow\mathbb{R}$ that returns an energy measure.
 \end{defn}
 
 Here, the notation $\mathcal{T}$ encloses all the time intervals from initial $t_0$ to final $t_f$, i.e., $\mathcal{T}:=[t_0,t_f]$.
@@ -698,9 +705,9 @@ Here, the notation $\mathcal{T}$ encloses all the time intervals from initial $t
 
 The energy measures in Definitions~\ref{def:meas}--\hyperref[def:pred]{2} can be either average expressed in watts or overall expressed in joules. Additionally, the \powprof{} tool supports the battery SoC detailed in Section~\ref{sec:mod-bat}. The function $g$ in Definition~\ref{def:pred} is contained in the computations scaling factors in Eq.~(\ref{eq:scale-comp}), assuming the computations energy behaves linearly between $\underline{c}_i^\sigma$ and $\overline{c}_i^\sigma$, otherwise
 \begin{equation}\label{eq:piece-wise-reg}\begin{split}
-  g(c_i^\sigma)=(&\mathbf{g}(\lceil c_i^\sigma\rceil,\mathcal{T}_1)-\mathbf{g}(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2))\\(&c_i^\sigma-\lfloor c_i^\sigma\rfloor)/(\lceil c_i^\sigma\rceil-\lfloor c_i^\sigma\rfloor)+\mathbf{g}(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2),
+  g(c_i^\sigma)=(&\gamma(\lceil c_i^\sigma\rceil,\mathcal{T}_1)-\gamma(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2))\\(&c_i^\sigma-\lfloor c_i^\sigma\rfloor)/(\lceil c_i^\sigma\rceil-\lfloor c_i^\sigma\rfloor)+\gamma(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2),
 \end{split}\end{equation}
-where notation $\lceil c_i^\sigma\rceil,\lfloor c_i^\sigma\rfloor$ indicates two adjacent measurement layers, and $\mathcal{T}_1,\mathcal{T}_2$ are the corresponding two time intervals. The measuring device in both $\mathbf{g}$ and $g$ is implicit.
+where notation $\lceil c_i^\sigma\rceil,\lfloor c_i^\sigma\rfloor$ indicates two adjacent measurement layers, and $\mathcal{T}_1,\mathcal{T}_2$ are the corresponding two time intervals. {\color{blue}M}easuring device in $\gamma$ and $g$ is {\color{blue}not explicitly stated in Eq.~(\ref{eq:piece-wise-reg})}.
 
 \vspace*{-1.4ex}
 \subsection{Battery model}
@@ -861,7 +868,8 @@ lavalle2006planning} and aerial~\cite{araujo2013multiple,%artemenko2016energy,
 cabreira2018energy,difranco2015energy} robotics literature, the motion, called \emph{boustrophedon motion}~\cite{choset2001coverage}, is unsuitable for aerial robots broadly, especially for fixed-wing aerial robots. These robots have reduced maneuverability~\cite{dille2013efficient,mannadiar2010optimal,%xu2011optimal,
 xu2014efficient} and are generally unable to fly quick turns~\cite{wang2017curvature}.
 
-To address fixed wings and aerial robots generally, this section details a different motion with a wide turning radius. It is similar to another motion in the literature, the \emph{Zamboni motion}~\cite{araujo2013multiple}, but additionally allows variable CPP at the very core of this work. 
+To address fixed wings and aerial robots generally, this section details a different motion with a wide turning radius. It is similar to another motion in the literature, the \emph{Zamboni motion}~\cite{araujo2013multiple}, but additionally allows variable CPP %at the very core of this work
+{\color{blue} by dynamically altering the distance between the survey lines with the path parameters}. 
 {\color{blue} Although cover variability is already considered in the literature~\cite{difranco2015energy}, it is limited to boustrophedon motion for rotary wings.}
 The novel motion is termed \emph{Zamboni-like motion} and is composed of four primitive paths (see Definition~\ref{def:primitive}): two lines $\varphi_1,\varphi_2$ and two circles $\varphi_3,\varphi_4$.% (see Fig.~\ref{fig:zambo}). 
 

@@ -296,7 +296,7 @@ Thank you for the concern regarding the readability of the figure. We have split
 \begin{formal}
   \footnotesize
   \input{../figures/results/new_physics2/new_trajs-ener_I-II.tikz}
-  {\color{blue}Fig.~6:~\color{blue}CPP with Zamboni-like motion using two boundary configurations. In \hyperref[fig:stat]{a} are the trajectories of the coverage--the highest in {\color{red}I} and the lowest in {\color{red}II}. In {\color{red}b} are the energy and the period evolutions for both {\color{red}I} and {\color{red}II} with different atmospheric conditions. In {\color{red}c} are the states that compose the energy model for {\color{red}I}.}
+  {\color{blue}Fig.~6:~\color{blue}CPP with Zamboni-like motion using two boundary configurations. In {\color{red}a} are the trajectories of the coverage--the highest in {\color{red}I} and the lowest in {\color{red}II}. In {\color{red}b} are the energy and the period evolutions for both {\color{red}I} and {\color{red}II} with different atmospheric conditions. In {\color{red}c} are the states that compose the energy model for {\color{red}I}.}
 
   \input{../figures/results/new_physics2/new_trajs-ener_LOWER_i-ii.tikz}
   \vspace*{-.6ex}
@@ -531,7 +531,8 @@ We have elaborated further in Section III-A to reflect the observation and added
   %The equality of the signal and output is achieved by a proper choice of the items of matrices $A,C$ and the initial guess $\mathbf{q}_0$. We refer the reader to Appendix~\ref{app:proof-eqv} for a formal proof, where we justify the choices of the items of the matrices and of the initial guess. 
   %\end{proof}
   %Appendix~\ref{app:proof-eqv} contains a proof of Lem.~\ref{lem:eqv}.
-  \color{black}i.e., $h,y$ are both harmonic signals with the same frequencies{\color{blue}~[{\color{green}33}]}.}
+  \color{black}i.e., $h,y$ are both harmonic signals with the same frequencies. {\color{blue}Further details are proposed in the first author's Ph.D. thesis~[{\color{green}31}]}.
+  }
   \vspace*{1ex}
 \end{formal}
 }
@@ -577,7 +578,22 @@ We have then updated Section V.
 
 {\hspace*{-4.5em}{[R1:14]}\vspace*{-1.9em}}
 
-[!]}
+Thank you for noticing the issue. We use the predictive layer function $g(\cdot)$ to return the energy of any possible configuration of computation parameters, independently of the time, given a measuring device (i.e., the computing hardware can measure the energy of different components such as overall, CPU, GPU, memory, etc.). 
+
+To construct the predictive layer, we utilize a discrete set of measuring layers $\mathbf{g}(\cdot)$, each containing the time in the form of an interval that specifies for how long a given configuration on a measuring device has to be profiled.
+
+The two variables of $g$ are then the configuration and the specific measuring device, indicated by a positive integer value.
+We have not realized there might arise confusion between $\mathbf{g}$ and $g$ and thus decided to use $\gamma$ for the measuring layer instead of $\mathbf{g}$ and add further commentary after the equation.
+
+\begin{formal}
+  \color{black}
+  [...] notation $\lceil c_i^\sigma\rceil,\lfloor c_i^\sigma\rfloor$ indicates two adjacent measurement layers, and $\mathcal{T}_1,\mathcal{T}_2$ are the corresponding two time intervals. {\color{blue}M}easuring device in $\gamma$ and $g$ is {\color{blue}not explicitly stated in Eq.~({\color{red}13})}.
+  \vspace*{1ex}
+\end{formal}
+
+
+
+}
 
 {\hspace*{-4.5em}\textbf{[R1:15]}\vspace*{-1.9em}}
 
@@ -598,7 +614,14 @@ Thank you for noticing the typo. We have fixed the axis title.
 
 {\hspace*{-4.5em}{[R1:16]}\vspace*{-1.9em}}
 
-[!]}
+Thank you once again for underlying this point. The assumption was not clearly stated in the manusctipt, and we have thus added additional commentary before the equations.
+
+\begin{formal}\color{black}
+  {\color{blue}W}e assume that the coverage time evolves linearly{ \color{blue}and that the }path parameters{ \color{blue}contribute to it equally.} $c_i^\rho$ can be {\color{blue}then} transformed into a time measure with scaling factors 
+  [...]
+  \vspace*{1ex}
+\end{formal}
+}
 
 
 
@@ -749,7 +772,15 @@ Thank you for the high-level comment and for proposing to state clearly the obje
   
   {\hspace*{-4.5em}{[R2:4]}\vspace*{-1.9em}}
 
-  [!]}
+  Thank you for noticing the comparison was missing in the manuscript. We utilize as a performance metric the weighted average configuration of parameters against the battery state of charge at the end of the flight. We have added explanatory text to the simulation results to report the metric for i and ii against I and II respectively.
+
+  \begin{formal}
+    {\color{blue}
+Assuming both the parameters are weighted equally, and the initial battery SoC is seventy percent, {\color{red}I} would not be able to complete the flight, and {\color{red}II} has a performance metric of zero (i.e., the lowest configuration of parameters throughout the flight).
+Nonetheless, performance metrics of {\color{red}i} and {\color{red}ii} are 13.05 and 2.24, whereas the average detection and coverage quality is approx. 45 and 35 for {\color{red}i}, and 62 and 87 percent for {\color{red}ii}.}  
+    \vspace*{1ex}
+  \end{formal}
+  }
 
 {\hspace*{-4.5em}\textbf{[R2:5]}\vspace*{-1.9em}}
 
@@ -783,8 +814,19 @@ SoC.% at the end of the flight.
   {\color{blue} 
   
   {\hspace*{-4.5em}{[R2:6]}\vspace*{-1.9em}}
+
+  Thank you for this point; we have reduced the number of experimental results due to space constraints. Nonetheless, we agree that additional results would further justify the need for planning-scheduling in the aerial robotics domain. To this end, we have added the average result for eight flights derived utilizing the flight simulation capabilities of the open-source Paparazzi flight controller. These results are derived in two equally sized sets, each similar to flights i and ii in the manuscript. The results are described thoroughly in the corresponding author's Ph.D. thesis (reference [{\color{green}31}], Section 6.3.2.
   
-  [!]}
+  We have altered the numerical simulation section accordingly.
+
+  \begin{formal}
+    {\color{blue}
+    Additional results are reported~[{\color{green}31}] utilizing simulation capabilities of the Paparazzi flight controller. Data are split into two sets of four flights each, one similar to {\color{red}i} and the other to {\color{red}ii}, i.e., initial parameters are at boundary configurations.
+    These results have an average performance metric of 1.81 and 1.24 for flights similar to {\color{red}i} and {\color{red}ii} respectively.}    
+
+    \vspace*{1ex}
+  \end{formal}
+  }
 
 {\hspace*{-4.5em}\textbf{[R2:7]}\vspace*{-1.9em}}
 
@@ -794,7 +836,19 @@ SoC.% at the end of the flight.
   
 {\hspace*{-4.5em}{[R2:7]}\vspace*{-1.9em}}
   
-[!]}
+Thank you for underlying this point. We have not realized that it was not clear in the original manuscript. We use the concept of path parameters as inputs to the path functions that compose the coverage path to ultimately alter the coverage quality dynamically, throughout the flight.
+
+We have added explanatory text to Section IV-A to make this point clear.
+
+\begin{formal}
+  \color{black}
+  [...] It is similar to another motion in the literature, the \emph{Zamboni motion}~[{\color{green}41}], but additionally allows variable CPP %at the very core of this work
+  {\color{blue} by dynamically altering the distance between the survey lines with the path parameters}. 
+  {\color{blue} Although cover variability is already considered in the literature~[{\color{green}41}], it is limited to boustrophedon motion for rotary wings.}
+  The novel motion is termed \emph{Zamboni-like motion} and is composed of four primitive paths (see Definition~{\color{red}II.5}): two lines $\varphi_1,\varphi_2$ and two circles $\varphi_3,\varphi_4$. [...]% (see Fig.~\ref{fig:zambo}).
+  \vspace*{1ex}
+\end{formal}
+}
 
 
 \vspace{2em}
@@ -827,7 +881,23 @@ Thank you for spotting the issue in the introductory section. We have corrected 
 
 {\hspace*{-4.5em}{[R2:9]}\vspace*{-1.9em}}
 
-[!]}
+Thank you for noticing the issue regarding poor clarity. We have altered the figure and added a legend to clarify the meaning of i, ii, and iii as different stages in planning-scheduling.
+
+\begin{formal}
+\color{black}
+  {\color{blue}\scriptsize \input{../figures/il_abs_new_review.tikz}}
+  {\color{black}\footnotesize%Illustrative example of planning-scheduling. 
+  Fig.~1:~The figure shows an initial plan~(in~{\color{red}i}) re-planned online, changing the resolution, detection rate, or other computational aspects~(in~{\color{red}ii}) and changing the number of fly-bys or other motion aspects~(in~{\color{red}sth:iii}). 
+  {\color{blue}Top-right} shows the energy data of a physical fixed-wing aerial robot flying a static coverage plan similar to the one illustrated here{\color{blue}; below is }%. Bottom-right shows 
+  the spectrum analysis of the energy data, revealing the periodicity %of the data 
+  exploited in the %overall 
+  energy model.
+  %Follow the collected energy data of a physical aerial robot flying the static coverage.
+  }
+  \vspace*{1ex}
+\end{formal}
+
+}
 
 {\hspace*{-4.5em}\textbf{[R2:10]}\vspace*{-1.9em}}
 
@@ -858,7 +928,7 @@ Thank you for underlying the issue. We have attempted to optimize the space but 
 \begin{formal}
   \footnotesize
   \input{../figures/results/new_physics2/new_trajs-ener_I-II.tikz}
-  {\color{blue}Fig.~6:~\color{blue}CPP with Zamboni-like motion using two boundary configurations. In \hyperref[fig:stat]{a} are the trajectories of the coverage--the highest in {\color{red}I} and the lowest in {\color{red}II}. In {\color{red}b} are the energy and the period evolutions for both {\color{red}I} and {\color{red}II} with different atmospheric conditions. In {\color{red}c} are the states that compose the energy model for {\color{red}I}.}
+  {\color{blue}Fig.~6:~\color{blue}CPP with Zamboni-like motion using two boundary configurations. In {\color{red}a} are the trajectories of the coverage--the highest in {\color{red}I} and the lowest in {\color{red}II}. In {\color{red}b} are the energy and the period evolutions for both {\color{red}I} and {\color{red}II} with different atmospheric conditions. In {\color{red}c} are the states that compose the energy model for {\color{red}I}.}
 \end{formal}
 
 Figure 7 contains cases i and ii that start from I and II but employ the planning-scheduling in the letter varying battery conditions. 
@@ -884,7 +954,7 @@ Overall, the paper addresses a very interesting topic and brings together many d
 
 {\hspace*{-4.5em}{[R2:12]}\vspace*{-1.9em}}
 
-[!]}
+Thank you once again for the commentary as well as for bringing up a lot of important points. We are indeed excited about the potential of planning-scheduling for the aerial robotics domain to address autonomy and other criticalities arising in a number of use cases. We would like to propose a revised version of the manuscript for your kind consideration, where we incorporate the points and additional experimental results.}
 
 
 \vspace{1em}
