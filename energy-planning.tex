@@ -1220,25 +1220,43 @@ Upper-case roman numerals I,II indicate the plans are static (i.e., solely Algor
 
 Fig.~{\color{blue}\hyperref[fig:stat]{6a}--\hyperref[fig:dyn]{7a}} 
 illustrate the same plan $\Gamma$ under different conditions. Flights \hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i} have a constant wind speed of five meters per second, a wind direction of zero degrees, and initial parameters $c_{i,1},c_{i,2}$ values of zero and ten (i.e., full $r_2$ and detection). Flights \hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii} (see added gray background for clarity) are the same but a wind direction of 90 degrees and the initial parameters values of -1000 and two (i.e., minimum $r_2$ and detection). 
-{\color{blue} The initial values of path and computation parameters are chosen to represent the highest and lowest configurations in the search space in \hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i} and \hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii} respectively, modeling the behavior of the best- and worst-case scenario.
+{\color{blue} The initial values of path and computation parameters are chosen to represent the highest and lowest configurations in the search space in \hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i} and \hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii} respectively, modeling the behavior of the best- and worst-case scenarios.
 Different search strategies are possible by, e.g., running an ideal instance of planning-scheduling prior to the flight.}
 
 Fig.~%\ref{fig:ener}
 {\color{blue}\hyperref[fig:stat]{6b}--\hyperref[fig:dyn]{7c}} %~\hyperref[fig:ener:static-I]{6.I}--\hyperref[fig:ener:static-II]{6.II} 
 illustrates first the power ($\Upsilon$ on Line~\ref{alg:klm1} in Algorithm~\ref{alg}), and then the energy model ($y$ on Line~\ref{alg:evol}).
+{\color{blue} Fig.~\hyperref[fig:stat]{6b}} %further 
+details then the energy model's estimate (%see detail view for \hyperref[fig:ener:static-I]{I}--\hyperref[fig:ener:static-II]{II}
+{\color{blue}${\hat{y}}$}) on an initial slice%of the model (${\hat{y}}$)
+, power ($\Upsilon$), and period ($T$).
+{\color{blue} Fig.~\hyperref[fig:stat]{6c}} illustrates the evolutions of the state $\mathbf{q}$ in time {\color{blue}for \hyperref[fig:ener:static-I]{I}}, concluding that approximately two periods suffice for a consistent %state 
+estimate. 
+
 Flight~\hyperref[fig:ener-dyn-i]{i} simulates a battery ({\color{blue}see} green line {\color{blue}in Fig.~\hyperref[fig:dyn]{7c}}, the battery behavior $b_0$) drop at approximately one minute and a half and four minutes and a half. Planner-scheduler optimizes the path in the proximity of the drops to ensure that the flight is completed, whereas it maximizes the parameter $c_{i,2}$ {\color{blue}(see Fig.~\hyperref[fig:dyn]{7b})} when the battery is discharging, respecting the output constraint (Eq.~(\ref{eq:output-const})). Flight~\hyperref[fig:ener-dyn-ii]{ii} simulates the opposite scenario: the lowest configuration of parameters and no battery defects. The path parameter increases as soon as the algorithm has estimated enough data %(two periods $T$) 
-and the computation parameter decreases matching the battery discharge rate. For both cases, scaling factors are derived empirically %, 
+and the computation parameter decreases matching the battery discharge rate. 
+{\color{blue}
+Assuming both the parameters are weighted equally, and the initial battery SoC is seventy percent, \hyperref[fig:trajs-I-static]{I} would not be able to complete the flight, and \hyperref[fig:trajs-II-static]{II} has a performance metric of zero (i.e., the lowest configuration of parameters throughout the flight).
+Nonetheless, performance metrics of \hyperref[fig:trajs-dyn-i]{i} and \hyperref[fig:trajs-dyn-ii]{ii} are 13.05 and 2.24, whereas the average detection and coverage quality is approx. 45 and 35 for \hyperref[fig:trajs-dyn-i]{i}, and 62 and 87 percent for \hyperref[fig:trajs-dyn-ii]{ii}.}
+For both cases, scaling factors are derived empirically %, 
 {\color{blue}similarly to $\delta_i$ set to two hundred fifty}, 
 the horizon $N$ is set to six seconds {\color{blue} as in} relevant literature~\cite{gavilan2015iterative,%kang2009linear,
 stastny2018nonlinear%,chao2011collision
-}, order $r$ is three (see Fig.~\ref{fig:il-abs}), and the matrices $Q,R,Q_f$ are chosen such that the cost is merely squared control. {\color{blue} $h$ is set to one-hundredth of a second and to one second in $\mathcal{K}, \mathcal{T}$ respectively to allow sufficient precision and re-planning online.}
+}, order $r$ is three% (see Fig.~\ref{fig:il-abs})
+, and %the matrices 
+$Q,R,Q_f$ are chosen such that the cost is %merely 
+squared control. {\color{blue} $h$ is set to one-hundredth of a second and to one second in $\mathcal{K}, \mathcal{T}$ respectively to allow sufficient precision and re-planning online.}
 %\subsection{Algorithm evaluation}
 %\subsubsection*{Periodic energy model}
 %The figure
-{\color{blue} Fig.~\hyperref[fig:stat]{6c}} %further 
-details the energy model's estimate (see detail view for \hyperref[fig:ener:static-I]{I}--\hyperref[fig:ener:static-II]{II}) on an initial slice of the model (${\hat{y}}$), power ($\Upsilon$), and period ($T$). % We motivate this choice again with Fig.~\ref{fig:il-abs}, where the power spectrum subfigure shows that 3 frequencies are adequate. 
-The {\color{blue} right} detail of \hyperref[fig:ener:static-I]{I} illustrates the evolutions of the state $\mathbf{q}$ in time, concluding that approximately two periods suffice for a consistent %state 
-estimate. %With non-periodic signals, we observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
+%{\color{blue} Fig.~\hyperref[fig:stat]{6c}} %further 
+%details the energy model's estimate (see detail view for \hyperref[fig:ener:static-I]{I}--\hyperref[fig:ener:static-II]{II}) on an initial slice of the model (${\hat{y}}$), power ($\Upsilon$), and period ($T$). % We motivate this choice again with Fig.~\ref{fig:il-abs}, where the power spectrum subfigure shows that 3 frequencies are adequate. 
+%The {\color{blue} right} detail of \hyperref[fig:ener:static-I]{I} illustrates the evolutions of the state $\mathbf{q}$ in time, concluding that approximately two periods suffice for a consistent %state 
+%estimate. %With non-periodic signals, we observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
+
+{\color{blue}
+Additional results are reported~\cite{seewaldphdthesis} utilizing simulation capabilities of the Paparazzi flight controller. Data are split into two sets of four flights each, one similar to \hyperref[fig:trajs-dyn-i]{i} and the other to \hyperref[fig:trajs-dyn-ii]{ii}, i.e., initial parameters are at boundary configurations.
+These results have an average performance metric of 1.81 and 1.24 for flights similar to \hyperref[fig:trajs-dyn-i]{i} and \hyperref[fig:trajs-dyn-i]{ii} respectively.}
 
 Output MPC on Line~\ref{alg:mpc} relies on a software framework for nonlinear optimization called CasADi~\cite{andersson2012casadi%,andersson2012bcasadi,andersson2019casadi
 }, and the popular NLP solver IPOPT~\cite{wachter2006implementation}; both are open-source.
