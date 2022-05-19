@@ -8,7 +8,7 @@
 
 
 \def \globalscale {0.940000}
-\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1*\globalscale, xscale=1.18*\globalscale, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1*\globalscale, xscale=1*\globalscale, inner sep=0pt, outer sep=0pt]
 \color{blue}
 \begin{scope}[shift={(598.26327,165.72719)},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \path[draw=cd9d9d9,line cap=butt,line join=miter,line width=1.440pt,miter limit=4.00] (-302.5903,-136.2302) -- (-281.2030,-152.5408);
@@ -1257,7 +1257,7 @@
 
 
       \end{scope}
-      \begin{scope}[cm={{1.05016,0.0,0.0,1.02141,(-33.68793,-461.26773)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+      \begin{scope}[cm={{1.05016,0.0,0.0,1.02141,(-35.68793,-461.26773)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
         \path[fill=blue] (0.0000,0.0000) node[above right] (text276) {\scriptsize $\Upsilon(t)$};
 
 
@@ -1275,7 +1275,7 @@
 
 
       \end{scope}
-      \begin{scope}[cm={{1.05016,0.0,0.0,1.02141,(-31.29971,-448.94892)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+      \begin{scope}[cm={{1.05016,0.0,0.0,1.02141,(-33.29971,-448.94892)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
         \path[fill=blue] (0.0000,0.0000) node[above right] (text312) {\scriptsize $\hat{y}(t)$};
 
 
@@ -1351,8 +1351,8 @@
 
 
       \end{scope}
-      \begin{scope}[cm={{1.05023,0.0,0.0,1.05023,(-52.68473,-410.86372)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-        \path[fill=blue] (0.0000,0.0000) node[above right] (text64-7-2) {\scriptsize $T=$ 46};
+      \begin{scope}[cm={{1.05023,0.0,0.0,1.05023,(-51.68473,-410.86372)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+        \path[fill=blue] (0.0000,0.0000) node[above right] (text64-7-2) {\scriptsize $T$\hspace{.5ex}=\hspace{.5ex}46};
 
 
 
@@ -1710,8 +1710,8 @@
 
 
     \end{scope}
-    \begin{scope}[cm={{1.00174,0.0,0.0,1.01515,(-277.4622,28.89387)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-      \path[fill=blue] (0.0000,0.0000) node[above right] (text766) {\scriptsize $T=$ 47};
+    \begin{scope}[cm={{1.00174,0.0,0.0,1.01515,(-276.4622,28.89387)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+      \path[fill=blue] (0.0000,0.0000) node[above right] (text766) {\scriptsize $T$\hspace{.5ex}=\hspace{.5ex}47};
 
 
 
@@ -2655,7 +2655,7 @@
 
 
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-398.2762,-132.7966)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-400.2762,-132.7966)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
     \path[fill=blue] (0.0000,-1.4912) node[above right] (text290) {\scriptsize $\Upsilon(t)$};
 
 
@@ -2673,7 +2673,7 @@
 
 
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-397.05137,-123.74949)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-399.05137,-123.74949)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
     \path[fill=blue] (0.0000,0.0000) node[above right] (text326) {\scriptsize $y(t)$};
 
 
@@ -2901,7 +2901,7 @@
 
 
   \end{scope}
-  \begin{scope}[cm={{0.84029,0.0,0.0,0.84029,(-556.89843,-136.56808)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.84029,0.0,0.0,0.84029,(-557.89843,-136.56808)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
     \path[fill=blue] (0.0000,0.0000) node[above right] (text360) {\scriptsize $\mathbf{p}(t)$};
 
 
@@ -3126,15 +3126,15 @@
 
 
 
-    \path[fill=blue] (-59.6396,-237.2505) node[above right] (text344-6-3-1) {(a) Trajectories without re-planning};
+    \path[fill=blue] (-76.6396,-237.2505) node[above right] (text344-6-3-1) {(a) Trajectories without re-planning};
 
 
 
-    \path[fill=blue] (320.5506,-237.2505) node[above right] (text344-6-3-1-1-9) {(c) State $(\alpha_0\dots\in\mathbf{q})$ evol. for {\hyperref[fig:trajs-I-static]{\color{red}I}}};
+    \path[fill=blue] (313 .5506,-237.2505) node[above right] (text344-6-3-1-1-9) {(c) State $(\alpha_0\dots\in\mathbf{q})$ evol. for {\hyperref[fig:trajs-I-static]{\color{red}I}}};
 
 
 
-    \path[fill=blue] (90.2713,-237.2505) node[above right] (text344-6-3-1-6) {(b) Energies, detail for the first instants, periods $T$ evolutions};
+    \path[fill=blue] (100.2713,-237.2505) node[above right] (text344-6-3-1-6) {(b) Energies, detail of first instants, periods $T$};
 
 
 

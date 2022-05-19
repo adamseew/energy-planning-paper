@@ -121,20 +121,21 @@
 \definecolor{c00FFFF}{RGB}{0,255,255}
 
 \begin{document}
+\bstctlcite{IEEEexample:BSTcontrol}
 
 \title{Energy-Aware Planning-Scheduling for\\Autonomous Aerial Robots}
 
 %% author names and affiliations
 \author{
   Adam Seewald$^{\text{1}}$, H\'ector Garc\'ia de Marina$^{\text{2}}$, Henrik Skov Midtiby$^{\text{3}}$, and Ulrik Pagh Schultz$^{\text{3}}$
-  \thanks{The work was partly funded by E.U. grant No. 779882 (TeamPlay); H. G. work is supported by Ramon y Cajal grant No. RYC2020-030090-I.}
-  %\thanks{Manuscript received: Month, Day, Year; Revised Month, Day, Year; Accepted Month, Day, Year.}%Use only for final RAL version
-  %\thanks{This paper was recommended for publication by Editor Editor A. Name upon evaluation of the Associate Editor and Reviewers' comments.} %Use only for final RAL version
-  \thanks{$^{\text{1}}$A. S. is with the Dept. of Mech. Eng. and Mater. Science, Yale University, CT, USA, but the work was performed while affiliated with the SDU UAS. Email: {\tt\footnotesize \href{mailto:adam.seewald@yale.edu}{adam.seewald@yale.edu}};}
-  \thanks{$^{\text{2}}$H. G. is with the Dept. of Comput. Archit. and Technol., University of Granada, Spain;} 
+  \thanks{The work was partly funded by EU grant No. 779882 (TeamPlay). The work for H. G. is supported by the Ramon y Cajal grant No. RYC2020-030090-I.}
+  \thanks{Manuscript received: Month, Day, Year; Revised Month, Day, Year; Accepted Month, Day, Year.}%Use only for final RAL version
+  \thanks{This paper was recommended for publication by Editor Editor A. Name upon evaluation of the Associate Editor and Reviewers' comments.} %Use only for final RAL version
+  \thanks{$^{\text{1}}$A. S. is with the Department of Mechanical Engineering and Material Science, Yale University, CT, USA, but the work was performed while affiliated with the SDU UAS. Email: {\tt\footnotesize \href{mailto:adam.seewald@yale.edu}{adam.seewald@yale.edu}};}
+  \thanks{$^{\text{2}}$H. G. is with the Department of Computer Architecture and Technology, University of Granada, Spain;} 
   \thanks{$^{\text{3}}$H. S. M.,  U. P. S. are with the SDU UAS, %M{\ae}rsk Mc-Kinney M{\o}ller Institute, 
   University of Southern Denmark.}
-  %\thanks{Digital Object Identifier (DOI): see top of this page.}
+  \thanks{Digital Object Identifier (DOI): see top of this page.}
 }
 
 \markboth{IEEE Robotics and Automation Letters. Preprint Version. Accepted Month, Year}
@@ -143,13 +144,14 @@
 
 %% make the title area
 \maketitle
-
-\vspace*{-4.6ex}
+ 
+\vspace*{-5ex}
 
 \begin{abstract}
   In this letter, we present an online planning-scheduling approach for battery-powered autonomous aerial robots. The approach consists of simultaneously planning a coverage path and scheduling onboard computational tasks. We further derive a novel variable coverage motion robust to airborne constraints and an empirically motivated energy model. The model includes the energy contributions of the schedule based on an automatic computational energy modeling tool. Our experiments show how an initial flight plan is adjusted online as a function of the available battery, accounting for uncertainty. Our approach furthermore remedies possible in-flight failure in case of unexpected battery drops, e.g., due to adverse atmospheric conditions, and increases the overall fault tolerance.
 \end{abstract}
 
+\vspace*{-.5ex}
 \begin{IEEEkeywords}
   %Aerial Systems: Perception and Autonomy, %Optimization and Optimal Control, 
   %Planning, %Scheduling and Coordination, 
@@ -169,6 +171,7 @@
 \IEEEpeerreviewmaketitle
 
 
+\vspace*{-2.6ex}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}  %
 \label{sec:intro}       %
@@ -206,15 +209,21 @@ Fig.~\ref{fig:il-abs} illustrates the intuition: an aerial robot flies a plan wi
  %      {\scriptsize \input{\figpath/il_abs_spectrum1.tikz}};
  %\end{tikzpicture}
   \caption{%Illustrative example of planning-scheduling. 
-  The figure shows an initial plan~(in~\ref{sth:i}) re-planned online, changing the resolution, detection rate, or other computational aspects~(in~\ref{sth:ii}) and changing the number of fly-bys or other motion aspects~(in~\ref{sth:iii}). 
-  {\color{blue}Top-right} shows the energy data of a physical fixed-wing aerial robot flying a static coverage plan similar to the one illustrated here{\color{blue}; below is }%. Bottom-right shows 
-  the spectrum analysis of the energy data, revealing the periodicity %of the data 
+  %The figure shows 
+  An initial plan~(in~\ref{sth:i}) {\color{blue}is} re-planned online, changing the %resolution, 
+  detection rate or other computational aspects~(in~\ref{sth:ii}) and %changing 
+  the number of fly-bys or other motion aspects~(in~\ref{sth:iii}). 
+  {\color{blue}Top-right} %shows 
+  {\color{blue}are} the energy data of a physical fixed-wing aerial robot flying a static coverage plan similar to the one illustrated here{\color{blue}; below is }%. Bottom-right shows 
+  the spectrum analysis, %of the %energy 
+  %data, 
+  revealing the periodicity %of the data 
   exploited in the %overall 
   energy model.
   %Follow the collected energy data of a physical aerial robot flying the static coverage.
   }
   \label{fig:il-abs}
-  \vspace*{-3.5ex}
+  \vspace*{-4ex}
 \end{figure}
 
 There are numerous planning approaches applied to a variety of robots. An instance is an algorithm selecting an energy-optimized trajectory~\cite{mei2004energy} by, e.g., maximizing the operational time~\cite{wahab2015energy}. Many approaches apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence of the energy influence of onboard consumptions~\cite{mei2005case,ondruska2015scheduled,sudhakar2020balancing,brateman2006energy}. In view of the availability of powerful heterogeneous computing hardware~\cite{rizvi2017general}, the use of onboard computations is further expected to increase in the foreseeable future~\cite{%abramov2012real,
@@ -240,7 +249,9 @@ flying CPP motivates the overall energy model: the evolution is periodic--CPP of
 
 The %remaining sections of the letter are 
 {\color{blue}remainder is} then organized as follows. Section~\ref{sec:prob} provides basic constructs%, such as the concepts of the stages, path functions, triggering and final points, and plan, as well as 
-{ \color{blue}and} the problem formulation. Section~\ref{sec:algo} describes in detail the methodology of planning-scheduling. Section~\ref{sec:experimental} presents the results, %and showcases the performances, 
+{ \color{blue}and} %the problem formulation.
+Section~\ref{sec:algo} describes %in detail 
+the methodology of planning-scheduling. Section~\ref{sec:experimental} presents the results, %and showcases the performances, 
 and Section~\ref{sec:conclusion} concludes and provides future perspectives. %Appendices~\ref{app:proof-eqv}--\ref{app:proof-bat} provide supplementary material.
 
 \vspace*{-1ex}
@@ -257,11 +268,11 @@ altered in Section~\ref{sec:algo} within given boundaries with \emph{path}- and 
 
 \begin{figure}[t]
   \footnotesize
-  \begin{minipage}[l]{0.40\columnwidth}
+  \begin{minipage}[l]{0.38\columnwidth}
     \caption{Definitions~\ref{def:stage}--\hyperref[def:plan]{4} on a slice of the plan $\Gamma$. $\mathbf{p}_{\Gamma_i}$ are triggering points in which proximity happens change of stages $\Gamma_i$. Each contains a path function $\varphi_i$ and $j$ parameters to alter the path and schedule $c_{i,1},\dots,c_{i,j}$.}
     \label{fig:traj1}
   \end{minipage}\hfill
-  \begin{minipage}[c]{0.56\columnwidth}
+  \begin{minipage}[c]{0.6\columnwidth}
     \centering
     \vspace*{-4ex}
     \input{\figpath/new/traj1.tikz}
@@ -382,7 +393,7 @@ holds $\forall i\in[l/n-1]_{>0},j\in[n]_{>0}$ assuming the total number of stage
       %(q_i.south west) -- (q_f.south west) node [black,midway,yshift=-19ex]{$\Gamma$};
     \end{tikzpicture}
   \end{minipage}\hfill
-  \begin{minipage}[c]{0.2\columnwidth}
+  \begin{minipage}[c]{0.18\columnwidth}
     \centering
     \caption{Plan $\Gamma$ with $n$ primitive stages  in Def~\ref{def:primitive}.}
     \label{fig:state-machine-loop}
@@ -684,7 +695,7 @@ and an initial guess $\mathbf{q}(t_0)=\mathbf{q}_0$ at initial time instant $t_0
 %\end{proof}
 %Appendix~\ref{app:proof-eqv} contains a proof of Lem.~\ref{lem:eqv}.
 i.e., $h,y$ are %both 
-harmonic signals with the same frequencies{\color{blue}. Further details are proposed in the first author's Ph.D. thesis~\cite{seewaldphdthesis}}.
+harmonic signals with the same frequencies{\color{blue}. For further details see the first author's Ph.D. thesis~\cite{seewaldphdthesis}}.
 
 $\hat{\mathbf{u}}$ in Eq.~(\ref{eq:mat_B}) is then a scale transformation
 \begin{equation}
@@ -740,11 +751,15 @@ where notation $\lceil c_i^\sigma\rceil,\lfloor c_i^\sigma\rfloor$ indicates two
 \subsection{Battery model}
 \label{sec:mod-bat}
 
-The battery model predicts the battery SoC in the function of a given load at future time instants. There are multiple models in the literature~\cite{rao2003battery} with varying complexity, accuracy, and ease of implementation ranging from accurate but costly physical models~\cite{%moura2017battery,
+The battery model predicts the battery SoC in the function of a given load at future time 
+instants. There are multiple models in the literature~\cite{rao2003battery} with varying complexity {\color{blue}and} accuracy %, and ease of implementation 
+ranging from accurate but costly physical models~\cite{%moura2017battery,
 marcicki2013design}, to abstract models~\cite{%xing2014state,
 %he2011evaluation,
-hinz2019comparison,mousavi2014various} that have compelling trade-offs in terms of the latter two. 
-We model a Li-ion battery of an aerial robot in-flight with an abstract ``Rint'' ECM in the literature~\cite{%he2011evaluation,
+hinz2019comparison,mousavi2014various} %that have
+{\color{blue}with} compelling trade-offs in terms of the latter two. 
+We model a Li-ion battery %of an aerial robot 
+in-flight with an abstract ``Rint'' ECM in the literature~\cite{%he2011evaluation,
 hinz2019comparison,mousavi2014various}.
 
 The battery SoC changes according to~\cite{hasan2018exogenous%,zhang2018online
@@ -755,7 +770,10 @@ The battery SoC changes according to~\cite{hasan2018exogenous%,zhang2018online
 where $I(y(t))\in\mathbb{R}$ is the internal current measured in amperes, $y(t)\in\mathbb{R}_{\geq 0}$ the power drain, and $Q_c\in\mathbb{R}$ the battery constant nominal capacity measured in amperes per hour. $k_b$ is a battery coefficient added to~\cite{hasan2018exogenous%,zhang2018online
 } and derived experimentally. The ``Rint'' circuit models the battery as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ measured in ohm, representing the battery resistance. The voltage on the extremes of ECM respects $V_e=V-R_rI$, where $V,V_e\in\mathbb{R}$ are the internal and external battery voltages measured in volts. The former can be retrieved from the battery data sheet~\cite{hinz2019comparison} and depends on the SoC~\cite{hasan2018exogenous}.
 
-If the voltage of the power drain is stable, Kirchhoff's circuit laws lead to $V_sI_l=V_eI$, where $I_l$ is the current required by the load measured in amperes. Combining $V_e,V_sI_l$ results in the quadratic expression $R_rI^2-VI+V_sI_l=0$. Solving the expression utilizing the negative solution (when $I_l$ is zero, $I$ should also be zero) %leads to% 
+If the voltage %of the power drain 
+is stable, Kirchhoff's circuit laws lead to $V_sI_l=V_eI$, where $I_l$ is the current required by the load %measured 
+in amperes. Combining $V_e,V_sI_l$ results in the %quadratic 
+expression $R_rI^2-$ $VI+V_sI_l=0$. Solving the expression utilizing the negative solution (when $I_l$ is zero, $I$ should also be zero) %leads to% 
 results in 
 \begin{equation}\label{eq:batdyn2}
 I(y(t))=(V-\sqrt{V^2-4R_ry(t)})/(2R_r).
@@ -780,9 +798,9 @@ Eq.~(\ref{eq:state-perf}) states that the output $y$ evolves in $\mathbb{R}$, %c
 yet, aerial robots usually use a battery.
 We thus use instead
 %\begin{defn}[Output constraint]\label{def:const}
-%\begin{equation}\label{eq:output-const}
-  $\mathcal{Y}(t):=\{y\mid y\in[0,b\,Q_cV]\subseteq{\mathbb{R}_{\geq 0}}\}$, 
-%\end{equation}
+\begin{equation}\label{eq:output-const}
+  {\small\mathcal{Y}(t):=\{y\mid y\in[0,b\,Q_cV]\subseteq{\mathbb{R}_{\geq 0}}\},} 
+\end{equation}
 %the \emph{output constraint}, 
 where $b\,Q_cV$, the maximum instantaneous energy %consumption
 measured in watts, is derived from Eq.~(\ref{eq:batdyn}--\ref{eq:batdyn2}).
@@ -866,12 +884,12 @@ measured in watts, is derived from Eq.~(\ref{eq:batdyn}--\ref{eq:batdyn2}).
                                %
 \begin{figure}[t]
   \footnotesize
-  \begin{minipage}[l]{0.25\columnwidth}
+  \begin{minipage}[l]{0.21\columnwidth}
     \caption{Alteration of the path parameter $c_{i,1}$, the radius of the circle (i.e., the alteration of the plan in Fig.~\ref{fig:il-abs}).
     }
     \label{fig:tee1}
   \end{minipage}\hfill
-  \begin{minipage}[c]{0.7\columnwidth}
+  \begin{minipage}[c]{0.77\columnwidth}
     \centering
     \vspace*{-4.5ex}
     \input{\figpath/new/traj2.tikz}
@@ -954,7 +972,7 @@ covering each cell~\cite{choset2001coverage}.% with the novel motion.
 %        \RETURN{$\Gamma$}\vspace*{.3ex}
 %      \ENDIF
 
-      \vspace*{.8ex}
+      %\vspace*{.8ex}
       \color{blue}\IF{$\mathbf{p}%(t)
       =\mathbf{p}_{\Gamma_i}$}\color{black}
         \STATE $i\gets i+1$\vspace*{.3ex}
@@ -995,9 +1013,11 @@ covering each cell~\cite{choset2001coverage}.% with the novel motion.
 \end{algorithm}
 
 To implement the variable CPP, the radius $r_2$ of the second circle $\varphi_{|\Gamma|+4}$ on Line~\ref{alg2:circ2}
-%\begin{equation}\label{eq:r2}
-  $r_2(c_{i,1}):=\sqrt{r^2+c_{i,1}},$ 
-%\end{equation}
+\vspace*{-1ex}
+\begin{equation}\label{eq:r2}
+  {\small r_2(c_{i,1}):=\sqrt{\smash[b]{r^2+c_{i,1}}},}
+  \vspace*{-.4ex}
+\end{equation}
 is expressed as a function of a path parameter $c_{i,1}\in(\underline{r}^2-r^2,0]$, relative to the last circle in each set of primitive stages. $r\in\mathbb{R}_{>0}$ is a given ideal turning radius along with the minimum radius (see Section~\ref{pb:cov-pb}). The center also changes
 \begin{equation}\label{eq:second-circ-gene}
   \varphi_{|\Gamma|+4}:=(x-x_{\mathbf{p}_{|\Gamma|+3}}+r_2)^2+(y-y_{\mathbf{p}_{|\Gamma|+3}})^2-r_2^2,

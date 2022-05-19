@@ -6,7 +6,7 @@
 
 
 \def \globalscale {0.940000}
-\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1*\globalscale, xscale=1.18*\globalscale, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1*\globalscale, xscale=1*\globalscale, inner sep=0pt, outer sep=0pt]
 \color{blue}
 \begin{scope}[shift={(598.44106,-141.22792)},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \begin{scope}[cm={{0.84173,0.0,0.0,0.84173,(-603.85556,69.88496)}},draw=ca0a0a4,dash pattern=on 2.14pt off 2.14pt,line cap=round,line join=round,line width=0.356pt,miter limit=4.00]
@@ -895,7 +895,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(197.153,129.759)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.04164,0.0,0.0,1.04164,(-142.48887,167.27602)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.04164,0.0,0.0,1.04164,(-144.48887,167.27602)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
     \path[fill=blue] (0.0000,0.0000) node[above right] (text1032) {\scriptsize $b_0(t)$};
 
 
@@ -2057,8 +2057,8 @@
 
 
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-510.7994,343.95446)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (-4.4737,45.8089) node[above right] (text344-6) {x (m)};
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-517.7994,343.95446)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=blue] (-5.4737,45.8089) node[above right] (text344-6) {x (m)};
 
 
 
@@ -2066,15 +2066,15 @@
 
 
 
-    \path[fill=blue] (-49.9760,62.5230) node[above right] (text344-6-3-1) {(a) Re-planned trajectories};
+    \path[fill=blue] (-53.9760,62.5230) node[above right] (text344-6-3-1) {(a) Re-planned trajectories};
 
 
 
-    \path[fill=blue] (81.5138,62.5230) node[above right] (text344-6-3-1-6) {(b) Parameters ($c_{i,1},c_{i,2}$) evol.};
+    \path[fill=blue] (76.5138,62.5230) node[above right] (text344-6-3-1-6) {(b) Parameters ($c_{i,1},c_{i,2}$) evol.};
 
 
 
-    \path[fill=blue] (277.1823,62.4148) node[above right] (text344-6-3-1-6-3) {(c) Energies and batteries evol.};
+    \path[fill=blue] (261.1823,62.4148) node[above right] (text344-6-3-1-6-3) {(c) Energies and batteries evol.};
 
 
 
@@ -2320,8 +2320,8 @@
 
 
 \end{scope}
-\begin{scope}[cm={{0.84029,0.0,0.0,0.84029,(41.25055,18.91027)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-  \path[fill=blue] (-0.9117,0.4559) node[above right] (text360-8) {\scriptsize $\mathbf{p}(t)$};
+\begin{scope}[cm={{0.84029,0.0,0.0,0.84029,(39.95055,19.91027)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \path[fill=blue] (-1.9117,0.4559) node[above right] (text360-8) {\scriptsize $\mathbf{p}(t)$};
 
 
 
