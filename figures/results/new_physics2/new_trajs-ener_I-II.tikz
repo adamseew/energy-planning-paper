@@ -7,7 +7,7 @@
 \definecolor{cff0000}{RGB}{255,0,0}
 
 
-\def \globalscale {1.000000}
+\def \globalscale {0.940000}
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1*\globalscale, xscale=1.18*\globalscale, inner sep=0pt, outer sep=0pt]
 \color{blue}
 \begin{scope}[shift={(598.26327,165.72719)},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]

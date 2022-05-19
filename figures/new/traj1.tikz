@@ -6,7 +6,7 @@
 \definecolor{c9B9B9B}{RGB}{155,155,155}
 
 
-\def \globalscale {.770000}
+\def \globalscale {.70000}
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
 \path[draw=c989898,line join=round,line width=0.512pt] (72.6617,91.1923) -- (70.0201,91.1894);
 

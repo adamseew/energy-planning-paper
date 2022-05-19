@@ -2,7 +2,7 @@
 
 
 \def \globalscale {.800000}
-\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=.96*\globalscale, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-.82*\globalscale, xscale=.92*\globalscale, inner sep=0pt, outer sep=0pt]
 \path[draw=black,line join=round,line width=0.512pt] (20.8642,24.8115) -- (118.7080,14.9592) -- (118.7080,74.3650) -- (20.8642,84.2173) -- (20.8642,24.8115) -- cycle;
 
 

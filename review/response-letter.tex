@@ -232,7 +232,7 @@ Nonetheless, as underlined in your observation, this was not clear from the text
   We have altered the problem formulation, clearly stating that the objective is to find energy-aware trajectory of parameters rather than optimal.
 
   \begin{formal}
-    {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery state of charge (SoC)}.}
+    {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery SoC}.}
     \vspace*{1ex}
   \end{formal}
 
@@ -410,7 +410,9 @@ We have altered the definition for this purpose.
         &\forall k\in[\sigma]_{>0},\,c_{i,\rho+k}\in\mathcal{S}_{i,k}\,\},
   \end{split}\end{equation*}
   where $c_i^\rho${\color{blue}$:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$} and $c_i^\sigma${\color{blue}$:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,$ $c_{i,\rho+\sigma}\}$} are $\rho$ \emph{path} and $\sigma$ \emph{computation parameters}{\color{blue}, e.g., $c_i^\rho:=\{c_{i,1}\}$ is a value that changes the distance of the coverage lines and $c^\sigma_i:=\{c_{i,2}\}$ the detection rate with $\rho$ and $\sigma$ being one (see Section~{\color{red}V})}. $\mathcal{C}_{i,j}:=[\underline{c}_{i,j},\overline{c}_{i,j}]\subseteq\mathbb{R}$ is the $j$th path parameter %$c_{i,j}$ 
-  constraint set, and $\mathcal{S}_{i,k}:=[\underline{c}_{i,\rho+k},\overline{c}_{i,\rho+k}]\subseteq\mathbb{Z}_{\geq 0}$ is the $k$th computation parameter constraint set. {\color{blue}Indices $j$ and $k$ serves to differentiate path and computation parameters constraints and to indicate that each parameter can have a different constraint set.}
+  constraint set, %and 
+  $\mathcal{S}_{i,k}:=[\underline{c}_{i,\rho+k},\overline{c}_{i,\rho+k}]\subseteq\mathbb{Z}_{\geq 0}$ %is 
+  the $k$th computation parameter constraint set. {\color{blue}Indices $j,k$ serves~to~differentiate path and computation parameters constraints and indicate that each parameter can have a different constraint set.}
   \vspace*{1ex}
 \end{formal}
 
@@ -719,7 +721,7 @@ Weaknesses:
 Thank you for the high-level comment and for proposing to state clearly the objective function. Regarding the objective function, we have integrated the problem definition accordingly, whereas we have altered the text in the manuscript by both implementing the specific comments and rewriting some technical details or adding further explanatory commentary. 
 
 \begin{formal}
-  {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery state of charge (SoC)}.}
+  {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery SoC}.}
   \vspace*{1ex}
 \end{formal}
 }
@@ -794,14 +796,15 @@ Thank you for suggesting adding a clear indication of what performance metrics a
 
 \begin{formal}\color{black}
   The problem %of planning-scheduling 
-is composed of two sub-problems{\color{blue}: }%. One is 
-to form a %static 
-plan that visits every point in space, {\color{blue}and }%the other to
-re-plan and re-schedule the plan in-flight in an energy-aware way. %{\color{blue}, whereas }
-{\color{blue} The performance metric the re-planning-scheduling %in the letter 
-improves is %then
-the quality of the plan-schedule against battery SoC, e.g., the weighted average value of parameters divided by remaining %battery 
-SoC.% at the end of the flight.
+  is {\color{blue}split into }%composed of 
+  two sub-problems{\color{blue}: }%. One is 
+  to form a %static 
+  plan that visits every point in space, {\color{blue}and }%the other to
+  re-plan and -schedule the plan in-flight in an energy-aware way. %{\color{blue}, whereas }
+  {\color{blue} The performance metric the re-planning-scheduling %in the letter 
+  improves is %then
+  the quality of the plan-schedule against battery state of charge (SoC), e.g., weighted average value of parameters divided by remaining %battery 
+  SoC.% at the end of the flight.
 \vspace*{1ex}
 }
 \end{formal}
@@ -825,6 +828,13 @@ SoC.% at the end of the flight.
     These results have an average performance metric of 1.81 and 1.24 for flights similar to {\color{red}i} and {\color{red}ii} respectively.}    
 
     \vspace*{1ex}
+  \end{formal}
+
+  We have then reorganized the conclusion, underlining the intent to perform physical experiments at future instances.
+  
+  \begin{formal}
+  \color{black}
+  {\color{blue}To enable physical experiments}, we are currently extending the results to a standard flight controller.
   \end{formal}
   }
 
@@ -910,7 +920,7 @@ Thank you for noticing the issue regarding poor clarity. We have altered the fig
 Thank you for underlying this possible source of confusion. We have fixed the text to clearly state whether the category is in the former or latter occurrence.
 
 \begin{formal}
-  \color{black} [...] there are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The {\color{blue}motion outreaching computation energy} frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.){\color{blue}, whereas the opposite occurs with} lighter-than-air aerial robots (e.g., blimps). [...]
+  \color{black} [...] there are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The {\color{blue}motion outreaching computation energy} frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.){\color{blue}, the opposite occurs with} lighter-than-air aerial robots (e.g., blimps). [...]
   \vspace*{1ex}
 \end{formal}}
 
