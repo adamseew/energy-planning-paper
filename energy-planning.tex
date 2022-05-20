@@ -132,7 +132,7 @@
   \thanks{Manuscript received: Month, Day, Year; Revised Month, Day, Year; Accepted Month, Day, Year.}%Use only for final RAL version
   \thanks{This paper was recommended for publication by Editor Editor A. Name upon evaluation of the Associate Editor and Reviewers' comments.} %Use only for final RAL version
   \thanks{$^{\text{1}}$A. S. is with the Department of Mechanical Engineering and Material Science, Yale University, CT, USA, but the work was performed while affiliated with the SDU UAS. Email: {\tt\footnotesize \href{mailto:adam.seewald@yale.edu}{adam.seewald@yale.edu}};}
-  \thanks{$^{\text{2}}$H. G. is with the Department of Computer Architecture and Technology, University of Granada, Spain;} 
+  \thanks{$^{\text{2}}$H. G. is with the Department of Computer Architecture and Technology and with CITIC, University of Granada, Spain;} 
   \thanks{$^{\text{3}}$H. S. M.,  U. P. S. are with the SDU UAS, %M{\ae}rsk Mc-Kinney M{\o}ller Institute, 
   University of Southern Denmark.}
   \thanks{Digital Object Identifier (DOI): see top of this page.}
@@ -441,18 +441,21 @@ A plan composed of $n$ stages $\Gamma_1,\dots,\Gamma_n$ (%containing
 
 The problem %of planning-scheduling 
 is {\color{blue}split into }%composed of 
-two%sub-problems.
-{\color{blue}: }%. One is 
-to form a %static 
-plan that visits every point in space {\color{blue}and }%the other to
-re-plan and -schedule the plan in-flight in an energy-aware way. %{\color{blue}, whereas }
+%two%sub-problems.
+{\color{blue}the derivation }%. One is 
+%to form a %static 
+{\color{blue} of} a {\color{blue}coverage} plan %that visits every point in space 
+{\color{blue}and its} {\color{blue}energy-aware} %other to
+re-plan{\color{blue}ing} and -schedul{\color{blue}ing } %the plan 
+in-flight. %in an energy-aware way. %{\color{blue}, whereas }
 {\color{blue} 
-The re-planning-scheduling improves the performance metric of quality of the plan and schedule against battery state of charge (SoC), i.e., the weighted average value of parameters divided by the remaining SoC.
+The re-planning-scheduling improves a performance metric, which is %quality of the plan and schedule against battery state of charge (SoC), i.e., the 
+the weighted average of parameters divided by the remaining battery state of charge (SoC), both in percent. The objective is then high average parameters configuration and battery usage.
 %The performance metric the re-planning-scheduling %in the letter 
 %improves is %then
 %the quality of the plan-schedule against battery state of charge (SoC), e.g., weighted average value of parameters divided by remaining %battery 
 %SoC.% at the end of the flight.
-}
+}\vspace*{-2ex}
 
 \begin{pb}[Coverage and re-planning-scheduling problem]
   \label{pb:cov-pb}
@@ -582,7 +585,9 @@ Here, $c_i$ denotes a row vector with both the path and computation parameters i
 \section{Energy Models}  %
 \label{sec:energy-model} %
                          %
-The solution to the problem requires energy models, predicting the impact of changes to path and computation parameters on the battery at future time instants. To this end, Sections~\ref{sec:mod-mot}--\hyperref[sec:mod-bat]{C} provide models for the overall and computations energies as well as battery evolution.
+The solution to the problem requires energy models, predicting the impact of changes to path and computation parameters on the battery. %at future time instants. To this end, 
+Sections~\ref{sec:mod-mot}--\hyperref[sec:mod-bat]{C} provide models for the overall and computations energies {\color{blue}and }%as well as 
+battery evolution.
 
 \subsection{Overall energy model% for the motion
 }

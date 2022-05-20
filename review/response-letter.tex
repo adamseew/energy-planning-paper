@@ -130,7 +130,7 @@ Dear Referees, Dr. Kurniawati:
 
 We greatly appreciate your time and effort in providing us with an invaluable assessment of our work, helping us to significantly improve both the quality and presentation of our energy-aware planning-scheduling for the aerial robotics domain. We have been able to address all your comments and questions in a revised version that we have attached once again for your kind consideration. 
 
-The response letter is split into two sections, each for one review. The referees' comments are in black, and our response is highlighted in blue, similarly to the edits in the attached revised version. The quotes from the revised version are incorporated here in a box with a light red background and a thick red left border.
+The response letter is split into three sections, the first two for each review and the third for the editor's report. The referees' comments are in black, and our response is highlighted in blue, similarly to the edits in the attached revised version. The quotes from the revised version are incorporated here in a box with a light red background and a thick red left border.
 
 Thank you for your time and consideration. 
 
@@ -165,7 +165,8 @@ Related work is well reviewed in this letter. Below are some detailed comments a
 
 We would like to thank the first referee for assessing our work with great detail, proposing edits, and posing important questions. These helped us to strengthen our contribution and clarify aspects we did not consider in the first version.
 
-In this work, we choose to leverage planning-scheduling to aerial robotics, as we believe this is a relevant application and advantageous system for our devised approach. We are thus excited to see the referee sharing similar findings while bringing up numerous important points.}
+%In this work, we choose to leverage planning-scheduling to aerial robotics, as we believe this is a relevant application and advantageous system for our devised approach. We are thus excited to see the referee sharing similar findings while bringing up numerous important points.
+}
 
 \vspace{2em}
 
@@ -204,11 +205,13 @@ Thank you for underlying this issue. It is indeed an incorrect transcription of 
 
 {\hspace*{-4.5em}{[R1:2]}\vspace*{-1.9em}}
 
-Thank you for the comment as well as for proposing a way to address the issue. It is correct that in Lines 24--27 we re-plan solely $c_i^\rho$, i.e., the parameters related to the path. The remaining parameters $c_i^\sigma$ related to the computations are then re-planned utilizing the model predictive controller (MPC) in Line 16. The reason why we do not use MPC to plan both the parameters is due to the practical feasibility of re-planning in flight, %While an initial version of the algorithm optimized both via MPC, to assess the satisfaction of the battery constraint w.r.t. the path parameters, in the worst case, we would have to increase the MPC horizon up to the end of the flight.
-and due to the different effects of the computation and path parameters on the energy consumption. While the computation parameters have an immediate effect, i.e., they affect the instantaneous energy consumption, the path parameters affect the flight time and thus the overall energy consumption. Concretely and by assumption, a change in the computations alters the schedule, hence the power drained by the computing hardware on the aerial robot, whereas a change in the path parameters alters the time when the aerial robot terminates the coverage.
+Thank you for the comment as well as for proposing a way to address the issue. We do not use the model predictive controller (MPC) to plan both the parameters due to the practical feasibility of re-planning in flight and the different effects of the computation and path parameters on the energy consumption. The computation parameters have an immediate effect, i.e., they affect instantaneous energy consumption, whereas the path parameters affect the flight time, i.e., they affect the overall energy consumption. 
+Concretely and by assumption, a change in the computations alters the schedule, and therefore the drained power by the computing hardware on the aerial robot, whereas a change in the path parameters alters the time when the aerial robot terminates the coverage.
 
-We have thus decided to utilize a hybrid approach. We employ MPC for the schedule (computation parameters $c_i^\sigma$) and a heuristics-based greedy approach for the coverage (path parameters $c_i^\rho$). Similar combination of techniques has been investigated in the past planning-scheduling literature by Ondr\'{u}\v{s}ka et al.~(reference [{\color{green}17}] in the revised manuscript).
-Nonetheless, as underlined in your observation, this was not clear from the text. We have updated the algorithm in Line 16.
+We have thus decided to utilize a hybrid approach. We employ MPC for the schedule (computation parameters $c_i^\sigma$) in Line 16 and a heuristics-based greedy approach for the coverage (path parameters $c_i^\rho$) in Lines 24–27.
+A similar combination of techniques has been investigated in the past planning-scheduling literature by Ondr\'{u}\v{s}ka et al.~(reference [{\color{green}17}] in the revised manuscript).
+
+We have updated the algorithm in Line 16, reflecting the observation as this was not in the original manuscript.
 
 \begin{formal}
 \begin{algorithmic}[1]
@@ -222,21 +225,21 @@ Nonetheless, as underlined in your observation, this was not clear from the text
   \end{algorithmic}
 \end{formal}
 
-  We have altered the introduction and the problem formulation in Section II to address the observation, and further added an explanatory text in Section IV.B as well as in the conclusion. In the introduction we have stated explicitly that we utilize both the heuristics and optimal control.
+  We have updated the introduction and the problem formulation in Section II to address the observation, and further added an explanatory text in Section IV.B as well as in the conclusion. In the introduction we have stated explicitly that we utilize both the heuristics and optimal control.
 
   \begin{formal}
   {\color{black} [...] our approach uses optimal control {\color{blue} and heuristics} where both the paths and schedules variations are trajectories, varying between given bounds [...]} Hybrid approaches~[{\color{green}17}] are also available, where the techniques are mixed.
   \vspace*{1ex}
   \end{formal}
 
-  We have altered the problem formulation, clearly stating that the objective is to find energy-aware trajectory of parameters rather than optimal.
+  We have updated the problem formulation, clearly stating that the objective is to find energy-aware trajectory of parameters rather than optimal.
 
   \begin{formal}
     {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery SoC}.}
     \vspace*{1ex}
   \end{formal}
 
-  We have then altered Section IV.B.
+  We have then updated Section IV.B.
 
   \begin{formal}
   \color{black}
@@ -253,7 +256,7 @@ Nonetheless, as underlined in your observation, this was not clear from the text
   \vspace*{1ex}
   \end{formal}
 
-  Finally, we have altered the conclusion.
+  Finally, we have updated the conclusion.
 
   \begin{formal}
   \color{black}
@@ -296,8 +299,12 @@ Thank you for the concern regarding the readability of the figure. We have split
 \begin{formal}
   \footnotesize
   \input{../figures/results/new_physics2/new_trajs-ener_I-II.tikz}
-  {\color{blue}Fig.~6:~\color{blue}CPP with Zamboni-like motion using two boundary configurations. In {\color{red}a} are the trajectories of the coverage--the highest in {\color{red}I} and the lowest in {\color{red}II}. In {\color{red}b} are the energy and the period evolutions for both {\color{red}I} and {\color{red}II} with different atmospheric conditions. In {\color{red}c} are the states of the energy model for {\color{red}I}.}
-
+  {\color{blue}Fig.~6:~\color{blue}CPP with Zamboni-like motion using two boundary configurations. In {\color{red}a} are the trajectories of the coverage--the highest in {\color{red}I} and the lowest in {\color{red}II}. In {\color{red}b} are the energy and the period evolutions for both {\color{red}I} and {\color{red}II} with different atmospheric conditions. In {\color{red}c} are the states of the energy model for {\color{red}I}.
+  \vspace*{1ex}
+  }
+\end{formal}
+\begin{formal}
+  \footnotesize
   \input{../figures/results/new_physics2/new_trajs-ener_LOWER_i-ii.tikz}
   \vspace*{-.6ex}
   {\color{blue}
@@ -363,7 +370,7 @@ Thank you for noticing the issue as well as for suggesting more discussion. The 
 
 {\hspace*{-4.5em}{[R1:6]}\vspace*{-1.9em}}
 
-Thank you for proposing Di Franco and Buttazzo's past work to our attention. We have considered another past study by the authors ``Energy-aware coverage path planning of UAVs'' from 2015, and the proposed work appears to be an extension. Both studies do not account for the energy contribution of the computations but interestingly propose the variability of the cover by changing the distance of the survey lines in the boustrophedon motion. Whilst similar to our Zamboni-like motion, the cover variability is not achieved in flight nor applies to constrained aerial robots such as fixed wings--which we consider due to a narrower computation-motion energy difference--but rather rotary wings.
+Thank you for bringing Di Franco and Buttazzo's past work to our attention. We have considered another past study by the authors ``Energy-aware coverage path planning of UAVs'' from 2015, and the proposed work appears to be an extension. %Both studies do not account for the energy contribution of the computations but interestingly propose the variability of the cover by changing the distance of the survey lines in the boustrophedon motion. Whilst similar to our Zamboni-like motion, the cover variability is not achieved in flight nor applies to constrained aerial robots such as fixed wings--which we consider due to a narrower computation-motion energy difference--but rather rotary wings.
 
 We have updated the introductory section to include the work comparing both the studies to ours.
 
@@ -397,7 +404,7 @@ Minor Comments:
 
 Thank you for underlying the issue regarding the definition of stage. We are using the indices $j$ and $k$ to indicate that there might be a different constraint per each parameter and the numbers of parameters $\rho$ and $\sigma$ to indicate that there might be a different number of parameters. Nonetheless, we acknowledge the necessity to exemplify these in a better manner.
 
-We have altered the definition for this purpose.
+We have updated the definition for this purpose.
 
 \begin{formal}
   \color{black} 
@@ -453,7 +460,7 @@ Thank you for noticing the typo. We have removed $c_{i,j}$ from Definition II.1.
 
 {\hspace*{-4.5em}{[R1:10]}\vspace*{-1.9em}}
 
-Thank you for underlying the issue. We have not realized this possible source of additional confusion and decided to utilize only $\mathbf{p}$ to designate a point. We have altered the occurrence in the remainder of the work, for consistency. Apart from Definition II.1 that we showed in point 7, the occurrence was in the definition of path functions.
+Thank you for underlying the issue. We have not realized this possible source of additional confusion and decided to utilize only $\mathbf{p}$ to designate a point. We have updated the occurrence in the remainder of the work, for consistency. Apart from Definition II.1 that we showed in point 7, the occurrence was in the definition of path functions.
 
 \begin{formal}
   \color{black}
@@ -515,7 +522,9 @@ Thank you once again for noticing the typo. We have changed the occurrences of `
 
 {\hspace*{-4.5em}{[R1:12]}\vspace*{-1.9em}}
 
-Thank you for noticing that a citation and clarification are missing regarding the energy models. The items of matrices $A$ and $C$ are constructed so that the two periodic models, the model in Equation ({\color{red}3}) and Equation ({\color{red}4}) are equal under some conditions (the value of the initial guess is described by Equation ({\color{red}9}) and the model is not perturbed by the control).
+Thank you for noticing that a citation and clarification are missing regarding the energy models. The items of matrices $A$ and $C$ are constructed so that the two periodic models, the model in Equation ({\color{red}2}) and Equation ({\color{red}3}) match under some conditions (the value of the initial guess is described by Equation ({\color{red}8}) and the model is not perturbed by the control).
+
+$A$ is then a skew-symmetric matrix that contains sub-matrices $A_j$ utilized for the periodic behavior with the frequencies $\omega:=2\pi/T$ ($T$ is the period). Each frequency is multiplied by $j$ from one up to the order $r$, where $j$ is the index of the sub-matrix, i.e., there are $r$ frequencies modeling the periodicity one the base frequency.
 
 We have elaborated further in Section III-A to reflect the observation and added a reference to the corresponding author's Ph.D. thesis (reference [{\color{green}31}], Section 4.3.1).
 
@@ -654,7 +663,7 @@ The contributions of this paper are 1) an energy model that predicts the impact 
 
 {\hspace*{-4.5em}{[R2]}\vspace*{-1.9em}}
 
-We would like to thank the second referee, especially for the summary of our work and the kind commentary on the relevance and difficulty of accounting for both motion and computations energies in planning for aerial robots. Indeed, we believe that planning-scheduling as a sub-topic of motion planning is still very nascent for aerial robots and hope that this work continues to build upon previous successes in planning-scheduling for mobile robots. We are thus excited to comment on and alter the manuscript as necessary, as the second referee brings up a lot of great points.
+We would like to thank the second referee, especially for the summary of our work and the kind commentary on the relevance and difficulty of accounting for both motion and computations energies in planning for aerial robots. %Indeed, we believe that planning-scheduling as a sub-topic of motion planning is still very nascent for aerial robots and hope that this work continues to build upon previous successes in planning-scheduling for mobile robots. We are thus excited to comment on and alter the manuscript as necessary, as the second referee brings up a lot of great points.
 
 
 }
@@ -673,7 +682,7 @@ Related work:
 
 {\hspace*{-4.5em}{[R2:1]}\vspace*{-1.9em}}
 
-Thank you for proposing Di Franco and Buttazzo's past study to our attention. We have considered the work in the original manuscript in terms of the coverage algorithm in Section IV-A, utilizing it as a reference for aerial coverage. We have not included it in the introductory material as the work does not account for the energy expenditure of computations, nonetheless, we agree on the necessity to clarify this in the introduction. To this end, we have added explanatory text in the introduction that--aside the proposed work--includes the follow-up work by the same set of authors proposed by the first referee.
+Thank you for bringing Di Franco and Buttazzo's past study to our attention. We have considered the work in the original manuscript in terms of the coverage algorithm in Section IV-A, utilizing it as a reference for aerial coverage. We have not included it in the introductory material as the work does not account for the energy expenditure of computations, nonetheless, we agree on the necessity to clarify this in the introduction. To this end, we have added explanatory text in the introduction that--aside the proposed work--includes the follow-up work by the same set of authors proposed by the first referee.
 
 \begin{formal}
   \color{black} [...] {\color{blue}In terms of aerial coverage, past work considers criteria including the completeness of the coverage and resolution [{\color{green}23}], and deals with aspects such as the quality of the cover [{\color{green}24}], but neglects the energy expenditure of computations and favors rotary-wing aerial robots rather than aerial robots broadly.} Such a state of practice has prompted us to propose the planning-scheduling approach for autonomous aerial robots [...]
@@ -718,7 +727,7 @@ Weaknesses:
 
 {\hspace*{-4.5em}{[R2:2]}\vspace*{-1.9em}}
 
-Thank you for the high-level comment and for proposing to state clearly the objective function. Regarding the objective function, we have integrated the problem definition accordingly, whereas we have altered the text in the manuscript by both implementing the specific comments and rewriting some technical details or adding further commentary. 
+Thank you for the high-level comment and for proposing to state clearly the objective function. Regarding the objective function, we have integrated the problem definition accordingly, whereas we have improved the text in the manuscript by both implementing the specific comments and rewriting some technical details or adding further commentary. 
 
 \begin{formal}
   {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery SoC}.}
@@ -734,7 +743,7 @@ Thank you for the high-level comment and for proposing to state clearly the obje
   
   {\hspace*{-4.5em}{[R2:3]}\vspace*{-1.9em}}
   
-  Thank you for underlying the need to state clearly what the computations parameters refer to. We have not realized this point was not stated explicitly earlier than in the experimental setup. Our purpose is to alter the granularity at which different computations run so that the energy consumption required by the computing hardware onboard the aerial robot increases or decreases.
+  Thank you for underlying the need to state clearly what the computations parameters refer to. We have not realized this point was not stated explicitly earlier than in the experimental setup. Our purpose is to alter the granularity (specific examples are provided below) at which different computations run so that the energy consumption required by the computing hardware onboard the aerial robot increases or decreases.
 
   In our experimental setup, these are the detection rate--meaning we vary the frequency at which a convolutional neural network trained to detect specific hazards runs from two to ten frames per second. These two values are determined empirically, by sampling different boundary configurations and their energy consumption via the modeling tool we describe in Section III-B. We have varied other parameters as well, such as the encryption, utilizing a binary value simply indicating whether the encryption is or is not enabled, and the size of the key in a variable key-size encryption algorithm. However, we have not observed a significant energy drain changing these parameters, conversely to the parameter detection rate. Thus we utilized merely the computation parameter 'detection rate' in our current experimental setup. 
 
@@ -774,9 +783,9 @@ Thank you for the high-level comment and for proposing to state clearly the obje
   
   {\hspace*{-4.5em}{[R2:4]}\vspace*{-1.9em}}
 
-  Thank you for noticing the comparison was missing in the manuscript. We utilize as a performance metric the weighted average configuration of parameters against the battery state of charge at the end of the flight. We have added explanatory text to the simulation results to report the metric for i and ii against I and II respectively.
+  Thank you for noticing the comparison was missing in the manuscript. We utilize as a performance metric the weighted average configuration of parameters divided by the battery state of charge at the end of the flight, meaning the higher the average value of parameters and the lowest the battery state of charge the better (all the resources are being utilized). We have added explanatory text to the simulation results to report the metric for i and ii against I and II respectively.
 
-  \begin{formal}
+  \begin{formal}\color{black}[...] 
     {\color{blue}
 Assuming both the parameters are weighted equally, and the initial battery SoC is seventy percent, {\color{red}I} would not be able to complete the flight, and {\color{red}II} has a performance metric of zero (i.e., the lowest configuration of parameters throughout the flight).
 Nonetheless, performance metrics of {\color{red}i} and {\color{red}ii} are 13.05 and 2.24, whereas the average detection and coverage quality is approx. 45 and 35 percent for {\color{red}i}, and 62 and 87 percent for {\color{red}ii}.}  
@@ -795,20 +804,24 @@ Nonetheless, performance metrics of {\color{red}i} and {\color{red}ii} are 13.05
 Thank you for suggesting adding a clear indication of what performance metric is being utilized. Indeed this information was missing in the original manuscript. We have added explanatory text in Problem Formulation to address the point.
 
 \begin{formal}\color{black}
-The problem %of planning-scheduling 
-is {\color{blue}split into }%composed of 
-two%sub-problems.
-{\color{blue}: }%. One is 
-to form a %static 
-plan that visits every point in space {\color{blue}and }%the other to
-re-plan and -schedule the plan in-flight in an energy-aware way. %{\color{blue}, whereas }
-{\color{blue} 
-The re-planning-scheduling improves the performance metric of quality of the plan and schedule against battery state of charge (SoC), i.e., the weighted average value of parameters divided by the remaining SoC.
-%The performance metric the re-planning-scheduling %in the letter 
-%improves is %then
-%the quality of the plan-schedule against battery state of charge (SoC), e.g., weighted average value of parameters divided by remaining %battery 
-%SoC.% at the end of the flight.
-}
+
+  The problem %of planning-scheduling 
+  is {\color{blue}split into }%composed of 
+  %two%sub-problems.
+  {\color{blue}the derivation }%. One is 
+  %to form a %static 
+  {\color{blue} of} a {\color{blue}coverage} plan %that visits every point in space 
+  {\color{blue}and its} {\color{blue}energy-aware} %other to
+  re-plan{\color{blue}ing} and -schedul{\color{blue}ing } %the plan 
+  in-flight. %in an energy-aware way. %{\color{blue}, whereas }
+  {\color{blue} 
+  The re-planning-scheduling improves a performance metric, which is %quality of the plan and schedule against battery state of charge (SoC), i.e., the 
+  the weighted average of parameters divided by the remaining battery state of charge (SoC), both in percent. The objective is then high average parameters configuration and battery usage.
+  %The performance metric the re-planning-scheduling %in the letter 
+  %improves is %then
+  %the quality of the plan-schedule against battery state of charge (SoC), e.g., weighted average value of parameters divided by remaining %battery 
+  %SoC.% at the end of the flight.
+  }
 \vspace*{1ex}
 \end{formal}
 }
@@ -821,9 +834,9 @@ The re-planning-scheduling improves the performance metric of quality of the pla
   
   {\hspace*{-4.5em}{[R2:6]}\vspace*{-1.9em}}
 
-  Thank you for this point; we have reduced the number of experimental results due to space constraints. Nonetheless, we agree that additional results would further justify the need for planning-scheduling in the aerial robotics domain. To this end, we have added the average result for eight flights derived utilizing the flight simulation capabilities of the open-source Paparazzi flight controller. These results are derived in two equally sized sets, each similar to flights i and ii in the manuscript. The results are described thoroughly in the corresponding author's Ph.D. thesis (reference [{\color{green}31}], Section 6.3.2).
+  Thank you for this point; we have reduced the number of experimental results due to space constraints. Nonetheless, we agree that additional results would further justify the need for planning-scheduling in the aerial robotics domain. To this end, we have added the average result for eight flights derived utilizing the flight simulation capabilities of the open-source Paparazzi flight control software for autonomous aerial vehicles. These results are derived in two equally sized sets, each similar to flights i and ii in the manuscript. The results are described thoroughly in the corresponding author's Ph.D. thesis (reference [{\color{green}31}], Section 6.3.2).
   
-  We have altered the numerical simulation section accordingly.
+  We have updated the numerical simulation section accordingly.
 
   \begin{formal}
     {\color{blue}
@@ -838,6 +851,7 @@ The re-planning-scheduling improves the performance metric of quality of the pla
   \begin{formal}
   \color{black}
   {\color{blue}To enable physical experiments}, we are currently extending the results to a standard flight controller.
+  \vspace*{-.8ex}
   \end{formal}
   }
 
@@ -894,7 +908,7 @@ Thank you for spotting the issue in the introductory section. We have corrected 
 
 {\hspace*{-4.5em}{[R2:9]}\vspace*{-1.9em}}
 
-Thank you for noticing the issue regarding poor clarity. We have altered the figure and added a legend to clarify the meaning of i, ii, and iii as different stages in planning-scheduling.
+Thank you for noticing the issue regarding poor clarity. We have updated the figure and added a legend to clarify the meaning of i, ii, and iii as different stages in planning-scheduling.
 
 \begin{formal}
 \color{black}
@@ -947,6 +961,7 @@ Thank you for underlying the issue. We have attempted to optimize the space but 
   \footnotesize
   \input{../figures/results/new_physics2/new_trajs-ener_I-II.tikz}
   {\color{blue}Fig.~6:~\color{blue}CPP with Zamboni-like motion using two boundary configurations. In {\color{red}a} are the trajectories of the coverage--the highest in {\color{red}I} and the lowest in {\color{red}II}. In {\color{red}b} are the energy and the period evolutions for both {\color{red}I} and {\color{red}II} with different atmospheric conditions. In {\color{red}c} are the states of the energy model for {\color{red}I}.}
+  \vspace*{1ex}
 \end{formal}
 
 Figure 7 contains cases i and ii that start from I and II but employ the planning-scheduling in the letter varying battery conditions. 
@@ -972,8 +987,10 @@ Overall, the paper addresses a very interesting topic and brings together many d
 
 {\hspace*{-4.5em}{[R2:12]}\vspace*{-1.9em}}
 
-Thank you once again for the commentary as well as for bringing up a lot of important points. We are indeed excited about the potential of planning-scheduling for the aerial robotics domain to address autonomy and other criticalities arising in a number of use cases. We would like to propose a revised version of the manuscript for your kind consideration, where we incorporate the points and additional experimental results.}
-
+Thank you once again for the commentary as well as for bringing up a lot of important points. We are indeed excited about the potential of planning-scheduling for the aerial robotics domain to address autonomy and other criticalities arising in a number of use cases. 
+We hope our updates according to the suggestions and comments have helped to improve the technical insights of our work.
+%We would like to propose a revised version of the manuscript for your kind consideration, where we incorporate the points and additional experimental results.}
+}
 
 \vspace{1em}
 
@@ -981,6 +998,32 @@ Thank you once again for the commentary as well as for bringing up a lot of impo
 
 \vspace{2em}
 
+
+
+
+
+
+
+\newpage
+
+{Associate Editor}
+
+\vspace{3em}
+
+{\hspace*{-4.5em}\textbf{[AE]}\vspace*{-1.9em}}
+
+This paper received two quality reviews. Both reviewers have a favorable impression of the work with specific suggestions for improvement. The authors should take care to address the concerns of the reviewers in a revised version. Both reviewers specifically mention a related work that should be cited, as well as specific concerns to improve the clarity of the technical contribution of the work.
+
+
+{\color{blue}
+
+{\hspace*{-4.5em}{[AE]}\vspace*{-1.9em}}
+
+We thank the editor for handling our manuscript on planning-scheduling for the aerial robotics domain and the summary of the main concerns from the two reviews. 
+We have incorporated all of the points proposed to strengthen and improve our contribution, making numerous modifications to the manuscript. Regarding the related work, we have updated the manuscript to include detailed commentary on how our approach differs. 
+
+We thus believe that with these edits, we have significantly improved the clarity of the technical contribution of our work and are excited to bring the revision version for your kind consideration.
+}
 
 \end{document}
 
