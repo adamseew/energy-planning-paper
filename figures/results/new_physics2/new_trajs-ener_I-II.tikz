@@ -3134,7 +3134,7 @@
 
 
 
-    \path[fill=blue] (100.2713,-237.2505) node[above right] (text344-6-3-1-6) {(b) Energies, detail of first instants, periods $T$};
+    \path[fill=blue] (100.2713,-237.2505) node[above right] (text344-6-3-1-6) {(b) Energies, details of first instants, periods $T$};
 
 
 
