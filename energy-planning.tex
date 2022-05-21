@@ -181,7 +181,7 @@ One such use case is coverage path planning (CPP)~\cite{choset2001coverage,galce
 Such use cases arise in %, e.g., 
 precision agriculture~\cite{hajjaj2014review} 
 where 
-{\color{blue}information collection prior to an harvesting operation and}
+{\color{blue}information collection prior to a harvesting operation and}
 %harvesting involves ground vehicles~\cite{%qingchun2012study,
 %dong2011development, de2011design%,aljanobi2010setup, 
 %li2008analysis, 
@@ -226,10 +226,10 @@ Fig.~\ref{fig:il-abs} illustrates the intuition: an aerial robot flies a plan wi
   \vspace*{-4ex}
 \end{figure}
 
-There are numerous planning approaches applied to a variety of robots. An instance is an algorithm selecting an energy-optimized trajectory~\cite{mei2004energy} by, e.g., maximizing the operational time~\cite{wahab2015energy}. Many approaches apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence of the energy influence of onboard consumptions~\cite{mei2005case,ondruska2015scheduled,sudhakar2020balancing,brateman2006energy}. In view of the availability of powerful heterogeneous computing hardware~\cite{rizvi2017general}, the use of onboard computations is further expected to increase in the foreseeable future~\cite{%abramov2012real,
+There are numerous planning approaches applied to a variety of robots. An instance is an algorithm selecting an energy-optimized trajectory~\cite{mei2004energy} by, e.g., maximizing the operational time~\cite{wahab2015energy}. Many approaches apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence of the energy influence of onboard {\color{blue}computations}~\cite{mei2005case,ondruska2015scheduled,sudhakar2020balancing,brateman2006energy}. In view of the availability of powerful heterogeneous computing hardware~\cite{rizvi2017general}, the use of onboard computations is further expected to increase in the foreseeable future~\cite{%abramov2012real,
 %satria2016real,
 jaramillo2019visual}. In this context, planning-scheduling energy awareness is a recent research direction% energy awareness for mobile robots are scarce
-~\cite{brateman2006energy,sudhakar2020balancing,lahijanian2018resource,ondruska2015scheduled}. Early studies (2000--2010) varied hardware-dependent aspects, e.g., frequency, voltage, along with motion aspects, e.g., motor and travel velocities~\cite{mei2005case,brateman2006energy,zhang2007low,sadrpour2013mission} whereas the literature from the past decade derives energy-aware plans-schedules in broader terms. These include simultaneous considerations for planning-scheduling in perception~\cite{ondruska2015scheduled}, localization~\cite{lahijanian2018resource}, navigation~\cite{ho2019qos}, and anytime planning~\cite{sudhakar2020balancing}.
+~\cite{brateman2006energy,sudhakar2020balancing,lahijanian2018resource,ondruska2015scheduled}. Early studies (2000--2010) varied hardware-dependent aspects, e.g., frequency {\color{blue}and} voltage, along with motion aspects, e.g., motor and travel velocities~\cite{mei2005case,brateman2006energy,zhang2007low,sadrpour2013mission} whereas the literature from the past decade derives energy-aware plans-schedules in broader terms. These include simultaneous considerations for planning-scheduling in perception~\cite{ondruska2015scheduled}, localization~\cite{lahijanian2018resource}, navigation~\cite{ho2019qos}, and anytime planning~\cite{sudhakar2020balancing}.
 These studies are focused on ground-based robots~\cite{mei2005case,sadrpour2013mission,lahijanian2018resource,ondruska2015scheduled}, yet, aerial robots are particularly affected by energy considerations, as it would be generally required to land to recharge the battery. 
 {\color{blue}In terms of aerial coverage, past work considers criteria including the completeness of the coverage and resolution~\cite{difranco2015energy}, and deals with aspects such as the quality of the cover~\cite{difranco2016coverage}, but neglects the energy expenditure of computations and favors rotary-wing aerial robots rather than aerial robots broadly.} 
 Such a state of practice has prompted us to propose the planning-scheduling approach for autonomous aerial robots, combining the past body of knowledge but addressing aerial robots' peculiarities such as the atmospheric, battery, and turning radius constraints. Numerical simulations and experimental data of both static and dynamic plans and schedules show improved power savings and fault tolerance with the %aerial 
@@ -237,15 +237,15 @@ robot %s
 remedying in-flight failures. 
  
 Our focus is on fixed wings, i.e., airborne robots where wings provide lift, propellers provide forward thrust, and control surfaces perform maneuvering. Here, motion and computations energies are within an order of magnitude from each other~\cite{seewald2020mechanical}. %Indeed 
-{\color{blue}T}here are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The {\color{blue}motion outreaching computation energy} frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.){\color{blue}, the opposite occurs with} lighter-than-air aerial robots (e.g., blimps). It is a common theme with wider planning-scheduling literature, focusing on energy-efficient ground-based robots such as Pioneer~3DX~\cite{ho2019qos,mei2005case}, ARC~Q14~\cite{ondruska2015scheduled,lahijanian2018resource}, and Pack-Bot~UGV~\cite{sadrpour2013mission}.
+{\color{blue}T}here are other classes where planning-scheduling energy awareness leads to irrelevant savings, i.e., when the motion energy contribution far outreaches the computations or vice-versa. The {\color{blue}motion outreaching computation energy} frequently happens with rotary-wing aerial robots (e.g., quadrotors or quadcopters, hexacopters, etc.){\color{blue}, the opposite occurs with} lighter-than-air aerial robots (e.g., blimps). It is a common theme {\color{blue}in} wider planning-scheduling literature, focusing on energy-efficient ground-based robots such as Pioneer~3DX~\cite{ho2019qos,mei2005case}, ARC~Q14~\cite{ondruska2015scheduled,lahijanian2018resource}, and Pack-Bot~UGV~\cite{sadrpour2013mission}.
 %\begin{ctb}
 %  We extend the literature on planning-schedu- ling to CPP with aerial robots, model the overall and computations energies and battery evolution, and derive a variable coverage motion for constrained systems, e.g., fixed wings.
 %\end{ctb}
 
-To guarantee energy awareness, our approach uses optimal control {\color{blue} and heuristics} where both the paths and schedules variations are trajectories, varying between given bounds (i.e., physical constraints of the robot and computing hardware, quality of service, desired quality of the coverage, etc.). Past planning-scheduling studies also employ optimization techniques~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}; some use a greedy approach~\cite{mei2005case,sudhakar2020balancing,sadrpour2013mission}; whereas others use reinforcement learning-based approaches~\cite{ho2019qos,ho2018towards}. {\color{blue}Hybrid approaches~\cite{ondruska2015scheduled} are also available, where the techniques are mixed.} Both the path and schedules variations trajectories are derived for future time instants employing computations and overall energies and battery models. The energy model for the computations uses regressional analysis from our earlier study on heterogeneous computing hardware% energy modeling
+To guarantee energy awareness, our approach uses optimal control {\color{blue} and heuristics} where both the paths and schedules variations are trajectories, varying between given bounds (i.e., physical constraints of the robot and computing hardware, quality of service, desired quality of the coverage, etc.). Past planning-scheduling studies also employ optimization techniques~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}; some use a greedy approach~\cite{mei2005case,sudhakar2020balancing,sadrpour2013mission}; whereas others use reinforcement learning-based approaches~\cite{ho2019qos,ho2018towards}. {\color{blue}Hybrid approaches~\cite{ondruska2015scheduled} are also available, where the techniques are mixed.} Both the path{\color{blue}s} and schedules variations trajectories are derived for future time instants employing computations and overall energies and battery models. The energy model for the computations uses regressional analysis from our earlier study on heterogeneous computing hardware% energy modeling
 ~\cite{seewald2019coarse,seewald2019component}, whereas the battery uses an equivalent circuit model (ECM) from the literature~\cite{%he2011evaluation,
 hinz2019comparison,mousavi2014various}. The overall model wraps these two aspects in a cohesive model that uses dynamics modeling to predict the energy behavior of future plans and schedules. In Fig.~\ref{fig:il-abs}, collected energy data ({\color{blue}top-right}) and spectrum analysis ({\color{blue}below}) of a fixed wing %aerial robot 
-flying CPP motivates the overall energy model: the evolution is periodic--CPP often involves repetitive motions to cover the space~\cite{choset2001coverage,galceran2013survey}--an observation exploited in Section~\ref{sec:energy-model}.% for the computations and motion energies and battery models.
+flying CPP motivate the overall energy model: the evolution is periodic--CPP often involves repetitive motions to cover the space~\cite{choset2001coverage,galceran2013survey}--an observation exploited in Section~\ref{sec:energy-model}.% for the computations and motion energies and battery models.
 
 The %remaining sections of the letter are 
 {\color{blue}remainder is} then organized as follows. Section~\ref{sec:prob} provides basic constructs%, such as the concepts of the stages, path functions, triggering and final points, and plan, as well as 
@@ -269,7 +269,7 @@ altered in Section~\ref{sec:algo} within given boundaries with \emph{path}- and 
 \begin{figure}[t]
   \footnotesize
   \begin{minipage}[l]{0.38\columnwidth}
-    \caption{Definitions~\ref{def:stage}--\hyperref[def:plan]{4} on a slice of the plan $\Gamma$. $\mathbf{p}_{\Gamma_i}$ are triggering points in which proximity happens change of stages $\Gamma_i$. Each contains a path function $\varphi_i$ and parameters to alter the path and schedule $c_{i,1},\dots$.}
+    \caption{Definitions~\ref{def:stage}--\hyperref[def:plan]{4} on a slice of the plan $\Gamma$. $\mathbf{p}_{\Gamma_i}$ are triggering points in which proximity happens {\color{blue}the} change of stages $\Gamma_i$. Each contains a path function $\varphi_i$ and parameters to alter the path and schedule $c_{i,1},\dots$.}
     \label{fig:traj1}
   \end{minipage}\hfill
   \begin{minipage}[c]{0.6\columnwidth}
@@ -300,7 +300,7 @@ altered in Section~\ref{sec:algo} within given boundaries with \emph{path}- and 
   where $c_i^\rho${\color{blue}$:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$} and $c_i^\sigma${\color{blue}$:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,$ $c_{i,\rho+\sigma}\}$} are $\rho$ \emph{path} and $\sigma$ \emph{computation parameters}{\color{blue}, e.g., $c_i^\rho:=\{c_{i,1}\}$ is a value that changes the distance of the coverage lines and $c^\sigma_i:=\{c_{i,2}\}$ the detection rate with $\rho$ and $\sigma$ being one (see Section~\ref{sec:experimental})}. $\mathcal{C}_{i,j}:=[\underline{c}_{i,j},\overline{c}_{i,j}]\subseteq\mathbb{R}$ is the $j$th path parameter %$c_{i,j}$ 
   constraint set, %and 
   $\mathcal{S}_{i,k}:=[\underline{c}_{i,\rho+k},\overline{c}_{i,\rho+k}]\subseteq\mathbb{Z}_{\geq 0}$ %is 
-  the $k$th computation parameter constraint set. {\color{blue}Indices $j,k$ serves~to~differentiate path and computation parameters constraints and indicate that each parameter can have a different constraint set.} 
+  the $k$th computation parameter constraint set. {\color{blue}Indices $j,k$ serve~to~differentiate path and computation parameters constraints and indicate that each parameter can have a different constraint set.} 
 \end{defn}
 
 
@@ -589,7 +589,7 @@ Here, $c_i$ denotes a row vector with both the path and computation parameters i
 \label{sec:energy-model} %
                          %
 The solution to the problem requires energy models, predicting the impact of changes to path and computation parameters on the battery. %at future time instants. To this end, 
-Sections~\ref{sec:mod-mot}--\hyperref[sec:mod-bat]{C} provide models for the overall and computations energies {\color{blue}and }%as well as 
+Sections~\ref{sec:mod-mot}--\hyperref[sec:mod-bat]{C} {\color{blue}thus} provide models for the overall and computations energies {\color{blue}and }%as well as 
 battery evolution.
 
 \subsection{Overall energy model% for the motion
@@ -695,7 +695,7 @@ conditions.
 models in Eqs.~(\ref{eq:fourier}--\ref{eq:state-perf}) are equal
 %\begin{lem}[Signal, output equality]\label{lem:eqv}Given 
 when $\mathbf{u}$ is a zero vector %, matrices $A,C$ described by Eqs.~(\ref{eq:mat_A}--\ref{eq:mat_C}), 
-and an initial guess $\mathbf{q}(t_0)=\mathbf{q}_0$ at initial time instant $t_0$
+and an initial guess $\mathbf{q}(t_0)=\mathbf{q}_0$ at {\color{blue}the} initial time instant $t_0$
   {\color{blue}\begin{equation}
   {\color{black}\mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}',}
   \end{equation}}
@@ -814,7 +814,7 @@ We thus use instead
 \end{equation}
 %the \emph{output constraint}, 
 where $b\,Q_cV$, the maximum instantaneous energy %consumption
-measured in watts, is derived from Eq.~(\ref{eq:batdyn}--\ref{eq:batdyn2}).
+measured in watts, is derived from Eq{\color{blue}s}.~(\ref{eq:batdyn}--\ref{eq:batdyn2}).
 %\end{defn}
 
 %Let us consider for practical reasons the discretized version of the system in Eq.~\ref{eq:state-perf}. 
@@ -1276,7 +1276,7 @@ in the greedy approach}.
 Fig.~\ref{fig:il-abs} details the data of the physical flight  
 %We collected these data flying Opterra, a fixed-wing UAV that we adapted for an agricultural scenario. The UAV was flying 
 in standard atmospheric conditions. 
-Fig.~\ref{fig:stat}{\color{blue}--\ref{fig:dyn}} extends the flight with the computing hardware aided by a flight simulation implemented in \textsc{Matlab}\hspace{.5ex}(R). 
+Fig{\color{blue}s}.~\ref{fig:stat}{\color{blue}--\ref{fig:dyn}} extends the flight with the computing hardware aided by a flight simulation implemented in \textsc{Matlab}\hspace{.5ex}(R). 
 Upper-case roman numerals I,II indicate the plans are static (i.e., solely Algorithm~\ref{alg2}), lower-case i,ii exploit planning-scheduling as described in this letter.
 
 %We later extended these UAV to carry a companion computer, NVIDIA Jetson Nano~\cite{nano}, running ROS. The companion computer has two ROS nodes; one detects hazards using PedNet, a Fully Convolutional Neural Network~\cite{ullah2018pednet}, and the other communicates with a ground station.
@@ -1305,12 +1305,12 @@ Upper-case roman numerals I,II indicate the plans are static (i.e., solely Algor
 
 %We implemented a realistic simulator to simulate the empirical data of a given plan and atmospheric conditions. We show the effects of different conditions in Fig.~\ref{fig:trajs}. 
 
-Fig.~{\color{blue}\hyperref[fig:stat]{6a}--\hyperref[fig:dyn]{7a}} 
+Fig{\color{blue}s}.~{\color{blue}\hyperref[fig:stat]{6a}--\hyperref[fig:dyn]{7a}} 
 illustrate the same plan $\Gamma$ under different conditions. Flights \hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i} have a constant wind speed of five meters per second, a wind direction of zero degrees, and initial parameters $c_{i,1},c_{i,2}$ values of zero and ten (i.e., full $r_2$ and detection). Flights \hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii} (see added gray background for clarity) are the same but a wind direction of 90 degrees and the initial parameters values of -1000 and two (i.e., minimum $r_2$ and detection). 
 {\color{blue} The initial values of path and computation parameters are chosen to represent the highest and lowest configurations in the search space in \hyperref[fig:trajs-I-static]{I}--\hyperref[fig:trajs-dyn-i]{i} and \hyperref[fig:trajs-II-static]{II}--\hyperref[fig:trajs-dyn-ii]{ii} respectively, modeling the behavior of the best- and worst-case scenarios.
 Different search strategies are possible by, e.g., running an ideal instance of planning-scheduling prior to the flight.}
 
-Fig.~%\ref{fig:ener}
+Fig{\color{blue}s}.~%\ref{fig:ener}
 {\color{blue}\hyperref[fig:stat]{6b}--\hyperref[fig:dyn]{7c}} %~\hyperref[fig:ener:static-I]{6.I}--\hyperref[fig:ener:static-II]{6.II} 
 illustrates first the power ($\Upsilon$ on Line~\ref{alg:klm1} in Algorithm~\ref{alg}), and then the energy model ($y$ on Line~\ref{alg:evol}).
 {\color{blue} Fig.~\hyperref[fig:stat]{6b}} %further 
