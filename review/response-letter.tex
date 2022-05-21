@@ -124,13 +124,13 @@
 
 \vspace{5em}
 
-Dear Referees, Dr. Kurniawati:
+Dear Referees, Editors:
 
 \vspace{1em}
 
 We greatly appreciate your time and effort in providing us with an invaluable assessment of our work, helping us to significantly improve both the quality and presentation of our energy-aware planning-scheduling for the aerial robotics domain. We have been able to address all your comments and questions in a revised version that we have attached once again for your kind consideration. 
 
-The response letter is split into three sections, the first two for each review and the third for the editor's report. The referees' comments are in black, and our response is highlighted in blue, similarly to the edits in the attached revised version. The quotes from the revised version are incorporated here in a box with a light red background and a thick red left border.
+The response letter is split into three sections, the first for the associate editor's report and the second and third each for one review. The associate editor's and referees' comments are in black, and our response is highlighted in blue, similarly to the edits in the attached revised version. The quotes from the revised version are incorporated here in a box with a light red background and a thick red left border.
 
 Thank you for your time and consideration. 
 
@@ -146,7 +146,56 @@ Authors of the manuscript 22-0795\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\\
 
 \vspace{5em}
 
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{Associate Editor}
+
+\vspace{3em}
+
+{\hspace*{-4.5em}\textbf{[AE]}\vspace*{-1.9em}}
+
+This paper received two quality reviews. Both reviewers have a favorable impression of the work with specific suggestions for improvement. The authors should take care to address the concerns of the reviewers in a revised version. Both reviewers specifically mention a related work that should be cited, as well as specific concerns to improve the clarity of the technical contribution of the work.
+
+
+{\color{blue}
+
+{\hspace*{-4.5em}{[AE]}\vspace*{-1.9em}}
+
+We thank the editor for handling our manuscript on planning-scheduling for the aerial robotics domain and the summary of the main concerns from the two reviews. 
+We have incorporated all of the points proposed to strengthen and improve our contribution. Regarding the related work, we have updated the manuscript to include detailed commentary on how our approach differs. 
+
+We thus believe that with these edits, we have significantly improved the clarity of the technical contribution of our work and would like to bring the revision version for your kind consideration.}
+
 \newpage 
+
+
+
+
+
+
+
+
+
+
+
+
 
 {First review}
 
@@ -783,7 +832,7 @@ Thank you for the high-level comment and for proposing to state clearly the obje
   
   {\hspace*{-4.5em}{[R2:4]}\vspace*{-1.9em}}
 
-  Thank you for noticing the comparison was missing in the manuscript. We utilize as a performance metric the weighted average configuration of parameters divided by the battery state of charge at the end of the flight, meaning the higher the average value of parameters and the lowest the battery state of charge the better (all the resources are being utilized). We have added explanatory text to the simulation results to report the metric for i and ii against I and II respectively.
+  Thank you for noticing the comparison was missing in the manuscript. We utilize as a performance metric the weighted average configuration of parameters divided by the battery state of charge at the end of the flight both expressed in percent, meaning the higher the average value of parameters and the lower the battery state of charge the better (all the resources are being utilized). For example, if the parameter is the detection and it varies between 2 and 10 frames per second, 2 corresponds to 0, whereas 10 to 100. Similarly, 0 then corresponds to no and 100 to full charge for the battery state of charge. We have added explanatory text to the simulation results to report the metric for i and ii against I and II respectively.
 
   \begin{formal}\color{black}[...] 
     {\color{blue}
@@ -804,24 +853,25 @@ Nonetheless, performance metrics of {\color{red}i} and {\color{red}ii} are 13.05
 Thank you for suggesting adding a clear indication of what performance metric is being utilized. Indeed this information was missing in the original manuscript. We have added explanatory text in Problem Formulation to address the point.
 
 \begin{formal}\color{black}
-
-  The problem %of planning-scheduling 
-  is {\color{blue}split into }%composed of 
-  %two%sub-problems.
-  {\color{blue}the derivation }%. One is 
-  %to form a %static 
-  {\color{blue} of} a {\color{blue}coverage} plan %that visits every point in space 
-  {\color{blue}and its} {\color{blue}energy-aware} %other to
-  re-plan{\color{blue}ing} and -schedul{\color{blue}ing } %the plan 
-  in-flight. %in an energy-aware way. %{\color{blue}, whereas }
-  {\color{blue} 
-  The re-planning-scheduling improves a performance metric, which is %quality of the plan and schedule against battery state of charge (SoC), i.e., the 
-  the weighted average of parameters divided by the remaining battery state of charge (SoC), both in percent. The objective is then high average parameters configuration and battery usage.
-  %The performance metric the re-planning-scheduling %in the letter 
-  %improves is %then
-  %the quality of the plan-schedule against battery state of charge (SoC), e.g., weighted average value of parameters divided by remaining %battery 
-  %SoC.% at the end of the flight.
-  }
+The problem %of planning-scheduling 
+is {\color{blue}split into }%composed of 
+%two%sub-problems.
+{\color{blue}the derivation }%. One is 
+%to form a %static 
+{\color{blue} of} a {\color{blue}coverage} plan %that visits every point in space 
+{\color{blue}and its} {\color{blue}energy-aware} %other to
+re-plan{\color{blue}ing}~and\\ -schedul{\color{blue}ing~}%the plan 
+in-flight.~The %in an energy-aware way. %{\color{blue}, whereas }
+{\color{blue} 
+re-planning-scheduling improves a performance metric--%, which is %quality of the plan and schedule against battery state of charge (SoC), i.e., the 
+the weighted average of parameters divided by the remaining battery state of charge (SoC), both in percent (e.g., $\underline{c}_{i,j}$, $\overline{c}_{i,j}$ correspond to 0 and 100). The objective is~%then 
+high~average~parameters configuration and battery usage with successful %area 
+coverage.
+%The performance metric the re-planning-scheduling %in the letter 
+%improves is %then
+%the quality of the plan-schedule against battery state of charge (SoC), e.g., weighted average value of parameters divided by remaining %battery 
+%SoC.% at the end of the flight.
+}
 \vspace*{1ex}
 \end{formal}
 }
@@ -994,36 +1044,7 @@ We hope our updates according to the suggestions and comments have helped to imp
 
 \vspace{1em}
 
-
-
 \vspace{2em}
-
-
-
-
-
-
-
-\newpage
-
-{Associate Editor}
-
-\vspace{3em}
-
-{\hspace*{-4.5em}\textbf{[AE]}\vspace*{-1.9em}}
-
-This paper received two quality reviews. Both reviewers have a favorable impression of the work with specific suggestions for improvement. The authors should take care to address the concerns of the reviewers in a revised version. Both reviewers specifically mention a related work that should be cited, as well as specific concerns to improve the clarity of the technical contribution of the work.
-
-
-{\color{blue}
-
-{\hspace*{-4.5em}{[AE]}\vspace*{-1.9em}}
-
-We thank the editor for handling our manuscript on planning-scheduling for the aerial robotics domain and the summary of the main concerns from the two reviews. 
-We have incorporated all of the points proposed to strengthen and improve our contribution, making numerous modifications to the manuscript. Regarding the related work, we have updated the manuscript to include detailed commentary on how our approach differs. 
-
-We thus believe that with these edits, we have significantly improved the clarity of the technical contribution of our work and are excited to bring the revision version for your kind consideration.
-}
 
 \end{document}
 

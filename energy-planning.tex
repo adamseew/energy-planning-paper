@@ -436,6 +436,7 @@ Fig.~\ref{fig:state-machine-loop} illustrates the concept. %s in Definition~\ref
 A plan composed of $n$ stages $\Gamma_1,\dots,\Gamma_n$ (%containing 
 {\color{blue}with }primitive paths $\varphi_1,\dots,\varphi_n$) is reiterated with the shift $\mathbf{d}$. $t_1<\dots<t_4$ are time instants $\in\mathbb{R}_{> 0}$. $\Gamma_f$ is the accepting stage, indicating the plan is complete, $\Gamma_0$ the initial stage where the aerial robot awaits the starting command.
 
+\vspace*{-.7ex}
 \subsection{Energy-aware planning-scheduling problem}
 \label{sec:pbfor}
 
@@ -446,16 +447,18 @@ is {\color{blue}split into }%composed of
 %to form a %static 
 {\color{blue} of} a {\color{blue}coverage} plan %that visits every point in space 
 {\color{blue}and its} {\color{blue}energy-aware} %other to
-re-plan{\color{blue}ing} and -schedul{\color{blue}ing } %the plan 
-in-flight. %in an energy-aware way. %{\color{blue}, whereas }
+re-plan{\color{blue}ing}~and~-schedul{\color{blue}ing~}%the plan 
+in-flight.~The %in an energy-aware way. %{\color{blue}, whereas }
 {\color{blue} 
-The re-planning-scheduling improves a performance metric, which is %quality of the plan and schedule against battery state of charge (SoC), i.e., the 
-the weighted average of parameters divided by the remaining battery state of charge (SoC), both in percent. The objective is then high average parameters configuration and battery usage.
+re-planning-scheduling improves a performance metric--%, which is %quality of the plan and schedule against battery state of charge (SoC), i.e., the 
+the weighted average of parameters divided by the remaining battery state of charge (SoC), both in percent (e.g., $\underline{c}_{i,j}$, $\overline{c}_{i,j}$ correspond to 0 and 100). The objective is~%then 
+high~average~parame- ters configuration and battery usage with successful %area 
+coverage.
 %The performance metric the re-planning-scheduling %in the letter 
 %improves is %then
 %the quality of the plan-schedule against battery state of charge (SoC), e.g., weighted average value of parameters divided by remaining %battery 
 %SoC.% at the end of the flight.
-}\vspace*{-2ex}
+}\vspace*{-2.7ex}
 
 \begin{pb}[Coverage and re-planning-scheduling problem]
   \label{pb:cov-pb}
