@@ -273,7 +273,7 @@ We have updated the algorithm in Line 16, reflecting the observation as this was
   \end{algorithmic}
 \end{formal}
 
-We have updated the introduction and the problem formulation in Section II to address the observation and further added an explanatory text in Section IV.B as well as in the conclusion. In the introduction, we have stated explicitly that we utilize both heuristics and optimal control.
+We have updated the introduction and the problem formulation in Section II to address the observation and further added an explanatory text in Section IV-B as well as in the conclusion. In the introduction, we have stated explicitly that we utilize both heuristics and optimal control.
 
   \begin{formal}
   {\color{black} [...] our approach uses optimal control {\color{blue} and heuristics} where both the paths and schedules variations are trajectories, varying between given bounds [...]} Hybrid approaches~[{\color{green}17}] are also available, where the techniques are mixed.
@@ -287,7 +287,7 @@ We have updated the introduction and the problem formulation in Section II to ad
     \vspace*{1ex}
   \end{formal}
 
-  We have then updated Section IV.B.
+  We have then updated Section IV-B.
 
   \begin{formal}
   \color{black}
@@ -793,13 +793,14 @@ Thank you for the high-level comment and for proposing to state clearly the obje
   
   Thank you for underlying the need to state clearly what the computations parameters refer to. We have not realized this point was not stated explicitly earlier than in the experimental setup. Our purpose is to alter the granularity (specific examples are provided below) at which different computations run so that the energy consumption required by the computing hardware onboard the aerial robot increases or decreases.
 
-  In our experimental setup, these are the detection rate--meaning we vary the frequency at which a convolutional neural network trained to detect specific hazards runs from two to ten frames per second. These two values are determined empirically, by sampling different boundary configurations and their energy consumption via the modeling tool we describe in Section III-B. We have varied other parameters as well, such as the encryption, utilizing a binary value simply indicating whether the encryption is or is not enabled, and the size of the key in a variable key-size encryption algorithm. However, we have not observed a significant energy drain changing these parameters, conversely to the parameter detection rate. Thus we utilized merely the computation parameter 'detection rate' in our current experimental setup. 
+  In our experimental setup, these are the detection rate--meaning we vary the frequency at which a convolutional neural network trained to detect specific hazards runs from two to ten frames per second. These two values are determined empirically, by sampling different boundary configurations and their energy consumption via the modeling tool we describe in Section III-B. We have varied other parameters as well, such as the encryption, utilizing a binary value simply indicating whether the encryption is or is not enabled, and the size of the key in a variable key-size encryption algorithm. However, we have not observed a significant energy drain changing these parameters, conversely to the parameter detection rate. Thus we utilized merely the computation parameter `detection rate' in our current experimental setup. 
 
   We have updated the introductory material to state concretely what computational input is being varied.
 
-  \begin{formal}\color{black}
-    [...] The energy optimization of computations schedules can be achieved by, e.g., varying the quality of service between specific bounds~[{\color{green}10}] and frequency and voltage of the computing hardware~[{\color{green}7}], [{\color{green}11}], [{\color{green}12}]. We focus on the former aspect and schedule the onboard computations altering their quality while simultaneously changing the quality of the coverage.
-    {\color{blue} Concretely, we alter how often the aerial robot detects ground patterns along with the distance of the lines that form the coverage.} [...]
+  \begin{formal}{\color{black}
+    [...] The energy optimization of computations schedules can be achieved by, e.g., varying the quality of service between specific bounds~[{\color{green}10}] and frequency and voltage of the computing hardware~[{\color{green}7}], 
+    {\color{black}[{\color{green}11}], [{\color{green}12}]. We focus on the former aspect and schedule the onboard computations altering their quality while simultaneously changing the quality of the coverage.}
+    {\color{blue} Concretely, we alter how often the aerial robot detects ground patterns along with the distance of the lines that form the coverage.} \color{black}[...]}
     \vspace*{1ex}
   \end{formal}
 
