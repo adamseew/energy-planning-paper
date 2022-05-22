@@ -3130,7 +3130,7 @@
 
 
 
-    \path[fill=blue] (313 .5506,-237.2505) node[above right] (text344-6-3-1-1-9) {(c) State $(\alpha_0\dots\in\mathbf{q})$ evol. for {\hyperref[fig:trajs-I-static]{\color{red}I}}};
+    \path[fill=blue] (313 .5506,-237.2505) node[above right] (text344-6-3-1-1-9) {(c) States $(\alpha_0\dots\in\mathbf{q})$ evol. for {\hyperref[fig:trajs-I-static]{\color{red}I}}};
 
 
 

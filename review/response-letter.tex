@@ -124,7 +124,7 @@
 
 \vspace{5em}
 
-Dear Referees, Editors:
+Dear Referees and Editors:
 
 \vspace{1em}
 
@@ -178,10 +178,9 @@ This paper received two quality reviews. Both reviewers have a favorable impress
 
 {\hspace*{-4.5em}{[AE]}\vspace*{-1.9em}}
 
-We thank the editor for handling our manuscript on planning-scheduling for the aerial robotics domain and the summary of the main concerns from the two reviews. 
-We have incorporated all of the points proposed to strengthen and improve our contribution. Regarding the related work, we have updated the manuscript to include detailed commentary on how our approach differs. 
+We thank the editor for handling our manuscript on planning-scheduling for the aerial robotics domain and the summary of the main concerns from the two reviews. We have incorporated all of the points and made numerous modifications to improve the readability. Regarding the related work, we have updated the manuscript to include detailed commentary on how our approach differs. 
 
-We thus believe that with these edits, we have significantly improved the clarity of the technical contribution of our work and would like to bring the revision version for your kind consideration.}
+We thus believe that with these edits, we have significantly improved the clarity of the technical contribution of our work and would like to bring the revised version for your kind consideration.}
 
 \newpage 
 
@@ -258,7 +257,7 @@ Thank you for the comment as well as for proposing a way to address the issue. W
 Concretely and by assumption, a change in the computations alters the schedule, and therefore the drained power by the computing hardware on the aerial robot, whereas a change in the path parameters alters the time when the aerial robot terminates the coverage.
 
 We have thus decided to utilize a hybrid approach. We employ MPC for the schedule (computation parameters $c_i^\sigma$) in Line 16 and a heuristics-based greedy approach for the coverage (path parameters $c_i^\rho$) in Lines 24–27.
-A similar combination of techniques has been investigated in the past planning-scheduling literature by Ondr\'{u}\v{s}ka et al.~(reference [{\color{green}17}] in the revised manuscript).
+%A similar combination of techniques has been investigated in the past planning-scheduling literature by Ondr\'{u}\v{s}ka et al.~(reference [{\color{green}17}] in the revised manuscript).
 
 We have updated the algorithm in Line 16, reflecting the observation as this was not in the original manuscript.
 
@@ -274,14 +273,14 @@ We have updated the algorithm in Line 16, reflecting the observation as this was
   \end{algorithmic}
 \end{formal}
 
-  We have updated the introduction and the problem formulation in Section II to address the observation, and further added an explanatory text in Section IV.B as well as in the conclusion. In the introduction we have stated explicitly that we utilize both the heuristics and optimal control.
+We have updated the introduction and the problem formulation in Section II to address the observation and further added an explanatory text in Section IV.B as well as in the conclusion. In the introduction, we have stated explicitly that we utilize both heuristics and optimal control.
 
   \begin{formal}
   {\color{black} [...] our approach uses optimal control {\color{blue} and heuristics} where both the paths and schedules variations are trajectories, varying between given bounds [...]} Hybrid approaches~[{\color{green}17}] are also available, where the techniques are mixed.
   \vspace*{1ex}
   \end{formal}
 
-  We have updated the problem formulation, clearly stating that the objective is to find energy-aware trajectory of parameters rather than optimal.
+  We have updated the problem formulation, clearly stating that the objective is to find an energy-aware trajectory of parameters rather than optimal.
 
   \begin{formal}
     {\color{black} [...] the \emph{re-planning-scheduling problem} is finding the {\color{blue}energy-aware} trajectory of parameters $c_i$ in time{\color{blue}, optimizing battery SoC}.}
@@ -399,7 +398,7 @@ Thank you for noticing the issue as well as for suggesting more discussion. The 
   We have then detailed the actual value of $\delta_i$ in Section~V.
 
   \begin{formal}
-    \color{black} [...] The set of parameters is unaltered through the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i${\color{blue}, along $\delta_i$ %utilized 
+    \color{black} [...] The set of parameters is unaltered through{\color{blue}out} the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i${\color{blue}, along $\delta_i$ %utilized 
     in the greedy approach}.
     
     [...] scaling factors are derived empirically %, 
@@ -573,7 +572,7 @@ Thank you once again for noticing the typo. We have changed the occurrences of `
 
 Thank you for noticing that a citation and clarification are missing regarding the energy models. The items of matrices $A$ and $C$ are constructed so that the two periodic models, the model in Equation ({\color{red}2}) and Equation ({\color{red}3}) match under some conditions (the value of the initial guess is described by Equation ({\color{red}8}) and the model is not perturbed by the control).
 
-$A$ is then a skew-symmetric matrix that contains sub-matrices $A_j$ utilized for the periodic behavior with the frequencies $\omega:=2\pi/T$ ($T$ is the period). Each frequency is multiplied by $j$ from one up to the order $r$, where $j$ is the index of the sub-matrix, i.e., there are $r$ frequencies modeling the periodicity one the base frequency.
+$A$ is then a skew-symmetric matrix that contains sub-matrices $A_j$ utilized for the periodic behavior with the frequencies $\omega:=2\pi/T$ ($T$ is the period). Each frequency is multiplied by $j$ from one up to the order $r$, where $j$ is the index of the sub-matrix, i.e., there are $r$ frequencies modeling the periodicity and the base frequency.
 
 We have elaborated further in Section III-A to reflect the observation and added a reference to the corresponding author's Ph.D. thesis (reference [{\color{green}31}], Section 4.3.1).
 
@@ -607,7 +606,7 @@ We have elaborated further in Section III-A to reflect the observation and added
 
 {\hspace*{-4.5em}{[R1:13]}\vspace*{-1.9em}}
 
-Thank you for underlying the necessity of further explanation for the steps in $\mathcal{K},\mathcal{T}$ in both the points 7 and 8. The step for $\mathcal{T}$ is utilized to decide the granularity of re-planning, i.e., how often does the aerial robot finds the configurations of path and computations parameters, whereas the step in $\mathcal{K}$ denotes the integration step for the models in MPC.
+Thank you for underlying the necessity of further explanation for the steps in $\mathcal{K},\mathcal{T}$ in both points 7 and 8. The step for $\mathcal{T}$ is utilized to decide the granularity of re-planning, i.e., how often the aerial robot finds the configurations of path and computations parameters, whereas the step in $\mathcal{K}$ denotes the integration step for the models in MPC.
 
 Practically, we use a step of one for $\mathcal{T}$, running the re-planning every second, and an integration step of 1/100 fraction of a second, since we express $t_f$ and $N$ both in seconds. We find the parameters so that the re-planning is feasible in real-time and so that the numerical simulation does not diverge.
 
@@ -674,7 +673,7 @@ Thank you for noticing the typo. We have fixed the axis title.
 
 {\hspace*{-4.5em}{[R1:16]}\vspace*{-1.9em}}
 
-Thank you once again for underlying this point. The assumption was not clearly stated in the manusctipt, and we have thus added additional commentary before the equations.
+Thank you once again for underlying this point. The assumption was not clearly stated in the manuscript, and we have thus added additional commentary before the equations.
 
 \begin{formal}\color{black}
   {\color{blue}W}e assume that the coverage time evolves linearly{ \color{blue}and that the }path parameters{ \color{blue}contribute to it equally.} $c_i^\rho$ can be {\color{blue}then} transformed into a time measure with scaling factors 
@@ -731,7 +730,7 @@ Related work:
 
 {\hspace*{-4.5em}{[R2:1]}\vspace*{-1.9em}}
 
-Thank you for bringing Di Franco and Buttazzo's past study to our attention. We have considered the work in the original manuscript in terms of the coverage algorithm in Section IV-A, utilizing it as a reference for aerial coverage. We have not included it in the introductory material as the work does not account for the energy expenditure of computations, nonetheless, we agree on the necessity to clarify this in the introduction. To this end, we have added explanatory text in the introduction that--aside the proposed work--includes the follow-up work by the same set of authors proposed by the first referee.
+Thank you for bringing Di Franco and Buttazzo's past study to our attention. We have considered the work in the original manuscript in terms of the coverage algorithm in Section IV-A, utilizing it as a reference for aerial coverage. We have not included it in the introductory material as the work does not account for the energy expenditure of computations, nonetheless, we agree on the necessity to clarify this in the introduction. To this end, we have added explanatory text in the introduction that--aside from the proposed work--includes the follow-up work by the same set of authors proposed by the first referee.
 
 \begin{formal}
   \color{black} [...] {\color{blue}In terms of aerial coverage, past work considers criteria including the completeness of the coverage and resolution [{\color{green}23}], and deals with aspects such as the quality of the cover [{\color{green}24}], but neglects the energy expenditure of computations and favors rotary-wing aerial robots rather than aerial robots broadly.} Such a state of practice has prompted us to propose the planning-scheduling approach for autonomous aerial robots [...]
@@ -896,7 +895,7 @@ coverage.
     \vspace*{1ex}
   \end{formal}
 
-  We have then reorganized the conclusion, underlining the intent to perform physical experiments at future instances.
+  We have then reorganized the conclusion, underlining the intent to perform physical experiments in future instances of our work.
   
   \begin{formal}
   \color{black}

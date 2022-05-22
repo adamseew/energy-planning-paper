@@ -918,7 +918,7 @@ and re-plans-schedules such plan energy-wise. %respectively
 
 There are various approaches in the literature to solve CPP problems (e.g., Section~\ref{sec:pbfor}). Those that ensure %the 
 completeness %of the cover 
-are NP-hard~\cite{arkin2000approximation} and use cellular decomposition, dividing the free-space into sub-regions to be easily covered~\cite{choset2001coverage,galceran2013survey}.
+are NP-hard~\cite{arkin2000approximation} and use cellular decomposition, dividing the free space into sub-regions to be easily covered~\cite{choset2001coverage,galceran2013survey}.
 
 An intuitive way to solve the problem is with a back-and-forth motion, sweeping the space delimited by $v$ we term $\mathcal{Q}^v$. Although abundant in both mobile ground-based~\cite{choset2001coverage%,%choset2005principles,
 %lavalle2006planning
@@ -1059,7 +1059,7 @@ Past literature on planning-scheduling often relies on %optimal control and
 optimization {\color{blue} as well as heuristics-based} approaches~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}. We similarly derive an optimal control problem {\color{blue}and a greedy approach} returning the trajectory of parameters $c_i(\mathcal{T})$ with $\mathcal{T}:=[t_0,t_f]$ (see Definition~\ref{def:meas}). Since the final time %instant 
 and the %exact 
 value of the state $\mathbf{q}$ are not known, we use %a technique in the literature named 
-output model predictive control (MPC) that derives the configuration for a finite horizon on an estimated state $\hat{\mathbf{q}}$, i.e., $t_f:=t_0+N$ for a given $N\in\mathbb{R}_{>0}$.%~\cite{rawlings2017model}. 
+output model predictive control (MPC) that derives the configuration for a finite horizon on an estimated state $\hat{\mathbf{q}}$, i.e., $t_f:=t_0+N$ for a given $N\in\mathbb{R}_{>0}$. %~\cite{rawlings2017model}. 
 {\color{blue} We utilize MPC to derive the trajectory of the computation parameters and the greedy approach with heuristics remaining coverage time for the path parameters.}
 
 \begin{algorithm}[t]
@@ -1111,7 +1111,7 @@ where $l:\mathbb{R}^m\times\mathcal{C}_i\times\mathcal{S}_i\times\mathbb{R}_{\ge
   l(\mathbf{q}(t),c_i(t),t)=\mathbf{q}'(t)Q\mathbf{q}(t)+c_i'(t)Rc_i(t),
   \vspace*{-.5ex}
 \end{equation}
-where $Q\in\mathbb{R}^{m\times m},R\in\mathbb{R}^{n\times n}$ are given positive semidefinite matrices.%, resulting in the convexity of the cost $l$~\citep{nocedal2006numerical}. A useful property to guarantee a solution~\citep{beck2014introduction}.
+where $Q\in\mathbb{R}^{m\times m},R\in\mathbb{R}^{n\times n}$ are given positive semidefinite matrices. %, resulting in the convexity of the cost $l$~\citep{nocedal2006numerical}. A useful property to guarantee a solution~\citep{beck2014introduction}.
 The final cost function $l_f:\mathbb{R}^m\times\mathbb{R}_{> 0}\rightarrow\mathbb{R}$ is also a quadratic expression %but with no control %~\cite{rawlings2017model}
 \vspace*{-.5ex}
 \begin{equation}\label{eq:final-cost-mpc}
@@ -1269,7 +1269,8 @@ Numerical simulations of Algorithms~\ref{alg2}--\ref{alg} in this section are im
 .
 The computing hardware carries a camera as a peripheral and is evaluated independently of the aerial robot with \powprof{} (see Section~\ref{sec:mod-com}). The scheduler, implemented using the Robot Operating System (ROS) middleware%~\cite{quigley2009ros}
 , varies a computation parameter $c_{i,2}$ relative to the ground patterns detection rate from two to ten frames per second (FPS). The detection uses PedNet, a Convolutional Neural Network (CNN)~\cite{ullah2018pednet}, also implemented using ROS. The planner varies the path parameter $c_{i,1}$ %in %Eq.~(\ref{eq:r2}) 
-between zero and -1000 (i.e., the planner-scheduler is the concrete implementation of Algorithms~\ref{alg2}--\ref{alg}). The set of parameters is unaltered through the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i${\color{blue}, along $\delta_i$ %utilized 
+between zero and -1000 (i.e., the planner-scheduler is the concrete implementation of Algorithms~\ref{alg2}--\ref{alg}). The set of parameters is unaltered 
+through{\color{blue}out} the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i${\color{blue}, along with $\delta_i$ %utilized 
 in the greedy approach}. 
 
 %The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (see the subfigures of Fig.~\ref{fig:il-abs}). 
@@ -1365,13 +1366,13 @@ Output MPC on Line~\ref{alg:mpc} relies on a software framework for nonlinear op
 \section{Conclusions and Future Directions}  %
 \label{sec:conclusion}                       %
                                              %
-This letter provides a planning-scheduling approach for autonomous aerial robots.% powered by a limited power source, extending past literature. It proposes a novel coverage motion for variable CPP robust to aerial robots constraints such as the turning radius of fixed wings. Energy modeling in the letter exploits collected empirical data of the fixed-wing aerial robot flying static CPP and further incorporates the energy of the computing hardware via the \powprof{} tool. 
+This letter provides a planning-scheduling approach for autonomous aerial robots. % powered by a limited power source, extending past literature. It proposes a novel coverage motion for variable CPP robust to aerial robots constraints such as the turning radius of fixed wings. Energy modeling in the letter exploits collected empirical data of the fixed-wing aerial robot flying static CPP and further incorporates the energy of the computing hardware via the \powprof{} tool. 
 The approach compromises two algorithms: one derives a static coverage plan, whereas the other re-plans-schedules the plan on a finite horizon via MPC {\color{blue} and a greedy approach}. It evolves the state of the energy model while optimizing battery usage and remedying possible defects. The plan compromise multiple stages, where at each stage the aerial robot flies a path and runs the computations, allowing %further 
 extensibility in terms of constructs and approaches.
 
 {\color{blue}To enable physical experiments}, we are currently extending the results to a standard flight controller. %The guidance on the coverage, coverage with variable altitude, %(for, e.g., infrastructure inspections), 
 %and distributed planning-scheduling merit additional investigation, as well as 
-The study of the implications of planning-scheduling on other energy-critical mobile robots {\color{blue}merit additional investigation}. Here, our preliminary study led to possible savings~\cite{seewald2020beyond}, in line with relevant literature~\cite{ondruska2015scheduled,lahijanian2018resource}.
+The study of the implications of planning-scheduling on other energy-critical mobile robots {\color{blue}merits additional investigation}. Here, our preliminary study led to possible savings~\cite{seewald2020beyond}, in line with relevant literature~\cite{ondruska2015scheduled,lahijanian2018resource}.
 Further directions include {\color{blue}the use of a purely optimization-based technique, e.g., MPC derives both the path and computation parameters trajectories and} the study of different energy models.% Amongst others, these include aperiodic energy models, different linear combinations of the variations of parameters, and stage-dependent energy models.% In an unconventional setting with, e.g., multiple agents utilized for overall coverage, an agent-dependent model might be employed to achieve energy awareness.
 
 
