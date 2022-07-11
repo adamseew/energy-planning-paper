@@ -137,8 +137,8 @@
 %% author names and affiliations
 \author{
   Adam Seewald$^{\text{1}}$, H\'ector Garc\'ia de Marina$^{\text{2}}$, Henrik Skov Midtiby$^{\text{3}}$, and Ulrik Pagh Schultz$^{\text{3}}$
-  \thanks{The work was partly funded by EU grant \textnumero 779882 (TeamPlay). The work for H.\vspace*{.4ex}G. is supported by the Ramon y Cajal grant \textnumero RYC2020-030090-I.}
-  \thanks{$^{\text{1}}$A.\hspace*{.4ex}S. is with the Department of Mechanical Engineering and Material Science, Yale University, CT, USA, but the work was performed while affiliated with the SDU UAS. Email: {\tt\footnotesize \href{mailto:adam.seewald@yale.edu}{adam.seewald@yale.edu}};}
+  \thanks{The work was partly funded by EU grant \textnumero 779882 (TeamPlay). The work for H.\hspace*{.4ex}G. is supported by the Ramon y Cajal grant \textnumero RYC2020-030090-I.}
+  \thanks{$^{\text{1}}$A.\hspace*{.4ex}S. is with the Department of Mechanical Engineering and Material Science, Yale University, CT, USA, but the work was performed while affiliated with the\hspace*{.6ex}SDU\hspace*{.4ex}UAS. Email: {\tt\footnotesize \href{mailto:adam.seewald@yale.edu}{adam.seewald@yale.edu}};}
   \thanks{$^{\text{2}}$H.\hspace*{.4ex}G. is with the Department of Computer Architecture and Technology and with CITIC, University of Granada, Spain;} 
   \thanks{$^{\text{3}}$H.\hspace*{.3ex}S.\hspace*{.3ex}M.,\hspace*{.5ex}U.\hspace*{.3ex}P.\hspace*{.3ex}S. are with the\hspace*{.5ex}SDU\hspace*{.3ex}UAS, %M{\ae}rsk Mc-Kinney M{\o}ller Institute, 
   University of Southern Denmark.}
@@ -218,9 +218,9 @@ battery defects~(\ref{sth:iii}).
   An initial plan~(in~\ref{sth:i}) {\color{black}is} re-planned online, changing the %resolution, 
   detection rate or other computational aspects~(in~\ref{sth:ii}) and %changing 
   the number of fly-bys or other motion aspects~(in~\ref{sth:iii}). 
-  {\color{black}Top-right} %shows 
+  {\color{black}On the right} %shows 
   {\color{black}are} the energy data of a %physical 
-  fixed-wing aerial robot flying a static coverage plan similar to the one illustrated here{\color{black}; %below is 
+  fixed-wing aerial robot flying a static coverage plan similar to the one illustrated\hspace*{.5ex}here\hspace*{.5ex}{\color{black}and %; %below is 
   }%. Bottom-right shows 
   the spectrum analysis, %of the %energy 
   %data, 
@@ -610,7 +610,8 @@ battery evolution.
 }
 \label{sec:mod-mot}
 
-The collected energy data and corresponding spectrum analysis in Fig.~\ref{fig:il-abs} show the energy of a static coverage plan. It is relative to one flight of a series of flights for CPP exhibiting periodic behavior in a precision agriculture use case~\cite{seewald2020mechanical}. %$\Gamma$ with four primitive path functions iterated with a shift. 
+The collected energy data and corresponding spectrum analysis in Fig.~\ref{fig:il-abs} show the energy of a static coverage plan. It is relative to one flight of a series of flights for CPP %exhibiting periodic behavior 
+in a precision agriculture use case~\cite{seewald2020mechanical}. %$\Gamma$ with four primitive path functions iterated with a shift. 
 Assuming the primitive paths have approximately the same length and the aerial robot has a fixed ground speed, the data exhibits periodic behavior with a constant set of frequencies, independent of the shift. The hypothesis is further backed by the power spectrum analysis, indicating that to model the energy, three frequencies are adequate.
 
 %We refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series) and estimated using a state estimator. %(Kalman filter); well, potentially here with simulated data one could use other estimators (least square filter would work I bet) 
@@ -799,7 +800,7 @@ The battery SoC changes according to~\cite{hasan2018exogenous%,zhang2018online
 \begin{equation}\label{eq:batdyn}
   \dot{b}(y(t))=-k_bI(y(t))/Q_c,
 \end{equation}
-where $I(y(t))\in\mathbb{R}$ is the internal current measured in amperes, $y(t)\in\mathbb{R}_{\geq 0}$ the power drain, and $Q_c\in\mathbb{R}$ the battery constant nominal capacity measured in amperes per hour. $k_b$ is a battery coefficient added to~\cite{hasan2018exogenous%,zhang2018online
+where $I(y(t))\hspace*{-.5ex}\in\hspace*{-.5ex}\mathbb{R}$ is the internal current measured~in~am- peres, $y(t)\hspace*{-.5ex}\in\hspace*{-.5ex}\mathbb{R}_{\geq 0}$ the power drain, and $Q_c\hspace*{-.5ex}\in\hspace*{-.5ex}\mathbb{R}$ the battery constant nominal capacity measured in amperes per hour. $k_b$ is a battery coefficient added to~\cite{hasan2018exogenous%,zhang2018online
 } and derived experimentally. The ``Rint'' circuit models the battery as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ measured in ohm, representing the battery resistance. The voltage on the extremes of ECM respects $V_e=V-R_rI$, where $V,V_e\in\mathbb{R}$ are the internal and external battery voltages measured in volts. The former can be retrieved from the battery data sheet~\cite{hinz2019comparison} and depends on the SoC~\cite{hasan2018exogenous}.
 
 If the voltage %of the power drain 
@@ -836,7 +837,7 @@ We thus use instead
 \end{equation}
 %the \emph{output constraint}, 
 where $b\,Q_cV$, the maximum instantaneous energy %consumption
-measured in watts, is derived from Eq{\color{black}s}.~(\ref{eq:batdyn}--\ref{eq:batdyn2}), i.e., the computation parameters in Algorithm~\ref{alg2} and Eq.~(\ref{eq:ocp-output-mpc}) later in Sec.~\ref{sec:repla-algo} will have an energy constraint.
+measured in watts, is derived from Eq{\color{black}}.~(\ref{eq:batdyn}--\ref{eq:batdyn2}), i.e., the computation parameters in Algorithm~\ref{alg2} and Eq.~(\ref{eq:ocp-output-mpc}) later in Sec.~\ref{sec:repla-algo} will have an energy constraint.
 %\end{defn}
 
 %Let us consider for practical reasons the discretized version of the system in Eq.~\ref{eq:state-perf}. 
@@ -1013,7 +1014,7 @@ covering each cell~\cite{choset2001coverage}.% with the novel motion.
       =\mathbf{p}_{\Gamma_i}$}\color{black}
         \STATE $i\gets i+1$\vspace*{.3ex}
         \IF{$i\notin[n]_{>0}$}\label{alg2:cond}
-          \STATE $i\gets 1$\vspace*{.3ex}
+          \STATE $i\gets 1$\vspace*{0ex}
           \STATE $\varphi_{|\Gamma|+1}\gets$ line in Definition~\ref{def:paths} %in Eq.~(\ref{eq:v1}) 
           parallel to ${}^{v_1}|_{v_{|v|}}$ that\vspace*{.5ex} \hspace*{1em}intersects $\mathbf{p}_{|\Gamma|}$\vspace*{.3ex}
 
@@ -1070,7 +1071,7 @@ Algorithm~\ref{alg2} initializes $i$ to minus one and builds the first four prim
     \input{\figpath/new/traj3.tikz}
   \end{minipage}\hfill
   \begin{minipage}[l]{0.26\columnwidth}
-    \caption{Zamboni-li- ke motion: $\overline{\Gamma}$ with four primitive paths (Lines~\ref{alg2:circ1}--\ref{alg2:trig4} in Algorithm~\ref{alg2}) can be re-planned ($\underline{\Gamma}$) {\color{black}via} $r_2$.% in Eq.~(\ref{eq:r2}).
+    \caption{Zamboni-li- ke motion: $\overline{\Gamma}$ with four primitive paths (Lines~\ref{alg2:circ1}--\ref{alg2:trig4} in Algorithm~\ref{alg2}) can be re-planned up to $\underline{\Gamma}$ {\color{black}with the radius} $r_2$.% in Eq.~(\ref{eq:r2}).
     }
     \label{fig:zambo}
   \end{minipage}
@@ -1081,7 +1082,7 @@ Algorithm~\ref{alg2} initializes $i$ to minus one and builds the first four prim
 \label{sec:repla-algo}
 
 Past literature on planning-scheduling often relies on %optimal control and 
-optimization {\color{black} as well as heuristics-based} approaches~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}. We similarly derive an optimal control problem {\color{black}and a greedy approach} returning the trajectory of parameters $c_i(\mathcal{T})$ with $\mathcal{T}:=[t_0,t_f]$ (see Definition~\ref{def:meas}). Since the final time %instant 
+optimization {\color{black} as well as heuristics-based} approaches~\cite{brateman2006energy,zhang2007low,ondruska2015scheduled,lahijanian2018resource}. We similarly derive an optimal control problem {\color{black}and a greedy approach} returning the trajectory of parameters $c_i(\mathcal{T})$ with $\mathcal{T}:=[t_0+h,t_f]$ (see Definition~\ref{def:meas}). Since the final time %instant 
 and the %exact 
 value of the state $\mathbf{q}$ are not known, we use %a technique in the literature named 
 output model predictive control (MPC) that derives the configuration for a finite horizon on an estimated state $\hat{\mathbf{q}}$, i.e., $t_f:=t_0+N$ for a given $N\in\mathbb{R}_{>0}$. %~\cite{rawlings2017model}. 
@@ -1109,7 +1110,7 @@ output model predictive control (MPC) that derives the configuration for a finit
       \vspace*{-2.4ex}
       %\STATE $t_s\gets(\mathrm{diag}(\nu_i^\rho)\vspace*{.3ex}c_i^\rho(t)+\tau_i^\rho)[\overbrace{\begin{matrix}1&1&\cdots&1\end{matrix}}^{\rho}]$\vspace*{.3ex}\label{alg:traj1}
       %\STATE $t_r\gets(t_s/\overline{t})(\overline{t}-t)$\vspace*{.3ex}
-      \color{black}\STATE $t_r\gets (\mathrm{diag}(\nu_i^\rho)\vspace*{.3ex}c_i^\rho(t)+\tau_i^\rho)[\overbrace{\begin{matrix}1&1&\cdots&1\end{matrix}}^{\rho}]-t$\vspace*{.3ex}\label{alg:traj1}
+      \color{black}\STATE $t_r\gets (\mathrm{diag}(\nu_i^\rho)\vspace*{.3ex}c_i^\rho(t-h)+\tau_i^\rho)[\overbrace{\begin{matrix}1&1&\cdots&1\end{matrix}}^{\rho}]-t$\vspace*{.3ex}\label{alg:traj1}
       \IF{$t_r>t_b$}
         \color{black}\STATE $c_i^{\rho}(t)\gets${ find }$c_i^{\rho}${ with }$t_r\in[0,t_b]${, otherwise take }$\underline{c}_i^\rho$\vspace*{.3ex}\label{alg:traj2}
       \color{black}\ENDIF
@@ -1123,7 +1124,7 @@ output model predictive control (MPC) that derives the configuration for a finit
 \end{algorithm}
 
 An optimal control problem (OCP) that selects %the %highest configuration of 
-{\color{black} $c_i^\rho$} %and respects the constraints
+{\color{black} $c_i^\sigma$} %and respects the constraints
 \begin{subequations}\small\label{eq:ocp-output-mpc}\begin{align}
   \max_{\mathbf{q}(t),c_i(t)}&{l_f(\mathbf{q}(t_f),t_f)+\int_{t_0}^{t_f}{l(\mathbf{q}(t),c_i(t),t)\,dt}},\label{eq:ocp-costs}\\
   \text{s.t. }\dot{\mathbf{q}}&=f(\mathbf{q}(t),c_i(t),t),\label{eq:dyn-evol}\\
@@ -1301,7 +1302,7 @@ Numerical simulations of Algorithms~\ref{alg2}--\ref{alg} in this section are im
 .
 The computing hardware carries a camera as a peripheral and is evaluated independently of the aerial robot with \powprof{} (see Sec.~\ref{sec:mod-com}). The scheduler, implemented using the Robot Operating System (ROS) middleware%~\cite{quigley2009ros}
 , varies a computation parameter $c_{i,2}$ relative to the ground patterns detection rate from two to ten frames per second (FPS). The detection uses PedNet, a Convolutional Neural Network (CNN)~\cite{ullah2018pednet}, %also 
-implemented using ROS. The planner varies the path parameter $c_{i,1}$ %in %Eq.~(\ref{eq:r2}) 
+implemented in ROS. The planner varies the path parameter $c_{i,1}$ %in %Eq.~(\ref{eq:r2}) 
 between zero and -1000 (i.e., the planner-scheduler is the concrete implementation of Algorithms~\ref{alg2}--\ref{alg}). The set of parameters is unaltered 
 through{\color{black}out} the flight, i.e, $c_i:=\begin{bmatrix}c_{i,1}&c_{i,2}\end{bmatrix}',\forall i${\color{black}, along with $\delta_i$ %utilized 
 in the greedy approach}. 
@@ -1408,8 +1409,8 @@ extensibility in terms of constructs and approaches.
 {\color{black}To enable physical experiments}, we are currently extending the results to a standard flight controller. %The guidance on the coverage, coverage with variable altitude, %(for, e.g., infrastructure inspections), 
 %and distributed planning-scheduling merit additional investigation, as well as 
 The study of the implications of planning-scheduling on other energy-critical mobile robots {\color{black}merits additional investigation}. Here, our preliminary study led to possible savings~\cite{seewald2020beyond}, in line with relevant literature~\cite{ondruska2015scheduled,lahijanian2018resource}.
-Further directions include {\color{black}the use of a purely optimization-based technique %, e.g., MPC derives both the path and computation parameters trajectories and}
-and the study of different energy models.% Amongst others, these include aperiodic energy models, different linear combinations of the variations of parameters, and stage-dependent energy models.% In an unconventional setting with, e.g., multiple agents utilized for overall coverage, an agent-dependent model might be employed to achieve energy awareness.
+Further directions include {\color{black}the use of a purely optimization-based technique, %, e.g., MPC derives both the path and computation parameters trajectories and}
+the study of different energy models, and multi-agent planning-scheduling.% Amongst others, these include aperiodic energy models, different linear combinations of the variations of parameters, and stage-dependent energy models.% In an unconventional setting with, e.g., multiple agents utilized for overall coverage, an agent-dependent model might be employed to achieve energy awareness.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
