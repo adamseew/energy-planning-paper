@@ -167,190 +167,190 @@
 
 
 \end{scope}
-\path[draw=blue,line join=round,line width=0.512pt] (120.1363,145.3700) .. controls (110.3323,172.3050) and (80.5504,194.1400) .. (53.6156,194.1400) .. controls (26.6809,194.1400) and (12.7932,172.3050) .. (22.5967,145.3700);
+\path[draw=black,line join=round,line width=0.512pt] (120.1363,145.3700) .. controls (110.3323,172.3050) and (80.5504,194.1400) .. (53.6156,194.1400) .. controls (26.6809,194.1400) and (12.7932,172.3050) .. (22.5967,145.3700);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (111.1293,57.6350) .. controls (118.2003,38.2078) and (139.6813,22.4589) .. (159.1083,22.4589) .. controls (178.5363,22.4589) and (188.5523,38.2078) .. (181.4823,57.6350);
+\path[draw=black,line join=round,line width=0.512pt] (111.1293,57.6350) .. controls (118.2003,38.2078) and (139.6813,22.4589) .. (159.1083,22.4589) .. controls (178.5363,22.4589) and (188.5523,38.2078) .. (181.4823,57.6350);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (126.3643,145.3310) .. controls (116.5603,172.2650) and (86.7785,194.1000) .. (59.8438,194.1000) .. controls (32.9090,194.1000) and (19.0214,172.2650) .. (28.8248,145.3310);
+\path[draw=black,line join=round,line width=0.512pt] (126.3643,145.3310) .. controls (116.5603,172.2650) and (86.7785,194.1000) .. (59.8438,194.1000) .. controls (32.9090,194.1000) and (19.0214,172.2650) .. (28.8248,145.3310);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (132.4263,145.3740) .. controls (122.6233,172.3090) and (92.8408,194.1440) .. (65.9060,194.1440) .. controls (38.9713,194.1440) and (25.0836,172.3090) .. (34.8871,145.3740);
+\path[draw=black,line join=round,line width=0.512pt] (132.4263,145.3740) .. controls (122.6233,172.3090) and (92.8408,194.1440) .. (65.9060,194.1440) .. controls (38.9713,194.1440) and (25.0836,172.3090) .. (34.8871,145.3740);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (149.6273,145.3660) .. controls (139.8243,172.3000) and (110.0423,194.1350) .. (83.1073,194.1350) .. controls (56.1726,194.1350) and (42.2849,172.3000) .. (52.0884,145.3660);
+\path[draw=black,line join=round,line width=0.512pt] (149.6273,145.3660) .. controls (139.8243,172.3000) and (110.0423,194.1350) .. (83.1073,194.1350) .. controls (56.1726,194.1350) and (42.2849,172.3000) .. (52.0884,145.3660);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (78.6900,146.0240) .. controls (68.8866,172.9590) and (82.7742,194.7930) .. (109.7093,194.7930) .. controls (136.6433,194.7930) and (166.4263,172.9590) .. (176.2293,146.0240) -- (199.4753,82.0996);
+\path[draw=black,line join=round,line width=0.512pt] (78.6900,146.0240) .. controls (68.8866,172.9590) and (82.7742,194.7930) .. (109.7093,194.7930) .. controls (136.6433,194.7930) and (166.4263,172.9590) .. (176.2293,146.0240) -- (199.4753,82.0996);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (192.3144,165.3447) .. controls (178.5312,182.7397) and (156.8197,194.9260) .. (136.6983,194.9260) .. controls (109.7633,194.9260) and (95.8757,173.0910) .. (105.6793,146.1560);
+\path[draw=black,line join=round,line width=0.512pt] (192.3144,165.3447) .. controls (178.5312,182.7397) and (156.8197,194.9260) .. (136.6983,194.9260) .. controls (109.7633,194.9260) and (95.8757,173.0910) .. (105.6793,146.1560);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (60.9041,57.6673) .. controls (70.0559,32.5231) and (97.8582,12.1397) .. (123.0023,12.1397) .. controls (148.1463,12.1397) and (161.1113,32.5231) .. (151.9593,57.6673);
+\path[draw=black,line join=round,line width=0.512pt] (60.9041,57.6673) .. controls (70.0559,32.5231) and (97.8582,12.1397) .. (123.0023,12.1397) .. controls (148.1463,12.1397) and (161.1113,32.5231) .. (151.9593,57.6673);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (164.3813,57.8627) .. controls (173.5333,32.7186) and (160.5683,12.3352) .. (135.4483,12.3212) -- (128.9963,12.6252) .. controls (101.0163,17.4767) and (95.2134,38.2692) .. (90.9964,44.7409) .. controls (86.6372,51.4311) and (84.0698,57.6784) .. (84.0698,57.6784) -- (84.0090,57.8741) -- (83.9193,58.2043);
+\path[draw=black,line join=round,line width=0.512pt] (164.3813,57.8627) .. controls (173.5333,32.7186) and (160.5683,12.3352) .. (135.4483,12.3212) -- (128.9963,12.6252) .. controls (101.0163,17.4767) and (95.2134,38.2692) .. (90.9964,44.7409) .. controls (86.6372,51.4311) and (84.0698,57.6784) .. (84.0698,57.6784) -- (84.0090,57.8741) -- (83.9193,58.2043);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (132.1408,-0.0621) .. controls (128.3119,5.2514) and (121.7993,10.2271) .. (110.7303,12.1463) .. controls (82.8116,16.9872) and (67.7168,35.3583) .. (63.4334,41.9112);
+\path[draw=black,line join=round,line width=0.512pt] (132.1408,-0.0621) .. controls (128.3119,5.2514) and (121.7993,10.2271) .. (110.7303,12.1463) .. controls (82.8116,16.9872) and (67.7168,35.3583) .. (63.4334,41.9112);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (67.0702,57.8055) .. controls (76.2219,32.6614) and (104.0243,12.2780) .. (129.1683,12.2780) .. controls (154.3123,12.2780) and (167.2773,32.6614) .. (158.1253,57.8055);
+\path[draw=black,line join=round,line width=0.512pt] (67.0702,57.8055) .. controls (76.2219,32.6614) and (104.0243,12.2780) .. (129.1683,12.2780) .. controls (154.3123,12.2780) and (167.2773,32.6614) .. (158.1253,57.8055);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (54.8647,57.1820) .. controls (54.8647,57.1820) and (59.2381,46.7836) .. (63.6380,41.5836);
+\path[draw=black,line join=round,line width=0.512pt] (54.8647,57.1820) .. controls (54.8647,57.1820) and (59.2381,46.7836) .. (63.6380,41.5836);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (22.5839,145.3980) -- (54.8805,57.1444);
+\path[draw=black,line join=round,line width=0.512pt] (22.5839,145.3980) -- (54.8805,57.1444);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (28.7831,145.4080) -- (61.0797,57.1548);
+\path[draw=black,line join=round,line width=0.512pt] (28.7831,145.4080) -- (61.0797,57.1548);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (34.8951,145.3700) -- (67.1067,57.6985);
+\path[draw=black,line join=round,line width=0.512pt] (34.8951,145.3700) -- (67.1067,57.6985);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (137.9553,57.8127) .. controls (145.0263,38.3855) and (166.5073,22.6366) .. (185.9343,22.6366) .. controls (205.3613,22.6366) and (215.3783,38.3855) .. (208.3073,57.8127);
+\path[draw=black,line join=round,line width=0.512pt] (137.9553,57.8127) .. controls (145.0263,38.3855) and (166.5073,22.6366) .. (185.9343,22.6366) .. controls (205.3613,22.6366) and (215.3783,38.3855) .. (208.3073,57.8127);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (52.0637,145.3971) -- (83.9688,58.1425);
+\path[draw=black,line join=round,line width=0.512pt] (52.0637,145.3971) -- (83.9688,58.1425);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (78.6815,146.0230) -- (111.1593,57.5890);
+\path[draw=black,line join=round,line width=0.512pt] (78.6815,146.0230) -- (111.1593,57.5890);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (105.6812,146.1901) -- (137.9673,57.7878);
+\path[draw=black,line join=round,line width=0.512pt] (105.6812,146.1901) -- (137.9673,57.7878);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (120.1373,145.3990) -- (151.9493,57.6496);
+\path[draw=black,line join=round,line width=0.512pt] (120.1373,145.3990) -- (151.9493,57.6496);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (126.3643,145.3390) -- (158.1423,57.7755);
+\path[draw=black,line join=round,line width=0.512pt] (126.3643,145.3390) -- (158.1423,57.7755);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (132.4412,145.3850) -- (164.3742,57.8535);
+\path[draw=black,line join=round,line width=0.512pt] (132.4412,145.3850) -- (164.3742,57.8535);
 
 
 
-\path[draw=blue,line join=round,line width=0.512pt] (149.6163,145.3760) -- (181.4853,57.6289);
+\path[draw=black,line join=round,line width=0.512pt] (149.6163,145.3760) -- (181.4853,57.6289);
 
 
 
 \begin{scope}[cm={{1.33334,0.0,0.0,1.33334,(226.63568,-18.04678)}}]
-  \begin{scope}[draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
   \path[fill=cffffff,line cap=butt,line join=round,line width=0.437pt,miter limit=4.00,rounded corners=0.0000cm] (-4.1656,113.5623) rectangle (69.1486,176.1082);
 
 
 
-  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (29.5000,86.5000) -- (29.5000,83.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(1.8,184.725)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text32) {-2};
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(1.8,184.725)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text32) {-2};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(24.3,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (63.5000,86.5000) -- (63.5000,83.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(29.25,184.725)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text60) {0};
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(29.25,184.725)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text60) {0};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(60.75,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (97.5000,86.5000) -- (97.5000,83.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(80.175,189.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (-25.1852,-4.4444) node[above right] (text88) {2};
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(80.175,189.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (-25.1852,-4.4444) node[above right] (text88) {2};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(95.175,99.225)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (12.5000,86.5000) -- (113.5000,86.5000);
@@ -358,139 +358,139 @@
 
 
   \end{scope}
-  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (113.5000,86.5000) -- (113.5000,86.5000) -- (110.5000,86.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(-10.538,179.625)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text116) {0};
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(-10.538,179.625)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text116) {0};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-84.81511,97.79668)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-84.81511,97.79668)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (113.5000,67.5000) -- (113.5000,67.5000) -- (110.5000,67.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(-10.538,161.4)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text144) {2};
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(-10.538,161.4)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text144) {2};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.462,72.9)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-84.81511,97.79668)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-84.81511,97.79668)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (113.5000,48.5000) -- (113.5000,48.5000) -- (110.5000,48.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(-23.91053,149.56373)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (13.3333,-5.9259) node[above right] (text172) {4};
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(-23.91053,149.56373)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (13.3333,-5.9259) node[above right] (text172) {4};
 
 
 
-    \path[fill=blue,even odd rule,line width=0.800pt] (4.4380,-27.8667) node[above right] (text172-3) {4000};
-
-
-
-  \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-  \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-  \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-  \end{scope}
-  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-  \end{scope}
-  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-  \end{scope}
-  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-  \end{scope}
-  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-  \end{scope}
-  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-  \end{scope}
-  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(-22.80695,173.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text196) {\rotatebox{90}{Spectrum ($\text{10}^\text{2}$\hspace*{.2ex}dB)}};
+    \path[fill=black,even odd rule,line width=0.800pt] (4.4380,-27.8667) node[above right] (text172-3) {4000};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(118.969,53.6625)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(4.8187,193.912)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text212) {Frequency ($\text{10}^{\text{-2}}$\hspace*{.2ex}Hz)};
+  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(-22.80695,173.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text196) {\rotatebox{90}{Spectrum ($\text{10}^\text{2}$\hspace*{.2ex}dB)}};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.0125,1.0125,0.0,(134.662,91.125)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(4.8187,193.912)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text212) {Frequency ($\text{10}^{\text{-2}}$\hspace*{.2ex}Hz)};
+
+
+
+  \end{scope}
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(25.8187,114.412)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.69026,97.79668)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (12.5000,86.2000) -- (12.5000,86.2000) -- (13.6000,86.2000) -- (14.6000,86.4000) -- (15.7000,85.0000) -- (16.7000,86.4000) -- (17.8000,85.4000) -- (18.8000,86.1000) -- (19.9000,85.9000) -- (20.9000,86.2000) -- (22.0000,86.0000) -- (23.1000,86.0000) -- (24.1000,85.4000) -- (25.2000,86.0000) -- (26.2000,86.2000) -- (27.3000,86.2000) -- (28.3000,86.1000) -- (29.4000,85.3000) -- (30.5000,85.5000) -- (31.5000,86.2000) -- (32.6000,86.1000) -- (33.6000,86.4000) -- (34.7000,85.4000) -- (35.7000,84.1000) -- (36.8000,86.1000) -- (37.9000,85.9000) -- (38.9000,86.3000) -- (40.0000,86.0000) -- (41.0000,86.1000) -- (42.1000,84.0000) -- (43.1000,81.0000) -- (44.2000,84.4000) -- (45.2000,84.9000) -- (46.3000,84.6000) -- (47.4000,85.0000) -- (48.4000,83.2000) -- (49.5000,43.3000) -- (50.5000,84.9000) -- (51.6000,83.8000) -- (52.6000,79.7000) -- (53.7000,84.3000) -- (54.8000,83.0000) -- (55.8000,83.4000) -- (56.9000,51.8000) -- (57.9000,86.1000) -- (59.0000,77.0000) -- (60.0000,81.0000) -- (61.1000,79.0000) -- (62.1000,85.1000) -- (62.1000,33.7178);
 
 
@@ -500,141 +500,141 @@
 
 
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.012,draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.012,draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.01288,0.0,0.0,1.0125,(8.01061,0.31012)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,even odd rule,line cap=round,line join=round,line width=0.400pt]
   \end{scope}
   \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(0.00644,0.30976)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,even odd rule,line cap=round,line join=round,line width=0.400pt]
   \end{scope}
   \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.58349,57.33816)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,even odd rule,line cap=round,line join=round,line width=0.400pt]
-    \path[color=blue,fill=blue,nonzero rule,line cap=round,line join=round,line width=0.502pt,miter limit=4.00] (60.9979,75.6531) .. controls (60.7904,75.7177) and (60.6555,75.8770) .. (60.6966,76.0088) .. controls (60.7376,76.1406) and (60.9392,76.1951) .. (61.1467,76.1304) -- (65.6553,74.7253) .. controls (65.8628,74.6606) and (65.9977,74.5013) .. (65.9566,74.3695) .. controls (65.9156,74.2377) and (65.7140,74.1832) .. (65.5065,74.2479) -- cycle;
+    \path[color=black,fill=black,nonzero rule,line cap=round,line join=round,line width=0.502pt,miter limit=4.00] (60.9979,75.6531) .. controls (60.7904,75.7177) and (60.6555,75.8770) .. (60.6966,76.0088) .. controls (60.7376,76.1406) and (60.9392,76.1951) .. (61.1467,76.1304) -- (65.6553,74.7253) .. controls (65.8628,74.6606) and (65.9977,74.5013) .. (65.9566,74.3695) .. controls (65.9156,74.2377) and (65.7140,74.1832) .. (65.5065,74.2479) -- cycle;
 
 
 
-    \begin{scope}[cm={{1.50288,-0.46838,0.29754,0.95471,(-111.368,107.84373)}},draw=blue,even odd rule,line cap=rect,line join=miter,line width=0.400pt]
-      \path[color=blue,fill=blue,nonzero rule,line cap=rect,line join=miter,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
-
-
-
-    \end{scope}
-    \path[color=blue,fill=blue,nonzero rule,line cap=round,line join=round,line width=0.502pt,miter limit=4.00] (10.1034,75.7781) .. controls (9.8959,75.8427) and (9.7610,76.0020) .. (9.8020,76.1338) .. controls (9.8431,76.2656) and (10.0447,76.3201) .. (10.2522,76.2554) -- (14.7608,74.8503) .. controls (14.9683,74.7856) and (15.1032,74.6263) .. (15.0621,74.4945) .. controls (15.0210,74.3627) and (14.8195,74.3082) .. (14.6120,74.3729) -- cycle;
-
-
-
-    \begin{scope}[cm={{1.50288,-0.46838,0.29754,0.95471,(-162.26251,107.96873)}},draw=blue,even odd rule,line cap=rect,line join=miter,line width=0.400pt]
-      \path[color=blue,fill=blue,nonzero rule,line cap=rect,line join=miter,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
+    \begin{scope}[cm={{1.50288,-0.46838,0.29754,0.95471,(-111.368,107.84373)}},draw=black,even odd rule,line cap=rect,line join=miter,line width=0.400pt]
+      \path[color=black,fill=black,nonzero rule,line cap=rect,line join=miter,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
 
 
 
     \end{scope}
+    \path[color=black,fill=black,nonzero rule,line cap=round,line join=round,line width=0.502pt,miter limit=4.00] (10.1034,75.7781) .. controls (9.8959,75.8427) and (9.7610,76.0020) .. (9.8020,76.1338) .. controls (9.8431,76.2656) and (10.0447,76.3201) .. (10.2522,76.2554) -- (14.7608,74.8503) .. controls (14.9683,74.7856) and (15.1032,74.6263) .. (15.0621,74.4945) .. controls (15.0210,74.3627) and (14.8195,74.3082) .. (14.6120,74.3729) -- cycle;
+
+
+
+    \begin{scope}[cm={{1.50288,-0.46838,0.29754,0.95471,(-162.26251,107.96873)}},draw=black,even odd rule,line cap=rect,line join=miter,line width=0.400pt]
+      \path[color=black,fill=black,nonzero rule,line cap=rect,line join=miter,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
+
+
+
+    \end{scope}
   \end{scope}
-  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-84.81047,98.07366)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
-    \path[color=blue,fill=blue,nonzero rule,line cap=butt,line join=miter,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
-
-
-
-  \end{scope}
-  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.57921,98.26368)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
-    \path[color=blue,fill=blue,nonzero rule,line cap=butt,line join=miter,line width=0.400pt,miter limit=4.00] (113.5824,29.1349) -- (113.5648,16.5000) .. controls (113.5648,16.3619) and (113.4529,16.2500) .. (113.3148,16.2500) -- (12.5137,16.2500) -- (12.5000,16.2500) .. controls (12.4862,16.2502) and (12.4725,16.2515) .. (12.4590,16.2539) .. controls (12.4451,16.2560) and (12.4313,16.2593) .. (12.4180,16.2637) .. controls (12.3781,16.2780) and (12.3424,16.3022) .. (12.3145,16.3340) .. controls (12.2733,16.3796) and (12.2504,16.4387) .. (12.2500,16.5000) -- (12.2487,29.1320) -- (12.9297,29.1333) -- (12.8979,16.8982) -- (112.9167,16.8982) -- (112.9137,29.1371);
-
-
-
-  \end{scope}
-  \begin{scope}[cm={{0.73013,0.0,0.0,0.90534,(-7.91583,98.07398)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
-    \path[color=blue,fill=blue,nonzero rule,line cap=butt,line join=miter,line width=0.400pt,miter limit=4.00] (56.0430,29.3507) .. controls (56.0178,27.6026) and (55.9492,24.1035) .. (55.9492,24.1035) -- (55.9492,24.0957) .. controls (55.9462,23.9637) and (55.8410,23.8567) .. (55.7090,23.8516) .. controls (55.5694,23.8461) and (55.4524,23.9561) .. (55.4492,24.0957) -- (55.4492,24.1035) -- (55.3661,29.3497);
+  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-84.81047,98.07366)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
+    \path[color=black,fill=black,nonzero rule,line cap=butt,line join=miter,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.09689,-0.42404,0.21716,0.86433,(-58.45742,153.66011)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
-    \path[color=blue,fill=blue,nonzero rule,line cap=round,line join=round,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
+  \begin{scope}[cm={{0.72986,0.0,0.0,0.90534,(-13.57921,98.26368)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
+    \path[color=black,fill=black,nonzero rule,line cap=butt,line join=miter,line width=0.400pt,miter limit=4.00] (113.5824,29.1349) -- (113.5648,16.5000) .. controls (113.5648,16.3619) and (113.4529,16.2500) .. (113.3148,16.2500) -- (12.5137,16.2500) -- (12.5000,16.2500) .. controls (12.4862,16.2502) and (12.4725,16.2515) .. (12.4590,16.2539) .. controls (12.4451,16.2560) and (12.4313,16.2593) .. (12.4180,16.2637) .. controls (12.3781,16.2780) and (12.3424,16.3022) .. (12.3145,16.3340) .. controls (12.2733,16.3796) and (12.2504,16.4387) .. (12.2500,16.5000) -- (12.2487,29.1320) -- (12.9297,29.1333) -- (12.8979,16.8982) -- (112.9167,16.8982) -- (112.9137,29.1371);
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.09689,-0.42404,0.21716,0.86433,(-58.42517,155.25665)}},draw=blue,even odd rule,line cap=rect,line join=miter,line width=0.400pt]
-    \path[color=blue,fill=blue,nonzero rule,line cap=rect,line join=miter,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
+  \begin{scope}[cm={{0.73013,0.0,0.0,0.90534,(-7.91583,98.07398)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
+    \path[color=black,fill=black,nonzero rule,line cap=butt,line join=miter,line width=0.400pt,miter limit=4.00] (56.0430,29.3507) .. controls (56.0178,27.6026) and (55.9492,24.1035) .. (55.9492,24.1035) -- (55.9492,24.0957) .. controls (55.9462,23.9637) and (55.8410,23.8567) .. (55.7090,23.8516) .. controls (55.5694,23.8461) and (55.4524,23.9561) .. (55.4492,24.0957) -- (55.4492,24.1035) -- (55.3661,29.3497);
 
 
 
   \end{scope}
-  \begin{scope}[cm={{-0.72986,0.0,0.0,-0.90534,(78.24495,191.04635)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
-    \path[color=blue,fill=blue,nonzero rule,line cap=butt,line join=miter,line width=0.400pt,miter limit=4.00] (113.5824,69.1349) -- (113.5648,16.5000) .. controls (113.5648,16.3619) and (113.4529,16.2500) .. (113.3148,16.2500) -- (12.4393,16.2500) -- (12.4256,16.2500) .. controls (12.4119,16.2502) and (12.3981,16.2515) .. (12.3846,16.2539) .. controls (12.3707,16.2560) and (12.3570,16.2593) .. (12.3436,16.2637) .. controls (12.3037,16.2780) and (12.2681,16.3022) .. (12.2401,16.3340) .. controls (12.1989,16.3796) and (12.1760,16.4387) .. (12.1756,16.5000) -- (12.1743,69.1320) -- (12.8558,69.1333) -- (12.8239,16.8978) -- (112.9165,16.8978) -- (112.9135,69.1371);
+  \begin{scope}[cm={{1.09689,-0.42404,0.21716,0.86433,(-58.45742,153.66011)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
+    \path[color=black,fill=black,nonzero rule,line cap=round,line join=round,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
 
 
 
   \end{scope}
-  \begin{scope}[cm={{-0.72986,0.0,0.0,-0.90534,(44.26819,215.19002)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{1.09689,-0.42404,0.21716,0.86433,(-58.42517,155.25665)}},draw=black,even odd rule,line cap=rect,line join=miter,line width=0.400pt]
+    \path[color=black,fill=black,nonzero rule,line cap=rect,line join=miter,line width=0.400pt,miter limit=4.00] (110.3148,22.2500) .. controls (110.1767,22.2500) and (110.0648,22.3619) .. (110.0648,22.5000) .. controls (110.0648,22.6381) and (110.1767,22.7500) .. (110.3148,22.7500) -- (113.3148,22.7500) .. controls (113.4529,22.7500) and (113.5648,22.6381) .. (113.5648,22.5000) .. controls (113.5648,22.3619) and (113.4529,22.2500) .. (113.3148,22.2500) -- cycle;
+
+
+
   \end{scope}
-  \path[draw=blue,line cap=butt,line join=miter,line width=0.480pt,miter limit=3.10] (-59.8947,181.4231) -- (-59.8947,211.5052) -- (-4.7120,211.5052);
+  \begin{scope}[cm={{-0.72986,0.0,0.0,-0.90534,(78.24495,191.04635)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
+    \path[color=black,fill=black,nonzero rule,line cap=butt,line join=miter,line width=0.400pt,miter limit=4.00] (113.5824,69.1349) -- (113.5648,16.5000) .. controls (113.5648,16.3619) and (113.4529,16.2500) .. (113.3148,16.2500) -- (12.4393,16.2500) -- (12.4256,16.2500) .. controls (12.4119,16.2502) and (12.3981,16.2515) .. (12.3846,16.2539) .. controls (12.3707,16.2560) and (12.3570,16.2593) .. (12.3436,16.2637) .. controls (12.3037,16.2780) and (12.2681,16.3022) .. (12.2401,16.3340) .. controls (12.1989,16.3796) and (12.1760,16.4387) .. (12.1756,16.5000) -- (12.1743,69.1320) -- (12.8558,69.1333) -- (12.8239,16.8978) -- (112.9165,16.8978) -- (112.9135,69.1371);
 
 
 
-  \path[draw=blue,dash pattern=on 0.78pt off 0.78pt,line cap=butt,line join=miter,line width=0.195pt,miter limit=4.00] (-59.8459,199.8557) -- (-4.5057,199.8557);
+  \end{scope}
+  \begin{scope}[cm={{-0.72986,0.0,0.0,-0.90534,(44.26819,215.19002)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \end{scope}
+  \path[draw=black,line cap=butt,line join=miter,line width=0.480pt,miter limit=3.10] (-59.8947,181.4231) -- (-59.8947,211.5052) -- (-4.7120,211.5052);
 
 
 
-  \begin{scope}[cm={{0.59309,0.0,0.0,0.73569,(-125.42512,161.7328)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \path[draw=black,dash pattern=on 0.78pt off 0.78pt,line cap=butt,line join=miter,line width=0.195pt,miter limit=4.00] (-59.8459,199.8557) -- (-4.5057,199.8557);
+
+
+
+  \begin{scope}[cm={{0.59309,0.0,0.0,0.73569,(-125.42512,161.7328)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (113.5000,48.5000) -- (113.5000,48.5000) -- (110.5000,48.5000);
 
 
 
   \end{scope}
-  \begin{scope}[cm={{0.59309,0.0,0.0,0.73569,(-125.45425,155.31348)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.59309,0.0,0.0,0.73569,(-125.45425,155.31348)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (113.5000,48.5000) -- (113.5000,48.5000) -- (110.5000,48.5000);
 
 
 
   \end{scope}
-  \begin{scope}[cm={{0.59309,0.0,0.0,0.73569,(-125.38661,173.01344)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.59309,0.0,0.0,0.73569,(-125.38661,173.01344)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (113.5000,48.5000) -- (113.5000,48.5000) -- (110.5000,48.5000);
 
 
 
   \end{scope}
-  \begin{scope}[cm={{0.59309,0.0,0.0,0.73569,(-125.41574,166.59411)}},draw=blue,even odd rule,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.59309,0.0,0.0,0.73569,(-125.41574,166.59411)}},draw=black,even odd rule,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (113.5000,48.5000) -- (113.5000,48.5000) -- (110.5000,48.5000);
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(-16.39995,214.32288)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (14.8148,-0.0000) node[above right] (text212-0) {$t$};
+  \begin{scope}[cm={{1.0125,0.0,0.0,1.0125,(-16.39995,214.32288)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (14.8148,-0.0000) node[above right] (text212-0) {$t$};
 
 
 
-    \path[fill=blue,even odd rule] (-58.3353,-18.0869) node[above right] (text212-0-9) {plan};
+    \path[fill=black,even odd rule] (-58.3353,-18.0869) node[above right] (text212-0-9) {plan};
 
 
 
-    \path[fill=blue,even odd rule] (-69.1312,-7.6393) node[above right] (text212-0-9-9) {schedule};
+    \path[fill=black,even odd rule] (-69.1312,-7.6393) node[above right] (text212-0-9-9) {schedule};
 
 
 
   \end{scope}
-  \path[draw=blue,dash pattern=on 0.78pt off 0.78pt,line cap=butt,line join=miter,line width=0.195pt,miter limit=4.00] (-48.1864,211.6225) -- (-48.1864,187.9448);
+  \path[draw=black,dash pattern=on 0.78pt off 0.78pt,line cap=butt,line join=miter,line width=0.195pt,miter limit=4.00] (-48.1864,211.6225) -- (-48.1864,187.9448);
 
 
 
-  \path[draw=blue,dash pattern=on 0.78pt off 0.78pt,line cap=butt,line join=miter,line width=0.195pt,miter limit=4.00] (-36.6188,211.6649) -- (-36.6188,187.9982);
+  \path[draw=black,dash pattern=on 0.78pt off 0.78pt,line cap=butt,line join=miter,line width=0.195pt,miter limit=4.00] (-36.6188,211.6649) -- (-36.6188,187.9982);
 
 
 
-  \path[draw=blue,dash pattern=on 0.78pt off 0.78pt,line cap=butt,line join=miter,line width=0.195pt,miter limit=4.00] (-24.7810,211.6124) -- (-24.7810,187.7436);
+  \path[draw=black,dash pattern=on 0.78pt off 0.78pt,line cap=butt,line join=miter,line width=0.195pt,miter limit=4.00] (-24.7810,211.6124) -- (-24.7810,187.7436);
 
 
 
-  \path[fill=blue,line cap=butt,line join=miter,line width=0.600pt] (-7.0639,210.2684) -- (-2.7369,211.5065) -- (-7.0457,212.7303) -- (-5.8404,211.5174) -- cycle;
+  \path[fill=black,line cap=butt,line join=miter,line width=0.600pt] (-7.0639,210.2684) -- (-2.7369,211.5065) -- (-7.0457,212.7303) -- (-5.8404,211.5174) -- cycle;
 
 
 
-  \path[fill=blue,line cap=butt,line join=miter,line width=0.600pt] (-61.1641,183.5851) -- (-59.9260,179.2581) -- (-58.7022,183.5669) -- (-59.9151,182.3616) -- cycle;
+  \path[fill=black,line cap=butt,line join=miter,line width=0.600pt] (-61.1641,183.5851) -- (-59.9260,179.2581) -- (-58.7022,183.5669) -- (-59.9151,182.3616) -- cycle;
 
 
 
@@ -652,91 +652,91 @@
 
 
 
-  \path[draw=blue,even odd rule,line join=round,line width=0.256pt] (154.1860,170.9400) -- (153.9450,170.4360) -- (144.1410,155.4030) -- (143.3520,154.7040) -- (141.2910,155.8960) -- (141.6720,153.7540) -- (143.6340,151.1200) -- (143.3590,154.7040);
+  \path[draw=black,even odd rule,line join=round,line width=0.256pt] (154.1860,170.9400) -- (153.9450,170.4360) -- (144.1410,155.4030) -- (143.3520,154.7040) -- (141.2910,155.8960) -- (141.6720,153.7540) -- (143.6340,151.1200) -- (143.3590,154.7040);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (140.2550,147.9460) -- (137.6340,150.3750) -- (137.2930,152.2970) -- (140.0790,151.7850) -- (140.2420,147.9530) .. controls (140.2420,147.9530) and (140.5860,146.7570) .. (141.2720,145.2720);
+  \path[draw=black,line join=round,line width=0.256pt] (140.2550,147.9460) -- (137.6340,150.3750) -- (137.2930,152.2970) -- (140.0790,151.7850) -- (140.2420,147.9530) .. controls (140.2420,147.9530) and (140.5860,146.7570) .. (141.2720,145.2720);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (142.7720,142.3620) .. controls (142.7720,142.3620) and (139.3480,147.2660) .. (140.2480,153.2140) -- (139.7350,154.7100) .. controls (139.7350,154.7100) and (139.2370,156.0470) .. (139.8390,156.8930) -- (140.0960,156.8810) -- (140.3870,156.5660);
+  \path[draw=black,line join=round,line width=0.256pt] (142.7720,142.3620) .. controls (142.7720,142.3620) and (139.3480,147.2660) .. (140.2480,153.2140) -- (139.7350,154.7100) .. controls (139.7350,154.7100) and (139.2370,156.0470) .. (139.8390,156.8930) -- (140.0960,156.8810) -- (140.3870,156.5660);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (141.4490,155.0020) .. controls (141.4490,155.0020) and (141.1790,155.4580) .. (140.7130,156.3010);
+  \path[draw=black,line join=round,line width=0.256pt] (141.4490,155.0020) .. controls (141.4490,155.0020) and (141.1790,155.4580) .. (140.7130,156.3010);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (138.9140,154.5870) .. controls (138.9140,154.5870) and (139.6700,154.6880) .. (139.7050,154.7970);
+  \path[draw=black,line join=round,line width=0.256pt] (138.9140,154.5870) .. controls (138.9140,154.5870) and (139.6700,154.6880) .. (139.7050,154.7970);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (138.9000,154.5980) .. controls (138.9000,154.5980) and (139.0840,154.7030) .. (139.5370,155.7210);
+  \path[draw=black,line join=round,line width=0.256pt] (138.9000,154.5980) .. controls (138.9000,154.5980) and (139.0840,154.7030) .. (139.5370,155.7210);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (140.3140,156.2830) -- (140.5530,156.2030) -- (141.0250,156.5420) .. controls (141.0250,156.5420) and (141.4960,157.5180) .. (141.7240,157.6250) .. controls (141.9510,157.7330) and (140.7720,157.8120) .. (140.3140,156.2830) -- cycle;
+  \path[draw=black,line join=round,line width=0.256pt] (140.3140,156.2830) -- (140.5530,156.2030) -- (141.0250,156.5420) .. controls (141.0250,156.5420) and (141.4960,157.5180) .. (141.7240,157.6250) .. controls (141.9510,157.7330) and (140.7720,157.8120) .. (140.3140,156.2830) -- cycle;
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (156.6470,168.7510) .. controls (156.6470,168.7510) and (156.4290,169.5750) .. (153.6380,172.8140) -- (149.6550,175.8230) -- (150.9010,173.6330) .. controls (150.9640,173.6120) and (154.1560,170.9870) .. (155.9020,169.5950) .. controls (157.6490,168.2030) and (156.7010,166.5250) .. (156.7010,166.5250) -- (146.7430,143.8990) -- (147.4670,141.6680) -- (147.8240,139.7200) .. controls (147.8450,139.4110) and (147.6650,138.6190) .. (147.5330,138.2780) .. controls (147.4010,137.9380) and (146.7770,137.6600) .. (145.9470,138.2370) .. controls (145.1180,138.8130) and (144.4310,139.7830) .. (144.4310,139.7830) .. controls (144.4310,139.7830) and (143.4570,140.9700) .. (142.7660,142.3510) -- (131.3840,144.0080) .. controls (131.3840,144.0080) and (131.0250,144.0360) .. (130.6910,144.2930) -- (125.8530,147.9710) -- (125.5440,150.0200) -- (129.0270,148.0540) .. controls (129.0270,148.0540) and (129.8150,147.7020) .. (130.0740,147.8040) -- (137.5890,150.6240);
+  \path[draw=black,line join=round,line width=0.256pt] (156.6470,168.7510) .. controls (156.6470,168.7510) and (156.4290,169.5750) .. (153.6380,172.8140) -- (149.6550,175.8230) -- (150.9010,173.6330) .. controls (150.9640,173.6120) and (154.1560,170.9870) .. (155.9020,169.5950) .. controls (157.6490,168.2030) and (156.7010,166.5250) .. (156.7010,166.5250) -- (146.7430,143.8990) -- (147.4670,141.6680) -- (147.8240,139.7200) .. controls (147.8450,139.4110) and (147.6650,138.6190) .. (147.5330,138.2780) .. controls (147.4010,137.9380) and (146.7770,137.6600) .. (145.9470,138.2370) .. controls (145.1180,138.8130) and (144.4310,139.7830) .. (144.4310,139.7830) .. controls (144.4310,139.7830) and (143.4570,140.9700) .. (142.7660,142.3510) -- (131.3840,144.0080) .. controls (131.3840,144.0080) and (131.0250,144.0360) .. (130.6910,144.2930) -- (125.8530,147.9710) -- (125.5440,150.0200) -- (129.0270,148.0540) .. controls (129.0270,148.0540) and (129.8150,147.7020) .. (130.0740,147.8040) -- (137.5890,150.6240);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (144.4090,139.8110) -- (144.5610,139.8830) -- (144.7460,139.6540) .. controls (144.7460,139.6540) and (144.9040,139.4160) .. (145.1420,139.9120) -- (144.9620,140.2360) .. controls (144.9620,140.2360) and (146.2130,140.5820) .. (147.7900,139.8000);
+  \path[draw=black,line join=round,line width=0.256pt] (144.4090,139.8110) -- (144.5610,139.8830) -- (144.7460,139.6540) .. controls (144.7460,139.6540) and (144.9040,139.4160) .. (145.1420,139.9120) -- (144.9620,140.2360) .. controls (144.9620,140.2360) and (146.2130,140.5820) .. (147.7900,139.8000);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (144.1080,140.4590) .. controls (144.1080,140.4590) and (144.6900,140.4770) .. (144.8620,140.7410) -- (143.7960,142.3040) .. controls (143.7960,142.3040) and (143.2830,142.2680) .. (143.0390,142.0060) -- cycle;
+  \path[draw=black,line join=round,line width=0.256pt] (144.1080,140.4590) .. controls (144.1080,140.4590) and (144.6900,140.4770) .. (144.8620,140.7410) -- (143.7960,142.3040) .. controls (143.7960,142.3040) and (143.2830,142.2680) .. (143.0390,142.0060) -- cycle;
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (144.1300,140.4560) -- (143.8390,141.7070) -- (143.0630,142.0060);
+  \path[draw=black,line join=round,line width=0.256pt] (144.1300,140.4560) -- (143.8390,141.7070) -- (143.0630,142.0060);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (143.8480,141.7110) -- (144.1190,141.8120);
+  \path[draw=black,line join=round,line width=0.256pt] (143.8480,141.7110) -- (144.1190,141.8120);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (142.0640,143.6150) -- (142.5020,143.6190) .. controls (142.5020,143.6190) and (143.3980,144.1050) .. (143.5220,144.8230) .. controls (143.6470,145.5410) and (143.3140,146.7850) .. (143.3140,146.7850) .. controls (143.3140,146.7850) and (141.9740,151.5030) .. (141.9030,151.6880) .. controls (141.9030,151.6880) and (141.7350,152.2910) .. (141.0500,152.8530) .. controls (141.0500,152.8530) and (140.4400,153.2920) .. (140.2440,152.7870) -- (140.1550,152.4360);
+  \path[draw=black,line join=round,line width=0.256pt] (142.0640,143.6150) -- (142.5020,143.6190) .. controls (142.5020,143.6190) and (143.3980,144.1050) .. (143.5220,144.8230) .. controls (143.6470,145.5410) and (143.3140,146.7850) .. (143.3140,146.7850) .. controls (143.3140,146.7850) and (141.9740,151.5030) .. (141.9030,151.6880) .. controls (141.9030,151.6880) and (141.7350,152.2910) .. (141.0500,152.8530) .. controls (141.0500,152.8530) and (140.4400,153.2920) .. (140.2440,152.7870) -- (140.1550,152.4360);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (130.6250,148.0030) -- (130.4930,146.9970) -- (134.6290,148.1780) -- (134.8480,149.5970);
+  \path[draw=black,line join=round,line width=0.256pt] (130.6250,148.0030) -- (130.4930,146.9970) -- (134.6290,148.1780) -- (134.8480,149.5970);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (148.1890,161.5910) -- (148.8110,160.3220) -- (154.1440,168.3190) -- (153.3080,169.4630);
+  \path[draw=black,line join=round,line width=0.256pt] (148.1890,161.5910) -- (148.8110,160.3220) -- (154.1440,168.3190) -- (153.3080,169.4630);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (147.1850,145.0060) .. controls (147.1850,145.0060) and (147.0210,144.8870) .. (146.9350,144.9550) .. controls (146.8490,145.0230) and (146.2560,145.2530) .. (145.1540,147.7720) .. controls (144.0510,150.2900) and (143.6620,151.0850) .. (143.6620,151.0850) -- (143.6370,151.1280);
+  \path[draw=black,line join=round,line width=0.256pt] (147.1850,145.0060) .. controls (147.1850,145.0060) and (147.0210,144.8870) .. (146.9350,144.9550) .. controls (146.8490,145.0230) and (146.2560,145.2530) .. (145.1540,147.7720) .. controls (144.0510,150.2900) and (143.6620,151.0850) .. (143.6620,151.0850) -- (143.6370,151.1280);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (147.2220,144.9990) .. controls (147.2220,144.9990) and (147.0450,144.9420) .. (146.9360,144.9830) .. controls (146.8480,145.0160) and (146.2570,145.2810) .. (145.1540,147.8000) .. controls (144.0520,150.3180) and (143.6630,151.1130) .. (143.6630,151.1130) -- (143.6380,151.1560);
+  \path[draw=black,line join=round,line width=0.256pt] (147.2220,144.9990) .. controls (147.2220,144.9990) and (147.0450,144.9420) .. (146.9360,144.9830) .. controls (146.8480,145.0160) and (146.2570,145.2810) .. (145.1540,147.8000) .. controls (144.0520,150.3180) and (143.6630,151.1130) .. (143.6630,151.1130) -- (143.6380,151.1560);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (131.1400,144.0090) -- (131.1250,144.0670);
+  \path[draw=black,line join=round,line width=0.256pt] (131.1400,144.0090) -- (131.1250,144.0670);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (130.2540,147.8750) .. controls (130.2540,147.8750) and (130.0220,145.8200) .. (130.2170,145.3400) .. controls (130.4120,144.8590) and (130.6640,144.5390) .. (130.6640,144.5390) -- (130.9400,144.2320) .. controls (130.9400,144.2320) and (131.0180,144.1320) .. (131.1870,144.0660);
+  \path[draw=black,line join=round,line width=0.256pt] (130.2540,147.8750) .. controls (130.2540,147.8750) and (130.0220,145.8200) .. (130.2170,145.3400) .. controls (130.4120,144.8590) and (130.6640,144.5390) .. (130.6640,144.5390) -- (130.9400,144.2320) .. controls (130.9400,144.2320) and (131.0180,144.1320) .. (131.1870,144.0660);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (156.6330,166.5170) .. controls (156.6330,166.5170) and (155.7490,167.2260) .. (155.2760,167.9840) .. controls (154.8040,168.7420) and (154.0290,170.4020) .. (154.0290,170.4020) -- (153.9880,170.4900);
+  \path[draw=black,line join=round,line width=0.256pt] (156.6330,166.5170) .. controls (156.6330,166.5170) and (155.7490,167.2260) .. (155.2760,167.9840) .. controls (154.8040,168.7420) and (154.0290,170.4020) .. (154.0290,170.4020) -- (153.9880,170.4900);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (130.7400,144.9350) -- (136.8400,144.9360);
+  \path[draw=black,line join=round,line width=0.256pt] (130.7400,144.9350) -- (136.8400,144.9360);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (155.2510,167.3650) -- (148.9180,154.8790);
+  \path[draw=black,line join=round,line width=0.256pt] (155.2510,167.3650) -- (148.9180,154.8790);
 
 
 
@@ -754,91 +754,91 @@
 
 
 
-  \path[draw=blue,even odd rule,line join=round,line width=0.256pt] (69.9818,176.5330) -- (69.5547,176.8700) -- (54.4233,185.7500) -- (53.4148,186.0110) -- (52.0234,184.0080) -- (51.4907,186.0870) -- (52.1992,189.3270) -- (53.4213,186.0140);
+  \path[draw=black,even odd rule,line join=round,line width=0.256pt] (69.9818,176.5330) -- (69.5547,176.8700) -- (54.4233,185.7500) -- (53.4148,186.0110) -- (52.0234,184.0080) -- (51.4907,186.0870) -- (52.1992,189.3270) -- (53.4213,186.0140);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (47.8098,190.6020) -- (46.4145,187.2430) -- (46.8931,185.3780) -- (49.2265,187.1090) -- (47.8005,190.5910) .. controls (47.8005,190.5910) and (47.6231,191.8110) .. (47.6388,193.4460);
+  \path[draw=black,line join=round,line width=0.256pt] (47.8098,190.6020) -- (46.4145,187.2430) -- (46.8931,185.3780) -- (49.2265,187.1090) -- (47.8005,190.5910) .. controls (47.8005,190.5910) and (47.6231,191.8110) .. (47.6388,193.4460);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (47.8128,196.7190) .. controls (47.8128,196.7190) and (46.7022,190.7920) .. (49.9683,185.9150) -- (50.1152,184.3510) .. controls (50.1152,184.3510) and (50.2095,182.9340) .. (51.1066,182.4570) -- (51.3372,182.5850) -- (51.4730,182.9990);
+  \path[draw=black,line join=round,line width=0.256pt] (47.8128,196.7190) .. controls (47.8128,196.7190) and (46.7022,190.7920) .. (49.9683,185.9150) -- (50.1152,184.3510) .. controls (50.1152,184.3510) and (50.2095,182.9340) .. (51.1066,182.4570) -- (51.3372,182.5850) -- (51.4730,182.9990);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (51.7997,184.8750) .. controls (51.7997,184.8750) and (51.7408,184.3460) .. (51.6621,183.3840);
+  \path[draw=black,line join=round,line width=0.256pt] (51.7997,184.8750) .. controls (51.7997,184.8750) and (51.7408,184.3460) .. (51.6621,183.3840);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (49.3145,184.0840) .. controls (49.3145,184.0840) and (50.0464,184.3400) .. (50.1230,184.2600);
+  \path[draw=black,line join=round,line width=0.256pt] (49.3145,184.0840) .. controls (49.3145,184.0840) and (50.0464,184.3400) .. (50.1230,184.2600);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (49.3064,184.0680) .. controls (49.3064,184.0680) and (49.5178,184.0590) .. (50.3494,183.3610);
+  \path[draw=black,line join=round,line width=0.256pt] (49.3064,184.0680) .. controls (49.3064,184.0680) and (49.5178,184.0590) .. (50.3494,183.3610);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (51.2902,183.2170) -- (51.4755,183.3970) -- (52.0458,183.3110) .. controls (52.0458,183.3110) and (52.8772,182.6600) .. (53.1292,182.6680) .. controls (53.3810,182.6770) and (52.3369,182.0670) .. (51.2902,183.2170) -- cycle;
+  \path[draw=black,line join=round,line width=0.256pt] (51.2902,183.2170) -- (51.4755,183.3970) -- (52.0458,183.3110) .. controls (52.0458,183.3110) and (52.8772,182.6600) .. (53.1292,182.6680) .. controls (53.3810,182.6770) and (52.3369,182.0670) .. (51.2902,183.2170) -- cycle;
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (71.3289,179.6050) .. controls (71.3289,179.6050) and (71.4681,178.7730) .. (70.2507,174.6150) -- (67.8510,170.1170) -- (68.0882,172.6350) .. controls (68.1368,172.6820) and (69.9736,176.4770) .. (70.9960,178.5140) .. controls (72.0183,180.5500) and (70.4631,181.6090) .. (70.4631,181.6090) -- (52.0706,197.1690) -- (51.8149,199.4850) -- (51.3401,201.3810) .. controls (51.2324,201.6650) and (50.7420,202.2860) .. (50.4818,202.5290) .. controls (50.2215,202.7720) and (49.5371,202.7330) .. (49.0167,201.8410) .. controls (48.4962,200.9480) and (48.2679,199.7720) .. (48.2679,199.7720) .. controls (48.2679,199.7720) and (47.8657,198.2710) .. (47.8032,196.7260) -- (38.0905,190.0450) .. controls (38.0905,190.0450) and (37.7742,189.8550) .. (37.5748,189.4740) -- (34.6684,183.9900) -- (35.2288,182.0270) -- (37.6012,185.3690) .. controls (37.6012,185.3690) and (38.1757,186.0420) .. (38.4543,186.0700) -- (46.4756,187.0020);
+  \path[draw=black,line join=round,line width=0.256pt] (71.3289,179.6050) .. controls (71.3289,179.6050) and (71.4681,178.7730) .. (70.2507,174.6150) -- (67.8510,170.1170) -- (68.0882,172.6350) .. controls (68.1368,172.6820) and (69.9736,176.4770) .. (70.9960,178.5140) .. controls (72.0183,180.5500) and (70.4631,181.6090) .. (70.4631,181.6090) -- (52.0706,197.1690) -- (51.8149,199.4850) -- (51.3401,201.3810) .. controls (51.2324,201.6650) and (50.7420,202.2860) .. (50.4818,202.5290) .. controls (50.2215,202.7720) and (49.5371,202.7330) .. (49.0167,201.8410) .. controls (48.4962,200.9480) and (48.2679,199.7720) .. (48.2679,199.7720) .. controls (48.2679,199.7720) and (47.8657,198.2710) .. (47.8032,196.7260) -- (38.0905,190.0450) .. controls (38.0905,190.0450) and (37.7742,189.8550) .. (37.5748,189.4740) -- (34.6684,183.9900) -- (35.2288,182.0270) -- (37.6012,185.3690) .. controls (37.6012,185.3690) and (38.1757,186.0420) .. (38.4543,186.0700) -- (46.4756,187.0020);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (48.2588,199.7370) -- (48.4268,199.7420) -- (48.5023,200.0310) .. controls (48.5023,200.0310) and (48.5486,200.3140) .. (48.9695,199.9820) -- (48.9386,199.6120) .. controls (48.9386,199.6120) and (50.2237,199.8770) .. (51.3420,201.2930);
+  \path[draw=black,line join=round,line width=0.256pt] (48.2588,199.7370) -- (48.4268,199.7420) -- (48.5023,200.0310) .. controls (48.5023,200.0310) and (48.5486,200.3140) .. (48.9695,199.9820) -- (48.9386,199.6120) .. controls (48.9386,199.6120) and (50.2237,199.8770) .. (51.3420,201.2930);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (48.2506,199.0230) .. controls (48.2506,199.0230) and (48.7894,199.2740) .. (49.0545,199.1170) -- (48.7239,197.2390) .. controls (48.7239,197.2390) and (48.2410,197.0370) .. (47.9098,197.1580) -- cycle;
+  \path[draw=black,line join=round,line width=0.256pt] (48.2506,199.0230) .. controls (48.2506,199.0230) and (48.7894,199.2740) .. (49.0545,199.1170) -- (48.7239,197.2390) .. controls (48.7239,197.2390) and (48.2410,197.0370) .. (47.9098,197.1580) -- cycle;
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (48.2688,199.0360) -- (48.5176,197.7900) -- (47.9324,197.1690);
+  \path[draw=black,line join=round,line width=0.256pt] (48.2688,199.0360) -- (48.5176,197.7900) -- (47.9324,197.1690);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (48.5281,197.7910) -- (48.8168,197.8250);
+  \path[draw=black,line join=round,line width=0.256pt] (48.5281,197.7910) -- (48.8168,197.8250);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (47.6810,195.2810) -- (48.0825,195.4780) .. controls (48.0826,195.4780) and (49.1005,195.4560) .. (49.5093,194.8740) .. controls (49.9182,194.2930) and (50.1253,193.0340) .. (50.1253,193.0340) .. controls (50.1253,193.0340) and (50.8412,188.2260) .. (50.8520,188.0300) .. controls (50.8520,188.0300) and (50.9466,187.4170) .. (50.5519,186.6030) .. controls (50.5520,186.6030) and (50.1759,185.9340) .. (49.7894,186.2940) -- (49.5634,186.5640);
+  \path[draw=black,line join=round,line width=0.256pt] (47.6810,195.2810) -- (48.0825,195.4780) .. controls (48.0826,195.4780) and (49.1005,195.4560) .. (49.5093,194.8740) .. controls (49.9182,194.2930) and (50.1253,193.0340) .. (50.1253,193.0340) .. controls (50.1253,193.0340) and (50.8412,188.2260) .. (50.8520,188.0300) .. controls (50.8520,188.0300) and (50.9466,187.4170) .. (50.5519,186.6030) .. controls (50.5520,186.6030) and (50.1759,185.9340) .. (49.7894,186.2940) -- (49.5634,186.5640);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (39.0393,186.1450) -- (38.5051,186.9790) -- (42.7678,187.8220) -- (43.5504,186.6600);
+  \path[draw=black,line join=round,line width=0.256pt] (39.0393,186.1450) -- (38.5051,186.9790) -- (42.7678,187.8220) -- (43.5504,186.6600);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (60.6623,182.1010) -- (60.7092,183.5140) -- (68.8658,178.8440) -- (68.5720,177.4440);
+  \path[draw=black,line join=round,line width=0.256pt] (60.6623,182.1010) -- (60.7092,183.5140) -- (68.8658,178.8440) -- (68.5720,177.4440);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (52.9291,196.3880) .. controls (52.9291,196.3880) and (52.7305,196.4190) .. (52.6799,196.3190) .. controls (52.6293,196.2190) and (52.1827,195.7430) .. (52.2108,192.9990) .. controls (52.2389,190.2550) and (52.2109,189.3700) .. (52.2109,189.3700) -- (52.2053,189.3210);
+  \path[draw=black,line join=round,line width=0.256pt] (52.9291,196.3880) .. controls (52.9291,196.3880) and (52.7305,196.4190) .. (52.6799,196.3190) .. controls (52.6293,196.2190) and (52.1827,195.7430) .. (52.2108,192.9990) .. controls (52.2389,190.2550) and (52.2109,189.3700) .. (52.2109,189.3700) -- (52.2053,189.3210);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (52.9604,196.4110) .. controls (52.9604,196.4110) and (52.7747,196.3810) .. (52.6923,196.2940) .. controls (52.6255,196.2240) and (52.1951,195.7180) .. (52.2232,192.9750) .. controls (52.2513,190.2310) and (52.2233,189.3460) .. (52.2233,189.3460) -- (52.2177,189.2960);
+  \path[draw=black,line join=round,line width=0.256pt] (52.9604,196.4110) .. controls (52.9604,196.4110) and (52.7747,196.3810) .. (52.6923,196.2940) .. controls (52.6255,196.2240) and (52.1951,195.7180) .. (52.2232,192.9750) .. controls (52.2513,190.2310) and (52.2233,189.3460) .. (52.2233,189.3460) -- (52.2177,189.2960);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (37.8678,189.9310) -- (37.8782,189.8730);
+  \path[draw=black,line join=round,line width=0.256pt] (37.8678,189.9310) -- (37.8782,189.8730);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (38.6479,186.0890) .. controls (38.6479,186.0890) and (37.5913,187.8090) .. (37.5721,188.3260) .. controls (37.5528,188.8430) and (37.6509,189.2420) .. (37.6509,189.2420) -- (37.7770,189.6430) .. controls (37.7770,189.6430) and (37.8072,189.7670) .. (37.9341,189.9020);
+  \path[draw=black,line join=round,line width=0.256pt] (38.6479,186.0890) .. controls (38.6479,186.0890) and (37.5913,187.8090) .. (37.5721,188.3260) .. controls (37.5528,188.8430) and (37.6509,189.2420) .. (37.6509,189.2420) -- (37.7770,189.6430) .. controls (37.7770,189.6430) and (37.8072,189.7670) .. (37.9341,189.9020);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (70.3978,181.5850) .. controls (70.3978,181.5850) and (69.8816,180.5500) .. (69.7620,179.6600) .. controls (69.6424,178.7700) and (69.6170,176.9400) .. (69.6170,176.9400) -- (69.6154,176.8420);
+  \path[draw=black,line join=round,line width=0.256pt] (70.3978,181.5850) .. controls (70.3978,181.5850) and (69.8816,180.5500) .. (69.7620,179.6600) .. controls (69.6424,178.7700) and (69.6170,176.9400) .. (69.6170,176.9400) -- (69.6154,176.8420);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (37.8838,188.9260) -- (43.4541,191.7160);
+  \path[draw=black,line join=round,line width=0.256pt] (37.8838,188.9260) -- (43.4541,191.7160);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (69.4845,180.1980) -- (58.5695,188.4030);
+  \path[draw=black,line join=round,line width=0.256pt] (69.4845,180.1980) -- (58.5695,188.4030);
 
 
 
@@ -856,91 +856,91 @@
 
 
 
-  \path[draw=blue,even odd rule,line join=round,line width=0.256pt] (136.9620,50.9560) -- (136.2660,50.8791) -- (114.3160,46.7950) -- (113.1440,46.3764) -- (113.6010,44.7553) -- (111.2770,45.3921) -- (109.0950,47.1983) -- (113.1470,46.3815);
+  \path[draw=black,even odd rule,line join=round,line width=0.256pt] (136.9620,50.9560) -- (136.2660,50.8791) -- (114.3160,46.7950) -- (113.1440,46.3764) -- (113.6010,44.7553) -- (111.2770,45.3921) -- (109.0950,47.1983) -- (113.1470,46.3815);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (103.8700,45.4389) -- (105.5140,43.2165) -- (107.5990,42.6457) -- (108.2620,44.6450) -- (103.8710,45.4289) .. controls (103.8710,45.4289) and (102.6340,45.8742) .. (101.2130,46.6048);
+  \path[draw=black,line join=round,line width=0.256pt] (103.8700,45.4389) -- (105.5140,43.2165) -- (107.5990,42.6457) -- (108.2620,44.6450) -- (103.8710,45.4289) .. controls (103.8710,45.4289) and (102.6340,45.8742) .. (101.2130,46.6048);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (98.5015,48.1432) .. controls (98.5015,48.1432) and (102.6670,44.9365) .. (110.0040,44.5103) -- (111.5150,43.8967) .. controls (111.5150,43.8967) and (112.8470,43.3208) .. (114.1050,43.5847) -- (114.2080,43.7636) -- (113.9720,44.0180);
+  \path[draw=black,line join=round,line width=0.256pt] (98.5015,48.1432) .. controls (98.5015,48.1432) and (102.6670,44.9365) .. (110.0040,44.5103) -- (111.5150,43.8967) .. controls (111.5150,43.8967) and (112.8470,43.3208) .. (114.1050,43.5847) -- (114.2080,43.7636) -- (113.9720,44.0180);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (112.6300,45.0201) .. controls (112.6300,45.0201) and (113.0400,44.7549) .. (113.8110,44.2881);
+  \path[draw=black,line join=round,line width=0.256pt] (112.6300,45.0201) .. controls (112.6300,45.0201) and (113.0400,44.7549) .. (113.8110,44.2881);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (111.0000,43.3552) .. controls (111.0000,43.3552) and (111.4600,43.8556) .. (111.6020,43.8607);
+  \path[draw=black,line join=round,line width=0.256pt] (111.0000,43.3552) .. controls (111.0000,43.3552) and (111.4600,43.8556) .. (111.6020,43.8607);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (111.0070,43.3438) .. controls (111.0070,43.3438) and (111.2130,43.4516) .. (112.6030,43.5835);
+  \path[draw=black,line join=round,line width=0.256pt] (111.0070,43.3438) .. controls (111.0070,43.3438) and (111.2130,43.4516) .. (112.6030,43.5835);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (113.6090,44.0179) -- (113.6250,44.1955) -- (114.2330,44.4593) .. controls (114.2330,44.4593) and (115.5830,44.6115) .. (115.8110,44.7485) .. controls (116.0400,44.8855) and (115.5980,44.0635) .. (113.6090,44.0179) -- cycle;
+  \path[draw=black,line join=round,line width=0.256pt] (113.6090,44.0179) -- (113.6250,44.1955) -- (114.2330,44.4593) .. controls (114.2330,44.4593) and (115.5830,44.6115) .. (115.8110,44.7485) .. controls (116.0400,44.8855) and (115.5980,44.0635) .. (113.6090,44.0179) -- cycle;
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (135.5240,53.0266) .. controls (135.5240,53.0266) and (136.3860,52.7323) .. (138.8970,50.2512) -- (140.6020,46.9939) -- (138.6130,48.2318) .. controls (138.6170,48.2785) and (137.0040,50.9270) .. (136.1720,52.3680) .. controls (135.3400,53.8089) and (132.9550,53.4538) .. (132.9550,53.4538) -- (102.0890,50.5952) -- (99.8164,51.4833) -- (97.7082,52.0693) .. controls (97.3581,52.1378) and (96.3535,52.1530) .. (95.8969,52.1225) .. controls (95.4402,52.0921) and (94.8342,51.7128) .. (95.1310,51.0430) .. controls (95.4279,50.3733) and (96.2469,49.7328) .. (96.2469,49.7328) .. controls (96.2469,49.7328) and (97.1887,48.8567) .. (98.4863,48.1413) -- (95.2677,40.0491) .. controls (95.2677,40.0491) and (95.1383,39.7980) .. (95.2867,39.5240) -- (97.3834,35.5628) -- (99.6311,34.9920) -- (98.9156,37.7243) .. controls (98.9156,37.7243) and (98.8624,38.3255) .. (99.0983,38.4853) -- (105.7830,43.1421);
+  \path[draw=black,line join=round,line width=0.256pt] (135.5240,53.0266) .. controls (135.5240,53.0266) and (136.3860,52.7323) .. (138.8970,50.2512) -- (140.6020,46.9939) -- (138.6130,48.2318) .. controls (138.6170,48.2785) and (137.0040,50.9270) .. (136.1720,52.3680) .. controls (135.3400,53.8089) and (132.9550,53.4538) .. (132.9550,53.4538) -- (102.0890,50.5952) -- (99.8164,51.4833) -- (97.7082,52.0693) .. controls (97.3581,52.1378) and (96.3535,52.1530) .. (95.8969,52.1225) .. controls (95.4402,52.0921) and (94.8342,51.7128) .. (95.1310,51.0430) .. controls (95.4279,50.3733) and (96.2469,49.7328) .. (96.2469,49.7328) .. controls (96.2469,49.7328) and (97.1887,48.8567) .. (98.4863,48.1413) -- (95.2677,40.0491) .. controls (95.2677,40.0491) and (95.1383,39.7980) .. (95.2867,39.5240) -- (97.3834,35.5628) -- (99.6311,34.9920) -- (98.9156,37.7243) .. controls (98.9156,37.7243) and (98.8624,38.3255) .. (99.0983,38.4853) -- (105.7830,43.1421);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (96.2692,49.7124) -- (96.4214,49.8037) -- (96.2388,49.9712) .. controls (96.2388,49.9712) and (96.0335,50.1208) .. (96.7185,50.1970) -- (97.0151,50.0169) .. controls (97.0151,50.0169) and (97.9844,50.8141) .. (97.7866,52.0318);
+  \path[draw=black,line join=round,line width=0.256pt] (96.2692,49.7124) -- (96.4214,49.8037) -- (96.2388,49.9712) .. controls (96.2388,49.9712) and (96.0335,50.1208) .. (96.7185,50.1970) -- (97.0151,50.0169) .. controls (97.0151,50.0169) and (97.9844,50.8141) .. (97.7866,52.0318);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (96.8882,49.3928) .. controls (96.8882,49.3928) and (97.1724,49.7885) .. (97.5580,49.8596) -- (98.8975,48.8549) .. controls (98.8975,48.8549) and (98.6235,48.5100) .. (98.2074,48.3882) -- cycle;
+  \path[draw=black,line join=round,line width=0.256pt] (96.8882,49.3928) .. controls (96.8882,49.3928) and (97.1724,49.7885) .. (97.5580,49.8596) -- (98.8975,48.8549) .. controls (98.8975,48.8549) and (98.6235,48.5100) .. (98.2074,48.3882) -- cycle;
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (96.8942,49.4079) -- (98.2203,48.9894) -- (98.2185,48.4052);
+  \path[draw=black,line join=round,line width=0.256pt] (96.8942,49.4079) -- (98.2203,48.9894) -- (98.2185,48.4052);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (98.2299,48.9951) -- (98.4696,49.1631);
+  \path[draw=black,line join=round,line width=0.256pt] (98.2299,48.9951) -- (98.4696,49.1631);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (99.6408,47.4381) -- (99.8437,47.7375) .. controls (99.8437,47.7375) and (100.8150,48.2664) .. (101.7080,48.2259) .. controls (102.6010,48.1853) and (103.9000,47.7387) .. (103.9000,47.7387) .. controls (103.9000,47.7387) and (108.7910,45.9933) .. (108.9740,45.9121) .. controls (108.9740,45.9121) and (109.6010,45.6914) .. (109.9460,45.1232) .. controls (109.9460,45.1233) and (110.1820,44.6284) .. (109.5040,44.5828) -- (109.0550,44.5828);
+  \path[draw=black,line join=round,line width=0.256pt] (99.6408,47.4381) -- (99.8437,47.7375) .. controls (99.8437,47.7375) and (100.8150,48.2664) .. (101.7080,48.2259) .. controls (102.6010,48.1853) and (103.9000,47.7387) .. (103.9000,47.7387) .. controls (103.9000,47.7387) and (108.7910,45.9933) .. (108.9740,45.9121) .. controls (108.9740,45.9121) and (109.6010,45.6914) .. (109.9460,45.1232) .. controls (109.9460,45.1233) and (110.1820,44.6284) .. (109.5040,44.5828) -- (109.0550,44.5828);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (99.5795,38.8281) -- (98.3475,38.9140) -- (101.5950,41.5422) -- (103.3470,41.4430);
+  \path[draw=black,line join=round,line width=0.256pt] (99.5795,38.8281) -- (98.3475,38.9140) -- (101.5950,41.5422) -- (103.3470,41.4430);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (123.3560,48.4843) -- (122.1590,49.1337) -- (133.8890,51.3864) -- (134.8430,50.6127);
+  \path[draw=black,line join=round,line width=0.256pt] (123.3560,48.4843) -- (122.1590,49.1337) -- (133.8890,51.3864) -- (134.8430,50.6127);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (103.5780,50.7043) .. controls (103.5780,50.7043) and (103.3650,50.6130) .. (103.4060,50.5420) .. controls (103.4460,50.4709) and (103.4460,50.0244) .. (105.8820,48.8269) .. controls (108.3170,47.6295) and (109.0680,47.2236) .. (109.0680,47.2236) -- (109.1060,47.1989);
+  \path[draw=black,line join=round,line width=0.256pt] (103.5780,50.7043) .. controls (103.5780,50.7043) and (103.3650,50.6130) .. (103.4060,50.5420) .. controls (103.4460,50.4709) and (103.4460,50.0244) .. (105.8820,48.8269) .. controls (108.3170,47.6295) and (109.0680,47.2236) .. (109.0680,47.2236) -- (109.1060,47.1989);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (103.5870,50.7312) .. controls (103.5870,50.7312) and (103.4400,50.6197) .. (103.4390,50.5379) .. controls (103.4380,50.4716) and (103.4790,50.0203) .. (105.9150,48.8229) .. controls (108.3500,47.6255) and (109.1010,47.2196) .. (109.1010,47.2196) -- (109.1390,47.1949);
+  \path[draw=black,line join=round,line width=0.256pt] (103.5870,50.7312) .. controls (103.5870,50.7312) and (103.4400,50.6197) .. (103.4390,50.5379) .. controls (103.4380,50.4716) and (103.4790,50.0203) .. (105.9150,48.8229) .. controls (108.3500,47.6255) and (109.1010,47.2196) .. (109.1010,47.2196) -- (109.1390,47.1949);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (95.1590,39.8813) -- (95.2198,39.8609);
+  \path[draw=black,line join=round,line width=0.256pt] (95.1590,39.8813) -- (95.2198,39.8609);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (99.2624,38.5962) .. controls (99.2624,38.5962) and (96.7635,38.7973) .. (96.2917,39.0155) .. controls (95.8198,39.2337) and (95.5611,39.4619) .. (95.5611,39.4619) -- (95.3277,39.7055) .. controls (95.3277,39.7055) and (95.2465,39.7766) .. (95.2465,39.9035);
+  \path[draw=black,line join=round,line width=0.256pt] (99.2624,38.5962) .. controls (99.2624,38.5962) and (96.7635,38.7973) .. (96.2917,39.0155) .. controls (95.8198,39.2337) and (95.5611,39.4619) .. (95.5611,39.4619) -- (95.3277,39.7055) .. controls (95.3277,39.7055) and (95.2465,39.7766) .. (95.2465,39.9035);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (132.9150,53.4086) .. controls (132.9150,53.4086) and (133.3410,52.6779) .. (134.0110,52.2213) .. controls (134.6810,51.7647) and (136.2640,50.9428) .. (136.2640,50.9428) -- (136.3480,50.8990);
+  \path[draw=black,line join=round,line width=0.256pt] (132.9150,53.4086) .. controls (132.9150,53.4086) and (133.3410,52.6779) .. (134.0110,52.2213) .. controls (134.6810,51.7647) and (136.2640,50.9428) .. (136.2640,50.9428) -- (136.3480,50.8990);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (96.0571,39.4453) -- (98.8173,43.6260);
+  \path[draw=black,line join=round,line width=0.256pt] (96.0571,39.4453) -- (98.8173,43.6260);
 
 
 
-  \path[draw=blue,line join=round,line width=0.256pt] (133.2790,52.3125) -- (115.8650,50.1612);
+  \path[draw=black,line join=round,line width=0.256pt] (133.2790,52.3125) -- (115.8650,50.1612);
 
 
 
@@ -949,278 +949,278 @@
 
 
 
-\begin{scope}[cm={{1.33334,0.0,0.0,1.33334,(160.9027,-28.96512)}},draw=blue,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
-  \begin{scope}[draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+\begin{scope}[cm={{1.33334,0.0,0.0,1.33334,(160.9027,-28.96512)}},draw=black,even odd rule,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(5.33482,22.44371)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(5.33482,22.44371)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (58.5000,78.5000) -- (53.5000,78.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(35.01131,96.44526)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text3633) {20};
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(35.01131,96.44526)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text3633) {20};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,82.9111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(5.33482,22.44371)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(5.33482,22.44371)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (58.5000,49.5000) -- (53.5000,49.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(35.31869,71.13416)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text3657) {25};
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(35.31869,71.13416)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text3657) {25};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(37.4111,54.6)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(5.33482,22.44371)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(5.33482,22.44371)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (58.5000,20.5000) -- (53.5000,20.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(28.77684,46.31195)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (6.1660,-2.5032) node[above right] (text3681) {30};
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(28.77684,46.31195)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (6.1660,-2.5032) node[above right] (text3681) {30};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(36.9056,25.2778)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,18.78975)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,18.78975)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (58.5000,84.5000) -- (58.5000,88.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(42.09441,108.611)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text3705) {0};
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(42.09441,108.611)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text3705) {0};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(54.0944,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,18.78975)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,18.78975)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (89.5000,84.5000) -- (89.5000,88.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(59.38331,108.611)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text3729) {100};
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(59.38331,108.611)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text3729) {100};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,18.78975)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,18.78975)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (121.5000,84.5000) -- (121.5000,88.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(83.22801,107.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,1.4835) node[above right] (text3753) {200};
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(83.22801,107.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,1.4835) node[above right] (text3753) {200};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(111.728,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,18.78975)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,18.78975)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (152.5000,84.5000) -- (152.5000,88.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(105.083,108.611)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text3777) {300};
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(105.083,108.611)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text3777) {300};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(144.083,101.111)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,22.44371)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,22.44371)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (58.5000,15.5000) -- (58.5000,84.5000) -- (158.5000,84.5000) -- (158.5000,15.5000) -- (58.5000,15.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(27.8556,81.3444)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text3801) {\rotatebox{90}{Power (W)}};
+  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(27.8556,81.3444)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text3801) {\rotatebox{90}{Power (W)}};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.01111,1.01111,0.0,(32.3556,76.8444)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(65.38331,118.26699)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
-    \path[fill=blue] (0.0000,0.0000) node[above right] (text3817) {Time (sec)};
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(65.38331,118.26699)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text3817) {Time (sec)};
 
 
 
   \end{scope}
-  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[cm={{1.01111,0.0,0.0,1.01111,(80.3833,115.267)}},draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,22.44371)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,22.44371)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (58.0000,32.3000) -- (58.0000,32.3000) -- (59.0000,15.9000) -- (60.0000,61.6000) -- (61.1000,62.7000) -- (62.1000,79.7000) -- (63.1000,77.1000) -- (64.1000,76.7000) -- (65.1000,70.8000) -- (66.2000,61.4000) -- (67.2000,52.7000) -- (68.2000,37.6000) -- (69.2000,39.2000) -- (70.2000,40.7000) -- (71.2000,54.5000) -- (72.3000,52.9000) -- (73.3000,42.0000) -- (74.3000,30.3000) -- (75.3000,29.3000) -- (76.3000,53.7000) -- (77.4000,48.6000) -- (78.4000,56.1000) -- (79.4000,62.2000) -- (80.4000,55.7000) -- (81.4000,54.2000) -- (82.5000,50.4000) -- (83.5000,41.8000) -- (84.5000,47.7000) -- (85.5000,47.9000) -- (86.5000,53.4000) -- (87.6000,57.3000) -- (88.6000,43.7000) -- (89.6000,35.2000) -- (90.6000,29.6000) -- (91.6000,53.1000) -- (92.7000,60.7000) -- (93.7000,64.9000) -- (94.7000,75.7000) -- (95.7000,75.1000) -- (96.7000,68.1000) -- (97.7000,53.9000) -- (98.8000,46.5000) -- (99.8000,44.8000) -- (100.8000,44.5000) -- (101.8000,46.9000) -- (102.8000,51.6000) -- (103.9000,37.7000) -- (104.9000,32.2000) -- (105.9000,26.7000) -- (106.9000,49.2000) -- (107.9000,61.2000) -- (109.0000,66.6000) -- (110.0000,70.8000) -- (111.0000,58.1000) -- (112.0000,57.7000) -- (113.0000,57.0000) -- (114.1000,60.0000) -- (115.1000,56.3000) -- (116.1000,59.6000) -- (117.1000,68.0000) -- (118.1000,72.0000) -- (119.2000,65.1000) -- (120.2000,40.3000) -- (121.2000,31.5000) -- (122.2000,26.9000) -- (123.2000,48.6000) -- (124.2000,50.9000) -- (125.3000,59.4000) -- (126.3000,64.4000) -- (127.3000,57.3000) -- (128.3000,53.3000) -- (129.3000,48.8000) -- (130.4000,48.6000) -- (131.4000,47.6000) -- (132.4000,52.7000) -- (133.4000,57.9000) -- (134.4000,57.2000) -- (135.5000,55.6000) -- (136.5000,39.3000) -- (137.5000,27.6000) -- (138.5000,30.2000) -- (139.5000,45.0000) -- (140.6000,37.7000) -- (141.6000,43.9000) -- (142.6000,57.7000) -- (143.6000,56.1000) -- (144.6000,58.5000) -- (145.7000,56.2000) -- (146.7000,46.6000) -- (147.7000,40.7000) -- (148.7000,40.4000) -- (149.7000,42.9000) -- (150.7000,53.2000) -- (151.8000,45.4000) -- (152.8000,32.4000) -- (153.8000,23.1000) -- (154.8000,35.8000) -- (155.8000,56.6000) -- (156.9000,64.4000) -- (157.9000,67.0000) -- (158.9000,62.0000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,22.44371)}},draw=blue,line cap=round,line join=round,line width=0.400pt]
+  \begin{scope}[cm={{0.73698,0.0,0.0,0.91475,(1.65074,22.44371)}},draw=black,line cap=round,line join=round,line width=0.400pt]
     \path[draw] (58.5000,15.5000) -- (58.5000,84.5000) -- (158.5000,84.5000) -- (158.5000,15.5000) -- (58.5000,15.5000);
 
 
 
   \end{scope}
-  \begin{scope}[scale=1.011,draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[scale=1.011,draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \begin{scope}[draw=blue,line cap=rect,line join=bevel,line width=0.800pt]
+  \begin{scope}[draw=black,line cap=rect,line join=bevel,line width=0.800pt]
   \end{scope}
-  \path[fill=blue] (0.0000,0.0000) node[above right] (text6269) {};
+  \path[fill=black] (0.0000,0.0000) node[above right] (text6269) {};
 
 
 
@@ -1237,11 +1237,11 @@
 
 
 
-\path[draw=blue,line cap=butt,line join=miter,line width=0.582pt,miter limit=4.00] (146.7121,236.6610) -- (185.5734,236.6610) -- (185.5734,245.2473) -- (221.0595,245.2473);
+\path[draw=black,line cap=butt,line join=miter,line width=0.582pt,miter limit=4.00] (146.7121,236.6610) -- (185.5734,236.6610) -- (185.5734,245.2473) -- (221.0595,245.2473);
 
 
 
-\path[draw=blue,line cap=butt,line join=miter,line width=0.582pt,miter limit=4.00] (146.7965,251.6540) -- (170.4664,251.6540) -- (170.4664,251.7141) -- (170.4664,260.4350) -- (220.8794,260.4350);
+\path[draw=black,line cap=butt,line join=miter,line width=0.582pt,miter limit=4.00] (146.7965,251.6540) -- (170.4664,251.6540) -- (170.4664,251.7141) -- (170.4664,260.4350) -- (220.8794,260.4350);
 
 
 
