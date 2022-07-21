@@ -1,15 +1,28 @@
-# Energy-Aware Dynamic Planning Algorithm for Autonomous UAVs
 
-This is the third draft version of the planning algorithm [paper](pdf/iros-2021.pdf) that we plan to submit soon. The paper is undergoing some polishing and internal reviews. It is not peer reviewed yet.
+# Energy-aware planning-scheduling for autonomous aerial robots 
 
-The paper in the current shape is not for redistribution.
+This is the camera ready version of our planning-scheduling [paper](pdf/energy-planning_3.pdf) that we will be presenting at IROS'22. 
 
+
+## Reference
+
+To reference the paper, it is sufficient to use the following BibTeX entry:
+```bibtex
+@inproceedings{seewald2022energy,
+  title={Energy-aware coverage planning and scheduling for autonomous aerial robots},
+  author={Seewald, Adam and Garc{\'i}a de Marina, H{\'e}ctor and Midtiby, Henrik Skov and Schultz, Ulrik Pagh},
+  booktitle={Proceedings of the IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS'22)},
+  pages={8},
+  year={2022},
+  organization={IEEE},
+  url={https://adamseewald.cc/short/energy2021},
+  note={To appear}
+}
+```
 
 ## Simulator
 
-The simulator can be invoked [here](scripts/MAIN2.m). It is written in Matlab; we have version 9.9.0.1467703 (R2020b).
-
-
+The simulator that generates the data in the paper can be invoked [here](scripts/MAIN2.m). It is written in MATLAB (R); we have version 9.9.0.1467703 (R2020b).
 
 ## Data
 
@@ -18,7 +31,7 @@ The simulator can be invoked [here](scripts/MAIN2.m). It is written in Matlab; w
 
 ### Plan I (static)
 
-For the static plan I with no dynamic replanning; an agricultural survey (path) with hazard detection (computation), wind speed 5 m/s, and wind direction 0 degrees
+For the static plan I with no re-planning-scheduling; an agricultural survey (path) with hazard detection (computation), wind speed 5 m/s, and wind direction 0 degrees
 
 * all data: [data/simulation3/raw5/new_physics/static2](data/simulation3/raw5/new_physics/static2)
     * position: [position_simulation3Ds.csv](data/simulation3/raw5/new_physics/static2/position_simulation3Ds.csv)
@@ -44,7 +57,8 @@ To generate the data
 
 
 ### Plan i (dynamic)
-For the dynamic plan i with replanning of path and computation simultaneously (the conditions are the same as for Plan I)
+
+For the plan i with re-planning-scheduling of path and computation parameters simultaneously (the conditions are the same as for Plan I)
 
 * all data: [data/simulation3/raw5/new_physics/dynamic_revised](data/simulation3/raw5/new_physics/dynamic_revised)
     * position: [position_simulation3D.csv](data/simulation3/raw5/new_physics/dynamic_revised/position_simulation3D.csv)
@@ -61,7 +75,7 @@ The plan starts at the highest configuration of parameters
 In the plan there is an unexpected battery drop at 93 and 270 seconds of 6 and 9 % respectively
 
 ### Plan ii (dynamic)
-For the dynamic plan i with replanning of path and computation simultaneously (the conditions are the same as for Plan II)
+For the plan i with re-planning-scheduling of path and computation paremeters simultaneously (the conditions are the same as for Plan II)
 
 * all data: [data/simulation3/raw1/new_physics/dynamic_revised](data/simulation3/raw1/new_physics/dynamic_revised)
     * position: [position_simulation3.csv](data/simulation3/raw1/new_physics/dynamic_revised/position_simulation3.csv)
@@ -73,18 +87,16 @@ To generate the data and see the algorithm
 * simulator: [scripts/SIM9_revised.m](scripts/SIM9_revised.m)
 * Matlab data: [3.mat](data/simulation3/raw1/new_physics/dynamic_revised/3.mat)
 
-The plan starts at the lowest configuration of parameters
-
-The battery behaves linearly
+The plan starts at the lowest configuration of parameters and the battery behaves linearly.
 
 ## Plots
 
-To generate the plots, we use gnuplot (version 5.2)
+To generate the plots, we use gnuplot (version 5.2).
 
-* Illustrative abstract (Figure 1), Figure 2--4 are all illustrations made using vector graphic software and imported as tikz pictures
+* Illustrative abstract (Figure 1), Figures 2--4 are all illustrations made using vector graphic software and imported as TiKZ pictures
 * Energy and spectrum plots from Figure 1: [scripts/plots/abstract/graphs.plot](scripts/plots/abstract/graphs.plot) run `gnuplot graphs.plot`
-* Figure 5: [scripts/plots/results/new_physics2/trajs.plot](scripts/plots/results/new_physics2/trajs.plot)
-* Figure 6: [scripts/plots/results/new_physics2/ener.plot](scripts/plots/results/new_physics2/ener.plot)
-* Figure 7: [scripts/plots/results/new_physics2/model_1.plot](scripts/plots/results/new_physics2/model_1.plot) and [scripts/plots/results/new_physics2/model_2.plot](scripts/plots/results/new_physics2/model_2.plot)
+* Figures 5--6 are then a merge of multiple plots. For trajectories: [scripts/plots/results/new_physics2/trajs.plot](scripts/plots/results/new_physics2/trajs.plot)
+* Whereas for energies: [scripts/plots/results/new_physics2/ener.plot](scripts/plots/results/new_physics2/ener.plot)
+* Finally for energy models: [scripts/plots/results/new_physics2/model_1.plot](scripts/plots/results/new_physics2/model_1.plot) and [scripts/plots/results/new_physics2/model_2.plot](scripts/plots/results/new_physics2/model_2.plot)
 
 
