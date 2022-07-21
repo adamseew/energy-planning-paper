@@ -784,7 +784,7 @@ stated in Eq.~(\ref{eq:piece-wise-reg})}.
 \subsection{Battery model}
 \label{sec:mod-bat}
 
-The battery model predicts the battery SoC in the function of a given load at future time 
+The battery model predicts the battery SoC as a function of a given load at future time 
 instants. There are multiple models in the literature~\cite{rao2003battery} with varying complexity {\color{black}and} accuracy %, and ease of implementation 
 ranging from accurate but costly physical models~\cite{%moura2017battery,
 marcicki2013design}, to abstract models~\cite{%xing2014state,
@@ -1361,8 +1361,8 @@ Flight~\hyperref[fig:ener-dyn-i]{i} simulates a battery ({\color{black}see} gree
 and the computation parameter decreases matching the battery discharge rate. 
 
 {\color{black}
-The performance metric is $\Sigma_{t\in\mathcal{T}}(${\small $(w_1c_{i,1}(t)+w_2c_{i,2}(t)$}$)/$ $(${\small $|\mathcal{T}|\text{SoC}(t_f)$}$)$. If the initial battery SoC %at $t_0$ 
-is seventy percent and both the parameters are weighted equally, i.e., ${\small w_1=w_2=}$ one half, \hyperref[fig:trajs-I-static]{I} would not be able to complete the flight, and \hyperref[fig:trajs-II-static]{II} has a performance metric of zero (i.e., the lowest configuration of parameters throughout the flight).
+The performance metric is $\Sigma_{t\in\mathcal{T}}(${\small $(w_1\tilde{c}_{i,1}(t)+w_2\tilde{c}_{i,2}(t)$}$)/$ $(${\small $|\mathcal{T}|\text{SoC}(t_f)$}$)$ with {\small $\tilde{c}_{i,j}\hspace*{-.4ex}:=\hspace*{-.4ex}(c_{i,j}\hspace*{-.3ex}-\hspace*{-.3ex}\underline{c}_{i,j})/(\overline{c}_{i,j}\hspace*{-.3ex}-\hspace*{-.3ex}\underline{c}_{i,j})$}. If the initial battery SoC %at $t_0$ 
+is seventy percent and both the parameters are weighted equally, i.e., {\small $w_1\hspace*{-.3ex}=\hspace*{-.3ex}w_2\hspace*{-.3ex}=\hspace*{-.3ex}$} one half, \hyperref[fig:trajs-I-static]{I} would not be able to complete the flight, and \hyperref[fig:trajs-II-static]{II} has a performance metric of zero (i.e., the lowest configuration of parameters throughout the flight).
 Nonetheless, performance metrics of \hyperref[fig:trajs-dyn-i]{i} and \hyperref[fig:trajs-dyn-ii]{ii} are 13.05 and 2.24, whereas the average detection and coverage quality is approx. 45 and 35 percent for \hyperref[fig:trajs-dyn-i]{i}, and 62 and 87 percent for \hyperref[fig:trajs-dyn-ii]{ii}.}
 For both cases, scaling factors are derived empirically %, 
 {\color{black}similarly to $\delta_i$ set to two hundred fifty}, 
