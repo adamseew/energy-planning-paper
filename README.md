@@ -9,14 +9,14 @@ This is the camera ready version of our planning-scheduling [paper](pdf/energy-p
 To reference the paper, it is sufficient to use the following BibTeX entry:
 ```bibtex
 @inproceedings{seewald2022energy,
-  title={Energy-aware coverage planning and scheduling for autonomous aerial robots},
+  title={Energy-aware planning-scheduling for autonomous aerial robots},
   author={Seewald, Adam and Garc{\'i}a de Marina, H{\'e}ctor and Midtiby, Henrik Skov and Schultz, Ulrik Pagh},
   booktitle={Proceedings of the IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS'22)},
-  pages={8},
+  pages={2946--2953},
   year={2022},
   organization={IEEE},
-  url={https://adamseewald.cc/short/energy2021},
-  note={To appear}
+  DOI={10.1109/IROS47612.2022.9981285},
+  url={https://adamseewald.cc/short/energy2022}
 }
 ```
 
